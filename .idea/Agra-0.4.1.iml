@@ -120,6 +120,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/laravel/breeze" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

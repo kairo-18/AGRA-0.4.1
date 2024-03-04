@@ -16,7 +16,6 @@ class Course extends Model
         //hasOne, hasMany, belongsTo, belongsToMany
         return $this->belongsTo(Category::class);
     }
-
     public function lessons(){
         return $this->hasMany(Lesson::class);
     }

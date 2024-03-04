@@ -14,10 +14,33 @@
         <nav>
             <ul class="nav_links">
                 <li><a href="/">Home</a></li>
-                <li><a href="#">Account</a></li>
+                <li><a href="/register">Account</a></li>
                 <li><a href="/">Courses</a></li>
                 <li><a href="#">Exercises</a></li>
             </ul>
+
+            <form method="POST" action="{{ route('logout') }}">
+                <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    Log out
+                </button>
+                {{ csrf_field() }}
+            </form>
+
+            <form method="GET" action="{{ route('profile.edit') }}">
+                <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    Profile
+                </button>
+                {{ csrf_field() }}
+            </form>
+
+            <form method="GET" action="{{ route('enroll.store') }}">
+                <input type="hidden" value="{{$user->id}}" name="userid">
+                <input type="hidden" value="{{$courses[0]->id}}" name="courseid">
+                <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    Enroll
+                </button>
+                {{ csrf_field() }}
+            </form>
         </nav>
     </header>
 

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,13 +18,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/courses', function () {
 
-    $courses = Course::all();
+    $user = Auth::user();
+
+    $courses = $user->courses;
 
     return view('courses', [
-        'courses'=> $courses
+        'courses'=> $courses,
+        'user' => $user
     ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('courses/{course:id}', function(Course $course) {
@@ -31,7 +42,7 @@ Route::get('courses/{course:id}', function(Course $course) {
 
     return view('course', [
         'course' => $course,
-        'lessons' => $lessons
+        'lessons' => $lessons,
     ]);
 });
 
@@ -43,6 +54,7 @@ Route::get('categories/{category:slug}' , function(Category $category) {
     ]);
 });
 
+Route::get('/enroll', [\App\Http\Controllers\EnrollmentsController::class, 'store'])->name('enroll.store');
 
 Route::get('lessons/{lesson:id}' , function(Lesson $lesson) {
     $tasks = $lesson->tasks;
@@ -52,3 +64,6 @@ Route::get('lessons/{lesson:id}' , function(Lesson $lesson) {
         'tasks' => $tasks
     ]);
 });
+
+
+require __DIR__.'/auth.php';
