@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Agra/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/Agra/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Agra/tests/Unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/composer" />
@@ -121,6 +123,37 @@
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/laravel/breeze" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/anourvalar/eloquent-serialize" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/blade-ui-kit/blade-heroicons" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/blade-ui-kit/blade-icons" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/danharrin/date-format-converter" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/danharrin/livewire-rate-limiting" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/doctrine/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/doctrine/dbal" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/doctrine/event-manager" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/actions" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/filament" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/forms" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/infolists" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/notifications" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/support" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/tables" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/filament/widgets" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/kirschbaum-development/eloquent-power-joins" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/league/csv" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/league/uri" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/league/uri-interfaces" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/livewire/livewire" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/openspout/openspout" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/ryangjchandler/blade-capture-directive" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/color" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/invade" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/laravel-package-tools" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/laravel-permission" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/symfony/html-sanitizer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
