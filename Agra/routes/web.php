@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function(){
+    return Redirect::to('/allCourses');
+});
+
+Route::get('/allCourses', function () {
+
+    $user = Auth::user();
+
+    return view('allCourses', [
+        'courses' => Course::all(),
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/courses', function () {
 
@@ -44,7 +59,7 @@ Route::get('courses/{course:id}', function(Course $course) {
         'course' => $course,
         'lessons' => $lessons,
     ]);
-});
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('categories/{category:slug}' , function(Category $category) {
     $courses = $category->courses;
@@ -63,7 +78,7 @@ Route::get('lessons/{lesson:id}' , function(Lesson $lesson) {
         'lesson' => $lesson,
         'tasks' => $tasks
     ]);
-});
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 require __DIR__.'/auth.php';

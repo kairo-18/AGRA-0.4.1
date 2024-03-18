@@ -38,7 +38,7 @@
 
     <div class="outer-title-enrolled">
         <div class="title-enrolled">
-            ENROLLED
+            All Courses
         </div>
     </div>
 
@@ -54,7 +54,13 @@
                     <p>
                         {{$course->CourseDescription}}
                     </p>
-                    <button class="btn" onclick="location.href='/courses/{{$course->id}}'">START</button>
+
+                    <form method="GET" action="{{ route('enroll.store') }}">
+                        <input type="hidden" value="{{$user->id}}" name="userid">
+                        <input type="hidden" value="{{$course->id}}" name="courseid">
+                        <button class="btn" type="submit" onclick="location.href='/courses/{{$course->id}}'">Enroll</button>
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </article>
 

@@ -13,9 +13,9 @@
         <h2><img src="/image-removebg-preview (22) 1.png" alt="logo"></h2>
         <nav>
             <ul class="nav_links">
-                <li><a href="/">Home</a></li>
-                <li><a href="#">Account</a></li>
-                <li><a href="/">Courses</a></li>
+                <li><a href="/allCourses">Home</a></li>
+                <li><a href="/register">Account</a></li>
+                <li><a href="/courses">Courses</a></li>
                 <li><a href="#">Exercises</a></li>
             </ul>
         </nav>
