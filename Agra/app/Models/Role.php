@@ -11,8 +11,4 @@ class Role extends ModelsRole
 {
     use HasFactory;
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(User::class);
-    }
 }

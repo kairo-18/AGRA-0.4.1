@@ -23,22 +23,18 @@ class EnrollmentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship(
-                        name: 'users',
-                        titleAttribute: 'name',
-                        modifyQueryUsing: function (Builder $query) {
-                            // Modify the query to only include users who have the role 'student'
-                            $query->whereHas('roles', function ($query) {
-                                $query->where('name', 'student');
-                            });
-                        }
-                    )
-                    ->required(),
-                Forms\Components\Select::make('course_id')
-                    ->relationship('courses', 'CourseName')
-                    ->preload()
-                    ->required(),
+                    Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name', function (Builder $query) {
+                        $query->whereHas('roles', function ($query) {
+                            $query->where('name', 'student');
+                        });
+                    }),
+                    Forms\Components\Select::make('course_id')
+                        ->relationship('course', 'CourseName')
+                        ->required(),
+                    Forms\Components\Select::make('section_id')
+                        ->relationship('section', 'SectionCode')
+                        ->required(),
             ]);
     }
 
@@ -50,6 +46,9 @@ class EnrollmentResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('course_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('section.SectionCode')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -65,7 +64,7 @@ class EnrollmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make()
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -89,5 +88,4 @@ class EnrollmentResource extends Resource
             'edit' => Pages\EditEnrollment::route('/{record}/edit'),
         ];
     }
-
 }

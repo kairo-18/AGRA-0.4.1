@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SectionResource extends Resource
@@ -62,6 +63,7 @@ class SectionResource extends Resource
     {
         return [
             RelationManagers\UsersRelationManager::class,
+            RelationManagers\CoursesRelationManager::class,
         ];
     }
 

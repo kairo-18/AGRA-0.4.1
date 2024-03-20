@@ -37,7 +37,7 @@ Route::get('/courses', function () {
 
     $user = Auth::user();
 
-    $courses = $user->courses;
+    $courses = $user->section->courses;
 
     return view('courses', [
         'courses'=> $courses,

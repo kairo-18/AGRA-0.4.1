@@ -20,4 +20,13 @@ class Course extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function sections(){
+        return $this->belongsToMany(Section::class, 'enrollments')->withTimestamps();
+    }
+
+    public function enrollments(){
+        return $this->hasMany(Enrollment::class);
+    }
+
+
 }

@@ -15,4 +15,10 @@ class Section extends Model
         //hasOne, hasMany, belongsTo, belongsToMany
         return $this->hasMany(User::class);
     }
+
+    public function courses(){
+        return $this->belongsToMany(Course::class, "enrollments");
+    }
+
+
 }
