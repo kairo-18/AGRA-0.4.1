@@ -41,7 +41,19 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $credentials = $this->only('email', 'password');
+
+        if (Auth::attempt($credentials, $this->boolean('remember'))) {
+            // Check if the authenticated user has the role 'admin'
+            if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('teacher')) {
+                // If user is admin, clear the login attempt and throw an exception
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'email' => trans('auth.role_restriction'),
+                ]);
+            }
+            // Proceed with the login for students
+        } else {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
