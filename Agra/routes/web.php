@@ -3,7 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Section;
 use App\Models\Lesson;
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +39,7 @@ Route::get('/courses', function () {
 
     $user = Auth::user();
 
-    $courses = $user->section->courses;
+    $courses = $user->courses;
 
     return view('courses', [
         'courses'=> $courses,
@@ -77,6 +79,15 @@ Route::get('lessons/{lesson:id}' , function(Lesson $lesson) {
     return view('lessons', [
         'lesson' => $lesson,
         'tasks' => $tasks
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('tasks/{task:id}' , function(Task $task) {
+    $instructions = $task->instructions;
+
+    return view('task', [
+        'task' => $task,
+        'instructions' => $instructions
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

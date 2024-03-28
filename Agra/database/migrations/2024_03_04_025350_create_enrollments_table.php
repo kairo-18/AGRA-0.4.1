@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->foreignId('course_id')->nullable();
-            $table->foreignIdFor(Section::class);
+            $table->foreignIdFor(Section::class)->nullable();
             $table->timestamps();
         });
     }

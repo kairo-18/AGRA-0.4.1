@@ -43,7 +43,7 @@
                     </p>
 
 
-                    <button class="btn" onclick="location.href='/lessons/{{$lesson->id}}'">START</button>
+                    <button class="btn" onclick="location.href='/tasks/{{$task->id}}'">START</button>
                 </div>
             </article>
         @endforeach

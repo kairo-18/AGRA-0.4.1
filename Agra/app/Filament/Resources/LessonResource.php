@@ -68,6 +68,7 @@ class LessonResource extends Resource
     {
         return [
             //
+            RelationManagers\TasksRelationManager::class,
         ];
     }
 
