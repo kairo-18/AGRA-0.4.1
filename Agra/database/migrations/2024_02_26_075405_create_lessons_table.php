@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('LessonName');
             $table->string('LessonDescription');
             $table->string('LessonCategory');
+            $table->text('LessonFile');
+
             $table->timestamps();
         });
     }

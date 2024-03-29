@@ -7,7 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LessonsRelationManager extends RelationManager
@@ -29,12 +31,17 @@ class LessonsRelationManager extends RelationManager
                             ])
                             ->required(),
                     ]),
-
+                Forms\Components\Section::make("Category")
+                    ->schema([
+                        Forms\Components\FileUpload::make('LessonFile')
+                        ->columns(1)
+                    ]),
             ]);
     }
 
     public function table(Table $table): Table
     {
+
         return $table
             ->recordTitleAttribute('LessonName')
             ->columns([
@@ -49,8 +56,10 @@ class LessonsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('Tasks')->url(fn ($record): string => url('admin/tasks/'.$record->id)),
-
+                Tables\Actions\Action::make('Tasks')
+                    ->url(function ($record) {
+                        return url('admin/tasks/' . $record->id);
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

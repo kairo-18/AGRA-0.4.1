@@ -24,18 +24,39 @@ class CourseResource extends Resource
 
     public static function form(Form $form): Form
     {
+
+        $user = auth()->user();
+
+        if($user->hasRole('admin')){
+            return $form
+                ->schema([
+                    //
+                    Forms\Components\TextInput::make('CourseName')->required(),
+                    Forms\Components\TextInput::make('CourseDescription')->required(),
+                    Forms\Components\Section::make("Category")
+                        ->schema([
+                            Forms\Components\Select::make('category_id')
+                                ->relationship('category', 'name')
+                                ->required(),
+                        ])
+                ]);
+        }
+
+
         return $form
             ->schema([
                 //
-                Forms\Components\TextInput::make('CourseName')->required(),
-                Forms\Components\TextInput::make('CourseDescription')->required(),
+                Forms\Components\TextInput::make('CourseName')->disabled(),
+                Forms\Components\TextInput::make('CourseDescription')->disabled(),
                 Forms\Components\Section::make("Category")
-                ->schema([
-                    Forms\Components\Select::make('category_id')
-                        ->relationship('category', 'name')
-                        ->required(),
-                ])
+                    ->schema([
+                        Forms\Components\Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->disabled(),
+                    ])
             ]);
+
+
     }
 
     public static function table(Table $table): Table
@@ -50,7 +71,8 @@ class CourseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('Lessons')->url(fn ($record): string => url('admin/lessons/'.$record->id)),
+                Tables\Actions\DeleteAction::make(),
+                //Tables\Actions\Action::make('Lessons')->url(fn ($record): string => url('admin/lessons/'.$record->id)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

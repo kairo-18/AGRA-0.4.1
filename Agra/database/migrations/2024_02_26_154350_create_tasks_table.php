@@ -21,6 +21,9 @@ return new class extends Migration
             $table->text('TaskMaxScore');
             $table->text('TaskMaxTime');
             $table->text('TaskDifficulty');
+
+            $table->dateTime('DateGiven');
+            $table->dateTime('Deadline');
             $table->timestamps();
         });
     }

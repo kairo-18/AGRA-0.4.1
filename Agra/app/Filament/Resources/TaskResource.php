@@ -14,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Facades\Request;
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
@@ -24,27 +24,28 @@ class TaskResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
+
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\Select::make('lesson_id')
-                    ->relationship('lesson', 'LessonName')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-                Forms\Components\Textarea::make('Description')->label('Description'),
-                Forms\Components\Textarea::make('TaskCodeTemplate')->label('Code Template'),
-                Forms\Components\Textarea::make('TaskAnswerKeys')->label('Answer Keys'),
-                Forms\Components\TextInput::make('TaskMaxScore')->label('Max Score')->numeric(),
-                Forms\Components\TextInput::make('TaskMaxTime')->label('Max Time')->numeric(),
-                Forms\Components\Select::make('TaskDifficulty')->label('Difficulty')
-                    ->options([
-                        'Easy' => 'Easy',
-                        'Medium' => 'Medium',
-                        'Hard' => 'Hard',
-                    ]),
+                ->relationship('lesson', 'id')
+                ,
+                Forms\Components\TextInput::make('TaskName')->label('Task Name'),
+                Forms\Components\TextInput::make('Description')->label('Task Description'),
+                Forms\Components\TextInput::make('TaskMaxScore')->label('Task Max Score')->numeric(),
+                Forms\Components\TextInput::make('TaskMaxTime')->label('Task Max Time')->numeric(),
+                Forms\Components\TextInput::make('TaskDifficulty')->label('Task Difficulty'),
+                Forms\Components\DateTimePicker::make('DateGiven'),
+                Forms\Components\DateTimePicker::make('Deadline'),
+
+                Forms\Components\Textarea::make('TaskCodeTemplate'),
+
+                Forms\Components\Textarea::make('TaskAnswerKeys')->default(1),
+
             ]);
     }
 
@@ -52,7 +53,7 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID'),
+                Tables\Columns\TextColumn::make('lesson.id')->label('Lesson ID'),
                 Tables\Columns\TextColumn::make('TaskName')->label('Task Name'),
                 Tables\Columns\TextColumn::make('Description')->label('Description'),
                 Tables\Columns\TextColumn::make('TaskMaxScore')->label('Max Score'),
@@ -84,14 +85,21 @@ class TaskResource extends Resource
     {
         return [
             'index' => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('tasks/create'),
+            'create' => Pages\CreateTask::route('/create'),
             'tasks' => Pages\ListTasks::route('/{record}'),
             'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
     }
-
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('lesson_id', request('record'));
+        $query = parent::getEloquentQuery();
+
+        // Check if the request is for the 'edit' page
+        if (Request::is('*/edit')) {
+            return $query;
+        }
+
+        // Apply the lesson ID filter for other pages
+        return $query->where('lesson_id', request('record'));
     }
 }

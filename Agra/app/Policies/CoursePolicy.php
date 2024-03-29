@@ -23,7 +23,7 @@ class CoursePolicy
     public function view(User $user, Course $course): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'teacher']);
     }
 
     /**
@@ -41,7 +41,7 @@ class CoursePolicy
     public function update(User $user, Course $course): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'teacher']);
     }
 
     /**

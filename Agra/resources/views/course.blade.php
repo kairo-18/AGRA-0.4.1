@@ -39,6 +39,7 @@
                         <p>
                             {{$lesson->LessonDescription}}
                         </p>
+                        <iframe src="{{ asset('storage/' . $lesson->LessonFile) }}" alt="{{$lesson->LessonFile}}"></iframe>
                         <button class="btn" onclick="location.href='/lessons/{{$lesson->id}}'">START</button>
                     </div>
                 </article>
