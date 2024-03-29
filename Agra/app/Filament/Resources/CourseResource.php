@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CourseResource extends Resource
 {
     protected static ?string $model = Course::class;
+    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationGroup = 'Course Management';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -47,6 +50,7 @@ class CourseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Lessons')->url(fn ($record): string => url('admin/lessons/'.$record->id)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

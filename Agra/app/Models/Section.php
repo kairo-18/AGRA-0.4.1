@@ -20,5 +20,10 @@ class Section extends Model
         return $this->belongsToMany(Course::class, "enrollments");
     }
 
+    public function teachers(){
+        return $this->belongsToMany(User::class, 'section_teachers', 'section_id', 'user_id');
+    }
+
+
 
 }

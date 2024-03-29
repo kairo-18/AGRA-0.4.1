@@ -39,7 +39,9 @@ Route::get('/courses', function () {
 
     $user = Auth::user();
 
-    $courses = $user->courses;
+    $userCourses = $user->courses;
+    $courses = $user->section->courses;
+    $courses = $courses->merge($userCourses);
 
     return view('courses', [
         'courses'=> $courses,

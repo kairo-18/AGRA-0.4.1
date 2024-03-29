@@ -19,14 +19,29 @@ class SectionResource extends Resource
     protected static ?string $model = Section::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Section Handling';
 
     public static function form(Form $form): Form
     {
+
+        $user = auth()->user();
+
+        if($user->hasRole('admin')){
+            return $form
+                ->schema([
+                    Forms\Components\TextInput::make('SectionCode')
+                        ->required()
+                        ->maxLength(255)
+                    ,
+                ]);
+        }
         return $form
             ->schema([
                 Forms\Components\TextInput::make('SectionCode')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                ->disabledOn('edit')
+                ,
             ]);
     }
 
@@ -75,4 +90,22 @@ class SectionResource extends Resource
             'edit' => Pages\EditSection::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = auth()->user();
+
+        // Check if the user is authenticated and has the role of 'admin'
+        if ($user && $user->hasRole('admin')) {
+            return parent::getEloquentQuery();
+        }
+
+        // For other users (e.g., teachers), filter based on the logged-in user's ID
+        $loggedInUserId = $user->id;
+
+        return parent::getEloquentQuery()->whereHas('teachers', function ($query) use ($loggedInUserId) {
+            $query->where('user_id', $loggedInUserId);
+        });
+    }
+
 }

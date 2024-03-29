@@ -22,12 +22,23 @@ class UsersRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Section::make('Section')
-                ->schema([
-                    Forms\Components\Select::make('section_id')
-                        ->relationship('section', 'SectionCode')
-                        ->required(),
-                ]),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Section::make("Section")
+                    ->schema([
+                        Forms\Components\Select::make('section_id')
+                            ->relationship('section', 'SectionCode')
+                    ]),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Select::make('roles')
+                    ->preload()
+                    ->relationship('roles', 'name'),
             ]);
     }
 

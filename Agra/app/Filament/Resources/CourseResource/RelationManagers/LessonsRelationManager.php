@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LessonsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'lesson';
+    protected static string $relationship = 'lessons';
 
     public function form(Form $form): Form
     {
@@ -21,15 +21,15 @@ class LessonsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('LessonName')->required(),
                 Forms\Components\TextInput::make('LessonDescription')->required()->minLength(10)->maxLength(255),
                 Forms\Components\Section::make("Category")
-                ->schema([
-                    Forms\Components\Select::make('LessonCategory')
-                        ->options([
-                            'Java' => 'Java',
-                            'C#' => 'C#',
-                        ])
-                        ->required(),
+                    ->schema([
+                        Forms\Components\Select::make('LessonCategory')
+                            ->options([
+                                'Java' => 'Java',
+                                'C#' => 'C#',
+                            ])
+                            ->required(),
+                    ]),
 
-                ]),
             ]);
     }
 
@@ -49,6 +49,8 @@ class LessonsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Tasks')->url(fn ($record): string => url('admin/tasks/'.$record->id)),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

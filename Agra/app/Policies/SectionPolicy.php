@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Lesson;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class LessonPolicy
+class SectionPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,10 +20,10 @@ class LessonPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Lesson $lesson): bool
+    public function view(User $user, Section $section): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'teacher']);
     }
 
     /**
@@ -32,42 +32,42 @@ class LessonPolicy
     public function create(User $user): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin']);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Lesson $lesson): bool
+    public function update(User $user, Section $section): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'teacher']);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Lesson $lesson): bool
+    public function delete(User $user, Section $section): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin']);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Lesson $lesson): bool
+    public function restore(User $user, Section $section): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'teacher']);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Lesson $lesson): bool
+    public function forceDelete(User $user, Section $section): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin']);
     }
 }

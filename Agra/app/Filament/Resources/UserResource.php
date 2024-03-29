@@ -17,6 +17,8 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $navigationGroup = 'User Management';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -40,13 +42,8 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('permissions')
-                    ->preload()
-                    ->multiple()
-                    ->relationship('permissions', 'name'),
                 Forms\Components\Select::make('roles')
                     ->preload()
-                    ->multiple()
                     ->relationship('roles', 'name')
             ]);
     }
@@ -103,5 +100,20 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = auth()->user();
+
+        // Check if the user is authenticated and has the role of 'teacher'
+        if ($user && $user->hasRole('teacher')) {
+            return parent::getEloquentQuery()->whereDoesntHave('roles', function ($query) {
+                $query->whereIn('name', ['admin', 'teacher']);
+            });
+        }
+
+        // For other users (e.g., admins), return the normal query
+        return parent::getEloquentQuery();
     }
 }

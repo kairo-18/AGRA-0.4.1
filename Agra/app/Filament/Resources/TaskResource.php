@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
+    protected static ?string $slug = 'tasks/';
+    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationGroup = 'Course Management';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,6 +29,11 @@ class TaskResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
+                Forms\Components\Select::make('lesson_id')
+                    ->relationship('lesson', 'LessonName')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 Forms\Components\Textarea::make('Description')->label('Description'),
                 Forms\Components\Textarea::make('TaskCodeTemplate')->label('Code Template'),
                 Forms\Components\Textarea::make('TaskAnswerKeys')->label('Answer Keys'),
@@ -76,8 +84,14 @@ class TaskResource extends Resource
     {
         return [
             'index' => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
+            'create' => Pages\CreateTask::route('tasks/create'),
+            'tasks' => Pages\ListTasks::route('/{record}'),
             'edit' => Pages\EditTask::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('lesson_id', request('record'));
     }
 }

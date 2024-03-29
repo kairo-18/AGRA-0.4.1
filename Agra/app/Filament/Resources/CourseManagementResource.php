@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EnrollmentResource\Pages;
-use App\Filament\Resources\EnrollmentResource\RelationManagers;
-use App\Models\Enrollment;
+use App\Filament\Resources\CourseManagementResource\Pages;
+use App\Filament\Resources\CourseManagementResource\RelationManagers;
+use App\Models\Section;
+use App\Models\SectionManagement;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EnrollmentResource extends Resource
+class CourseManagementResource extends Resource
 {
-    protected static ?string $model = Enrollment::class;
+    protected static ?string $model = SectionManagement::class;
     protected static ?string $navigationGroup = 'Section Handling';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -24,17 +25,18 @@ class EnrollmentResource extends Resource
     {
         return $form
             ->schema([
-                    Forms\Components\Select::make('user_id')
+                //
+                Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name', function (Builder $query) {
                         $query->whereHas('roles', function ($query) {
-                            $query->where('name', 'student');
+                            $query->where('name', 'teacher');
                         });
                     }),
-                    Forms\Components\Select::make('course_id')
-                        ->relationship('course', 'CourseName')
-                        ->required(),
-                    Forms\Components\Select::make('section_id')
-                        ->relationship('section', 'SectionCode'),
+                Forms\Components\Select::make('section_id')
+                    ->relationship('section', 'SectionCode')
+                ,
+
+
             ]);
     }
 
@@ -42,23 +44,13 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('course.CourseName')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('section.SectionCode')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Section'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('User ID (Teacher)'),
+                // Add more table columns as needed based on the attributes of the section_management model
             ])
             ->filters([
                 //
@@ -83,9 +75,10 @@ class EnrollmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEnrollments::route('/'),
-            'create' => Pages\CreateEnrollment::route('/create'),
-            'edit' => Pages\EditEnrollment::route('/{record}/edit'),
+            'index' => Pages\ListCourseManagement::route('/'),
+            'create' => Pages\CreateCourseManagement::route('/create'),
+            'edit' => Pages\EditCourseManagement::route('/{record}/edit'),
         ];
     }
+
 }
