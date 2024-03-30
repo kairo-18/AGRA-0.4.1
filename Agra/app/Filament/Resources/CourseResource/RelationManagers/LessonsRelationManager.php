@@ -35,6 +35,7 @@ class LessonsRelationManager extends RelationManager
                     ->schema([
                         Forms\Components\FileUpload::make('LessonFile')
                         ->columns(1)
+                        ->preserveFilenames()
                     ]),
             ]);
     }

@@ -1,0 +1,487 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Resetting box model */
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Removing default link underline */
+a {
+    text-decoration: none;
+}
+
+/* Removing default list styling */
+li {
+    list-style: none;
+}
+
+/* Styling for heading */
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Setting font family for the whole body */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper for sidebar and main content */
+.wrapper {
+    display: flex;
+}
+
+/* Main content */
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
+
+.second-main {
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    height: 100%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+}
+
+/* Sidebar container */
+#sidebar {
+    width: 15%;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #004AAD;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    font-size: 20px;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+/* Styling for toggle button icon */
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+    margin: auto 0;
+}
+
+/* Styling for sidebar logo link */
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Hide sidebar logo and link text when sidebar is collapsed */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+/* Styling for sidebar navigation */
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+/* Styling for sidebar links */
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+/* Styling for icons in sidebar links */
+.sidebar-link i {
+    font-size: 1rem;
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+
+/* Hover effect for sidebar links */
+a.sidebar-link:hover {
+    color: #004AAD;
+    background-color: #FFFFFF;
+    border-left: 20px solid #004AAD;
+    transition: all 0.6s ease 0s;
+}
+
+/* Line separator */
+.line {
+    border: solid #ffffff 1px;
+    height: 0px;
+    width: 100%;
+}
+@media screen and (max-width: 768px) {
+    .toggle-btn {
+        padding: 0.75rem 1.25rem; /* Adjust button padding for smaller screens */
+    }
+
+    .sidebar-logo {
+        margin: 0; /* Remove margin for the logo on smaller screens */
+        text-align: center; /* Center align the logo */
+    }
+
+    .sidebar-logo a {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+    }
+}
+
+@media screen and (max-width: 2000px) {
+    #sidebar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #sidebar.expand,
+    #sidebar:not(.expand) {
+        width: auto;
+    }
+
+    .sidebar-link {
+        font-size: 0.8rem;
+    }
+
+    .toggle-btn {
+        padding: 0.75rem 1.25rem;
+    }
+
+    /* Hide sidebar link text when sidebar is collapsed */
+    #sidebar:not(.expand) a.sidebar-link span {
+        display: none;
+    }
+}
+/* Search box */
+.search-b {
+    width: 20rem;
+    margin: 40px;
+    box-shadow: inset black 2px;
+}
+
+/* Styling for the middle section */
+.second-main {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.middle-bar {
+    display: flex;
+    width: 75%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.right-bar {
+    display: flex;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+    background-color: #D3E4FA;
+    width: 25%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    row-gap: 2rem;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Styling for student name */
+.student-name {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 10px;
+}
+.name{
+    text-align: right;
+}
+@media screen and (max-width: 768px) {
+    .student-info {
+        flex-direction: column; /* Change to column layout for smaller screens */
+        align-items: center; /* Center align items */
+    }
+
+    .student-name {
+        width: 100%;
+        flex-direction: column; /* Change to column layout for smaller screens */
+        align-items: center; /* Center align items */
+    }
+}
+.navigations-middle-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Styling for navigations in the middle bar */
+.navigations-middle-filter {
+    display: flex;
+}
+
+/* Styling for course name */
+.course-h1-name {
+    margin: 30px;
+    font-size: 10rem;
+}
+
+/* Styling for course heading */
+.course-h1 {
+    font-size: 3rem;
+    color: #004AAD;
+}
+
+
+/* Styling for student information */
+.student-info {
+    display: flex;
+    flex-direction: column; /* Change to column layout for responsiveness */
+    align-items: center; /* Center align items */
+    width: 100%;
+}
+.img-class{
+    max-width: 100%; /* Image should not exceed container width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add space between image and text */
+}
+.modules-div {
+    display: flex;
+    width: 100%;
+    height: 76.5vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: 1px;
+    overflow: auto;
+
+}
+
+/* Styling for individual course box */
+.modules-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: #D3E4FA;
+    border-radius: 20px;
+    width: 95%;
+    height: 90%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.play-icon {
+    font-size: 100rem; /* Adjust the font size as needed */
+}
+
+/* Hover effect for course box */
+
+iframe{
+    width: 95%;
+    height: 95%;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.pdf{
+    margin-top: 20px;
+}
+@media screen and (max-width: 768px) {
+    .modules-div {
+        height: auto;
+        padding: 20px;
+    }
+
+    .modules-box {
+        width: 100%;
+        height: auto;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+}
+.topic{
+    text-align: left;
+    padding: 20px;
+    padding-bottom: 0px;
+}
+.course-minipan {
+    width: 90%;
+    min-height: 15%; /* Change height to min-height for dynamic expansion */
+    background-color: #004AAD;
+
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    padding: 20px;
+    transition: min-height 0.3s ease-in-out; /* Change height to min-height for dynamic expansion */
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    align-content: end;
+    flex-direction: column;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    position: relative;
+}
+
+.course-minipan .text-holder {
+    justify-content: center;
+
+    border-radius: 20px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+    position: relative; /* Add position relative for proper alignment */
+}
+
+.file-name{
+    padding-left: 20px;
+    padding-bottom: 5px;
+    visibility: hidden; /* Initially hide the text */
+    opacity: 0; /* Initially set opacity to 0 */
+    transform: translateY(20px); /* Initially move text down by 20px */
+    transition: visibility 3s ease, opacity 0.5s ease, transform 0.5s ease;
+
+}
+.course-minipan:hover .file-name {
+    visibility: visible; /* Show the text on hover */
+    opacity: 1; /* Set opacity to fully visible */
+    transform: translateY(0); /* Move text back to its original position */
+}
+
+.course-minipan:hover {
+    min-height: 150px; /* Adjust the height accordingly */
+}
+
+
+.course-minipan:nth-child(1) .text-holder {
+    width: 100%;
+    height: 100px;
+    border-radius: 15px;
+    background-color: #FFFFFF;
+
+}
+.course-minipan:nth-child(2) .text-holder {
+    width: 100%;
+    height: 90px;
+    background-color: #FFFFFF;
+}
+.course-minipan:nth-child(3) .text-holder {
+    width: 100%;
+    height: 90px;
+    background-color: #FFFFFF;
+}
+.course-minipan:nth-child(4) .text-holder {
+    width: 100%;
+    height: 90px;
+    background-color: #FFFFFF;
+}
+
+.right-bar-inner{
+    width: 100%;
+    height: 100%;
+    row-gap: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow:auto;
+}
+.text-holder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #004AAD;
+
+}
+.course-minipan .file-name {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    .course-h1-name {
+        margin: 20px; /* Adjust margin for smaller screens */
+        font-size: 3rem; /* Adjust font size for smaller screens */
+    }
+
+    .course-h1 {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+    }
+
+    .course-h2 {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+    }
+
+    .search-b {
+        width: 100%; /* Make search bar full width on smaller screens */
+        max-width: 20rem; /* Limit maximum width of search bar */
+        margin: 20px auto; /* Center align search bar */
+    }
+}
+@media screen and (max-width: 1200px) {
+    .course-minipan {
+        width: 70%; /* Adjust width for smaller screens */
+        margin: 10px; /* Center align and add margin between elements */
+        height: auto; /* Allow height to adjust based on content */
+        max-height: 250px; /* Limit maximum height for consistency */
+    }
+}
+@media screen and (max-width: 1200px) {
+    /* Adjustments for smaller screens */
+
+    .second-main {
+        flex-direction: column;
+    }
+
+    .middle-bar {
+        width: 100%;
+    }
+
+    .right-bar {
+        width: 100%;
+        border-radius: 0;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+    .search-b {
+        margin: 20px auto;
+    }
+
+    .course-h1-name {
+        margin: 20px;
+        font-size: 2rem;
+    }
+}
+

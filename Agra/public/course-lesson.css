@@ -28,7 +28,6 @@ h1 {
 /* Setting font family for the whole body */
 body {
     font-family: 'Poppins', sans-serif;
-
 }
 
 /* Wrapper for sidebar and main content */
@@ -41,19 +40,18 @@ body {
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-right: 1rem;
-
     min-height: 100vh;
     width: 100%;
     overflow: hidden;
     transition: all 0.35s ease-in-out;
     background-color: #004AAD;
 }
-.second-main{
+
+.second-main {
     border-radius: 20px;
     background-color: #FFFFFF;
     height: 100%;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
-
 }
 
 /* Sidebar container */
@@ -66,10 +64,9 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-
 }
 
-.sidebar-link{
+.sidebar-link {
     font-size: 20px;
 }
 
@@ -134,34 +131,36 @@ a.sidebar-link:hover {
     background-color: #FFFFFF;
     border-left: 20px solid #004AAD;
     transition: all 0.6s ease 0s;
-
 }
 
-
-.line{
+/* Line separator */
+.line {
     border: solid #ffffff 1px;
     height: 0px;
     width: 100%;
 }
-.search-b{
+
+/* Search box */
+.search-b {
     width: 20rem;
     margin: 40px;
     box-shadow: inset black 2px;
 }
-.second-main{
+
+/* Styling for the middle section */
+.second-main {
     display: flex;
     justify-content: flex-end;
 }
-.middle-bar{
-    display: flex;
 
+.middle-bar {
+    display: flex;
     width: 65%;
     height: 100%;
     flex-direction: column;
-
-
 }
-.right-bar{
+
+.right-bar {
     display: flex;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
     background-color: #D3E4FA;
@@ -170,11 +169,12 @@ a.sidebar-link:hover {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    row-gap:2rem;
+    row-gap: 2rem;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
+
+/* Styling for student name */
 .student-name {
     width: 100%;
     display: flex;
@@ -185,33 +185,48 @@ a.sidebar-link:hover {
 .name{
     text-align: right;
 }
-.task-box{
-    overflow: auto;
+
+/* Styling for task box */
+.task-box {
     border-radius: 20px;
     width: 90%;
     height: 40%;
     background-color: #FFFFFF;
 }
-.calendar-box{
+
+/* Styling for progress box */
+.progress-box {
     display: flex;
     flex-direction: column;
     align-content: center;
     border-radius: 20px;
     width: 90%;
-    height: 35%;
+    height: 40%;
     background-color: #FFFFFF;
     font-size: 20px;
-    padding: 20px;
+    padding: 10px;
 }
-.calendar-btn{
+
+.progress-box-inner {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    overflow: auto;
+}
+
+/* Styling for calendar button */
+.calendar-btn {
     border: 0px;
 }
-.calendar-btn:hover{
+
+.calendar-btn:hover {
     background-color: #004AAD;
     color: white;
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
+/* Header styling */
 .header {
     margin-top: 1rem;
     display: flex;
@@ -219,100 +234,114 @@ a.sidebar-link:hover {
     align-items: center;
     margin-bottom: 10px;
 }
+
+/* Days grid */
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
 }
+
+/* Individual day styling */
 .day {
     text-align: center;
     padding: 5px;
-
 }
-.analytics-box{
 
+/* Styling for analytics box */
+.analytics-box {
     border-radius: 20px;
     width: 90%;
     height: 40%;
     background-color: #FFFFFF;
 }
-.navigations-middle-bar{
+
+/* Styling for navigations in the middle bar */
+.navigations-middle-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.courses-div{
-    display: flex;
 
+/* Styling for courses container */
+.courses-div {
+    display: flex;
     width: 100%;
-    height: 75.9vh;
+    height: 76.5vh;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     row-gap: 1px;
     overflow: auto;
-
 }
-.courses-box{
+
+/* Styling for individual course box */
+.courses-box {
     display: flex;
     justify-content: space-between;
-    margin-top:20px;
+    margin-top: 20px;
     background-color: #D3E4FA;
     border-radius: 20px;
     width: 87%;
-    height: 25%;
+    height: 27%;
     transition: all 0.3s ease;
 }
+
+/* Hover effect for course box */
 .courses-box:hover {
     background-color: #004AAD;
     color: white;
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-.course-inner-box{
+
+/* Styling for inner course box */
+.course-inner-box {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-content: center;
 }
-.btn-start-course{
-    align-self: flex-end;
 
+/* Styling for start course button */
+.btn-start-course {
+    align-self: flex-end;
 }
-.btn{
+
+/* General button styling */
+.btn {
     background-color: #004AAD;
 }
-.btn:hover{
+
+/* Button hover effect */
+.btn:hover {
     background-color: #FFFFFF;
     color: #004AAD;
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-.navigations-middle-filter{
+
+/* Styling for navigations in the middle bar */
+.navigations-middle-filter {
     display: flex;
 }
 
-.course-h1-name{
+/* Styling for course name */
+.course-h1-name {
     margin: 30px;
     font-size: 10rem;
 }
-.course-h1{
+
+/* Styling for course heading */
+.course-h1 {
     font-size: 3rem;
     color: #004AAD;
 }
-.image-container{
 
+/* Styling for image container */
+.image-container {
 }
-.student-name {
-    width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
 
-}
-.name{
-    text-align: right;
-}
 /* Styling for student information */
 .student-info {
     display: flex;
@@ -321,45 +350,50 @@ a.sidebar-link:hover {
     width: 100%;
 }
 
-.task-box{
+
+
+/* Styling for task box */
+.task-box {
     display: flex;
     flex-direction: column;
-    height: 40%;
+    align-content: center;
+    height: 35vh;
     font-size: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
-.title{
+
+/* Styling for task box inner content */
+.task-box-inner {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: 35vh;
+    font-size: 20px;
+    overflow: auto;
+}
+
+/* Styling for task box title */
+.title {
     display: flex;
     flex-direction: row;
     align-items: end;
     width: 5rem;
+    position: sticky;
 }
-.time-subject{
 
+/* Styling for time and subject */
+.time-subject {
     width: 100%;
     height: 35%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
-.subject-comprog{
-    width: 70%;
-    height: 80%;
-    border-radius: 20px;
-    background-color: #004AAD;
-    color: #ffffff;
-    display: flex;
-    align-content: center;
-    flex-direction: column;
-    padding: 10px;
-    margin-bottom: 5px;
-}
-.subject-comprog:hover{
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-.subject-comprog-1{
-    width: 70%;
-    height: 80%;
+
+/* Styling for individual subject */
+.subject-comprog-1 {
+    width: 90%;
+    height: 90%;
     border-radius: 20px;
     background-color: #D3E4FA;
     color: #000000;
@@ -367,13 +401,18 @@ a.sidebar-link:hover {
     align-content: center;
     flex-direction: column;
     padding: 10px;
-
 }
-.subject-comprog-1:hover{
+
+/* Hover effect for subject box */
+.subject-comprog-1:hover {
+    background-color: #004AAD;
+    color: white;
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-.line{
+
+/* Line separator */
+.line {
     border: 1px solid #706F6F;
     width: 85%;
     height: 0%;
@@ -381,3 +420,58 @@ a.sidebar-link:hover {
     margin-right: auto;
 }
 
+/* Styling for progress box */
+.prog-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 39%;
+    padding: 10px;
+}
+
+/* Styling for progress lessons */
+.prog-lessons {
+    margin-left: 20px;
+}
+
+/* Styling for progress circle */
+.progress-circle {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background-color: #D3E4FA;
+    position: relative;
+}
+
+/* Filling animation for progress circle */
+.progress-circle::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #004AAD;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%);
+    transform-origin: center;
+    animation: fillTo50 10s forwards;
+}
+
+/* Text inside progress circle */
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+/* Animation for filling progress circle */
+@keyframes fillTo50 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

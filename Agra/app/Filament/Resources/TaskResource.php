@@ -32,8 +32,14 @@ class TaskResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('lesson_id')
-                ->relationship('lesson', 'id')
+                ->relationship('lesson', 'LessonName')
+                ->searchable()
+                ->preload()
                 ,
+                Forms\Components\Select::make('course_id')
+                ->relationship('course', 'CourseName')
+                ->searchable()
+                ->preload(),
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\TextInput::make('Description')->label('Task Description'),
                 Forms\Components\TextInput::make('TaskMaxScore')->label('Task Max Score')->numeric(),

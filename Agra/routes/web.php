@@ -28,10 +28,19 @@ Route::get('/', function(){
 Route::get('/allCourses', function () {
 
     $user = Auth::user();
+    $userCourses = $user->courses;
+    $sectionCourses = $user->section->courses;
+
+    $courses = Course::all();
+    // Get all courses except the ones the user is enrolled in
+    $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
+    $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
+
 
     return view('allCourses', [
-        'courses' => Course::all(),
-        'user' => $user
+        'courses' => $courses,
+        'user' => $user,
+        'tasks' => Task::all(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -45,7 +54,8 @@ Route::get('/courses', function () {
 
     return view('courses', [
         'courses'=> $courses,
-        'user' => $user
+        'user' => $user,
+        'tasks' => Task::all()
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -58,29 +68,42 @@ Route::middleware('auth')->group(function () {
 Route::get('courses/{course:id}', function(Course $course) {
 
     $lessons = $course->lessons;
+    $user = Auth::user();
+    $tasks = $course->tasks;
 
     return view('course', [
         'course' => $course,
         'lessons' => $lessons,
+        'user' => $user,
+        'tasks' => $tasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('categories/{category:slug}' , function(Category $category) {
     $courses = $category->courses;
+    $user = Auth::user();
+
+    $tasks = Task::all();
 
     return view('courses', [
-        'courses'=> $courses
+        'courses'=> $courses,
+        'user' => $user,
+        'tasks' => $tasks
     ]);
 });
 
 Route::get('/enroll', [\App\Http\Controllers\EnrollmentsController::class, 'store'])->name('enroll.store');
 
-Route::get('lessons/{lesson:id}' , function(Lesson $lesson) {
+Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $tasks = $lesson->tasks;
+    $user = Auth::user();
 
     return view('lessons', [
         'lesson' => $lesson,
-        'tasks' => $tasks
+        'tasks' => $tasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
