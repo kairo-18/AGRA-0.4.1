@@ -40,7 +40,7 @@ class UserResource extends Resource
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
+                    ->dehydrated(fn($state)=> filled ($state))
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->preload()

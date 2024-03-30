@@ -34,9 +34,26 @@ class DatabaseSeeder extends Seeder
             'email' => 'test2@example.com',
         ]);
 
+        $user3 = User::factory()->create([
+            'name' => 'kairo-desu',
+            'email' => 'kairo@example.com',
+        ]);
+
+        $user4 = User::factory()->create([
+            'name' => 'Student One',
+            'email' => 'student1@example.com',
+        ]);
+
         $role = Role::create(['name' => 'admin']);
         $role2 = Role::create(['name' => 'teacher']);
+        $role3 = Role::create(['name' => 'student']);
+
+        $devRole = Role::create(['name' => 'dev']);
+
         $user->assignRole($role);
         $user2->assignRole($role2);
+        $user3->assignRole($devRole);
+        $user4->assignRole($role3);
+
     }
 }
