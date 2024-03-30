@@ -46,7 +46,7 @@
 
             <!-- Profile -->
             <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
+                <a href="/" class="sidebar-link">
                     <i class="bi bi-house"> </i> Home
                     <span>Home</span>
                 </a>
@@ -54,16 +54,15 @@
 
             <!-- Task -->
             <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
+                <a href="/agraCourses" class="sidebar-link">
                     <i class="bi bi-triangle"> </i>AGRA
                     <span>AGRA</span>
                 </a>
             </li>
 
-
             <!-- Notification -->
             <li class="sidebar-item">
-                <a href="/allCourses" class="sidebar-link">
+                <a href="/courses" class="sidebar-link">
                     <i class="bi bi-book">  </i> Course
                     <span>Course</span>
                 </a>

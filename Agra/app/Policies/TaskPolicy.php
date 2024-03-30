@@ -15,7 +15,7 @@ class TaskPolicy
     public function viewAny(User $user): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 
     /**
@@ -24,7 +24,7 @@ class TaskPolicy
     public function view(User $user, Task $task): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 
     /**
@@ -33,7 +33,7 @@ class TaskPolicy
     public function create(User $user): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher' , 'dev']);
     }
 
     /**
@@ -42,7 +42,7 @@ class TaskPolicy
     public function update(User $user, Task $task): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 
     /**
@@ -51,7 +51,7 @@ class TaskPolicy
     public function delete(User $user, Task $task): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 
     /**
@@ -60,7 +60,7 @@ class TaskPolicy
     public function restore(User $user, Task $task): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 
     /**
@@ -69,6 +69,6 @@ class TaskPolicy
     public function forceDelete(User $user, Task $task): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher', 'dev']);
     }
 }

@@ -14,7 +14,7 @@ class SectionManagementPolicy
     public function viewAny(User $user): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -23,7 +23,7 @@ class SectionManagementPolicy
     public function view(User $user, SectionManagement $sectionManagement): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -32,7 +32,7 @@ class SectionManagementPolicy
     public function create(User $user): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -41,7 +41,7 @@ class SectionManagementPolicy
     public function update(User $user, SectionManagement $sectionManagement): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -50,7 +50,7 @@ class SectionManagementPolicy
     public function delete(User $user, SectionManagement $sectionManagement): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -59,7 +59,7 @@ class SectionManagementPolicy
     public function restore(User $user, SectionManagement $sectionManagement): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -68,6 +68,6 @@ class SectionManagementPolicy
     public function forceDelete(User $user, SectionManagement $sectionManagement): bool
     {
         //
-        return $user->hasRole(['admin']);
+        return $user->hasRole(['admin', 'dev']);
     }
 }

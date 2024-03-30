@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class CourseResource extends Resource
 {
@@ -38,7 +40,31 @@ class CourseResource extends Resource
                             Forms\Components\Select::make('category_id')
                                 ->relationship('category', 'name')
                                 ->required(),
-                        ])
+                        ]),
+
+                    Forms\Components\Select::make('Author')
+                        ->options(['STI' => 'STI'])
+                        ->required(),
+
+
+                ]);
+        } else if($user->hasRole('dev')){
+            return $form
+                ->schema([
+                    //
+                    Forms\Components\TextInput::make('CourseName')->required(),
+                    Forms\Components\TextInput::make('CourseDescription')->required(),
+                    Forms\Components\Section::make("Category")
+                        ->schema([
+                            Forms\Components\Select::make('category_id')
+                                ->relationship('category', 'name')
+                                ->required(),
+                        ]),
+
+                    Forms\Components\Select::make('Author')
+                        ->options(['AGRA' => 'AGRA'])
+                        ->required(),
+
                 ]);
         }
 
@@ -54,6 +80,7 @@ class CourseResource extends Resource
                             ->relationship('category', 'name')
                             ->disabled(),
                     ])
+
             ]);
 
 
@@ -65,6 +92,7 @@ class CourseResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('CourseName'),
                 Tables\Columns\TextColumn::make('category.name'),
+                Tables\Columns\TextColumn::make('author'),
             ])
             ->filters([
                 //
@@ -95,5 +123,22 @@ class CourseResource extends Resource
             'create' => Pages\CreateCourse::route('/create'),
             'edit' => Pages\EditCourse::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Auth::user();
+        $query = parent::getEloquentQuery();
+
+        // Check if the request is for the 'edit' page
+        if (Request::is('*/edit')) {
+            return $query;
+        }
+
+        if($user->hasRole('admin')) {
+            return parent::getEloquentQuery()->whereNotIn('author', ['AGRA']);
+        }
+
+        return $query;
     }
 }

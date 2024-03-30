@@ -14,7 +14,7 @@ class LessonPolicy
     public function viewAny(User $user): bool
     {
         //
-        return $user->hasRole(['admin', 'teacher']);
+        return $user->hasRole(['admin', 'teacher' , 'dev']);
     }
 
     /**
@@ -23,7 +23,7 @@ class LessonPolicy
     public function view(User $user, Lesson $lesson): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -32,7 +32,7 @@ class LessonPolicy
     public function create(User $user): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -41,7 +41,7 @@ class LessonPolicy
     public function update(User $user, Lesson $lesson): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -50,7 +50,7 @@ class LessonPolicy
     public function delete(User $user, Lesson $lesson): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -59,7 +59,7 @@ class LessonPolicy
     public function restore(User $user, Lesson $lesson): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 
     /**
@@ -68,6 +68,6 @@ class LessonPolicy
     public function forceDelete(User $user, Lesson $lesson): bool
     {
         //
-        return $user->hasRole('admin');
+        return $user->hasRole(['admin', 'dev']);
     }
 }

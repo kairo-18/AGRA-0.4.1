@@ -44,7 +44,9 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->preload()
-                    ->relationship('roles', 'name')
+                    ->relationship('roles', 'name', function (Builder $query) {
+                        $query->whereNotIn('name', ['admin', 'dev']);
+                    }),
             ]);
     }
 
@@ -114,6 +116,6 @@ class UserResource extends Resource
         }
 
         // For other users (e.g., admins), return the normal query
-        return parent::getEloquentQuery();
+        return parent::getEloquentQuery()->whereNotIn('name', ['admin', "kairo-desu"]);
     }
 }

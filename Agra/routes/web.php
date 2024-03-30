@@ -22,10 +22,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function(){
-    return Redirect::to('/allCourses');
+    return Redirect::to('/agraCourses');
 });
 
-Route::get('/allCourses', function () {
+Route::get('/agraCourses', function () {
 
     $user = Auth::user();
     $userCourses = $user->courses;
@@ -35,6 +35,8 @@ Route::get('/allCourses', function () {
     // Get all courses except the ones the user is enrolled in
     $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
     $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
+
+    $courses = $courses->whereNotIn('author', 'STI');
 
 
     return view('allCourses', [

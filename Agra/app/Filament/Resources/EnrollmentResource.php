@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class EnrollmentResource extends Resource
 {
@@ -22,20 +23,41 @@ class EnrollmentResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
+        $user = Auth::user();
+
+        if($user->hasRole(['admin', 'teacher'])) {
+            return $form
+                ->schema([
                     Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name', function (Builder $query) {
-                        $query->whereHas('roles', function ($query) {
-                            $query->where('name', 'student');
-                        });
-                    }),
+                        ->relationship('user', 'name', function (Builder $query) {
+                            $query->whereHas('roles', function ($query) {
+                                $query->where('name', 'student');
+                            });
+                        }),
                     Forms\Components\Select::make('course_id')
-                        ->relationship('course', 'CourseName')
-                        ->required(),
+                        ->relationship('course', 'CourseName', function (Builder $query) {
+                            $query->whereNotIn('author', ['AGRA']);
+                        }),
                     Forms\Components\Select::make('section_id')
                         ->relationship('section', 'SectionCode'),
+                ]);
+        }
+
+        return $form
+            ->schema([
+        Forms\Components\Select::make('user_id')
+            ->relationship('user', 'name', function (Builder $query) {
+                $query->whereHas('roles', function ($query) {
+                    $query->where('name', 'student');
+                });
+            }),
+        Forms\Components\Select::make('course_id')
+            ->relationship('course', 'CourseName'),
+        Forms\Components\Select::make('section_id')
+            ->relationship('section', 'SectionCode'),
             ]);
+
+
     }
 
     public static function table(Table $table): Table
