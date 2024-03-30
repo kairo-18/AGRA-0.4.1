@@ -121,8 +121,8 @@
                                 Language
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                <li><a class="dropdown-item" href="/categories/java">Java</a></li>
-                                <li><a class="dropdown-item" href="/categories/csharp">C#</a></li>
+                                <li><a class="dropdown-item" href="/courses/categories/java">Java</a></li>
+                                <li><a class="dropdown-item" href="/courses/categories/csharp">C#</a></li>
                                 <!-- Add more dropdown items as needed -->
                             </ul>
                         </div>

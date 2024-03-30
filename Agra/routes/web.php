@@ -82,8 +82,38 @@ Route::get('courses/{course:id}', function(Course $course) {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('categories/{category:slug}' , function(Category $category) {
-    $courses = $category->courses;
+
     $user = Auth::user();
+    $userCourses = $user->courses;
+
+    $sectionCourses = $user->section->courses;
+
+    $courses = Course::whereHas('category', function ($query) use ($category) {
+        $query->where('slug', $category->slug);
+    })->get();
+
+    $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
+    $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
+    $courses = $courses->whereNotIn('author', 'STI');
+
+    $tasks = Task::all();
+
+
+
+    return view('allCourses', [
+        'courses'=> $courses,
+        'user' => $user,
+        'tasks' => $tasks
+    ]);
+});
+
+Route::get('courses/categories/{category:slug}' , function(Category $category) {
+
+    $user = Auth::user();
+
+    $courses = $user->courses()->whereHas('category', function ($query) use ($category) {
+        $query->where('id', $category->id);
+    })->get();
 
     $tasks = Task::all();
 
@@ -93,6 +123,7 @@ Route::get('categories/{category:slug}' , function(Category $category) {
         'tasks' => $tasks
     ]);
 });
+
 
 Route::get('/enroll', [\App\Http\Controllers\EnrollmentsController::class, 'store'])->name('enroll.store');
 

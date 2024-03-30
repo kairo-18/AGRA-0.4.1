@@ -27,7 +27,7 @@
 
             <!-- Toggle Button -->
             <button class="toggle-btn mx-4" type="button">
-                <img src="image-removebg-preview (23) 1.png">
+                <img src="/image-removebg-preview (23) 1.png">
             </button>
             <!-- Sidebar Logo -->
             <div class="sidebar-logo">
@@ -132,7 +132,7 @@
                         <div class="courses-box">
                             <div class="course-inner-box">
                                 <div class="image-container">
-                                    <img src="laptop with code.png" alt="laptop" class="image m-3">
+                                    <img src="/laptop with code.png" alt="laptop" class="image m-3">
                                 </div>
 
                                 <div class="name-container m-3">
@@ -166,8 +166,8 @@
                             <img src="/profileIcon50.png" alt="laptop">
                         </div>
                         <div class="name">
-                            <h5>Lance Rizzel Cortel</h5>
-                            <h6>@rizztel.123456</h6>
+                            <h5>{{$user->name}}</h5>
+                            <h6>{{$user->email}}</h6>
                         </div>
 
                     </div>
@@ -211,7 +211,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- Custom Script -->
-<script src="courses.js"></script>
+<script src="/courses.js"></script>
 
 
 </body>
