@@ -155,7 +155,12 @@
                 <div class="student-info">
                     <div class="student-name">
                         <div class="img-class">
-                            <img src="/profileIcon50.png" alt="laptop">
+                            <form method="GET" id="profileEdit" action="{{ route('profile.edit') }}">
+                                <a href="javascript:document.getElementById('profileEdit').submit();">
+                                    <img src="/profileIcon50.png" alt="profile">
+                                </a>
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                         <div class="name">
                             <h5>{{$user->name}}</h5>

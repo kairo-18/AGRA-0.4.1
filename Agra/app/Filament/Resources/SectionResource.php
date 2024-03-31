@@ -79,6 +79,7 @@ class SectionResource extends Resource
         return [
             RelationManagers\UsersRelationManager::class,
             RelationManagers\CoursesRelationManager::class,
+            RelationManagers\EnrollmentsRelationManager::class,
         ];
     }
 

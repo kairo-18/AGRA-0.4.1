@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -58,7 +60,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('section_id')
+                Tables\Columns\TextColumn::make('section.SectionCode')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->searchable(),
@@ -76,6 +78,17 @@ class UserResource extends Resource
             ])
             ->filters([
                 //
+                Filter::make('Student')->query(function (Builder $query){
+                    $query->whereHas('roles' , function ($query){
+                        $query->where('name', 'student');
+                    });
+                }),
+                Filter::make('Teacher')->query(function (Builder $query){
+                    $query->whereHas('roles' , function ($query){
+                        $query->where('name', 'teacher');
+                    });
+                }),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -91,7 +104,6 @@ class UserResource extends Resource
     {
         return [
             //
-            RelationManagers\RoleRelationManager::class,
         ];
     }
 

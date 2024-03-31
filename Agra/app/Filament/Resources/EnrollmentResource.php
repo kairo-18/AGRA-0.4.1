@@ -38,8 +38,6 @@ class EnrollmentResource extends Resource
                         ->relationship('course', 'CourseName', function (Builder $query) {
                             $query->whereNotIn('author', ['AGRA']);
                         }),
-                    Forms\Components\Select::make('section_id')
-                        ->relationship('section', 'SectionCode'),
                 ]);
         }
 
@@ -110,4 +108,6 @@ class EnrollmentResource extends Resource
             'edit' => Pages\EditEnrollment::route('/{record}/edit'),
         ];
     }
+
+
 }
