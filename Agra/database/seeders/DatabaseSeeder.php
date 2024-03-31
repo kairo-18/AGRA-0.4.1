@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -42,6 +44,20 @@ class DatabaseSeeder extends Seeder
         $user4 = User::factory()->create([
             'name' => 'Student One',
             'email' => 'student1@example.com',
+        ]);
+
+        $category1 = Category::factory()->create([
+           'name' => 'Java',
+            'slug' => 'java'
+        ]);
+
+        $category2 = Category::factory()->create([
+            'name' => 'C#',
+            'slug' => 'csharp'
+        ]);
+
+        $section1 = Section::factory()->create([
+           'SectionCode' => 'CS601'
         ]);
 
         $role = Role::create(['name' => 'admin']);
