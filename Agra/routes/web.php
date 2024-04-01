@@ -31,20 +31,19 @@ Route::get('/agraCourses', function () {
     $userCourses = $user->courses;
     $sectionCourses = $user->section->courses;
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Retrieve all tasks except those that are marked as "Done"
-    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
-
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     $courses = Course::all();
     // Get all courses except the ones the user is enrolled in
     $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
     $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
-
     $courses = $courses->whereNotIn('author', 'STI');
-
 
     return view('allCourses', [
         'courses' => $courses,
@@ -61,11 +60,13 @@ Route::get('/courses', function () {
     $courses = $user->section->courses;
     $courses = $courses->merge($userCourses);
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Retrieve all tasks except those that are marked as "Done"
-    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     return view('courses', [
         'courses'=> $courses,
@@ -84,13 +85,14 @@ Route::get('courses/{course:id}', function(Course $course) {
 
     $lessons = $course->lessons;
     $user = Auth::user();
-    $tasks = $course->tasks;
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Filter out tasks that are marked as "Done"
-    $tasks = $tasks->whereNotIn('id', $doneTaskIds);
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     return view('course', [
         'course' => $course,
@@ -115,11 +117,13 @@ Route::get('categories/{category:slug}' , function(Category $category) {
     $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
     $courses = $courses->whereNotIn('author', 'STI');
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Retrieve all tasks except those that are marked as "Done"
-    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
 
 
@@ -138,11 +142,13 @@ Route::get('courses/categories/{category:slug}' , function(Category $category) {
         $query->where('id', $category->id);
     })->get();
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Retrieve all tasks except those that are marked as "Done"
-    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     return view('courses', [
         'courses'=> $courses,
@@ -159,14 +165,15 @@ Route::get('/score', [\App\Http\Controllers\ScoreController::class, 'store'])->n
 Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->name('task.done');
 
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
-    $tasks = $lesson->tasks;
     $user = Auth::user();
 
-    // Retrieve task IDs that are marked as "Done"
-    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
 
-    // Filter out tasks that are marked as "Done"
-    $tasks = $tasks->whereNotIn('id', $doneTaskIds);
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     return view('lessons', [
         'lesson' => $lesson,
