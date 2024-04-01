@@ -1,11 +1,12 @@
 let monsterTween;
 let playerTween;
-let monster;
 let monsterHealthBar, playerHealthBar;
 let maxMonsterHealth = 100, maxPlayerHealth = 100;
 let currentMonsterHealth = maxMonsterHealth;
 let currentPlayerHealth = maxPlayerHealth;
 let music;
+let player;
+let monster;
 
 var config = {
   type: Phaser.AUTO,
@@ -13,8 +14,8 @@ var config = {
     mode: Phaser.Scale.EXACT_FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     parent: "minigame",
-    width: 350,
-    height: 400
+    width: 1000,
+    height: 1000
   },
   scene: {
       preload: preload,
@@ -29,7 +30,9 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
-  this.load.image('background', '/background.png');
+
+    this.load.atlas('char', '/charspritesheet(1).png', '/charsprites(1).json');
+  this.load.image('background', '/bground1.jpeg');
   this.load.image('player', '/player.png');
   this.load.image('monster', '/monster.png');
   this.load.image('monsterHealthBar', '/monsterHealthBar.png');
@@ -39,6 +42,8 @@ function preload() {
   this.load.image('healthMonster', '/monsterHealth.png')
   this.load.audio('bgm', '/background.mp3')
   this.load.image('muteButton', '/muteButton.png')
+
+
 }
 
 function create() {
@@ -46,27 +51,66 @@ function create() {
   music.play();
 
   // Add background
-  this.add.image(0, 0, 'background').setOrigin(0);
+    this.add.image(0, 0, 'background').setOrigin(0);
 
-  // Create monster sprite
-  monster = this.add.image(265, 100, 'monster').setScale(0.75);
 
   // Add player sprite
-  let player = this.add.image(100, 270, 'player').setScale(0.75);
+  //let player = this.add.image(300, 760, 'player').setScale(1.3);
 
-  this.add.image(245, 250, 'healthPlayer').setScale(0.9);
-  this.add.image(100, 50, 'healthMonster').setScale(0.75);
+    this.anims.create({
+        key: 'idle',
+        frames: [{ key: 'char', frame: 0 }], // Use the first frame as the idle frame
+        repeat: -1 // Repeat indefinitely for idle animation
+    });
+    this.anims.create({key: 'punch', frames: this.anims.generateFrameNames('char', {prefix: 'punch', end: 3, zeroPad: 2}), frameRate: 6});
+    this.anims.create({key: 'dmg', frames: this.anims.generateFrameNames('char', {prefix: 'dmg', end: 2, zeroPad: 2}), frameRate: 5});
+
+    player = this.add.sprite(300, 750, 'char').setScale(6);
+
+    // Create monster sprite
+    monster = this.add.sprite(700, 750, 'char').setScale(6);
+    monster.setScale(-6, 6);
+
+    player.on('animationcomplete', function (animation) {
+        if (animation.key === 'punch') {
+            // Play the idle animation after the punch animation is complete
+            player.play('idle');
+        }else if (animation.key === 'dmg') {
+            // Play the idle animation after the punch animation is complete
+            player.play('idle');
+        }
+    });
+
+    monster.on('animationcomplete', function (animation) {
+        if (animation.key === 'punch') {
+            // Play the idle animation after the punch animation is complete
+            monster.play('idle');
+        } else if (animation.key === 'dmg') {
+            // Play the idle animation after the punch animation is complete
+            monster.play('idle');
+        }
+    });
+
+
+
+
+
+
+
+  this.add.image(255, 100, 'healthPlayer').setScale(2.0);
+  this.add.image(705, 100, 'healthMonster').setScale(1.8);
 
   // Add monster health bar graphics
-  monsterHealthBar = this.add.graphics().setScale(0.5);
+  monsterHealthBar = this.add.graphics().setScale(1.0);
   updateMonsterHealthBar();
 
   //Add player health bar graphics
-  playerHealthBar = this.add.graphics().setScale(0.5);
+  playerHealthBar = this.add.graphics().setScale(1.0);
   updatePlayerHealthBar();
 
   // Create the mute button
-  muteButton = this.add.image(300, 30, 'muteButton').setOrigin(0).setScale(0.15).setInteractive();
+  muteButton = this.add.image(350, 0, 'muteButton').setOrigin(0).setScale(0.15).setInteractive();
+
 
   // Function to update player health bar
   function updatePlayerHealthBar() {
@@ -79,12 +123,12 @@ function create() {
     if (currentPlayerHealth > 0) {
         // Fill the inner rectangle
         playerHealthBar.fillStyle(0x40D90B, 1);
-        playerHealthBar.fillRoundedRect(400, 500, playerHealthWidth, 30, 20);
+        playerHealthBar.fillRoundedRect(150, 100, playerHealthWidth, 30, 20);
 
         // Define border properties
         playerHealthBar.lineStyle(4, 0x000000, 1); // 4 is the thickness of the border, 0x000000 is the color, 1 is the alpha
         // Draw the border around the rectangle
-        playerHealthBar.strokeRoundedRect(400, 500, playerHealthWidth, 30, 20);
+        playerHealthBar.strokeRoundedRect(150, 100, playerHealthWidth, 30, 20);
     }
   }
 
@@ -108,12 +152,12 @@ function create() {
     if (currentMonsterHealth > 0) {
         // Fill the inner rectangle
         monsterHealthBar.fillStyle(0xff0000, 1);
-        monsterHealthBar.fillRoundedRect(120, 100, monsterHealthWidth, 30, 20);
+        monsterHealthBar.fillRoundedRect(600, 100, monsterHealthWidth, 30, 20);
 
         // Define border properties
         monsterHealthBar.lineStyle(4, 0x000000, 1); // 4 is the thickness of the border, 0x000000 is the color, 1 is the alpha
         // Draw the border around the rectangle
-        monsterHealthBar.strokeRoundedRect(120, 100, monsterHealthWidth, 30, 20);
+        monsterHealthBar.strokeRoundedRect(600, 100, monsterHealthWidth, 30, 20);
     }
   }
 
@@ -133,7 +177,7 @@ function create() {
       yoyo: true,
       persist: true,
       paused: true,
-      duration: 400,
+      duration: 500,
       onComplete: () => {
           reducePlayerHealth(20);
       }
@@ -162,7 +206,8 @@ function create() {
         muteButton.setTint(0xff0000); // Tint red to indicate muted state
     }
   });
-};
+}
+
 function update() {
 
 }

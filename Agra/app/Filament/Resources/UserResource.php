@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class UserResource extends Resource
 {
@@ -25,6 +26,7 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
@@ -33,6 +35,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\Section::make("Section")
                 ->schema([
@@ -43,6 +46,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->dehydrated(fn($state)=> filled ($state))
+                    ->required(fn (string $context): bool => $context === 'create')
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->preload()
@@ -123,7 +127,7 @@ class UserResource extends Resource
         // Check if the user is authenticated and has the role of 'teacher'
         if ($user && $user->hasRole('teacher')) {
             return parent::getEloquentQuery()->whereDoesntHave('roles', function ($query) {
-                $query->whereIn('name', ['admin', 'teacher']);
+                $query->whereIn('name', ['admin', 'teacher', 'dev']);
             });
         }
 

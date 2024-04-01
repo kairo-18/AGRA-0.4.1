@@ -100,6 +100,10 @@ function extractKeywords(code) {
     return removeNonWords(words);
 }
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 function removeNonWords(arr) {
     const wordPattern = /[\w']+(!)?/g;
 
@@ -198,6 +202,8 @@ function whenPlayerAttack(){
     if(tempCtr < checkmarks.length){
         if(checkmarks[tempCtr].done){
             playerTween.play();
+            player.play("punch", true);
+            delay(400).then(() => monster.play("dmg", true));
             tempCtr++;
         }
     }
@@ -279,6 +285,8 @@ function startIntervalTimer() {
         rounds--;
         console.log(rounds);
         monsterTween.play();
+        monster.play("punch", true);
+        delay(400).then(() => player.play("dmg", true));
 
         if (rounds === 0) {
             clearInterval(timer);
@@ -309,14 +317,14 @@ function displayOutput(output) {
 
 var startButton = document.getElementById("startButton");
 
-document.querySelector(".container").style.pointerEvents = "none";
-document.querySelector(".container").style.filter = "blur(3px)";
+document.querySelector(".container1").style.pointerEvents = "none";
+document.querySelector(".container1").style.filter = "blur(3px)";
 
 function startGame(){
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
-    document.querySelector(".container").style.pointerEvents = "auto";
-    document.querySelector(".container").style.filter = "blur(0px)";
+    document.querySelector(".container1").style.pointerEvents = "auto";
+    document.querySelector(".container1").style.filter = "blur(0px)";
     startIntervalTimer();
 }
 
