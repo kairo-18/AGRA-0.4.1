@@ -21,9 +21,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){
-    return Redirect::to('/agraCourses');
-});
+Route::get('/', function () {
+
+    $user = Auth::user();
+
+    $userCourses = $user->courses;
+    $courses = $user->section->courses;
+    $courses = $courses->merge($userCourses);
+
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+
+
+
+    return view('home', [
+        'courses' => $courses,
+        'user' => $user,
+        'tasks' => $tasks,
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/agraCourses', function () {
 

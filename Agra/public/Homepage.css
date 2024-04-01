@@ -1,0 +1,572 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Resetting box model */
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Removing default link underline */
+a {
+    text-decoration: none;
+}
+
+/* Removing default list styling */
+li {
+    list-style: none;
+}
+
+/* Styling for heading */
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Setting font family for the whole body */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper for sidebar and main content */
+.wrapper {
+    display: flex;
+}
+
+/* Sidebar container */
+#sidebar {
+    width: 10%;
+    min-width: 5%;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #004AAD;
+    display: flex;
+    flex-wrap: wrap;
+    
+    flex-direction: column;
+}
+
+.sidebar-link {
+    font-size: 20px;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 2rem 1.5rem;
+    font-size: 2rem;
+}
+
+/* Styling for toggle button icon */
+.toggle-btn i {
+    font-size: 1rem;
+    color: #FFF;
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+    margin: 0;
+}
+
+/* Styling for sidebar logo link */
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Hide sidebar logo and link text when sidebar is collapsed */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+/* Styling for sidebar navigation */
+.sidebar-nav {
+    padding: 4rem 0;
+    flex: 1 1 auto;
+    
+}
+
+/* Styling for sidebar links */
+a.sidebar-link {
+    padding: 1rem 4rem;
+    color: #FFF;
+    display: block;
+    font-size: 1rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+    transition: border-left 0.6s ease;
+}
+
+/* Styling for icons in sidebar links */
+.sidebar-link i {
+    font-size: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+/* Hover effect for sidebar links */
+a.sidebar-link:hover {
+    color: #004AAD;
+    background-color: #FFFFFF;
+    border-left: 20px solid #004AAD;
+    
+}
+
+
+
+/* Main content */
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
+.second-main {
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    height: 100%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+    display: flex;
+    flex-direction: row;
+}
+
+/* right-panel */
+.right-panel{
+    width: 40%;
+    height: 100%;
+    
+    display: flex;
+}
+.sched-profile{
+    width: 85%;
+    height: 100%;
+    
+}
+
+.mini-profile{
+    width: 100%;
+    height: 50%;
+    
+}
+.mini-lbProfile{
+    width: 100%;
+    height: 14%;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    padding-left: 1.6rem;
+}
+.profile-box-outer{
+    width: 100%;
+    height: 85%;
+    
+    display: flex;
+    justify-content: center;
+}
+.profile-box-inner{
+    width: 90%;
+    height: 97%;
+    background-color: #8CBCFD;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    border: #004AAD 1px solid;
+}
+.top-box{
+    width: 100%;
+    height: 50%;
+    border-radius: 20px;
+    display: flex;
+
+}
+.profile-pic{
+    width: 50%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    
+}
+
+.achievement{
+    width: 50%;
+    height: 100%;
+    border-top-right-radius: 20px;
+    
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bot-box{
+    width: 100%;
+    height: 50%;
+    
+}
+.des-name{
+    font-size: 1rem;
+    padding-left: 10px;
+}
+.btn-mini-profile{
+    width: 15%;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 500px;
+    background-color: #004bad;
+    color: white;
+    border: 0px;
+    
+}
+.btn-explore{
+    display: flex;
+    justify-content: end;
+    padding-right: 10px;
+    width: 100%;
+}
+.schedule{
+    width: 100%;
+    height: 50%;
+    
+}
+.name-notif{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: end;
+    font-size: 1.5rem;
+    padding-left: 1.5rem;
+}
+.sched-box-outlayer{
+    width: 100%;
+    height: 85%;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+    justify-content: center;
+}
+.sched-box{
+    width: 90%;
+    height: 25%;
+    background-color: #8CBCFD;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.sched-box-circle{
+    width: 12%;
+    height: 65%;
+    background-color: #004AAD;
+    border-radius: 100rem;
+}
+.sched-box-name{
+    width: 78%;
+    height: 90%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: end;
+}
+.sched-box-btn{
+    width: 10%;
+    height: 90%;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+}
+.user-friends{
+    width: 15%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: centers;
+    align-items: center;
+}
+.user-friends-inner{
+    width: 80%;
+    height: 90%;
+    background-color: #8CBCFD;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    
+}
+.user-main-icon{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.friends-section{
+    height: 55%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5px;
+}
+.teacher-section{
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* left-panel */
+.left-panel{
+    width: 60%;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+}
+.big-ads{
+    width: 100%;
+    height: 50%;
+    display: flex;
+
+}
+.big-ads-inner{
+    width: 50%;
+    height: 100%;
+}
+.imagemodel{
+    display: flex;
+    align-items: end;
+}
+.imageM{
+    max-width: 100%;
+    height: auto;
+}
+.lbUser-greet{
+    width: 100%;
+    height: 15%;
+    
+    font-size: 1.8em;
+    display: flex;
+    align-items: end;
+    padding-left: 1rem;
+    padding-bottom: .5rem;
+}
+.AGRA-outer{
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 1.5rem;
+    
+}
+.AGRA-inner{
+    width: 100%;
+    height: 65%;
+    background-color: #8CBCFD;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.AGRA-inner h2{
+    font-size: 5rem;
+}
+.btn-learn-begin{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    row-gap: 10px;
+}
+.btnLearnmore{
+    width: 35%;
+    height: 35%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 500px;
+    background-color: #004bad00;
+    border: 1px solid #004AAD;
+}
+.btnBegin{
+    width: 35%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 500px;
+    height: 35%;
+    margin-left: 10px;
+    background-color: #004AAD;
+    color: #ffffff;
+    border: 0px;
+}
+.Recommended{
+    width: 100%;
+    height: 35%;
+    
+}
+.lbReco{
+    width: 100%;
+    height: 20%;
+    
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+}
+.reco-box-outlay{
+    width: 100%;
+    height: 80%;
+    
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    justify-content: center;
+    
+}
+.reco-box{
+    width: 31%;
+    height: 85%;
+    background-color: #8CBCFD;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    border:#004AAD 1px solid;
+}
+.reco-img{
+    width: 100%;
+    height: 65%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.lappy{
+    max-width: 90%;
+    height: 100%;
+}
+.reco-description{
+    width: 100%;
+    height: 35%;
+    padding: 5px;
+}
+.small-ads{
+    width: 100%;
+    height: 15%;
+    
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+.smol-ads-inner{
+    width: 96%;
+    height: 90%;
+    background: rgb(140,188,253);
+    background: linear-gradient(129deg, rgba(140,188,253,1) 55%, rgba(0,74,173,1) 89%);
+    border-radius: 20px;
+    display: flex;
+    
+}
+.ads-logo{
+    width: 10%;
+    height: 100%;
+    
+}
+.ads-descript{
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.ads-imgdes{
+    width: 30%;
+    height: 100%;
+    
+}
+.ads-btn{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px;
+}
+.btn-ads{
+    width: 100%;
+    height: 35%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 500px;
+    background-color: #004bad00;
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+/* Hover effect with animation for buttons */
+.btnLearnmore,
+.btnBegin,
+.btn-ads,
+.sched-box,
+.reco-box,
+.btn-mini-profile {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition animation */
+}
+
+/* Hover effect for buttons */
+
+
+.btn-mini-profile:hover{
+    background-color: var(--primary-color); /* Change to primary color on hover */
+    color: var(--accent-color); /* Change text color to accent color on hover */
+    transform: scale(1.1); /* Zoom in effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+    border: #FFFFFF 1px solid;
+}
+.btnLearnmore:hover,
+.reco-box:hover{
+    background-color: #004AAD;
+    color: #ffffff;
+    transform: scale(1.1); /* Zoom in effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+}
+.btn-ads:hover, 
+.btnBegin:hover,
+.sched-box:hover{
+    background-color: #FFFFFF;
+    color: #004AAD;
+    transform: scale(1.1); /* Zoom in effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+}
+.smol-ads-inner {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition animation */
+}
+
+.smol-ads-inner:hover {
+    background-color: var(--primary-color); /* Change to primary color on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow */
+}
