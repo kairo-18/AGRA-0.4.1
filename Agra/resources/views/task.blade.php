@@ -82,10 +82,13 @@
 
         <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-exit"> </i> Logout
-                <span>Logout</span>
-            </a>
+            <form method="POST" id="logout" action="{{ route('logout') }}">
+                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
+                    <i class="lni lni-exit"> </i> Logout
+                    <span>Logout</span>
+                </a>
+                {{ csrf_field() }}
+            </form>
         </div>
 
         <div class="space p-4"></div>
@@ -143,15 +146,7 @@
 
         </div>
 
-        <div class="startPanel" id="startPanel">
-            <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
-            <button id="startButton" onclick="startGame()">Start</button>
-        </div>
 
-        <div class="endPanel" id="endPanel">
-            <h2 id="endText">Your score is: <span id="score2"></span></h2>
-            <button id="resetButton" onclick="reset()">Reset</button>
-        </div>
 
     </div>
     </div>
@@ -159,29 +154,56 @@
 
 </div>
 
+<div class="startPanel" id="startPanel">
+    <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
+    <button id="startButton" onclick="startGame()">Start</button>
+</div>
+
+<div class="endPanel" id="endPanel">
+    <h2 id="endText">Your score is: <span id="score2"></span></h2>
+</div>
+
+
+    <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
+        <input type="hidden" value="{{$user->id}}" name="userid">
+        <input type="hidden" value="{{$task->id}}" name="taskid">
+        <input type="hidden" value="{{$user->section->id}}" name="sectionid">
+        <input type="hidden" id="TotalScore" value="" name="score">
+        <input type="hidden" id="MaxScore" value="" name="MaxScore">
+        <input type="hidden" id="Percentage" value="" name="Percentage">
+        <input type="hidden" id="TaskStatus" value="" name="TaskStatus">
+        {{csrf_field()}}
+    </form>
+
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.0/dist/phaser.js"></script>
 <script type="text/javascript">
+
     var checkmarks = [
             @foreach($instructions as $instruction)
         {
             id: {{$loop->index}},
-            instruction: "{{$instruction->content}}",
+            instruction: "{{$instruction->instruction}}",
             answer: "{{$instruction->answer}}",
+            points: {{$instruction->points}},
             done: false
         },
         @endforeach
     ];
+
+    let maxMonsterHealth = (20 * checkmarks.length);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script src="/game.js"></script>
-<script src="/tutorial.js"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/index.js"></script>
+<script src="/game.js"></script>
+<script src="/tutorial.js"></script>
+
+
 
 
 

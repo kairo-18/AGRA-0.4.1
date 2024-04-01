@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instructions', function (Blueprint $table) {
+        Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('section_id')->nullable();
             $table->foreignId('task_id');
-            $table->text('instruction');
-            $table->text("answer");
-            $table->integer("points");
+            $table->string('status')->default('unfinished');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instructions');
+        Schema::dropIfExists('task_statuses');
     }
 };

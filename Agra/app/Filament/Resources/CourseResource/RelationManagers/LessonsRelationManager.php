@@ -31,7 +31,7 @@ class LessonsRelationManager extends RelationManager
                             ])
                             ->required(),
                     ]),
-                Forms\Components\Section::make("Category")
+                Forms\Components\Section::make("Lesson Material")
                     ->schema([
                         Forms\Components\FileUpload::make('LessonFile')
                         ->columns(1)

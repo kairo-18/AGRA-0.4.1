@@ -1,4 +1,6 @@
 var progressIncrement;
+let totalScore;
+let maxScore = 0;
 
 
 populateCheckmarks();
@@ -144,21 +146,28 @@ let globalScore = 0;
 function updateScore() {
     var score = 0;
     var scorePercentage = 0;
+    maxScore = 0;
 
     checkmarks.forEach(checkmark => {
         if (checkmark.done) {
-            score++;
+            score+= checkmark.points;
         }
     });
 
-    scorePercentage = Math.floor((score / checkmarks.length) * 100);
+    checkmarks.forEach(checkmark => {
+        maxScore += checkmark.points;
+    });
+
+    scorePercentage = Math.floor((score / maxScore) * 100);
 
     globalScore = scorePercentage;
+    totalScore = score;
     document.getElementById("score").innerHTML = score;
 
     // Calculate the width of the progress bar based on the score percentage
     var progressBarWidth = scorePercentage + "%";
     progressBar.style.width = progressBarWidth;
+
 }
 
 
@@ -260,6 +269,7 @@ function startIntervalTimer() {
             clearInterval(timer);
             clearInterval(timer1);
             document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
         }
     }, 1000);
 
@@ -294,6 +304,7 @@ function startIntervalTimer() {
             clearInterval(timer2);
             console.log("Done!");
             document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
         }
 
         if(globalScore === 100){
@@ -329,13 +340,34 @@ function startGame(){
 }
 
 
+
+
 function showResetPanel(){
     var endPanel = document.getElementById("endPanel");
     var score2 = document.getElementById("score2");
     endPanel.style.display = "block";
     score2.textContent = globalScore + "%";
+    setTimeout(function(){
+        submitScore();
+    }, 2000);
+
 }
 
+
+function submitScore(){
+    document.getElementById('TotalScore').value = totalScore;
+    document.getElementById('MaxScore').value = maxScore;
+    document.getElementById('Percentage').value = globalScore;
+    document.getElementById('TaskStatus').value = 'Done';
+    document.getElementById("scoreForm").submit();
+}
+
+function doneTaskStatus() {
+    document.getElementById('TaskStatus').value = 'Done';
+    //document.getElementById('taskStatusForm').submit();
+}
+
+
 function reset(){
-    window.location.reload();
+    window.location.href = '/';
 }

@@ -28,6 +28,14 @@ class Section extends Model
         return $this->hasMany(Enrollment::class);
     }
 
+    public function taskScores(){
+        return $this->hasMany(Score::class);
+    }
+
+    public function taskStatuses(){
+        return $this->hasMany(TaskStatus::class);
+    }
+
 
 
 }

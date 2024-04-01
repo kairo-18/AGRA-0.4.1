@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\TaskResource\RelationManagers;
+namespace App\Filament\Resources\SectionResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -10,23 +10,16 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class InstructionsRelationManager extends RelationManager
+class TaskScoresRelationManager extends RelationManager
 {
-    protected static string $relationship = 'instructions';
+    protected static string $relationship = 'taskScores';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('instruction')
+                Forms\Components\TextInput::make('score')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('answer')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('points')
-                    ->required()
-                    ->numeric()
                     ->maxLength(255),
             ]);
     }
@@ -34,11 +27,13 @@ class InstructionsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Instructions')
+            ->recordTitleAttribute('score')
             ->columns([
-                Tables\Columns\TextColumn::make('instruction'),
-                Tables\Columns\TextColumn::make('answer'),
-                Tables\Columns\TextColumn::make('points'),
+                Tables\Columns\TextColumn::make('user.name'),
+                Tables\Columns\TextColumn::make('task.TaskName'),
+                Tables\Columns\TextColumn::make('score'),
+                Tables\Columns\TextColumn::make('MaxScore'),
+                Tables\Columns\TextColumn::make('Percentage'),
             ])
             ->filters([
                 //

@@ -1,7 +1,7 @@
 let monsterTween;
 let playerTween;
 let monsterHealthBar, playerHealthBar;
-let maxMonsterHealth = 100, maxPlayerHealth = 100;
+let maxPlayerHealth = 100;
 let currentMonsterHealth = maxMonsterHealth;
 let currentPlayerHealth = maxPlayerHealth;
 let music;

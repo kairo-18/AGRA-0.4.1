@@ -26,4 +26,9 @@ class Task extends Model
     public function course(){
         return $this->belongsTo(Course::class);
     }
+
+    public function taskStatus(){
+        return $this->hasMany(TaskStatus::class);
+    }
+
 }

@@ -90,10 +90,13 @@
 
         <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-exit"> </i> Logout
-                <span>Logout</span>
-            </a>
+            <form method="POST" id="logout" action="{{ route('logout') }}">
+                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
+                    <i class="lni lni-exit"> </i> Logout
+                    <span>Logout</span>
+                </a>
+                {{ csrf_field() }}
+            </form>
         </div>
 
         <div class="space p-4"></div>

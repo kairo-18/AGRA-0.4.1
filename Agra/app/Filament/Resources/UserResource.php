@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
@@ -108,6 +109,7 @@ class UserResource extends Resource
     {
         return [
             //
+            RelationManagers\TaskScoresRelationManager::class,
         ];
     }
 

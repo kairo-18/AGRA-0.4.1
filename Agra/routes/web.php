@@ -31,6 +31,13 @@ Route::get('/agraCourses', function () {
     $userCourses = $user->courses;
     $sectionCourses = $user->section->courses;
 
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done"
+    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
+
+
     $courses = Course::all();
     // Get all courses except the ones the user is enrolled in
     $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
@@ -42,7 +49,7 @@ Route::get('/agraCourses', function () {
     return view('allCourses', [
         'courses' => $courses,
         'user' => $user,
-        'tasks' => Task::all(),
+        'tasks' => $tasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -54,10 +61,16 @@ Route::get('/courses', function () {
     $courses = $user->section->courses;
     $courses = $courses->merge($userCourses);
 
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done"
+    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
+
     return view('courses', [
         'courses'=> $courses,
         'user' => $user,
-        'tasks' => Task::all()
+        'tasks' => $tasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -72,6 +85,12 @@ Route::get('courses/{course:id}', function(Course $course) {
     $lessons = $course->lessons;
     $user = Auth::user();
     $tasks = $course->tasks;
+
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Filter out tasks that are marked as "Done"
+    $tasks = $tasks->whereNotIn('id', $doneTaskIds);
 
     return view('course', [
         'course' => $course,
@@ -96,7 +115,11 @@ Route::get('categories/{category:slug}' , function(Category $category) {
     $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
     $courses = $courses->whereNotIn('author', 'STI');
 
-    $tasks = Task::all();
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done"
+    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
 
 
 
@@ -115,7 +138,11 @@ Route::get('courses/categories/{category:slug}' , function(Category $category) {
         $query->where('id', $category->id);
     })->get();
 
-    $tasks = Task::all();
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done"
+    $tasks = Task::whereNotIn('id', $doneTaskIds)->get();
 
     return view('courses', [
         'courses'=> $courses,
@@ -127,9 +154,19 @@ Route::get('courses/categories/{category:slug}' , function(Category $category) {
 
 Route::get('/enroll', [\App\Http\Controllers\EnrollmentsController::class, 'store'])->name('enroll.store');
 
+Route::get('/score', [\App\Http\Controllers\ScoreController::class, 'store'])->name('score.store');
+
+Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->name('task.done');
+
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $tasks = $lesson->tasks;
     $user = Auth::user();
+
+    // Retrieve task IDs that are marked as "Done"
+    $doneTaskIds = \App\Models\TaskStatus::where('status', 'Done')->pluck('task_id')->toArray();
+
+    // Filter out tasks that are marked as "Done"
+    $tasks = $tasks->whereNotIn('id', $doneTaskIds);
 
     return view('lessons', [
         'lesson' => $lesson,
@@ -142,10 +179,12 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
 
 Route::get('tasks/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
+    $user = Auth::user();
 
     return view('task', [
         'task' => $task,
-        'instructions' => $instructions
+        'instructions' => $instructions,
+        'user' => $user
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

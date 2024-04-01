@@ -80,6 +80,8 @@ class SectionResource extends Resource
             RelationManagers\UsersRelationManager::class,
             RelationManagers\CoursesRelationManager::class,
             RelationManagers\EnrollmentsRelationManager::class,
+            RelationManagers\TaskScoresRelationManager::class,
+            RelationManagers\TaskStatusesRelationManager::class,
         ];
     }
 
