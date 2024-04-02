@@ -1,0 +1,278 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Resetting box model */
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
+.second-main{
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    height: 100%;
+    padding-top: 0.2rem;
+    display: flex;
+    flex-wrap: nowrap;
+
+}
+
+#sidebar {
+    width: 15%;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #004AAD;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar expand animation */
+#sidebar.expand {
+    width: 260px;
+    min-width: 260px;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+/* Styling for toggle button icon */
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+    margin: auto 0;
+}
+
+/* Styling for sidebar logo link */
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Hide sidebar logo and link text when sidebar is collapsed */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+/* Styling for sidebar navigation */
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+/* Styling for sidebar links */
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+/* Styling for icons in sidebar links */
+.sidebar-link i {
+    font-size: 1rem;
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+
+/* Hover effect for sidebar links */
+a.sidebar-link:hover {
+    color: #004AAD;
+    background-color: #FFFFFF;
+    border-left: 20px solid #004AAD;
+    transition: all 0.6s ease 0s;
+
+}
+
+/* Positioning for dropdown items in sidebar */
+.sidebar-item {
+    position: relative;
+}
+
+/* Styling for sidebar dropdown items */
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+    position: absolute;
+    top: 0;
+    left: 70px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+}
+
+/* Displaying dropdown items on hover */
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity: 1;
+}
+
+/* Styling for collapse/expand icon */
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+/* Styling for collapsed state of collapse/expand icon */
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+.container.upperleft{
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: 0px;
+    padding: 0px;
+    height: 50%;
+}
+.container.lowerleft{
+    display: flex;
+    flex-wrap: nowrap;
+    margin-left: 0px;
+    padding: 0px;
+    height: 50%;
+}
+.container.right{
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0px;
+    padding: 0px;
+}
+
+.container.panel-1{
+    width: 100%;
+    height: 100%;
+    margin: 1rem;
+    border-radius: 20px;
+    background-image: url("images/Panel1\ bg.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease-in-out;
+}
+.container.panel-1:hover{
+    transform: scale(1.08); /* Increase the scale on hover */
+}
+.container.panel-2{
+    width: 93%;
+    height: 760px;
+    margin: 1rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-image: url("images/Panel\ 2\ bg3.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container.panel-2:hover {
+    transform: scale(1.05); /* Increase the scale on hover */
+
+}
+
+.container.panel-3{
+    width: 47%;
+    height: 85%;
+    margin: 1rem;
+    margin-right: 0px;
+    margin-top: 2rem;
+    border-radius: 20px;
+    background-image: url("images/Panel3\ bg3.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease-in-out;
+}
+.container.panel-3:hover{
+    transform: scale(1.08); /* Increase the scale on hover */
+}
+
+.container.panel-4{
+    width: 47%;
+    height: 85%;
+    margin: 1rem;
+    margin-top: 2rem;
+    border-radius: 20px;
+    overflow: hidden;
+    background-image: url("images/Panel4\ bg2.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container.panel-4:hover{
+    transform: scale(1.08); /* Increase the scale on hover */
+}
+
+.panel-2 .btn-primary {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 30%;
+}
+
+.btn-primary:hover{
+    background-color: white;
+    color: #004AAD;
+    transition: 0.6s ease all 0s;
+    border-color: #FFFFFF;
+}

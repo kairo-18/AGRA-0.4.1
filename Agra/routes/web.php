@@ -21,6 +21,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/agra', function () {
+
+    $user = Auth::user();
+    $userCourses = $user->courses;
+    $sectionCourses = $user->section->courses;
+
+    // Retrieve task IDs that the current user has marked as "Done"
+    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+        $query->where('status', 'Done');
+    })->pluck('task_id')->toArray();
+
+    // Retrieve all tasks except those that are marked as "Done" for the current user
+    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+
+    $courses = Course::all();
+    // Get all courses except the ones the user is enrolled in
+    $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
+    $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
+    $courses = $courses->whereNotIn('author', 'STI');
+
+    return view('agra', [
+        'courses' => $courses,
+        'user' => $user,
+        'tasks' => $tasks,
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/', function () {
 
     $user = Auth::user();

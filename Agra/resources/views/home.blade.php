@@ -54,7 +54,7 @@
 
             <!-- Task -->
             <li class="sidebar-item">
-                <a href="/agraCourses" class="sidebar-link">
+                <a href="/agra" class="sidebar-link">
                     <i class="bi bi-triangle"> </i>
                     <span>AGRA</span>
                 </a>
