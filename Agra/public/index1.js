@@ -144,6 +144,7 @@ let globalScore = 0;
 
 
 // Define a map to keep track of whether each checkmark has already been processed
+var checkmarkProcessed = {};
 
 function updateScore() {
     var score = 0;
@@ -155,6 +156,22 @@ function updateScore() {
             score += checkmark.points;
         }
 
+        if (checkmark.done && !checkmarkProcessed[checkmark.answer]) {
+            axios.post('/checkmarkComplete', {
+                user: document.getElementById('username').value,
+                code: checkmark.answer,
+                points: '10'
+            })
+                .then(function(response) {
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+
+            // Mark the checkmark as processed
+            checkmarkProcessed[checkmark.answer] = true;
+        }
     });
 
     checkmarks.forEach(checkmark => {
@@ -205,6 +222,11 @@ function checkCodeByLine(editorLines) {
     });
 
     updateScore();
+
+    if(globalScore === 100){
+        document.getElementById("timer").innerHTML = "Done";
+        showResetPanel();
+    }
 }
 
 var tempCtr = 0;
@@ -338,7 +360,6 @@ function startGame(){
     document.getElementById("startPanel").style.display = "none";
     document.querySelector(".container1").style.pointerEvents = "auto";
     document.querySelector(".container1").style.filter = "blur(0px)";
-    startIntervalTimer();
 }
 
 
@@ -353,20 +374,6 @@ function showResetPanel(){
         submitScore();
     }, 2000);
 
-}
-
-
-function submitScore(){
-    document.getElementById('TotalScore').value = totalScore;
-    document.getElementById('MaxScore').value = maxScore;
-    document.getElementById('Percentage').value = globalScore;
-    document.getElementById('TaskStatus').value = 'Done';
-    document.getElementById("scoreForm").submit();
-}
-
-function doneTaskStatus() {
-    document.getElementById('TaskStatus').value = 'Done';
-    //document.getElementById('taskStatusForm').submit();
 }
 
 

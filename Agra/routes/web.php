@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\PusherBroadcast;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Course;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/checkmarkComplete', [App\Http\Controllers\PusherController::class, 'broadcast']);
 
 Route::get('/agra', function () {
 
@@ -240,6 +242,14 @@ Route::get('tasks/{task:id}' , function(Task $task) {
     return view('task', [
         'task' => $task,
         'instructions' => $instructions,
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/multiplayer' , function(Task $task) {
+    $user = Auth::user();
+
+    return view('taskMultiplayer', [
         'user' => $user
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
 
+    <script src="{{asset('js/app.js')}}"></script>
+
+
+
     <title>AGRA</title>
 </head>
 <body>
@@ -149,7 +153,7 @@
 
 
     </div>
-    </div>
+</div>
 
 
 </div>
@@ -160,20 +164,14 @@
 </div>
 
 <div class="endPanel" id="endPanel">
-    <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    <h2 id="endText">You win: Your score is: <span id="score2"></span></h2>
 </div>
 
 
-    <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
-        <input type="hidden" id="userid" value="{{$user->id}}" name="userid">
-        <input type="hidden" value="{{$task->id}}" name="taskid">
-        <input type="hidden" value="{{$user->section->id}}" name="sectionid">
-        <input type="hidden" id="TotalScore" value="" name="score">
-        <input type="hidden" id="MaxScore" value="" name="MaxScore">
-        <input type="hidden" id="Percentage" value="" name="Percentage">
-        <input type="hidden" id="TaskStatus" value="" name="TaskStatus">
-        {{csrf_field()}}
-    </form>
+<form method="GET" id="scoreForm" action="">
+    <input type="hidden" id="username" value="{{$user->name}}" name="username">
+</form>
+
 
 
 
@@ -182,26 +180,72 @@
 <script type="text/javascript">
 
     var checkmarks = [
-            @foreach($instructions as $instruction)
         {
-            id: {{$loop->index}},
-            instruction: "{{$instruction->instruction}}",
-            answer: "{{$instruction->answer}}",
-            points: {{$instruction->points}},
+            id: 0,
+            instruction: "Create an integer variable called num1 with the value of 10",
+            answer: "int num1 = 10;",
+            points: 10,
             done: false
         },
-        @endforeach
+        {
+            id: 1,
+            instruction: "Declare a boolean variable called isTrue and assign it the value true",
+            answer: "boolean isTrue = true;",
+            points: 10,
+            done: false
+        },
+        {
+            id: 2,
+            instruction: "Create a double variable called price with the value 19.99",
+            answer: "double price = 19.99;",
+            points: 10,
+            done: false
+        },
+        {
+            id: 3,
+            instruction: "Declare an array of integers called numbers with values [1, 2, 3, 4, 5]",
+            answer: "int[] numbers = {1, 2, 3, 4, 5};",
+            points: 10,
+            done: false
+        },
+        {
+            id: 4,
+            instruction: "Create a int variable called grade and assign it the value 90",
+            answer: "int grade = 90;",
+            points: 10,
+            done: false
+        }
     ];
 
     let maxMonsterHealth = (20 * checkmarks.length);
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/index.js"></script>
+<script src="/index1.js"></script>
 <script src="/game.js"></script>
 <script src="/tutorial.js"></script>
+<script>
+    var channel = Echo.channel('public');
+
+    var enemy = prompt("Enter the username of your enemy");
+
+    channel.listen('.chat', function(data) {
+        if(data.username !== "{{$user->name}}"){
+            if(data.username.toLowerCase() === enemy.toLowerCase()) {
+                monsterTween.play();
+                monster.play("punch", true);
+                delay(400).then(() => player.play("dmg", true));
+                if(data.message === "int grade = 90;"){
+                    alert("You Lose");
+                }
+            }
+        }
+    });
+
+</script>
 
 
 </body>

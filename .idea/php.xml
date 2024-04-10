@@ -161,6 +161,9 @@
       <path value="$PROJECT_DIR$/Agra/vendor/league/uri" />
       <path value="$PROJECT_DIR$/Agra/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/Agra/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/Agra/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/Agra/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/Agra/vendor/paragonie/sodium_compat" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

@@ -10,7 +10,6 @@
       <sourceFolder url="file://$MODULE_DIR$/Agra/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/Agra/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/carbonphp/carbon-doctrine-types" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/composer" />
@@ -155,6 +154,9 @@
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/laravel-package-tools" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/spatie/laravel-permission" />
       <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/symfony/html-sanitizer" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/paragonie/sodium_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/Agra/vendor/pusher/pusher-php-server" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
