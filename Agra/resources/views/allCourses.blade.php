@@ -190,7 +190,11 @@
                         <div class="time-subject">
                             <div class="subject-comprog-1">
                                 <div class="bilog"></div>
-                                <p><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                @if($task->TaskDifficulty == "Easy")
+                                    <p><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                @elseif($task->TaskDifficulty == "Intermediate")
+                                    <p><a href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                @endif
                                 <h6>{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</h6>
                             </div>
                         </div>
