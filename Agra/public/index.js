@@ -1,6 +1,9 @@
 var progressIncrement;
 let totalScore;
 let maxScore = 0;
+let userErrors = 0;
+let globalUserError = 0;
+let globalCorrectAnswers;
 
 
 populateCheckmarks();
@@ -172,39 +175,50 @@ function updateScore() {
     progressBar.style.width = progressBarWidth;
 }
 
-
+let globalCurrentCheckmark;
 
 function checkCodeByLine(editorLines) {
     var currentCheckmark = 0;
+    var errorDetected = false; // Flag to track if an error is detected in the user's code
+    var correctAnswers = 0;
 
-    if (!(currentCheckmark === checkmarks.length)) {
 
-        editorLines.forEach(line => {
-            if (currentCheckmark < checkmarks.length) {
-                if (line.includes(checkmarks[currentCheckmark].answer)) {
+    editorLines.forEach(line => {
+        if (currentCheckmark < checkmarks.length) {
+            if (line.includes(checkmarks[currentCheckmark].answer)) {
+                if(!checkmarks[currentCheckmark].done){
+                    userErrors--;
+                }
                     checkmarks[currentCheckmark].done = true;
                     checkCheckmarks();
                     console.log(checkmarks);
                     console.log(currentCheckmark);
+                    correctAnswers++;
                     currentCheckmark++;
-                }
+
+            } else {
+                errorDetected = true; // Set the flag if an error is detected
             }
-        });
-
-    }
-
-    editorLines.forEach(line => {
-        if (currentCheckmark < checkmarks.length) {
-            if (!(line.includes(checkmarks[currentCheckmark].answer))) {
-                checkmarks[currentCheckmark].done = false;
-                checkCheckmarks();
-            }
-
         }
-
     });
 
+    // Increment userErrors only if an error is detected and it's a new submission (not already flagged)
+    if(currentCheckmark < checkmarks.length) {
+        if (errorDetected && !checkmarks[currentCheckmark].done) {
+            userErrors++;
+            globalUserError = userErrors;
+            console.log("User Error:" + userErrors);
+
+
+        }
+    }
+
+    // Update the checkmarks and score
+    checkCheckmarks();
     updateScore();
+
+    globalCurrentCheckmark = currentCheckmark;
+    globalCorrectAnswers = correctAnswers;
 }
 
 var tempCtr = 0;
@@ -221,14 +235,28 @@ function whenPlayerAttack(){
 }
 
 
-editor.session.on('change', function (delta) {
-    //setEditorCode();
-    //checkCode();
-    var editorValue = editor.getValue();
-    var editorLines = editorValue.split("\n");
+// editor.session.on('change', function (delta) {
+//     //setEditorCode();
+//     //checkCode();
+//     var editorValue = editor.getValue();
+//     var editorLines = editorValue.split("\n");
+//
+//     checkCodeByLine(editorLines);
+//     whenPlayerAttack();
+// });
 
-    checkCodeByLine(editorLines);
-    whenPlayerAttack();
+
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        var editorValue = editor.getValue();
+        var editorLines = editorValue.split("\n");
+        var initialErrors = userErrors;
+
+        checkCodeByLine(editorLines);
+        whenPlayerAttack();
+
+
+    }
 });
 
 function runClick() {
@@ -256,6 +284,46 @@ function runClick() {
     req.send();
 }
 
+
+function startIntervalTimer2(rounds, roundDuration, timerDuration) {
+    let globalScore = 0;
+
+    const timer = setInterval(() => {
+        timerDuration--;
+        document.getElementById("timer").innerHTML = timerDuration;
+        if (timerDuration === 0) {
+            clearInterval(timer);
+            console.log("Time's up!");
+        }
+        if (globalScore === 100) {
+            clearInterval(timer);
+            clearInterval(roundTimer);
+            document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
+        }
+    }, 1000);
+
+    const roundTimer = setInterval(() => {
+        rounds--;
+        console.log(rounds);
+        monsterTween.play();
+        monster.play("punch", true);
+        delay(400).then(() => player.play("dmg", true));
+        if (rounds === 0) {
+            clearInterval(timer);
+            clearInterval(roundTimer);
+            console.log("Done!");
+            document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
+        }
+        if (globalScore === 100) {
+            clearInterval(timer);
+            clearInterval(roundTimer);
+            document.getElementById("timer").innerHTML = "Done";
+            showResetPanel();
+        }
+    }, (roundDuration + 1) * 1000);
+}
 
 function startIntervalTimer() {
 
@@ -321,6 +389,10 @@ function startIntervalTimer() {
 
 }
 
+
+
+
+
 function displayOutput(output) {
     //replace \n with <br>
     output = output.replace(/\n/g, "<br>");
@@ -348,7 +420,7 @@ function showResetPanel(){
     var endPanel = document.getElementById("endPanel");
     var score2 = document.getElementById("score2");
     endPanel.style.display = "block";
-    score2.textContent = globalScore + "%";
+    score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
     setTimeout(function(){
         submitScore();
     }, 2000);
@@ -373,3 +445,5 @@ function doneTaskStatus() {
 function reset(){
     window.location.href = '/';
 }
+
+

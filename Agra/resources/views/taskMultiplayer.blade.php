@@ -189,29 +189,29 @@
         },
         {
             id: 1,
-            instruction: "Declare a boolean variable called isTrue and assign it the value true",
-            answer: "boolean isTrue = true;",
+            instruction: "Create an integer variable called num2 with the value of 10",
+            answer: "int num2 = 10;",
             points: 10,
             done: false
         },
         {
             id: 2,
-            instruction: "Create a double variable called price with the value 19.99",
-            answer: "double price = 19.99;",
+            instruction: "Create a double variable called sum with the value of num1 added by num2",
+            answer: "double sum = num1 + num2;",
             points: 10,
             done: false
         },
         {
             id: 3,
-            instruction: "Declare an array of integers called numbers with values [1, 2, 3, 4, 5]",
-            answer: "int[] numbers = {1, 2, 3, 4, 5};",
+            instruction: "Compute the average and put it into a variable called average ( sum / 2 )",
+            answer: "double average = sum / 2;",
             points: 10,
             done: false
         },
         {
             id: 4,
-            instruction: "Create a int variable called grade and assign it the value 90",
-            answer: "int grade = 90;",
+            instruction: "Display the average using system print line",
+            answer: "System.out.println(average);",
             points: 10,
             done: false
         }
