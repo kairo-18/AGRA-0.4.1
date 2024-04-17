@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <title>AGRA</title>
 </head>
@@ -117,8 +118,9 @@
                         </div>
                     </div>
 
-                    <div class="coding-area" >
+                    <div class="coding-area" id="coding-area">
                         <div class="code-editor" id="code-editor"></div>
+                        <div class="code" id="code" style="display: none"></div>
                     </div>
 
                     <div class="instrucContainer">

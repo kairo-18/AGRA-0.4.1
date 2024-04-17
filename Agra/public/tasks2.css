@@ -9,6 +9,12 @@
     padding: 0;
 }
 
+.readonly-highlight{
+    background-color: green;
+    opacity: 0.2;
+    position: absolute;
+}
+
 /* Removing default link underline */
 a {
     text-decoration: none;
