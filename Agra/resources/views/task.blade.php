@@ -187,8 +187,8 @@
             @foreach($instructions as $instruction)
         {
             id: {{$loop->index}},
-            instruction: "{{$instruction->instruction}}",
-            answer: "{{$instruction->answer}}",
+            instruction: `{!! $instruction->instruction !!}`,
+            answer: `{!! $instruction->answer !!}`,
             points: {{$instruction->points}},
             done: false
         },

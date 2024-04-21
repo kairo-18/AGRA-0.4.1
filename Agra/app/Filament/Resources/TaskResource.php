@@ -101,11 +101,16 @@ class TaskResource extends Resource
         $query = parent::getEloquentQuery();
 
         // Check if the request is for the 'edit' page
-        if (Request::is('*/edit')) {
+        if (Request::is('*/*/edit')) {
             return $query;
         }
 
-        // Apply the lesson ID filter for other pages
-        return $query->where('lesson_id', request('record'));
+        // Check if there is an ID in the URL
+        if (request()->route('record')) {
+            // Apply the lesson ID filter
+            $query->where('lesson_id', request()->route('record'));
+        }
+
+        return $query;
     }
 }
