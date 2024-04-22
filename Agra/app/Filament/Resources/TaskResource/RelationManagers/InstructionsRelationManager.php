@@ -21,7 +21,7 @@ class InstructionsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('instruction')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('answer')
+                Forms\Components\Textarea::make('answer')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('points')

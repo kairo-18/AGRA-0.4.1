@@ -191,9 +191,11 @@ function checkCodeByLine(editorLines) {
     var errorDetected = false; // Flag to track if an error is detected in the user's code
     var correctAnswers = 0;
 
+    //this is to get the currentLine value the user is typing
     var currline = editor.getSelectionRange().start.row;
     var wholelinetxt = editor.session.getLine(currline);
     wholelinetxt = wholelinetxt.trim();
+
     var content = document.getElementById("code");
     content.innerHTML = editor.getValue();
 
@@ -207,7 +209,7 @@ function checkCodeByLine(editorLines) {
         correctAnswers++;
         // Disable the lines marked as correct
         console.log(getCorrectLineNumbers())
-        editor.insert("\n");
+        editor.insert("\n\n");
         readonly_lines("code-editor", content, getCorrectLineNumbers());
 
         delay(10).then(() => {
@@ -388,8 +390,8 @@ function whenPlayerAttack(){
 //     whenPlayerAttack();
 // });
 
-document.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey) {
         var editorValue = editor.getValue();
         var editorLines = editorValue.split("\n");
         var initialErrors = userErrors;
