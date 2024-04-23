@@ -265,5 +265,7 @@ Route::get('/multiplayer' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode']);
+
 
 require __DIR__.'/auth.php';

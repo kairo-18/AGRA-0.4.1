@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Fruitcake\Cors\CorsService;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\App;
 

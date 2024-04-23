@@ -26,6 +26,7 @@
         "webpack": "^5.91.0"
     },
     "dependencies": {
+        "cors": "^2.8.5",
         "laravel-mix": "^6.0.49",
         "pusher": "^5.2.0"
     }
