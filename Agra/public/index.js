@@ -187,6 +187,7 @@ function readonly_lines(id, content, line_numbers) {
     console.log("ran")
     refresheditor(id, content, readonly_ranges);
 }
+
 function checkCodeByLine(editorLines) {
     var errorDetected = false; // Flag to track if an error is detected in the user's code
     var correctAnswers = 0;
@@ -201,8 +202,8 @@ function checkCodeByLine(editorLines) {
 
     console.log("Line:" + wholelinetxt);
 
-    if (wholelinetxt === checkmarks[currentCheckmark].answer) {
-        console.log("Answer:" + checkmarks[currentCheckmark].answer)
+    if (wholelinetxt === checkmarks[currentCheckmark].answer.trim()) {
+        console.log("Answer:" + checkmarks[currentCheckmark].answer.trim())
         checkmarks[currentCheckmark].done = true;
         currentCheckmark++;
         checkCheckmarks();

@@ -183,17 +183,31 @@
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.0/dist/phaser.js"></script>
 <script type="text/javascript">
 
-    var checkmarks = [
-            @foreach($instructions as $instruction)
-        {
-            id: {{$loop->index}},
-            instruction: `{!! $instruction->instruction !!}`,
-            answer: `{!! $instruction->answer !!}`,
-            points: {{$instruction->points}},
-            done: false
-        },
-        @endforeach
-    ];
+    var checkmarks = [];
+    let counter = 0; // Initialize a counter for incrementing id
+
+    @foreach($instructions as $instruction)
+        <?php
+        // Split the answer into lines by newline character
+        $lines = explode("\n", $instruction->answer);
+
+        // Calculate points per line (assuming points are equally divided)
+        $pointsPerLine = $instruction->points / count($lines);
+        ?>
+
+    @foreach ($lines as $line)
+    checkmarks.push({
+        id: counter,
+        instruction: `{!! $instruction->instruction !!}`,
+        answer: `{!! $line !!}`,
+        points: {{ $pointsPerLine }}, // No need for number_format here
+        done: false
+    });
+    counter++; // Increment counter after each checkmark object
+    @endforeach
+    @endforeach
+
+    console.log(checkmarks)
 
     let maxMonsterHealth = (20 * checkmarks.length);
 </script>
