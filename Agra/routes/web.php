@@ -257,6 +257,17 @@ Route::get('tasks/ship/{task:id}' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('tasks/fitb/{task:id}' , function(Task $task) {
+    $instructions = $task->instructions;
+    $user = Auth::user();
+
+    return view('taskFITB', [
+        'task' => $task,
+        'instructions' => $instructions,
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/multiplayer' , function(Task $task) {
     $user = Auth::user();
 

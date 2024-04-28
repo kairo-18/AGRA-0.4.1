@@ -1,0 +1,196 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Resetting box model */
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Removing default link underline */
+a {
+    text-decoration: none;
+}
+
+/* Removing default list styling */
+li {
+    list-style: none;
+}
+
+/* Styling for heading */
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+/* Setting font family for the whole body */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper for sidebar and main content */
+.wrapper {
+    height: 100vh;
+    display: flex;
+}
+
+/* Main content */
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
+
+.second-main {
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    height: 100%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+    display: flex;
+
+}
+
+/* Sidebar container */
+#sidebar {
+    width: 10%;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #004AAD;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    font-size: 20px;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+/* Styling for toggle button icon */
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Sidebar logo styling */
+.sidebar-logo {
+    margin: auto 0;
+}
+
+/* Styling for sidebar logo link */
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* Hide sidebar logo and link text when sidebar is collapsed */
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+/* Styling for sidebar navigation */
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+/* Styling for sidebar links */
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+/* Styling for icons in sidebar links */
+.sidebar-link i {
+    font-size: 1rem;
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+
+/* Hover effect for sidebar links */
+a.sidebar-link:hover {
+    color: #004AAD;
+    background-color: #FFFFFF;
+    border-left: 20px solid #004AAD;
+    transition: all 0.6s ease 0s;
+}
+
+.line{
+    border: 1px solid #FFFFFF;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .toggle-btn {
+        padding: 0.75rem 1.25rem; /* Adjust button padding for smaller screens */
+    }
+
+    .sidebar-logo {
+        margin: 0; /* Remove margin for the logo on smaller screens */
+        text-align: center; /* Center align the logo */
+    }
+
+    .sidebar-logo a {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+    }
+}
+
+
+@media screen and (max-width: 2000px) {
+    #sidebar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #sidebar.expand,
+    #sidebar:not(.expand) {
+        width: auto;
+    }
+
+    .sidebar-link {
+        font-size: 0.8rem;
+    }
+
+    .toggle-btn {
+        padding: 0.75rem 1.25rem;
+    }
+
+    /* Hide sidebar link text when sidebar is collapsed */
+    #sidebar:not(.expand) a.sidebar-link span {
+        display: none;
+    }
+}
+
+.main{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
