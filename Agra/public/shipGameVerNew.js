@@ -68,7 +68,7 @@ function preload() {
 
 function create() {
     scene = this;
-
+    
     //Add Background
     this.add.image(0, 0, 'background').setOrigin(0).setScale(1.7, 1.5).setOrigin(0)
 
@@ -93,7 +93,7 @@ function create() {
     //Add Mute Button
     muteButton = this.add.image(350, 0, 'muteButton').setOrigin(0).setScale(0.15).setInteractive();
 
-    //Add Groups
+    //Add Groups 
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
         maxSize: 5,
@@ -108,11 +108,11 @@ function create() {
         velocityX: 100
     });
 
-    function hitTarget(monster, bullet) {
+    function hitTarget(monster, bullet) { 
         reduceMonsterHealth(20);
         monster.setVelocityX(0);
         monster.play('hurt');
-        bullet.destroy();
+        bullet.destroy(); 
         monster.on('animationcomplete', function (animation) {
             monster.play('run');
             if(monster.flipX == true){
@@ -203,7 +203,7 @@ function create() {
         frameRate: 15,
         repeat: -1
     });
-
+    
     people.children.iterate(function (child) {
         child.setBounceX(Phaser.Math.FloatBetween(0.4, 0.8));
         child.setCollideWorldBounds(true);
@@ -239,9 +239,9 @@ function update() {
     }
 
     // Update monster health bar position to follow the monster
-    monsterHealthBar.x = monster.x - 300;
-    monsterHealthBar.y = monster.y - 270;
-
+    monsterHealthBar.x = monster.x - 300; 
+    monsterHealthBar.y = monster.y - 270; 
+    
     // Ensure the health bar is always visible above other elements
     monsterHealthBar.depth = monster.depth + 1;
 
@@ -346,7 +346,7 @@ function triggerRandomAttack() {
     // Select a random child from the people group
     var randomIndex = Phaser.Math.RND.integerInRange(0, people.children.size - 1);
     var randomChild = people.children.entries[randomIndex];
-
+    
     // Get the coordinates of the selected child
     var childX = randomChild.x;
     var childY = randomChild.y;
@@ -356,12 +356,12 @@ function triggerRandomAttack() {
 
     // Destroy the selected child and the spawned sprite after a delay
     scene.time.delayedCall(500, function() {
-        // Spawn a sprite on top of the selected child
-        var attackSprite = scene.physics.add.sprite(childX, childY, 'explosion1').setScale(3).setDepth(2);
-        attackSprite.anims.play(Phaser.Math.RND.pick(explosions));
-        randomChild.destroy();
-        scene.time.delayedCall(500, function() {
-            attackSprite.destroy();
+    // Spawn a sprite on top of the selected child
+    var attackSprite = scene.physics.add.sprite(childX, childY, 'explosion1').setScale(3).setDepth(2);
+    attackSprite.anims.play(Phaser.Math.RND.pick(explosions));
+    randomChild.destroy();
+    scene.time.delayedCall(500, function() {
+        attackSprite.destroy();
         });
     });
 

@@ -208,13 +208,10 @@ function checkCodeByLine(editorLines) {
 }
 
 var tempCtr = 0;
-function whenPlayerAttack(){
-
-    if(tempCtr < checkmarks.length){
-        if(checkmarks[tempCtr].done){
-            //this is when player attack
-            bulletTween.play();
-            delay(450).then( () => monster.play("monsterHurt"));
+function whenPlayerAttack(people) {
+    if (tempCtr < checkmarks.length) {
+        if (checkmarks[tempCtr].done) {
+            fireBullet(scene);
             tempCtr++;
         }
     }
@@ -296,8 +293,8 @@ function startIntervalTimer() {
 
         rounds--;
         console.log(rounds);
-//monster attack
-        monster.play('monsterAttack');
+        //monster attack
+        triggerRandomAttack();
         delay(600).then( () => shakeCamera(scene));
 
         if (rounds === 0) {
