@@ -1,0 +1,490 @@
+body {
+    font-family: 'Poppins', sans-serif;
+
+}
+p{
+    padding: 0;
+    margin: 0;
+}
+h2{
+    padding: 0;
+    margin: 1;
+
+}
+
+/* --------------------Outer Divs---------------------------- */
+.wrapper {
+    display: flex;
+}
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    margin-left: 1.2rem;
+    min-height: 100vh;
+    width: 100%;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+    color: #004AAD;
+}
+.second-main{
+    border-radius: 20px;
+    background-color: #D6E2F1;
+    height: 100%;
+    overflow: auto;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+    display: flex;
+
+
+}
+
+/* --------------------Left Panel---------------------------- */
+.left-panel{
+
+    width: 75%;
+    height: 100%;
+    padding: 20px;
+}
+
+/* -------1 div---------- */
+.header-courses{
+
+    width: 100%;
+    height: 7vh;
+    padding: 10px;
+
+
+}
+.header-courses h1{
+    font-size: calc(30px + 5px);
+}
+
+/* -------2 div---------- */
+.nav-outer-direction{
+    width: 100%;
+    height: 5vh;
+    padding: 10px;
+    font-size: calc(8px + 5px);
+}
+.nav-inner-direction{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+}
+.btn-navigation{
+    width: 15%;
+    height: 100%;
+    border-radius: 10px;
+    border: #004AAD 1px solid;
+    color: #004AAD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------3 div---------- */
+.drpbtn-filter{
+    font-size: calc(10vw + 5px);
+    width: 100%;
+    height: 10%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+#drpbtn{
+    border: 1px solid #004AAD;
+    background-color: #004bad00;
+    color: #004AAD;
+    border-radius: 10px;
+    width: 14%;
+    height: 50%;
+    margin-left: 10px;
+    font-size: calc(.6vw + 5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#drpbtn:hover {
+    background-color: #004AAD;
+    color: #FFFFFF;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 74, 173, 0.5);
+}
+/* -------4 div---------- */
+.lbl-filter{
+
+    width: 100%;
+    height: 8%;
+    padding: 10px 60px 10px 60px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    font-size: calc(10px + 5px);
+}
+.lbl-filter h2{
+    font-size: calc(15px + 5px);
+}
+
+/* -------5 div---------- */
+.content-subj{
+    font-size: calc(.5vw + 10px);
+    font-weight: 300;
+    width: 100%;
+    height: 80vh;
+    padding: 10px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    row-gap: 20px;
+
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    overflow: auto;
+    transition: background-color 0.3s, color 0.3s;
+}
+.box-subj{
+
+    width: 45%;
+    height: 45%;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+    color: #004AAD;
+}
+.img-holder{
+    width: 100%;
+    height: 65%;
+    display: flex;
+    justify-items: center;
+    align-content: center;
+
+}
+.img-holder-inner{
+    width: 100%;
+    height: 80%;
+    display: flex;
+}
+#img-hold{
+    width: 100%;
+    height: 100%;
+    margin:auto;
+    border-radius: 10px;
+}
+.lbl-btn{
+    display: flex;
+    overflow: auto;
+}
+.lbl-sbj{
+    width: 90%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.lbl-sbj h3{
+    font-size: calc(1vw + .5rem);
+    font-weight: 300;
+}
+.lbl-box{
+    border: 1px solid #004AAD;
+    border-radius: 5px;
+    height: auto;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-sbj{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.content-subj .box-subj:hover {
+    background-color: #004AAD;
+    color: #FFFFFF;
+    box-shadow: 0 0 50px rgba(0, 74, 173, 0.5);
+    transform: scale(1.05);
+
+}
+
+
+
+/* --------------------Right Panel---------------------------- */
+.right-panel{
+
+    width: 25%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    position: sticky;
+}
+
+/* -------1 div---------- */
+.student-profile{
+
+    width: 100%;
+    height: 7%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+.student-profile-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 25px;
+}
+
+
+/* -------2 div---------- */
+.agenda-panel{
+    font-size: calc(.6vw + 5px);
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+    height: 30%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+
+
+}
+.lbl-agenda{
+    font-size: calc(.5vw + 7px);
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+}
+.lbl-agenda h4{
+    font-size: calc(1vw + 10px);
+}
+/*
+.container-now{
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    flex-direction: column;
+    color: #706F6F;
+    margin-bottom: 10px;
+}
+.box-now{
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF;
+    border-radius: 10px;
+    background-color: #004AAD;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    column-gap: 10px;
+    padding: 10px;
+}
+.box-now-inner{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+}*/
+.container-tomorrow{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    color: #706F6F;
+    row-gap: 10px;
+    overflow: auto;
+}
+.box-tom{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #D6E2F1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    column-gap: 10px;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+.box-tom-inner{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+}
+.box-tom:hover{
+    background-color:#004AAD ;
+    color: #ffffff;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 74, 173, 0.5);
+}
+/*
+.container-otherDay{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    color: #706F6F;
+
+}
+.box-oday{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #D6E2F1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    overflow: hidden;
+    column-gap: 10px;
+    padding: 10px;
+}
+.box-oday-inner{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+}
+
+ */
+
+/* -------3 div---------- */
+
+
+/* -------4 div---------- */
+.calendar-panel {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+    height: 45%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.lbl-title{
+    font-size: calc(.5vw + 7px);
+    display: flex;
+    justify-content: space-between;
+    height: 12%;
+    width: 100%;
+}
+.lbl-title h3{
+    font-size: calc(1vw + 10px);
+}
+.calendar {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    height: 88%;
+    overflow: auto;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-cell {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    font-weight: bold;
+}
+
+.week-cell {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
+.calendar-cell.today {
+    background-color: #004AAD;
+    color: #FFFFFF;
+}
+
+
+@media screen and (max-width: 1400px) {
+    .second-main {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+
+    }
+    .left-panel{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+    .right-panel{
+        width: 100% ;
+        height: 50%;
+
+    }
+    .student-profile, .student-profile-inner{
+        display: none;
+    }
+    .content-subj{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+
+        width: 100%;
+        height: 100%;
+        column-gap: 50px;
+    }
+    .box-subj{
+        width: 100%;
+        height: 50%;
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        color: #004AAD;
+    }
+
+    .image-holder, .image-holder-inner{
+        display: none;
+    }
+    #img-hold{
+        display: none;
+    }
+    .lbl-btn{
+        display: flex;
+        height: 100%;
+    }
+    #drpbtn{
+        height: 100%;
+
+    }
+    .drpbtn-filter h5{
+        font-size: calc(8px + 7px);
+    }
+
+
+
+}

@@ -193,6 +193,12 @@ Route::get('courses/categories/{category:slug}' , function(Category $category) {
         $query->where('id', $category->id);
     })->get();
 
+    $secCourses = $user->section->courses()->whereHas('category', function ($query) use ($category) {
+        $query->where('id', $category->id);
+    })->get();
+
+    $courses = $courses->merge($secCourses);
+
     // Retrieve task IDs that the current user has marked as "Done"
     $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
         $query->where('status', 'Done');

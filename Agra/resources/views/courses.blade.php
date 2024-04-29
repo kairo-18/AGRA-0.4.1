@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="/course.css">
 </head>
 <body>
 
@@ -99,121 +100,189 @@
     <!-- Main Content -->
     <div class="main">
         <div class="second-main">
-            <!--Middle Cotent-->
-            <div class="middle-bar">
-                <div class="top-middle-bar">
-                    <div class="navigations-middle-bar">
-
-                        <!--Courses Title-->
-                        <div class="course-h1-name">
-                            <h1 class="course-h1">Your Courses</h1>
-                        </div>
-
-                    </div>
-
-                    <div class="navigations-middle-filter">
-                        <div class="filter-name m-3">Filter: </div>
 
 
-                        <!--Language Dropdown-->
-                        <div class="dropdown m-3">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Language
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                <li><a class="dropdown-item" href="/courses/categories/java">Java</a></li>
-                                <li><a class="dropdown-item" href="/courses/categories/csharp">C#</a></li>
-                                <!-- Add more dropdown items as needed -->
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="courses-div">
-                @foreach($courses as $course)
-
-                    <!--Course Box-->
-                    <div class="courses-box">
-                        <div class="course-inner-box">
-                            <div class="image-container">
-                                <img src="/laptop with code.png" alt="laptop" class="image m-3">
-                            </div>
-
-                            <div class="name-container m-3">
-                                <h1>{{$course->CourseName}}</h1>
-                                <p class="subject-java mb-5">{{$course->CourseDescription}}</p>
-                            </div>
-                        </div>
-
-                        <div class="btn-start-course">
-                            <button type="button" onclick="location.href='/courses/{{$course->id}}'" class="btn btn-primary rounded-circle  m-3 btn-lg">
-                                <i class="bi bi-play fs-1"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                @endforeach
+            <!--Note: flex-direction of this panel is column-->
+            <div class="left-panel">
+                <!--1st div  -->
+                <div class="header-courses">
+                    <h1>Courses</h1>
                 </div>
 
-            </div>
-            <div class="right-bar">
-
-                <div class="student-info">
-                    <div class="student-name">
-                        <div class="img-class">
-                            <form method="GET" id="profileEdit" action="{{ route('profile.edit') }}">
-                                <a href="javascript:document.getElementById('profileEdit').submit();">
-                                    <img src="/profileIcon50.png" alt="profile">
-                                </a>
-                                {{ csrf_field() }}
-                            </form>
+                <!--2nd div  -->
+                <div class="nav-outer-direction"><!--NEED TO COMPONENT-->
+                    <div class="nav-inner-direction">
+                        <div class="btn-navigation">
+                            <span>COURSES</span>
                         </div>
-                        <div class="name">
-                            <h5>{{$user->name}}</h5>
-                            <h6>{{$user->email}}</h6>
-                        </div>
-
                     </div>
-
                 </div>
 
-                <div class="task-box">
-                    <div class="title m-3"><h2>Task</h2><h6>(Deadlines)</h6></div>
+                <!--3rd div  -->
+                <div class="drpbtn-filter"><!--NEED TO COMPONENT-->
+                    <label for="cars"><h5>Filter:</h5></label>
+                    <!-- language -->
+                    <select id="drpbtn" name="language" onchange="goToPage();">
+                        <option disabled selected>Language</option>
+                        <option value="java">Java</option>
+                        <option value="c#">C#</option>
+                    </select>
 
+                    <select id="drpbtn" name="subject">
+                        <option disabled selected>Subject</option>
+                        <option value="java" >Computer programming 1</option>
+                        <option value="c#">Data structures</option>
+                    </select>
 
-                    @foreach($tasks as $task)
-                        <div class="time-subject">
-                            <div class="subject-comprog-1">
-                                <div class="bilog"></div>
-                                @if($task->TaskDifficulty == "Easy")
-                                    <p><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
-                                @elseif($task->TaskDifficulty == "Intermediate")
-                                    <p><a href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>
-                                @endif
-                                <h6>{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</h6>
+                    <select id="drpbtn" name="subject">
+                        <option disabled selected>Teacher</option>
+                        <option value="java">Mr.Dungo</option>
+                        <option value="c#">Mr.Batchoy</option>
+                    </select>
+                </div>
+
+                <!--4th div  -->
+                <div class="lbl-filter">
+                    <h2>Filtered: </h2><p>[based on user filter seclect]</p>
+                </div>
+
+                <!--5th div  -->
+                <div class="content-subj">
+
+                    @foreach($courses as $course)
+                    <div class="box-subj">
+                        <div class="img-holder">
+                            <div class="img-holder-inner">
+                                <img src="/image-course.png" alt="img" id="img-hold">
+                            </div>
+
+                        </div>
+                        <div class="lbl-btn">
+                            <div class="lbl-sbj">
+                                <h3>{{$course->CourseName}}</h3>
+                                <div class="lbl-box">
+                                    <p>{{$course->category->name}}</p>
+                                </div>
+                                <p>STI</p>
+                            </div>
+
+                            <div class="btn-sbj">
+                                <button type="button" onclick="location.href='/courses/{{$course->id}}'" style="background-color: transparent; border: 0px;">
+                                    <h2> > </h2>
+                                </button>
                             </div>
                         </div>
-
-                        <div class="line"></div>
-
+                    </div>
                     @endforeach
 
 
 
                 </div>
+            </div>
 
-                <div class="calendar-box">
-                    <div class="header">
-                        <button class="calendar-btn" id="prevBtn">&lt;</button>
-                        <div id="monthYear"></div>
-                        <button class="calendar-btn" id="nextBtn">&gt;</button>
+            <!--Note: flex-direction of this panel is column-->
+            <div class="right-panel">
+
+                <!--1st div  -->
+                <div class="student-profile">
+                    <div class="student-profile-inner">
+                        <p>Lance Rizzel Cortel</p>
+                        <h6>@cortel.123456</h6>
                     </div>
-                    <div class="days"></div>
+                    <div class="img-profile-inner">
+                        <form method="GET" id="profileEdit" action="{{ route('profile.edit') }}">
+                            <a href="javascript:document.getElementById('profileEdit').submit();">
+                                <img src="/profileIcon50.png" alt="profile">
+                            </a>
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
                 </div>
 
+
+
+                <!--2nd div  -->
+                <div class="agenda-panel">
+                    <div class="lbl-agenda">
+                        <h4>Agenda</h4>
+                        <a href="">view</a>
+                    </div>
+                    <div class="container-tomorrow">
+                        <p></p>
+                        @foreach($tasks as $task)
+                            <div class="box-tom">
+                                <div class="box-tom-inner">
+                                    <p>{{ Carbon\Carbon::parse($task->Deadline)->format('m/d/y h:i A') }}</p>
+                                    @if($task->TaskDifficulty == "Easy")
+                                        <p><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                    @elseif($task->TaskDifficulty == "Intermediate")
+                                        <p><a href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                    @endif
+                                </div>
+
+                            </div>
+                        @endforeach
+                    </div>
+
+{{--                    @foreach($tasks as $task)--}}
+{{--                        <div class="container-now">--}}
+{{--                            <p>Now: </p>--}}
+{{--                            <div class="box-now">--}}
+{{--                                <div class="box-now-inner">--}}
+{{--                                    @if($task->TaskDifficulty == "Easy")--}}
+{{--                                        <p><a style="color:white;" href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>--}}
+{{--                                    @elseif($task->TaskDifficulty == "Intermediate")--}}
+{{--                                        <p><a style="color:white;" href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
+
+
+
+
+
+                </div>
+
+                <!--4th div  -->
+                <div class="calendar-panel">
+                    <div class="lbl-title">
+                        <h3>Calendar</h3>
+                        <a href="">view</a>
+                    </div>
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <button id="prevMonthBtn">&lt;</button>
+                            <h4 id="currentMonthYear"></h4>
+                            <button id="nextMonthBtn">&gt;</button>
+                        </div>
+                        <div class="week-header">
+                            <div class="week-cell">Sun</div>
+                            <div class="week-cell">Mon</div>
+                            <div class="week-cell">Tue</div>
+                            <div class="week-cell">Wed</div>
+                            <div class="week-cell">Thu</div>
+                            <div class="week-cell">Fri</div>
+                            <div class="week-cell">Sat</div>
+                        </div>
+
+                        <div class="calendar-body" id="calendarBody"></div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <script src="/course-new.js"></script>
             </div>
+
         </div>
     </div>
+</div>
 </div>
 
     <!-- Bootstrap JS Bundle -->
@@ -223,6 +292,17 @@
     <!-- Custom Script -->
     <script src="/courses.js"></script>
 
+<script>
+    function goToPage() {
+        var dropdown = document.getElementById("drpbtn");
+        var selectedValue = dropdown.options[dropdown.selectedIndex].value;
+        if (selectedValue === "java") {
+            window.location.href = "/courses/categories/java";
+        } else if (selectedValue === "c#") {
+            window.location.href = "/courses/categories/csharp";
+        }
+    }
+</script>
 
 </body>
 </html>
