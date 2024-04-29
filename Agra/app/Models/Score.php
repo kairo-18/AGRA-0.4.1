@@ -19,4 +19,7 @@ class Score extends Model
         return $this->belongsTo(Task::class);
     }
 
+    public function taskScore(){
+        return $this->belongsToMany(Task::class, 'task_score');
+    }
 }

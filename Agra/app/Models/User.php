@@ -56,11 +56,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Task::class, 'task_statuses');
     }
 
-    public function scores(){
-        return $this->belongsToMany(Score::class, 'scores');
-    }
-
-
     public function section(){
         return $this->belongsTo(Section::class);
     }
@@ -78,12 +73,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Enrollment::class);
     }
 
-    public function taskScores(){
-        return $this->hasMany(Score::class);
-    }
-
     public function taskStatus(){
         return $this->belongsToMany(TaskStatus::class, 'task_statuses');
+    }
+
+    public function taskScores(){
+        return $this->hasMany(Score::class);
     }
 
     public function taskStatuses(){

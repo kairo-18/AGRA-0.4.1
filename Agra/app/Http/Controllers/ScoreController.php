@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use App\Models\Score;
 use App\Models\Task;
+use App\Models\TaskScore;
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,14 @@ class ScoreController extends Controller
         $taskStatus->save();
 
         $score->save();
+
+        $taskScore = new TaskScore();
+        $taskScore->user_id = $score->user_id;
+        $taskScore->score_id = $score->id;
+        $taskScore->task_id = $score->task_id;
+        $taskScore->timestamps = false;
+        $taskScore->save();
+
         return redirect('/courses');
     }
 

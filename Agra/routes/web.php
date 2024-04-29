@@ -276,6 +276,90 @@ Route::get('/multiplayer' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/grades', function(Task $task) {
+    $user = Auth::user();
+    $scores = \App\Models\Score::where('user_id', $user->id)->get();
+    $tasks = $user->tasks;
+
+    return view('taskGrades', [
+        'user' => $user,
+        'scores' => $scores,
+        'tasks' => $tasks
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('lessons/{course:id}/{lesson:id}/grades' , function(Course $course, Lesson $lesson) {
+    $user = Auth::user();
+
+    $tasks = \App\Models\Task::whereHas('lesson', function ($query) use ($lesson) {
+        $query->where('id', $lesson->id);
+    })
+        ->whereHas('course', function ($query) use ($course) {
+            $user = Auth::user();
+            $query->whereHas('enrollments', function ($query) use ($user) {
+                $query->where('section_id', $user->section->id);
+
+            });
+        })
+        ->get();
+
+    $doneTasks = \App\Models\Task::whereHas('lesson', function ($query) use ($lesson) {
+        $query->where('id', $lesson->id);
+    })
+        ->whereHas('course', function ($query) use ($course, $user) {
+            $query->whereHas('enrollments', function ($query) use ($user) {
+                $query->where('section_id', $user->section->id);
+            });
+        })
+        ->whereHas('taskStatus', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->get();
+
+
+    return view('taskGrades', [
+        'lesson' => $lesson,
+        'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('courses/{course:id}/grades' , function(Course $course) {
+    $user = Auth::user();
+
+    $tasks = \App\Models\Task::whereHas('course', function ($query) use ($course) {
+            $user = Auth::user();
+            $query->whereHas('enrollments', function ($query) use ($user) {
+                $query->where('section_id', $user->section->id);
+
+            });
+        })
+        ->get();
+
+    $doneTasks = \App\Models\Task::whereHas('course', function ($query) use ($course, $user) {
+            $query->whereHas('enrollments', function ($query) use ($user) {
+                $query->where('section_id', $user->section->id);
+            });
+        })
+        ->whereHas('taskStatus', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->get();
+
+
+    return view('taskGrades', [
+        'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode']);
 
 

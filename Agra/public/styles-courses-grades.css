@@ -1,0 +1,287 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reddit+Mono:wght@200..900&display=swap');
+
+body {
+    margin: 0%;
+    padding: 0%;
+    font-family: "Montserrat", sans-serif;
+}
+h4{
+    margin: 0;
+    padding: 0;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.main-all {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 50%;
+}
+
+.sidebar-nav {
+    width: 10%;
+}
+
+.nav-pills > li > a {
+    border-radius: 0;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: absolute;
+    left: 250px;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: hidden;
+    background: #004AAD;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.fixed-brand {
+    width: auto;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 2px;
+}
+
+.sidebar-nav li {
+    text-indent: 15px;
+    line-height: 100px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-left: #ffffff 5px solid;
+}
+
+.hidden-text {
+    display: none;
+}
+
+#sidebar-wrapper:hover .hidden-text {
+    display: inline;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.active {
+    row-gap: 20px;
+}
+
+@media (min-width: 768px) {
+    #wrapper {
+        padding-left: 100px;
+    }
+
+    .fixed-brand {
+        width: 250px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 100px;
+    }
+
+    #wrapper.toggled-2 #sidebar-wrapper {
+        width: 100px;
+    }
+
+    #wrapper.toggled-2 #sidebar-wrapper:hover {
+        width: 200px;
+    }
+}
+
+.main {
+    width: 100%;
+    height: 99.9vh;
+    background-color: #004AAD;
+    padding: 20px 20px 20px 0px;
+}
+
+.second-main {
+    width: 100%;
+    height: 100%;
+    background-color: #D6E2F1;
+    padding: 0px 50px 20px 50px;
+    border-radius: 20px;
+}
+
+/* 1st main div*/
+.courses-profile {
+    width: 100%;
+    height: 10%;
+}
+
+.courses-profile-inner {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.name-profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.name-profile-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 25px;
+}
+
+#name-coursez {
+    font-size: 50px;
+    font-weight: 700;
+    color: #004AAD;
+}
+
+/* 2nd main div */
+.mini-nav {
+    width: 100%;
+    height: 6%;
+    padding: 5px;
+}
+
+.mini-nav-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.mini-nav-home-inner {
+    width: 15rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.mini-nav-grades-inner {
+    width: 15rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #004AAD;
+    border-radius: 10px;
+}
+
+/* 3rd main div */
+.panel-title {
+    width: 100%;
+    height: 7%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#panel-grades-color {
+    color: #004AAD;
+    font-weight: 600;
+}
+
+#panel-subject-size {
+    font-size: 25px;
+    font-weight: 300;
+    color: #004AAD;
+}
+
+/* 4th main div */
+.panel-content {
+    width: 100%;
+    height: 75%;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 20px;
+    overflow-x: auto; /* Enable horizontal scroll if needed */
+}
+
+.panel-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Set background color */
+    border-radius: 20px; /* Apply border radius */
+    border: 2px solid #004AAD; /* Add border */
+}
+
+.panel-table th, .panel-table td {
+    padding: 12px; /* Adjust padding */
+    text-align: left;
+    border-bottom: 2px solid #004AAD; /* Add border bottom */
+    font-size: 20px; /* Adjust font size */
+}
+
+.panel-table th {
+    background-color: #004AAD;
+    color: white;
+    font-weight: 600; /* Adjust font weight */
+}
+
+.panel-table tbody tr:last-child td {
+    border-bottom: none; /* Remove border bottom for last row */
+}

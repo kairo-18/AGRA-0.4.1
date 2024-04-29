@@ -27,8 +27,13 @@ class Task extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function taskStatus(){
-        return $this->hasMany(TaskStatus::class);
+    public function score(){
+        return $this->belongsToMany(Score::class, 'task_score');
     }
+
+    public function taskStatus(){
+        return $this->belongsToMany(Task::class, 'task_statuses');
+    }
+
 
 }
