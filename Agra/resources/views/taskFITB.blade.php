@@ -126,7 +126,7 @@
                     <div class="coding-area" id="coding-area" style="height: 30%">
                         <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                             <input type="text" name="userAnswer" placeholder="Answer here" id="userAnswer" style="width: 50%; height: 50%;">
-                            <button onclick="submitAnswer();" style="width: 30%; height: 50%;">Go</button>
+                            <button id ="submit" onclick="submitAnswer();" style="width: 30%; height: 50%;">Go</button>
                         </div>
                     </div>
 
@@ -213,8 +213,8 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/FITB.js"></script>
 <script src="/game.js"></script>
+<script src="/FITB.js"></script>
 <script src="/tutorial.js"></script>
 
 

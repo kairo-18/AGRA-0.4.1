@@ -75,7 +75,7 @@ body {
 .second-main{
     border-radius: 20px;
     background-color: #D6E2F1;
-    height: 100rem;
+    height: 55.50rem;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
     overflow: auto;
 }

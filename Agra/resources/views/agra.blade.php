@@ -50,29 +50,29 @@
 
     <!-- Main Content -->
     <x-divlayouts>
-            <div class = "container left">
-                <div class="container upperleft">
-                    <div class="container panel-1"></div>
-                </div>
-                <div class = "container lowerleft">
-                    <div class="container panel-3"></div>
-                    <div class="container panel-4">
-                    </div>
+        <div class = "container left">
+            <div class="container upperleft">
+                <div class="container panel-1"></div>
+            </div>
+            <div class = "container lowerleft">
+                <div class="container panel-3"></div>
+                <div class="container panel-4">
                 </div>
             </div>
-            <div class="container right">
-                <div class="container panel-2">
-                    <form action="/agraCourses">
+        </div>
+        <div class="container right">
+            <div class="container panel-2">
+                <form action="/agraCourses">
                     <button class="btn btn-primary" type="submit">
                         GET STARTED
                         <i class="bi bi-arrow-right-circle"></i>
                     </button>
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
 
 
-        </x-divlayouts>
+    </x-divlayouts>
 </div>
 
 <!-- Bootstrap JS Bundle -->
@@ -88,4 +88,3 @@
 </body>
 
 </html>
-
