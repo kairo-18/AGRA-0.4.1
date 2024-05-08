@@ -50,7 +50,7 @@
                 <div class="modules-div">
                     <h3 class="pdf">Java</h3>
                     <div class="modules-box">
-                        <iframe frameborder="0" width="560" height="315" src="{{asset("storage/public/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
+                        <iframe frameborder="0" width="560" height="315" src="{{asset("storage/app/public/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
                     </div>
                     <h6 class="pdf">IT2207_Syllabus_and_Course_Outline.pdf</h6>
                 </div>
