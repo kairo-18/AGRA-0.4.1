@@ -5,6 +5,7 @@ let maxScore = 0;
 
 populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
+calculateMaxMonsterHealth(checkmarks.length);
 
 var progressBar = document.querySelector(".progress-barc");
 var editor = ace.edit("code-editor");
@@ -234,8 +235,7 @@ function whenPlayerAttack(){
 
     if(tempCtr < checkmarks.length){
         if(checkmarks[tempCtr].done){
-            playerTween.play();
-            player.play("punch", true);
+            playerMove(scene);
             delay(400).then(() => monster.play("dmg", true));
             tempCtr++;
         }

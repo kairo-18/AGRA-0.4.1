@@ -224,8 +224,8 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/game1.js"></script>
 <script src="/index1.js"></script>
-<script src="/game.js"></script>
 <script src="/tutorial.js"></script>
 <script>
     var channel = Echo.channel('public');
@@ -235,8 +235,7 @@
     channel.listen('.chat', function(data) {
         if(data.username !== "{{$user->name}}"){
             if(data.username.toLowerCase() === enemy.toLowerCase()) {
-                monsterTween.play();
-                monster.play("punch", true);
+                monsterMove(scene);
                 delay(400).then(() => player.play("dmg", true));
                 if(data.message === "int grade = 90;"){
                     alert("You Lose");
