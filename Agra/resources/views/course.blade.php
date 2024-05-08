@@ -24,87 +24,13 @@
 <!-- Sidebar Wrapper -->
 <div class="wrapper">
 
-    <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="space p-3"></div>
+    <x-sidebar>
 
-        <!-- Sidebar Header -->
-        <div class="d-flex">
-
-            <!-- Toggle Button -->
-            <button class="toggle-btn mx-4" type="button">
-                <img src="/image-removebg-preview (23) 1.png">
-            </button>
-            <!-- Sidebar Logo -->
-            <div class="sidebar-logo">
-                <a href="#">CodzSword</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="sidebar-nav">
-
-            <!-- Profile -->
-            <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
-                    <i class="bi bi-house"> </i> Home
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <!-- Task -->
-            <li class="sidebar-item">
-                <a href="/agra" class="sidebar-link">
-                    <i class="bi bi-triangle"> </i>AGRA
-                    <span>AGRA</span>
-                </a>
-            </li>
-
-            <!-- Notification -->
-            <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
-                    <i class="bi bi-book">  </i> Course
-                    <span>Course</span>
-                </a>
-            </li>
-
-            <!-- Setting -->
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-question-circle"> </i> Help
-                    <span>Setting</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="line"></div>
-
-        <!-- Setting -->
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-cog"> </i> Setting
-                <span>Setting</span>
-            </a>
-        </li>
-        </ul>
-
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer">
-            <form method="POST" id="logout" action="{{ route('logout') }}">
-                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
-                    <i class="lni lni-exit"> </i> Logout
-                    <span>Logout</span>
-                </a>
-                {{ csrf_field() }}
-            </form>
-        </div>
-
-        <div class="space p-4"></div>
-    </aside>
+    </x-sidebar>
 
     <!-- Main Content -->
-    <div class="main">
-        <div class="second-main">
+    <x-divlayouts>
+
             <!--Middle Cotent-->
             <div class="middle-bar">
                 <div class="top-middle-bar">
@@ -127,7 +53,7 @@
                 <div class="courses-div">
                     <!--Course Box-->
                     @foreach($lessons as $lesson)
-                    <div class="courses-box">
+                    <div class="courses-box shadow">
                         <div class="course-inner-box">
                             <div class="image-container">
                                 <img src="/laptop with code.png" alt="laptop" class="image m-3">
@@ -175,49 +101,13 @@
                 </div>
 
                 <!--Progress panel-->
-                <div class="progress-box">
-                    <h4>Progress</h4>
-
-                    <div class="progress-box-inner">
-
-                        <div class="prog-box">
-                            <div class="progress-circle">
-                                <span class="progress-text">50%</span>
-                            </div>
-                            <div class="prog-lessons">
-                                <h4>Introduction to Java</h4>
-                                <h6>Overview of lessons</h6>
-                            </div>
-                        </div>
-
-                        <div class="prog-box">
-                            <div class="progress-circle">
-                                <span class="progress-text">60%</span>
-                            </div>
-                            <div class="prog-lessons">
-                                <h4>Syntax</h4>
-                                <h6>Overview of lessons</h6>
-                            </div>
-                        </div>
-
-                        <div class="prog-box">
-                            <div class="progress-circle">
-                                <span class="progress-text">20%</span>
-                            </div>
-                            <div class="prog-lessons">
-                                <h4>Loops</h4>
-                                <h6>Overview of lessons</h6>
-                            </div>
-                        </div>
-
-
-
-                    </div>
+                <div class="progress-box shadow">
+                    <x-calendar></x-calendar>
                 </div>
 
 
                 <!--Task panel-->
-                <div class="task-box">
+                <div class="task-box shadow">
                     <div class="title m-3"><h4>Task</h4><h6>(Deadlines)</h6></div>
 
                     <div class="task-box-inner">
@@ -227,10 +117,13 @@
                                 <div class="subject-comprog-1">
                                     <div class="bilog"></div>
                                     @if($task->TaskDifficulty == "Easy")
-                                        <p><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                        <p><a  href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></p>
                                     @elseif($task->TaskDifficulty == "Intermediate")
-                                        <p><a href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                        <p><a  href="/tasks/ship/{{$task->id}}">{{$task->TaskName}}</a></p>
+                                    @elseif($task->TaskDifficulty == "Beginner")
+                                        <p><a href="/tasks/fitb/{{$task->id}}">{{$task->TaskName}}</a></p>
                                     @endif
+
                                     <h6>{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</h6>
                                 </div>
                             </div>
@@ -244,8 +137,7 @@
 
 
             </div>
-        </div>
-    </div>
+    </x-divlayouts>
 </div>
 
 <!-- Bootstrap JS Bundle -->

@@ -44,78 +44,12 @@
 <div class="wrapper">
 
     <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="space p-3"></div>
+    <x-sidebar>
 
-        <!-- Sidebar Header -->
-        <div class="d-flex">
-
-            <!-- Toggle Button -->
-            <button class="toggle-btn mx-4" type="button">
-                <img src="">
-            </button>
-            <!-- Sidebar Logo -->
-            <div class="sidebar-logo">
-                <a href="#">CodzSword</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="sidebar-nav">
-
-            <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
-                    <i class="bi bi-house"> </i> Home
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="/agra" class="sidebar-link">
-                    <i class="bi bi-triangle"> </i>AGRA
-                    <span>AGRA</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
-                    <i class="bi bi-book">  </i> Course
-                    <span>Course</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-question-circle"> </i> Help
-                    <span>Setting</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="line"></div>
-
-        <!-- Setting -->
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-cog"> </i> Setting
-                <span>Setting</span>
-            </a>
-        </li>
-
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-exit"> </i> Logout
-                <span>Logout</span>
-            </a>
-        </div>
-
-        <div class="space p-4"></div>
-    </aside>
+    </x-sidebar>
 
     <!-- Main Content -->
-    <div class="main">
-        <div class="second-main">
+    <x-divlayouts>
             <div class = "container left">
                 <div class="container upperleft">
                     <div class="container panel-1"></div>
@@ -136,8 +70,9 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
+
+
+        </x-divlayouts>
 </div>
 
 <!-- Bootstrap JS Bundle -->

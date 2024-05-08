@@ -17,247 +17,150 @@
     <!-- Bootstrap Icons CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="Homepage.css">
+    <link rel="stylesheet" href="quer.css">
 </head>
 
 <body>
 <!-- Sidebar Wrapper -->
 <div class="wrapper">
 
-    <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="space p-3"></div>
+    <x-sidebar>
 
-        <!-- Sidebar Header -->
-        <div class="d-flex">
+    </x-sidebar>
 
-            <!-- Toggle Button -->
-            <button class="toggle-btn mx-4" type="button">
-                <img src="ImgLogo.png">
-            </button>
-            <!-- Sidebar Logo -->
-            <div class="sidebar-logo">
-                <a href="#"></a>
-            </div>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="sidebar-nav">
-
-            <!-- Profile -->
-            <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
-                    <i class="bi bi-house"> </i>
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <!-- Task -->
-            <li class="sidebar-item">
-                <a href="/agra" class="sidebar-link">
-                    <i class="bi bi-triangle"> </i>
-                    <span>AGRA</span>
-                </a>
-            </li>
-
-            <!-- Notification -->
-            <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
-                    <i class="bi bi-book">  </i>
-                    <span>Course</span>
-                </a>
-            </li>
-
-            <!-- Help -->
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-question-circle"> </i>
-                    <span>Help</span>
-                </a>
-            </li>
-
-            <!-- Setting -->
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="lni lni-cog"> </i>
-                    <span>Setting</span>
-                </a>
-            </li>
-
-        </ul>
-
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer">
-            <form method="POST" id="logout" action="{{ route('logout') }}">
-                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
-                    <i class="lni lni-exit"> </i>
-                    <span>Logout</span>
-                </a>
-                {{ csrf_field() }}
-            </form>
-        </div>
-
-
-        <div class="space p-4"></div>
-    </aside>
 
     <!-- Main Content -->
 
-    <div class="main">
-        <!-- Inner div -->
-        <div class="second-main">
+    <x-divlayouts>
+        <div class="left-panel">
 
-            <!-- left div of inner div-->
-            <div class="left-panel">
-                <div class="big-ads">
+            <div class="lbl-outer-welcome">
+                Hello, {{$user->name}}!
+            </div>
 
-                    <div class="big-ads-inner">
-                        <div class="lbUser-greet">
-                            Hello, {{$user->name}}!
-                        </div>
-                        <div class="AGRA-outer">
-                            <div class="AGRA-inner">
-                                <h2>AGRA</h2>
-                                <p>Learning back to square one, but with fun.
-                                    Where Beginners Level Up Through Fun, One
-                                    Line of Code at a Time!</p>
-                                <div class="btn-learn-begin">
-                                    <button class="btnLearnmore">Learn more.</button>
-                                    <button class="btnBegin">Begin.</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="imagemodel">
-                        <img src="image 19.png" alt="img" class="imageM">
-                    </div>
-                </div>
-
-                <div class="Recommended">
-                    <div class="lbReco">
-                        Recommended
-                    </div>
-                    <div class="reco-box-outlay">
-                        @foreach($courses as $course)
-                                <div class="reco-box">
-                                    <div class="reco-img">
-                                        <img src="/laptop with code.png" alt="laptop" class="lappy">
-                                    </div>
-                                    <div class="reco-description">
-                                        <h5>{{$course->CourseName}}</h5>
-                                        <p>C#</p>
-                                    </div>
-                                </div>
-                        @endforeach
-
-                    </div>
-                </div>
-
-                <div class="small-ads">
-                    <div class="smol-ads-inner">
-                        <div class="ads-logo">
-                            <img src="Java.png" alt="java">
-                        </div>
-                        <div class="ads-descript">
-                            <h3>Learn JAVA in 3 seconds...</h3>
-                            <h6>Where Beginners Level Up Through Fun, One Line of Code at a Time!</h6>
-
-                        </div>
-                        <div class="ads-imgdes">
-                            <img src="image-removebg-preview (42) 1.png" alt="des">
-                        </div>
-                        <div class="ads-btn">
-                            <button class="btn-ads">Learn more</button>
-                        </div>
+            <div class="nav-outer-direction">
+                <div class="nav-inner-direction">
+                    <div class="btn-navigation">
+                        <span>HOME</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Right div of inner div -->
-            <div class="right-panel">
-
-                <div class="sched-profile">
-
-                    <div class="schedule">
-                        <div class="name-notif">
-                            Schedule
-                        </div>
-
-                        <div class="sched-box-outlayer">
-                            <!-- schudele box 1 -->
-                            @foreach($tasks as $task)
-                            <div class="sched-box">
-                                <div class="sched-box-circle">
-                                </div>
-                                <div class="sched-box-name">
-                                    <h1>{{$task->TaskName}}</h1>
-                                    <p>March 07 - April 03</p>
-                                </div>
-                                <div class="sched-box-btn">
-                                    >
-                                </div>
-                            </div>
-                            @endforeach
+            <div class="ad-outer-agra">
+                <div class="ad-inner-agra">
+                    <div class="ad-inner-left">
+                        <h2>AGRA</h2>
+                        <p>Learning back to square one, but with fun.
+                            Where Beginners Level Up Through Fun, One
+                            Line of Code at a Time!
+                        </p>
+                        <div class="btn-learn-begin">
+                            <button class="btnBegin">Begin.</button>
                         </div>
                     </div>
-                    <div class="mini-profile">
-                        <div class="mini-lbProfile">
-                            Profile
-                        </div>
-                        <div class="profile-box-outer">
-                            <div class="profile-box-inner">
-
-                                <div class="top-box">
-                                    <div class="profile-pic">
-                                        <div class="border">
-                                            <div class="inner-border">
-                                                <img src="image 4.png" alt="corts">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="achievement">
-                                        <h5>Coding Rank: Gold</h5>
-                                        <h5>Coding Rank: Silver</h5>
-                                    </div>
-                                </div>
-
-                                <div class="bot-box">
-                                    <div class="des-name">
-                                        <h3>{{$user->name}}</h3>
-                                        <h6>{{$user->email}}</h6>
-                                        <p>In twilight's shroud, where shadows dance,
-                                            Beneath the moon's soft, mystic trance,
-                                            There lies a tale of love's cruel game,
-                                            Where hearts are kindled, then consumed by flame.
-                                        </p>
-                                        <div class="btn-explore">
-                                            <button class="btn-mini-profile">Expand</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="ad-inner-right">
+                        <img src="img-agraDesign.png" alt="des">
                     </div>
                 </div>
+            </div>
 
-                <div class="user-friends">
-                    <div class="user-friends-inner">
-                        <div class="user-main-icon"><img src="image 4cortspng.png" alt="corts"></div>
-                        <div class="friends-section">
-                            <img src="Friends.png" alt="friend">
-                            <img src="Group 48.png" alt="g">
-                        </div>
-                        <div class="teacher-section">
-                            <img src="Teacher.png" alt="T">
-                            <img src="group 54.png" alt="gr">
+            <div class="grp-outer-enrolledCourses">
+                <div class="grp-inner-enrolledCourses">
+                    <div class="lbl-enrolled">
+                        <p>Enrolled Courses</p>
+                    </div>
+
+                    <div class="grp-Ecourses">
+                        @foreach($courses as $course)
+                            <div class="container-suubj-1">
+                                <div class="img-container">
+                                    <div class="lbl-language">
+                                        <h2>Java</h2>
+                                    </div>
+                                </div>
+
+                                <div class="lbl-placer">
+                                    <h2>{{$course->CourseName}}</h2>
+                                    <p>Mr.Dungo</p>
+                                </div>
+                            </div>
+                        @endforeach
+
+
+
+
+
+                        <div class="lbl-ads">
+                            <h1>EXPLORE - LEARN - ENJOY</h1>
+                            <p>Master Java and C#: Learn OOP,
+                                data structures, algorithms, syntax, and
+                                best practices for both languages.
+                            </p>
+                            <button class="btnLearnM">Learn more.</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+
+
+        <!-- Right div of inner div -->
+        <div class="right-panel">
+
+            <div class="user-info">
+                <div class="user-name">
+                    <h4>{{$user->name}}</h4>
+                    <h6>{{$user->email}}</h6>
+                </div>
+                <div class="user-icon">
+
+                </div>
+            </div>
+            <div class="outer-calendar">
+                <x-calendar>
+
+                </x-calendar>
+            </div>
+
+            <div class="query">
+                <div class="outer-schedule">
+                    <div class="inner-scheddule">
+                        <div class="name-notif">
+                            <h2>To-do:</h2>
+                            <a href="/courses">explore</a>
+                        </div>
+
+                        <div class="sched-box-out">
+                            <!-- schudele box 1 -->
+                            @foreach($tasks as $task)
+                                <div class="sched-box">
+
+                                    <div class="sched-box-circle">
+                                    </div>
+
+                                    <div class="sched-box-name">
+                                        <h5>{{$task->TaskName}}</h5>
+                                        <p>March 07 - April 03</p>
+                                    </div>
+                                    <div class="sched-box-btn">
+                                        >
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </x-divlayouts>
 </div>
 </div>
 

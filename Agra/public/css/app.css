@@ -2543,6 +2543,10 @@ select {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
+.group:hover .group-hover\:text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+}
 .group\/item:hover .group-hover\/item\:underline {
   text-decoration-line: underline;
 }
@@ -2552,6 +2556,10 @@ select {
 .group:focus-visible .group-focus-visible\:text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+.group:focus-visible .group-focus-visible\:text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 .group\/item:focus-visible .group-focus-visible\/item\:underline {
   text-decoration-line: underline;
@@ -3521,9 +3529,19 @@ select {
     color: rgb(156 163 175 / var(--tw-text-opacity));
   }
 
+  .group:hover .dark\:group-hover\:text-gray-200 {
+    --tw-text-opacity: 1;
+    color: rgb(229 231 235 / var(--tw-text-opacity));
+  }
+
   .group:hover .dark\:group-hover\:text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity));
+  }
+
+  .group:focus-visible .dark\:group-focus-visible\:text-gray-200 {
+    --tw-text-opacity: 1;
+    color: rgb(229 231 235 / var(--tw-text-opacity));
   }
 
   .group:focus-visible .dark\:group-focus-visible\:text-gray-400 {

@@ -1,0 +1,412 @@
+body {
+    font-family: 'Poppins', sans-serif;
+
+}
+p{
+    padding: 0;
+    margin: 0;
+
+}
+h2{
+    padding: 0;
+    margin: 0;
+
+}
+
+/* --------------------Outer Divs---------------------------- */
+.wrapper {
+    display: flex;
+}
+.main {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    margin-left: 1.2rem;
+    min-height: 100vh;
+    width: 100%;
+    transition: all 0.35s ease-in-out;
+    background-color: #004AAD;
+}
+.second-main{
+    border-radius: 20px;
+    background-color: #E5E6E9;
+    height: 100%;
+    overflow: auto;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inset box shadow */
+    display: flex;
+
+
+}
+
+/* --------------------Left Panel---------------------------- */
+.left-panel{
+
+    width: 75%;
+    height: 100%;
+    padding: 20px;
+}
+
+/* -------1 div---------- */
+.lbl-outer-welcome{
+
+    width: 100%;
+    height: 7%;
+    padding: 10px;
+}
+
+
+/* -------2 div---------- */
+.nav-outer-direction{
+    width: 100%;
+    height: 8%;
+    padding: 10px;
+}
+.nav-inner-direction{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+}
+.btn-navigation{
+    width: 15%;
+    height: 100%;
+    border-radius: 10px;
+    border: #004AAD 1px solid;
+    color: #004AAD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------3 div---------- */
+.ad-outer-agra{
+
+    width: 100%;
+    height: 60%;
+    padding: 10px;
+}
+.ad-inner-agra{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background: rgb(190,218,255);
+    background: linear-gradient(129deg, rgba(190,218,255,1) 43%, rgba(0,74,173,1) 85%);
+    display: flex;
+    flex-wrap: wrap;
+}
+.ad-inner-left{
+    width: 40%;
+    font-size: 1vw;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+
+}
+.ad-inner-left h2{
+    font-size: 5em; /* Set font size relative to the parent container */
+    margin-bottom: 1rem;
+}
+.ad-inner-right{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ad-inner-agra img {
+    width: 60%;
+    height: auto;
+    display: block;
+}
+
+
+/* -------4 div---------- */
+.grp-outer-enrolledCourses{
+
+    width: 100%;
+    height: 40vh;
+    padding: 10px;
+}
+.grp-inner-enrolledCourses{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+}
+.lbl-enrolled{
+    width: 100%;
+    height: 10%;
+    font-size: 1.5vw;
+    padding: 0px 10px 10px 10px;
+}
+.grp-Ecourses{
+    width: 100%;
+    height: 90%;
+    padding: 10px;
+    column-gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+.container-suubj-1{
+    width: 23%;
+    height: 90%;
+    background-color: #E5E6E9;
+    border-radius: 10px;
+    font-size: 1vw;
+    position: relative;
+    text-align: start;
+}
+.img-container{
+    background-image: url("img-subj.png");
+    position: relative;
+    background-size: cover; /* Cover the entire container */
+    background-position: center;
+    width: 100%;
+    height: 60%;
+    border-radius: 10px 10px 0px 0px;
+    padding: 15px;
+}
+.lbl-language{
+    display: flex;
+    justify-content: center;
+    color: white;
+    width: 25%;
+    height: 15%;
+    background-color: #004AAD;
+    box-shadow: insnamet 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+}
+.lbl-placer{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container-suubj-1 h2{
+    font-size: 1.3vw;
+}
+.container-suubj-1 img{
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.lbl-ads{
+    width: 25%;
+    height: 90%;
+
+}
+.lbl-ads h1 {
+    font-size: 1.5vw;
+}
+.lbl-ads p{
+    font-size: 1vw;
+}
+.btnLearnM{
+    width: 50%;
+    height: 20%;
+    font-size: 0.9vw;
+}
+
+
+
+/* --------------------Right Panel---------------------------- */
+.right-panel{
+
+    width: 25%;
+    height: 100%;
+    padding: 10px;
+
+}
+.user-name{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding-right: 20px;
+}
+.user-icon{
+    width: 60px;
+    height: 60px;
+    border-radius:500px ;
+    background-image: url("image 19.png");
+    position: relative;
+    background-size: cover; /* Cover the entire container */
+    background-position: center;
+}
+.user-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    height: 8%;
+}
+/* -------1 div---------- */
+.outer-schedule{
+
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow: auto;
+}
+
+.inner-scheddule{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.name-notif{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.sched-box-out{
+
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+}
+.sched-box{
+    border-radius: 10px;
+    width: 100%;
+    height: 8vh;
+    margin-bottom: 10px;
+    background-color: #E5E6E9;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.sched-box-circle{
+    border-radius: 500px;
+    width: 35px;
+    height: 35px;
+    background-color: #004AAD;
+}
+/* -------2 div---------- */
+.outer-calendar{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+    height: 45%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* -------3 div---------- */
+.outer-friends{
+
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow: auto;
+}
+
+.inner-friends{
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.name-friends{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+
+.friends-box-out{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+}
+.friends-box{
+    border-radius: 10px;
+    width: 100%;
+    height: 7vh;
+    margin-bottom: 10px;
+    background-color: #E5E6E9;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.friends-box-icons{
+    border-radius: 500px;
+    width: 35px;
+    height: 35px;
+    background-image: url("img-subj.png");
+}
+
+/* Media query for screens 768px or less */
+@media screen and (max-width: 1400px) {
+    .main{
+        overflow: hidden;
+        height: 100%;
+    }
+    .second-main {
+        flex-direction: column;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        row-gap: 20px;
+         /* Add horizontal scroll for small screens */
+    }
+
+    /* Adjust the height of content in the right panel */
+    .inner-calendar{
+        height: 50vh;
+        width: 100%;
+    }
+    .query {
+        height: 40vh;
+        width: 100%;
+        display: flex;/* Adjust the height as needed */
+    }
+
+    .btnLearnM {
+        width: 80%; /* Adjust button width */
+    }
+
+    .outer-schedule,
+    .outer-friends {
+        height: 30vh; /* Adjust height for better fit */
+    }
+    .user-name,
+    .user-icon,
+    .user-info {
+        display: none;
+    }
+}
+@media screen and (max-width: 900px) {
+    .grp-Ecourses{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        row-gap: 20px;
+    }
+    .container-suubj-1{
+        width: 80%;
+        height: 100vh;
+    }
+    .lbl-ads{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+}
