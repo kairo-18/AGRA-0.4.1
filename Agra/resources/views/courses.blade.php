@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+    <script src="{{asset('js/app.js')}}"></script>
     <link rel="stylesheet" href="/course-new.css">
 </head>
 <body>
@@ -57,26 +59,21 @@
 
             <!--5th div  -->
             <div class="content-subj mt-4">
-
                 @foreach($courses as $course)
-                    <button type="button" onclick="location.href='/courses/{{$course->id}}'" class="box-subj">
-                        <div class="img-holder">
-                            <img src="image-course.png" alt="img" id="img-hold">
-                        </div>
-                        <div class="lbl-btn">
-                            <div class="lbl-sbj">
-                                <h3>{{$course->CourseName}}</h3>
-                                <p>{{$course->CourseDescription}}</p>
-
+                    <div class="card w-96 bg-base-100 shadow-xl rounded">
+                        <div class="bg-blue-500 rounded"><img src="young woman leaning on table.png" alt="Shoes" /></div>
+                        <div class="card-body">
+                            <h2 class="card-title">{{$course->CourseName}}</h2>
+                            <p>{{$course->CourseDescription}}</p>
+                            <div class="card-actions justify-end">
+                                <button class="btn btn-primary" onclick="location.href='/courses/{{$course->id}}'">Learn</button>
                             </div>
                         </div>
-                    </button>
+                    </div>
                 @endforeach
 
-
-
-
             </div>
+
         </div>
 
         <!--Note: flex-direction of this panel is column-->

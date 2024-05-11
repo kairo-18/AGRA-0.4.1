@@ -1,4 +1,5 @@
 import './bootstrap.js';
+import 'daisyui';
 
 import Alpine from 'alpinejs';
 
