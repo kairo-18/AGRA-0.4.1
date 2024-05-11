@@ -17,6 +17,7 @@
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.6.8",
+        "daisyui": "^4.11.1",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.31",
