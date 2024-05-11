@@ -8,11 +8,10 @@
     <title>{{ $title ?? 'divlayoutsSample'}}</title>
 </head>
 <body>
-    
+
 <x-partials.divlayouts/>
 
-<div class="main">
-    <div class="second-main">
+
         {{ $slot ?? '' }}
     </div>
 </div>

@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Courses Lessons New</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <!-- Bootstrap Icons CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    
+
     <link rel="stylesheet" href="course-lesson-new.css">
 
 
@@ -143,15 +137,15 @@
                             <div class="week-cell">Fri</div>
                             <div class="week-cell">Sat</div>
                         </div>
-    
+
                         <div class="calendar-body" id="calendarBody"></div>
                     </div>
                 </div>
 
 
-                
 
-                
+
+
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
@@ -159,13 +153,13 @@
                         const nextMonthBtn = document.getElementById("nextMonthBtn");
                         const currentMonthYear = document.getElementById("currentMonthYear");
                         const calendarBody = document.getElementById("calendarBody");
-                    
+
                         let currentDate = new Date();
                         let currentMonth = currentDate.getMonth();
                         let currentYear = currentDate.getFullYear();
-                    
+
                         renderCalendar(currentMonth, currentYear);
-                    
+
                         prevMonthBtn.addEventListener("click", () => {
                             currentMonth--;
                             if (currentMonth < 0) {
@@ -174,7 +168,7 @@
                             }
                             renderCalendar(currentMonth, currentYear);
                         });
-                    
+
                         nextMonthBtn.addEventListener("click", () => {
                             currentMonth++;
                             if (currentMonth > 11) {
@@ -183,60 +177,54 @@
                             }
                             renderCalendar(currentMonth, currentYear);
                         });
-                    
+
                         function renderCalendar(month, year) {
                             currentMonthYear.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
                             calendarBody.innerHTML = "";
-                    
+
                             const today = new Date();
                             const firstDayOfMonth = new Date(year, month, 1).getDay();
                             const daysInMonth = new Date(year, month + 1, 0).getDate();
-                    
+
                             for (let i = 0; i < firstDayOfMonth; i++) {
                                 const cell = document.createElement("div");
                                 cell.classList.add("calendar-cell");
                                 calendarBody.appendChild(cell);
                             }
-                    
+
                             for (let day = 1; day <= daysInMonth; day++) {
                                 const cell = document.createElement("div");
                                 cell.classList.add("calendar-cell");
-                                
+
                                 // Create a link element
                                 const link = document.createElement("a");
                                 link.href = "/calendar"; // Set the href attribute to "/calendar"
                                 link.textContent = day; // Set the link text to the day
                                 cell.appendChild(link);
-                    
+
                                 // Add div for deadline
                                 const div = document.createElement("div");
                                 div.classList.add("deadline-div");
                                 cell.appendChild(div);
-                    
+
                                 // Highlight the current date
                                 if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                                     cell.classList.add("current-date");
                                 }
-                    
+
                                 // Check if the date is April 25th
                                 if (day === 25 && month === 3 && year === today.getFullYear()) {
                                     div.textContent = "Deadline: Thursday, April 25";
                                 }
-                    
+
                                 calendarBody.appendChild(cell);
                             }
                         }
-                    });                    
+                    });
                 </script>
-            
+
 
     <!-- Bootstrap JS Bundle -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- Custom Script -->
-    <script src="/courses.js"></script>
-    <script src="/sidebar-compo.js"></script>
 
 
 </body>
