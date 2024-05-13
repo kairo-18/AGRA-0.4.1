@@ -1,5 +1,5 @@
 import './bootstrap.js';
-import 'daisyui';
+import 'flowbite';
 
 import Alpine from 'alpinejs';
 

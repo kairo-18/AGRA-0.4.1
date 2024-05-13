@@ -9,6 +9,7 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
+        "./node_modules/flowbite/**/*.js",
     ],
 
     theme: {
@@ -20,7 +21,7 @@ export default {
     },
 
     plugins: [
-        require("daisyui")
+        require('flowbite/plugin'),
     ],
 
     daisyui: {
