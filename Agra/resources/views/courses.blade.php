@@ -11,7 +11,7 @@
 </head>
 <body>
 <!--=====================================Start Navbar=====================================-->
-<nav class="bg-gradient-to-r from-sky-500 to-indigo-500 border-gray-200 dark:bg-gray-900">
+<nav class="bg-gradient-to-r from-blue-700 to-blue-500 border-gray-200 dark:bg-gray-900">
     <div class="w-full flex flex-wrap items-center justify-between  p-5">
 
         <!---------Start Menu btn-------------->
@@ -182,19 +182,20 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-sky-500 to-indigo-500 min-h-full ">
+<div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-700 to-blue-500 min-h-auto ">
     <!--Inner div-->
-    <div class="innerDiv xl:flex bg-blue-100 h-full w-full rounded-lg shadow-inner xl overflow-auto">
+    <div class="innerDiv xl:flex bg-gray-50 max-h-[91vh] w-full rounded-lg xl overflow-auto">
         <!-------------------------Start leftPanel----------------------->
-        <div class="left-panel flex flex-col  bg-blue-200 rounded-l-lg h-auto w-full p-10">
+        <div class="left-panel flex flex-col  bg-trnsparent h-auto w-full p-10">
 
             <!--1 div-->
-            <div class ="lbl-course pb-5">
-                <h1 class="text-5xl font-bold text-blue-600">Courses</h1>
+            <div class ="lbl-course p-5 bg-transparent rounded-md">
+                <h1 class="text-5xl font-bold text-blue-600">Hi Lance</h1>
+                <h3 class="text-2xl text-blue-400">Time to learn back to square one but with fun.</h1>
             </div>
 
             <!--2 div Page Tabs -->
-            <div class="nav-section flex content-center bg-blue-200 h-16 w-full rounded-lg">
+            <div class="nav-section flex content-center bg-transparent h-16 w-full pl-2">
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
@@ -213,42 +214,43 @@
                 </div>
             </div>
             <!--3 div Courses Content-->
-            @foreach($courses as $course)
-            <div class = "learM-section flex flex-col bg-blue-200 h-dvh w-full rounded-lg overflow-auto items-center p-10">
-                <a href="/courses/{{$course->id}}" class="flex flex-col items-center bg-gradient-to-r from-sky-500 to-indigo-500 rounded-lg shadow h-xl md:flex-row md:max-w-4xl hover:bg-gray-500 p-10">
-                    <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-s-lg" src="image-course.png" alt="">
-                    <div class="flex flex-col justify-between p-4 leading-normal">
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$course->CourseName}}</h5>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$course->CourseDescription}}</p>
-                    </div>
-                </a>
+            <div class = "learM-section flex flex-col bg-gray-200 h-[42rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+                @foreach($courses as $course)
+
+                    <a href="/courses/{{$course->id}}" class="flex flex-col items-center bg-white rounded-lg shadow h-xl md:flex-row md:w-[900px] hover:bg-blue-200 p-10">
+                        <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-s-lg" src="image-course.png" alt="">
+                        <div class="flex flex-col justify-between p-4 leading-normal">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-blue-600 dark:text-white">{{$course->CourseName}}</h5>
+                            <p class="mb-3 font-normal text-gray-400 dark:text-gray-400">{{$course->CourseDescription}}</p>
+                        </div>
+                    </a>
+
+                @endforeach
             </div>
-            @endforeach
         </div>
         <!-------------------------End leftPanel----------------------->
 
         <!-------------------------Start RightPanel----------------------->
-        <div class="right-panel flex flex-col bg-gradient-to-r bg-
-            opacity-20 rounded-r-lg h-auto xl:w-2/5 w-full p-5 gap-8">
-            <div class ="lbl-course pb-7">
+        <div class="right-panel flex flex-col bg-transparent rounded-r-lg h-auto xl:w-2/5 w-full p-5 gap-8">
 
-            </div>
-
+            <div></div>
+            <div></div>
             <!--------------Start Agenda-------------->
-            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-1/3 w-full rounded-lg overflow-auto">
+            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-1/3 w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
 
                     <!----Agenda deadline 1---->
+                    @foreach($tasks as $task)
                     <li class="mb-10 ms-6">
                             <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
                                 <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                 </svg>
                             </span>
-                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Computer Programming 1 </h3>
-                        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Deadline: January 13th, 2022</time>
+                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
+                        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Deadline: {{$task->Deadline}}</time>
                         <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
                             Start
                             <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
@@ -256,40 +258,8 @@
                             </svg>
                         </a>
                     </li>
+                    @endforeach
 
-                    <!----Agenda deadline 2---->
-                    <li class="mb-10 ms-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                </svg>
-                            </span>
-                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Data Structure 1 </h3>
-                        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Deadline: January 13th, 2022</time>
-                        <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
-                            Start
-                            <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
-                                <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
-                            </svg>
-                        </a>
-                    </li>
-
-                    <!----Agenda deadline 3---->
-                    <li class="mb-10 ms-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                </svg>
-                            </span>
-                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">Computer Proraming 2 </h3>
-                        <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Deadline: January 13th, 2022</time>
-                        <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
-                            Start
-                            <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
-                                <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
-                            </svg>
-                        </a>
-                    </li>
                     <!----End Agenda deadline---->
                 </ol>
                 <!----End lbl and border line---->
@@ -298,7 +268,7 @@
 
 
             <!--------------Start Calendar-------------->
-            <div class="calendar flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto">
+            <div class="calendar flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-auto w-full rounded-lg overflow-auto shadow">
                 <!----Start btn L&R lbl month ---->
                 <div class="flex justify-around items-center mb-4">
                     <div class="left flex flex-row justify-start w-2/4">
