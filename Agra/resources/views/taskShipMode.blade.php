@@ -3,84 +3,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- External CSS -->
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <!-- Bootstrap Icons CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
     <link rel="stylesheet" href="/tasks.css">
-    <link rel="stylesheet" href="/tasks2.css">
-    <style>
-        .coding-area{
-            height: 60%;
-        }
-    </style>
-
     <title>AGRA</title>
 </head>
 <body>
-<x-navbar></x-navbar>
-<div class="wrapper">
 
+<!--=====================================Start Navbar=====================================-->
+<x-navbar>
+</x-navbar>
+<!--=====================================End Navbar=====================================-->
 
-    <div class="main">
-        <div class="second-main">
+<!--=====================================Start outerDiv/MainDiv-=====================================-->
+<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+    <!--Inner div-->
 
-            <div class="container1">
+    <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
+        <div class="top-panel flex flex-col  bg-white h-5/6 w-full p-3">
+            <div class="stu-progress">
+                <div class="info-bar">
+                    <div class="score"> Score<span id="score">0</span> </div>
+                    <div class="timer"> Timer<span id="timer">10</span> </div>
 
-
-                <div class="in-container1">
-                    <div class="stu-progress">
-                        <div class="info-bar">
-                            <div class="score"> Score<span id="score">0</span> </div>
-                            <div class="timer"> Timer<span id="timer">10</span> </div>
-
-                            <div class="pb">
-                                Progress
-                                <div class="progress-bar">
-                                    <div class="progress-barc"></div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn" onclick="runClick();">RUN</button>
+                    <div class="pb">
+                        Progress
+                        <div class="progress-bar">
+                            <div class="progress-barc"></div>
                         </div>
                     </div>
-
-                    <div class="coding-area" >
-                        <div class="code-editor" id="code-editor"></div>
-                    </div>
-
-                    <div class="instrucContainer">
-                        <div class="instructions" id="instructions">
-                            <div class="instrucName">Instructions</div>
-                        </div>
-                    </div>
+                    <button type="button" class="btn" onclick="runClick();">RUN</button>
                 </div>
-
-                <div class="in-container2">
-
-
-
-                    <div class="mini-game" id="minigame"></div>
-
-
-                </div>
-
             </div>
 
+        </div>
+    </div>
+    <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-lg overflow-auto">
+
+
+        <div class="left-panel flex flex-col  bg-white h-3/6 xl:w-3/5 p-5">
+            <div class="coding-area h-96 mb-4" id="coding-area">
+                <div class="code-editor" id="code-editor"></div>
+                <div class="code" id="code" style="display: none"></div>
+            </div>
+
+            <div class="instrucContainer overflow-scroll max-h-72">
+                <div class="instructions" id="instructions">
+                    <div class="instrucName">Instructions</div>
+                </div>
+            </div>
 
         </div>
 
-        <div id="tutorial-container" class="tutorial-container">
-
+        <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5">
+            <div class="mini-game" id="minigame"></div>
         </div>
 
 
-
-    </div>
     </div>
 
+
+    <div id="tutorial-container" class="tutorial-container">
+
+    </div>
 
 </div>
 
@@ -92,7 +77,6 @@
 <div class="endPanel" id="endPanel">
     <h2 id="endText">Your score is: <span id="score2"></span></h2>
 </div>
-
 
     <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
         <input type="hidden" id="userid" value="{{$user->id}}" name="userid">

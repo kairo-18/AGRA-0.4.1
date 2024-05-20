@@ -1,7 +1,6 @@
 var config = {
     type: Phaser.AUTO,
     scale: {
-        mode: Phaser.Scale.EXACT_FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: "minigame",
         width: 1000,

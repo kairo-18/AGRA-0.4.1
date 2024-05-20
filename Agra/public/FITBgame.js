@@ -105,8 +105,8 @@ function create() {
     mapGenerate(this, monsterNumber, 'Layer4', 0.20, 3);
     mapGenerate(this, monsterNumber, 'Layer5', 0.25, 4);
     mapGenerate(this, monsterNumber, 'Layer6', 0.30, 5);
-    const layer7Width = mapGenerate(this, monsterNumber, 'Layer7', 1, 6);
-    const layer8Width = mapGenerate(this, monsterNumber, 'Layer8', 1, 7);
+    const layer7Width = mapGenerate(this, monsterNumber + 1, 'Layer7', 1, 6);
+    const layer8Width = mapGenerate(this, monsterNumber + 1, 'Layer8', 1, 7);
 
     // Calculate the total width for the camera bounds
     const totalWidth = Math.max(layer7Width, layer8Width);
@@ -181,7 +181,7 @@ function create() {
 function update() {
     const camera = this.cameras.main;
 
-    // Update the camera position based on player velocity
+    // Update the camera to follow the player directly
     camera.scrollX += player.body.velocity.x * this.game.loop.delta / 100;
     camera.scrollY += player.body.velocity.y * this.game.loop.delta / 100;
 }
@@ -223,26 +223,24 @@ function drawDialogueBox(scene, centerX, centerY) {
 
 
 // New function to move the player 1000 pixels to the right
+// New function to move the camera 1000 pixels to the right
 function movePlayer(scene, onComplete) {
-    const targetX = player.x;
+    moveCounter++;
     const duration = 2000; // Duration in milliseconds to move 1000 pixels
 
     scene.tweens.add({
-        targets: player,
-        x: targetX,
+        targets: scene.cameras.main,
+        scrollX: scene.cameras.main.scrollX + 1000, // Scroll the camera 1000 pixels to the right
         ease: 'Linear',
         duration: duration,
         onStart: () => {
-            moveCounter++;
+            player.play('playerRun');
 
-            // Set player velocity to move at the rate needed to reach the target in the given duration
-            player.body.velocity.x = 65 / (duration / 1000); // velocity = distance / time
+            // Change text
+            const randomText = ["I must find the exit", "Got to get out quick", "Is the exit near?"];
             if(moveCounter != monsterNumber){
-                //Change text
-                const randomText = ["I must find the exit", "Got to get out quick", "Is the exit near?"];
                 currentText.setText(Phaser.Math.RND.pick(randomText));
-            }
-            else if(moveCounter == monsterNumber){
+            } else {
                 currentText.setText("The exit! I'm safe!");
             }
 
@@ -252,8 +250,10 @@ function movePlayer(scene, onComplete) {
             }
         },
         onComplete: () => {
-            // Reset player velocity to 0 after movement is complete
-            player.body.velocity.x = 0;
+            // Stop player movement animation
+            player.play('playerIdle');
+            console.log(scene.cameras.main.scrollX);
+            // Perform onComplete callback
             if (onComplete) {
                 onComplete();
             }
@@ -262,6 +262,7 @@ function movePlayer(scene, onComplete) {
 
     answerEnable();
 }
+
 
 
 // Function to create player animations
