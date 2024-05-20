@@ -1,3 +1,5 @@
+<!-- Lesson Tab --> 
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -39,7 +41,7 @@
     <!--Inner div-->
     <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-lg xl overflow-auto">
         <!-------------------------Start leftPanel----------------------->
-        <div class="left-panel flex flex-col  bg-trnsparent h-5/6 w-full p-10">
+        <div class="left-panel flex flex-col  bg-trnsparent h-screen w-full p-10">
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
@@ -55,19 +57,13 @@
                             <a href="/courses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Courses</a>
                         </li>
                         <li class="me-2">
-                            <a href="/courses/1" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Lessons</a>
-                        </li>
-                        <li class="me-2">
-                            <a href="/lessons/1/1" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Modules</a>
-                        </li>
-                        <li>
-                            <a class="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500 text-lg font-semibold">Game</a>
+                            <a href="/courses/{{$course->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Lessons</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-2/3 w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+            <div class = "learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
                 @foreach($lessons as $lesson)
 
                     <a href="/lessons/{{$course->id}}/{{$lesson->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
@@ -84,11 +80,11 @@
         <!-------------------------End leftPanel----------------------->
 
         <!-------------------------Start RightPanel----------------------->
-        <div class="right-panel flex flex-col bg-transparent rounded-r-lg h-auto xl:w-2/5 w-full p-5 gap-8">
+        <div class="right-panel flex flex-col bg-transparent rounded-r-lg h-screen xl:w-2/5 w-full p-5 gap-8">
 
 
             <!--------------Start Agenda-------------->
-            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-1/3 w-full rounded-lg overflow-auto shadow">
+            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">

@@ -122,7 +122,7 @@
 </head>
 <body>
                 <!--4th div  -->
-                <div class="calendar-panel pl-7 pr-7 pb-7 pt-2 bg-white h-1/3 w-full rounded-lg overflow-auto shadow">
+                <div class="calendar-panel pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 
                     <div class="lbl-title flex justify-end">
                         <h3 class = "text-2xl font-semibold text-gray-900">Calendar</h3>
