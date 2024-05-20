@@ -11,89 +11,21 @@
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks3.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+    <script src="{{asset('js/app.js')}}"></script>
     <title>AGRA</title>
+    <style>
+        .coding-area{
+            height: 60%;
+        }
+    </style>
 </head>
 <body>
+<x-navbar></x-navbar>
 <div class="wrapper">
 
     <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="space p-3"></div>
 
-        <!-- Sidebar Header -->
-        <div class="d-flex">
-
-            <!-- Toggle Button -->
-            <button class="toggle-btn mx-4" type="button">
-                <img src="/image-removebg-preview (23) 1.png">
-            </button>
-            <!-- Sidebar Logo -->
-            <div class="sidebar-logo">
-                <a href="#">CodzSword</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="sidebar-nav">
-
-            <!-- Profile -->
-            <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
-                    <i class="bi bi-house"> </i> Home
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <!-- Task -->
-            <li class="sidebar-item">
-                <a href="/agra" class="sidebar-link">
-                    <i class="bi bi-triangle"> </i>AGRA
-                    <span>AGRA</span>
-                </a>
-            </li>
-
-            <!-- Notification -->
-            <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
-                    <i class="bi bi-book">  </i> Course
-                    <span>Course</span>
-                </a>
-            </li>
-
-            <!-- Setting -->
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-question-circle"> </i> Help
-                    <span>Setting</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="line"></div>
-
-        <!-- Setting -->
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-cog"> </i> Setting
-                <span>Setting</span>
-            </a>
-        </li>
-        </ul>
-
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer">
-            <form method="POST" id="logout" action="{{ route('logout') }}">
-                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
-                    <i class="lni lni-exit"> </i> Logout
-                    <span>Logout</span>
-                </a>
-                {{ csrf_field() }}
-            </form>
-        </div>
-
-        <div class="space p-4"></div>
-    </aside>
 
 
     <div class="main">
@@ -161,7 +93,6 @@
 </div>
 
 
-</div>
 
 <div class="startPanel" id="startPanel">
     <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
@@ -213,9 +144,8 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/game.js"></script>
+<script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>
-<script src="/tutorial.js"></script>
 
 
 </body>

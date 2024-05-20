@@ -8,91 +8,21 @@
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <!-- Bootstrap Icons CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+    <script src="{{asset('js/app.js')}}"></script>
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
+    <style>
+        .coding-area{
+            height: 60%;
+        }
+    </style>
 
     <title>AGRA</title>
 </head>
 <body>
+<x-navbar></x-navbar>
 <div class="wrapper">
-
-    <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="space p-3"></div>
-
-        <!-- Sidebar Header -->
-        <div class="d-flex">
-
-            <!-- Toggle Button -->
-            <button class="toggle-btn mx-4" type="button">
-                <img src="/image-removebg-preview (23) 1.png">
-            </button>
-            <!-- Sidebar Logo -->
-            <div class="sidebar-logo">
-                <a href="#">CodzSword</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="sidebar-nav">
-
-            <!-- Profile -->
-            <li class="sidebar-item">
-                <a href="/" class="sidebar-link">
-                    <i class="bi bi-house"> </i> Home
-                    <span>Home</span>
-                </a>
-            </li>
-
-            <!-- Task -->
-            <li class="sidebar-item">
-                <a href="/agra" class="sidebar-link">
-                    <i class="bi bi-triangle"> </i>AGRA
-                    <span>AGRA</span>
-                </a>
-            </li>
-
-            <!-- Notification -->
-            <li class="sidebar-item">
-                <a href="/courses" class="sidebar-link">
-                    <i class="bi bi-book">  </i> Course
-                    <span>Course</span>
-                </a>
-            </li>
-
-            <!-- Setting -->
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="bi bi-question-circle"> </i> Help
-                    <span>Setting</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="line"></div>
-
-        <!-- Setting -->
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class="lni lni-cog"> </i> Setting
-                <span>Setting</span>
-            </a>
-        </li>
-        </ul>
-
-        <!-- Sidebar Footer -->
-        <div class="sidebar-footer">
-            <form method="POST" id="logout" action="{{ route('logout') }}">
-                <a href="javascript:document.getElementById('logout').submit();" class="sidebar-link">
-                    <i class="lni lni-exit"> </i> Logout
-                    <span>Logout</span>
-                </a>
-                {{ csrf_field() }}
-            </form>
-        </div>
-
-        <div class="space p-4"></div>
-    </aside>
 
 
     <div class="main">
@@ -201,7 +131,6 @@
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/index3.js"></script>
 <script src="/shipGame.js"></script>
-<script src="/tutorial.js"></script>
 
 
 </body>

@@ -8,6 +8,7 @@ let globalCorrectAnswers;
 
 populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
+calculateMaxMonsterHealth(checkmarks.length);
 
 var progressBar = document.querySelector(".progress-barc");
 var editor = ace.edit("code-editor");
@@ -372,13 +373,13 @@ function whenPlayerAttack(){
 
     if(tempCtr < checkmarks.length){
         if(checkmarks[tempCtr].done){
-            playerTween.play();
-            player.play("punch", true);
+            playerMove(scene);
             delay(400).then(() => monster.play("dmg", true));
             tempCtr++;
         }
     }
 }
+
 
 
 // editor.session.on('change', function (delta) {
@@ -451,8 +452,7 @@ function startIntervalTimer2(rounds, roundDuration, timerDuration) {
     const roundTimer = setInterval(() => {
         rounds--;
         console.log(rounds);
-        monsterTween.play();
-        monster.play("punch", true);
+        monsterMove(scene);
         delay(400).then(() => player.play("dmg", true));
         if (rounds === 0) {
             clearInterval(timer);

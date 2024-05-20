@@ -323,7 +323,7 @@ function fadeTransition(camera, duration) {
 }
 
 // Inside playerMove()
-function playerMove(scene, callback) {
+function playerMove(scene) {
     // Check if the monster is not currently attacking
     if (!monsterIsAttacking) {
         playerIsAttacking = true;
@@ -342,7 +342,6 @@ function playerMove(scene, callback) {
                 player.x = 250;
                 player.play('playerIdle');
                 spawnMonster(monsterGroup);
-                callback();
                 playerIsAttacking = false;
             }
         });
