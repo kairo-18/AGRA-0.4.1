@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->foreignId('lesson_id');
-            $table->foreignId('course_id');
 
             $table->string('TaskName');
             $table->string('Description');
             $table->text('TaskCodeTemplate');
             $table->text('TaskAnswerKeys');
-            $table->text('TaskMaxScore');
             $table->text('TaskMaxTime');
             $table->text('TaskDifficulty');
+            $table->text('TaskType');
 
             $table->dateTime('DateGiven');
             $table->dateTime('Deadline');

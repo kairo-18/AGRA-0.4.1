@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\OutputResource\RelationManagers\OutputRelationManager;
 use App\Filament\Resources\TaskResource\Pages;
 use App\Filament\Resources\TaskResource\RelationManagers;
 use App\Models\Task;
@@ -34,21 +35,25 @@ class TaskResource extends Resource
                 Forms\Components\Select::make('lesson_id')
                 ->relationship('lesson', 'LessonName')
                 ->searchable()
-                ->preload()
-                ,
-                Forms\Components\Select::make('course_id')
-                ->relationship('course', 'CourseName')
-                ->searchable()
                 ->preload(),
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\TextInput::make('Description')->label('Task Description'),
-                Forms\Components\TextInput::make('TaskMaxScore')->label('Task Max Score')->numeric(),
                 Forms\Components\TextInput::make('TaskMaxTime')->label('Task Max Time')->numeric(),
                 Forms\Components\Select::make('TaskDifficulty')
                     ->options([
                         "Beginner" => "Beginner",
                         "Easy" => "Easy",
-                        "Intermediate" => "Intermediate"
+                        "Intermediate" => "Intermediate",
+                        "Advanced" => "Advanced"
+                    ])
+                    ->label('Task Difficulty'),
+
+                Forms\Components\Select::make('TaskType')
+                    ->options([
+                        "FITB" => "FITB",
+                        "ShipGame" => "ShipGame",
+                        "FightGame" => "FightGame",
+                        "OutputGame" => "OutputGame"
                     ])
                     ->label('Task Difficulty'),
                 Forms\Components\DateTimePicker::make('DateGiven'),
@@ -90,6 +95,7 @@ class TaskResource extends Resource
         return [
             //
             RelationManagers\InstructionsRelationManager::class,
+            OutputRelationManager::class,
         ];
     }
 

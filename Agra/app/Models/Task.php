@@ -23,6 +23,10 @@ class Task extends Model
         return $this->hasMany(Instruction::class);
     }
 
+    public function output(){
+        return $this->hasMany(Output::class);
+    }
+
     public function course(){
         return $this->belongsTo(Course::class);
     }

@@ -263,6 +263,39 @@ Route::get('tasks/ship/{task:id}' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('tasks/output/{task:id}', function(Task $task) {
+    $testcasesString = $task->output[0]->code; // Assuming output has a property 'code' that needs to be 'testcases'
+    $template = $task->output[0]->template;
+
+    // Split by actual newline characters
+    $testcasesLines = array_filter(array_map('trim', explode("\n", $testcasesString)));
+
+    $testcasesArray = array_map(function($testcase) {
+        // Split the testcase into input and output
+        list($inputs, $output) = explode('=', $testcase);
+
+        // Split the inputs by comma and convert to integers
+        $inputsArray = array_map('intval', explode(',', trim($inputs, '()')));
+
+        // Add the output as an integer
+        $inputsArray[] = intval($output);
+
+        return $inputsArray;
+    }, $testcasesLines);
+
+    $user = Auth::user();
+
+    return view('taskOutput', [
+        'task' => $task,
+        'testcases' => $testcasesArray,
+        'user' => $user,
+        'template' => $template,
+        'methodName' => $task->output[0]->methodName,
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
 Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
