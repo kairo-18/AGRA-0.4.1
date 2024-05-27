@@ -77,6 +77,9 @@
                     </a>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$task->Description}}</p>
 
+                    <p class="mb-3 font-normal text-xl text-gray-900 dark:text-gray-400"><strong>Instruction:</strong></p>
+                    <div class="mb-3 font-normal text-l text-gray-900 dark:text-gray-400">{!!$task->TaskInstruction !!}</div>
+
                     <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Date Given:</strong> {{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</p>
                     <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Deadline:</strong> {{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</p>
 

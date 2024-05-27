@@ -37,7 +37,8 @@ class TaskResource extends Resource
                 ->searchable()
                 ->preload(),
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
-                Forms\Components\TextInput::make('Description')->label('Task Instruction'),
+                Forms\Components\TextInput::make('Description')->label('Task Description'),
+                Forms\Components\RichEditor::make('TaskInstruction')->label('Task Instruction'),
                 Forms\Components\TextInput::make('TaskMaxTime')->label('Task Max Time')->numeric(),
                 Forms\Components\Select::make('TaskDifficulty')
                     ->options([
