@@ -112,12 +112,32 @@ Route::get('/courses', function () {
     $courses = $courses->merge($userCourses);
 
     // Retrieve task IDs that the current user has marked as "Done"
-    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-        $query->where('status', 'Done');
-    })->pluck('task_id')->toArray();
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
-    // Retrieve all tasks except those that are marked as "Done" for the current user
-    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+    $tasks = collect();
+
+    if ($user->courses) {
+        foreach($user->courses as $course){
+            foreach ($course->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+
+    }
+
+    if ($user->section->courses) {
+        foreach($user->section->courses as $course){
+            foreach ($course->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+
+    }
 
     return view('courses', [
         'courses'=> $courses,
@@ -137,13 +157,33 @@ Route::get('courses/{course:id}', function(Course $course) {
     $lessons = $course->lessons;
     $user = Auth::user();
 
-    // Retrieve task IDs that the current user has marked as "Done"
-    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-        $query->where('status', 'Done');
-    })->pluck('task_id')->toArray();
+//    // Retrieve task IDs that the current user has marked as "Done"
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
-    // Retrieve all tasks except those that are marked as "Done" for the current user
-    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+    $tasks = collect();
+
+    if ($user->courses) {
+        foreach($user->courses as $course){
+            foreach ($course->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+
+    }
+
+    if ($user->section->courses) {
+        foreach($user->section->courses as $course){
+            foreach ($course->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+
+    }
 
     return view('course', [
         'course' => $course,
@@ -224,17 +264,17 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
 
-    // Retrieve task IDs that the current user has marked as "Done"
-    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-        $query->where('status', 'Done');
-    })->pluck('task_id')->toArray();
-
-    // Retrieve all tasks except those that are marked as "Done" for the current user
-    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+//    // Retrieve task IDs that the current user has marked as "Done"
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     return view('lessons', [
         'lesson' => $lesson,
-        'tasks' => $tasks,
+        'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
         'course' => $course,
         'user' => $user
@@ -242,6 +282,20 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('tasks/{task:id}' , function(Task $task) {
+    $instructions = $task->instructions;
+    $user = Auth::user();
+    $scores = \App\Models\Score::where('user_id', $user->id)->get();
+
+    return view('taskView', [
+        'task' => $task,
+        'instructions' => $instructions,
+        'user' => $user,
+        'tasks' => $task->lesson->tasks,
+        'scores' => $scores
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('tasks/fight/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
 
@@ -272,13 +326,17 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
 
     $testcasesArray = array_map(function($testcase) {
         // Split the testcase into input and output
-        list($inputs, $output) = explode('=', $testcase);
+        $parts = explode('=', $testcase);
 
-        // Split the inputs by comma and convert to integers
-        $inputsArray = array_map('intval', explode(',', trim($inputs, '()')));
+        // Initialize inputsArray
+        $inputsArray = array_map('intval', explode(',', trim($parts[0], '()')));
 
-        // Add the output as an integer
-        $inputsArray[] = intval($output);
+        // Check if there is an '=' character and handle the output part as a string
+        if (count($parts) == 2) {
+            // Trim and add the output part as a string
+            $outputPart = trim($parts[1]);
+            $inputsArray[] = $outputPart;
+        }
 
         return $inputsArray;
     }, $testcasesLines);
@@ -293,6 +351,9 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
         'methodName' => $task->output[0]->methodName,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
 
 
 

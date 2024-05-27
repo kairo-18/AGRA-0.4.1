@@ -1,5 +1,5 @@
 var progressIncrement;
-let totalScore;
+let totalScore = 0;
 let maxScore = 0;
 
 

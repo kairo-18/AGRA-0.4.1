@@ -56,7 +56,47 @@
                             <div class="progress-barc"></div>
                         </div>
                     </div>
-                    <button type="button" class="btn" onclick="runCode();">RUN</button>
+                    <button type="button" class="p-5 bg-green-500 rounded" onclick="runCode();">RUN</button>
+
+
+                    <!-- Modal toggle -->
+                    <button data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
+                        Instructions
+                    </button>
+
+                    <!-- Main modal -->
+                    <div id="default-modal1" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-2xl max-h-full">
+                            <!-- Modal content -->
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                <!-- Modal header -->
+                                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                        Instructions
+                                    </h3>
+                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal1">
+                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="p-4 md:p-5 space-y-4">
+                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                        {{$task->Description}}
+                                    </p>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <button data-modal-hide="default-modal1" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Go back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
 
@@ -72,9 +112,9 @@
             </div>
 
             <div class="instrucContainer overflow-scroll max-h-72">
-                <div class="instructions" id="instructions">
-                    <div class="instrucName">Instructions</div>
-                </div>
+                    <div class="output h-[270px] " id="output">
+
+                    </div>
             </div>
 
         </div>
@@ -105,17 +145,118 @@
     {{csrf_field()}}
 </form>
 
+
+
+
+<!-- Main modal -->
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Initial Instructions
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    {{$task->Description}}
+                </p>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button onclick="hideModal();" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
+               </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="resetPanel" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Initial Instructions
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="resetPanel">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    {{$task->Description}}
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    Score: <span id="score2"></span>
+                </p>
+            </div>
+            <!-- Modal footer -->
+        </div>
+    </div>
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.0/dist/phaser.js"></script>
 <script type="text/javascript">
-
+    let testcasesTemp = @json($testcases);
+    let maxMonsterHealth = 20 * testcasesTemp.length;
 </script>
+
+<script src="/shipGame.js"></script>
 
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
+    let globalScore = 0;
+    let totalScore = 0;
+    let maxScore = 0;
+    function hideModal(){
+        document.getElementById('default-modal').style = 'display:none;';
+        startIntervalTimer();
+    }
 
+    function showModal(){
+        document.getElementById('default-modal').style = 'display:flex;';
+    }
+
+    function showResetPanel(){
+        var endPanel = document.getElementById("resetPanel");
+        var score2 = document.getElementById("score2");
+        endPanel.style.display = "flex";
+        score2.textContent = globalScore + "%";
+        setTimeout(function(){
+            submitScore();
+        }, 2000);
+
+    }
+
+    function submitScore(){
+        document.getElementById('TotalScore').value = totalScore;
+        document.getElementById('MaxScore').value = maxScore;
+        document.getElementById('Percentage').value = globalScore;
+        document.getElementById('TaskStatus').value = 'Done';
+        document.getElementById("scoreForm").submit();
+    }
+
+
+    showModal();
 
     var testcases = @json($testcases);
-    console.log(testcases.length);
+    console.log(testcases);
     let output = ``;
     for (let i = 0; i < testcases.length; i++) {
         output += `\n` + `System.out.println(` + `{{$methodName}}`+`(`;
@@ -147,30 +288,37 @@
     editor.moveCursorTo(2, 8);
 
     function runCode() {
-
         let userCode = editor.getValue();
-        let code = `public class myClass
+        let code = `import java.util.*;
+        public class myClass
 {
-	public static void main(String[] args)
-	{
-        ` + output + `
-	}
-    ` + userCode + `
+    public static void main(String[] args)
+    {
+        ${output}
+    }
+    ${userCode}
 }
 `;
-        let codeOutput;
-        axios.post('/execute-code', {
-            script: code
-        })
+        axios.post('/execute-code', { script: code })
             .then(function(response) {
                 console.log(response);
-                codeOutput = response.data;
-                console.log(checkTestCases(codeOutput));
+                let codeOutput = response.data;
+                let testCasesResult = checkTestCases(codeOutput);
+                updateScore(testCasesResult);
+                document.getElementById('output').innerHTML = formatTestCasesResult(testCasesResult);
             })
             .catch(function(error) {
                 console.log(error);
             });
+    }
 
+    function formatTestCasesResult(testCasesResult) {
+        let formattedResult = '<ul>';
+        for (let result of testCasesResult) {
+            formattedResult += `<li>${result.resultText}</li>`;
+        }
+        formattedResult += '</ul>';
+        return formattedResult;
     }
 
     function checkTestCases(output) {
@@ -178,24 +326,126 @@
         let testCasesResult = [];
 
         for (let i = 0; i < testCasesAnswer.length; i++) {
-            // Remove any leading or trailing whitespace
             let answer = testCasesAnswer[i].trim();
-            let expected = testcases[i][testcases[i].length - 1]; // Last element is the expected output
-            let testCase = testcases[i].slice(0, -1).join(', '); // Get the parameters as a string
+            let expected = testcases[i][testcases[i].length - 1];
+            let testCase = testcases[i].slice(0, -1).join(', ');
 
             let resultText = `Test Case ${i + 1}: ${testCase} = ${expected}`;
-            if (answer === expected.toString()) {
+            let correct = answer === expected.toString();
+
+            if (correct) {
                 resultText += ' (Correct)';
             } else {
-                resultText += ` (Incorrect, User Output: ${answer})`;
+                resultText += ` (Incorrect, User Output: ${answer}, Expected: ${expected})`;
             }
 
-            testCasesResult.push(resultText);
+            testCasesResult.push({ resultText, correct });
         }
 
         return testCasesResult;
     }
 
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    async function updateScore(testCasesResult) {
+        let score = 0;
+        maxScore = testCasesResult.length;
+
+        // Function to delay execution
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        for (let result of testCasesResult) {
+            await delay(600); // Wait 600ms before processing the next result
+            if (result.correct) {
+                score++;
+                fireBullet(scene);
+            }
+        }
+
+        let scorePercentage = Math.floor((score / maxScore) * 100);
+
+        document.getElementById("score").innerHTML = score;
+        var progressBarWidth = scorePercentage + "%";
+        progressBar.style.width = progressBarWidth;
+
+        scorePercentage = Math.floor((score / maxScore) * 100);
+        totalScore = score;
+
+
+        globalScore = scorePercentage;
+
+        document.getElementById("TotalScore").value = score;
+        document.getElementById("MaxScore").value = maxScore;
+        document.getElementById("Percentage").value = scorePercentage;
+    }
+
+    function startIntervalTimer() {
+
+        let time1 = 10;
+        const timer1 = setInterval(function () {
+            time1--;
+            document.getElementById("timer").innerHTML = time1;
+            if (time1 === 0) {
+                clearInterval(timer1);
+                console.log("Time's up!");
+            }
+            if(globalScore === 100){
+                clearInterval(timer);
+                clearInterval(timer1);
+                document.getElementById("timer").innerHTML = "Done";
+                showResetPanel();
+            }
+        }, 1000);
+
+        let rounds = 5;
+        const timer = setInterval(function () {
+
+            let time = 10;
+            const timer2 = setInterval(function () {
+                document.getElementById("timer").innerHTML = time;
+                time--;
+                if (time === 0) {
+                    clearInterval(timer2);
+                }
+                if(globalScore === 100){
+                    clearInterval(timer);
+                    clearInterval(timer1);
+                    clearInterval(timer2);
+                    document.getElementById("timer").innerHTML = "Done";
+                    showResetPanel();
+                }
+            }, 1000);
+
+            rounds--;
+            console.log(rounds);
+            //monster attack
+            triggerRandomAttack();
+            delay(600).then( () => shakeCamera(scene));
+
+            if (rounds === 0) {
+                clearInterval(timer);
+                clearInterval(timer1);
+                clearInterval(timer2);
+                console.log("Done!");
+                document.getElementById("timer").innerHTML = "Done";
+                showResetPanel();
+            }
+
+            if(globalScore === 100){
+                clearInterval(timer);
+                clearInterval(timer1);
+                clearInterval(timer2);
+                document.getElementById("timer").innerHTML = "Done";
+                showResetPanel();
+            }
+        }, 11000);
+
+
+    }
 
 
 
