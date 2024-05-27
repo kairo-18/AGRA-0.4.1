@@ -87,6 +87,7 @@
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
 
                     <!----Agenda deadline 1---->
@@ -112,7 +113,7 @@
                     @endforeach
                     <!----End Agenda deadline---->
                 </ol>
-                <!----End lbl and border line---->
+
             </div>
             <!--------------End Agenda-------------->
 

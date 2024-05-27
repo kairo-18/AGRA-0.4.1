@@ -36,7 +36,8 @@ class Task extends Model
     }
 
     public function taskStatus(){
-        return $this->belongsToMany(Task::class, 'task_statuses');
+        return $this->belongsToMany(User::class, 'task_statuses', 'user_id', 'task_id')
+            ->withPivot('status');
     }
 
 

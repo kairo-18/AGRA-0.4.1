@@ -286,6 +286,25 @@ Route::get('tasks/{task:id}' , function(Task $task) {
     $user = Auth::user();
     $scores = \App\Models\Score::where('user_id', $user->id)->get();
 
+
+    $tasks = collect();
+
+    if ($user->courses) {
+        foreach($user->courses as $userCourse) {
+            foreach ($userCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
+    if ($user->section && $user->section->courses) {
+        foreach($user->section->courses as $sectionCourse) {
+            foreach ($sectionCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
     return view('taskView', [
         'task' => $task,
         'instructions' => $instructions,
@@ -391,30 +410,26 @@ Route::get('/grades', function(Task $task) {
 Route::get('lessons/{course:id}/{lesson:id}/grades' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
 
-    $tasks = \App\Models\Task::whereHas('lesson', function ($query) use ($lesson) {
-        $query->where('id', $lesson->id);
-    })
-        ->whereHas('course', function ($query) use ($course) {
-            $user = Auth::user();
-            $query->whereHas('enrollments', function ($query) use ($user) {
-                $query->where('section_id', $user->section->id);
+    $tasks = collect();
 
-            });
-        })
-        ->get();
+    if ($user->courses) {
+        foreach($user->courses as $userCourse) {
+            foreach ($userCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
 
-    $doneTasks = \App\Models\Task::whereHas('lesson', function ($query) use ($lesson) {
-        $query->where('id', $lesson->id);
-    })
-        ->whereHas('course', function ($query) use ($course, $user) {
-            $query->whereHas('enrollments', function ($query) use ($user) {
-                $query->where('section_id', $user->section->id);
-            });
-        })
-        ->whereHas('taskStatus', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })
-        ->get();
+    if ($user->section && $user->section->courses) {
+        foreach($user->section->courses as $sectionCourse) {
+            foreach ($sectionCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
+    // Filter tasks to get only those that are done by the user
+    $doneTasks = \App\Models\TaskStatus::all()->where('user_id', $user->id);
 
 
     return view('taskGrades', [
@@ -427,27 +442,30 @@ Route::get('lessons/{course:id}/{lesson:id}/grades' , function(Course $course, L
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('courses/{course:id}/grades' , function(Course $course) {
+Route::get('courses/{course:id}/grades', function(Course $course) {
     $user = Auth::user();
 
-    $tasks = \App\Models\Task::whereHas('course', function ($query) use ($course) {
-            $user = Auth::user();
-            $query->whereHas('enrollments', function ($query) use ($user) {
-                $query->where('section_id', $user->section->id);
+    $tasks = collect();
 
-            });
-        })
-        ->get();
+    if ($user->courses) {
+        foreach($user->courses as $userCourse) {
+            foreach ($userCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
 
-    $doneTasks = \App\Models\Task::whereHas('course', function ($query) use ($course, $user) {
-            $query->whereHas('enrollments', function ($query) use ($user) {
-                $query->where('section_id', $user->section->id);
-            });
-        })
-        ->whereHas('taskStatus', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })
-        ->get();
+    if ($user->section && $user->section->courses) {
+        foreach($user->section->courses as $sectionCourse) {
+            foreach ($sectionCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
+    // Filter tasks to get only those that are done by the user
+    $doneTasks = \App\Models\TaskStatus::all()->where('user_id', $user->id);
+
 
 
     return view('taskGrades', [
@@ -458,6 +476,7 @@ Route::get('courses/{course:id}/grades' , function(Course $course) {
         'user' => $user
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode']);

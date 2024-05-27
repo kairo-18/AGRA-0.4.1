@@ -83,9 +83,9 @@
                                 </div>
                                 <!-- Modal body -->
                                 <div class="p-4 md:p-5 space-y-4">
-                                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                        {{$task->Description}}
-                                    </p>
+                                    <div class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                        {!! $task->TaskInstruction!!}
+                                    </div>
                                 </div>
                                 <!-- Modal footer -->
                                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -167,9 +167,9 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    {{$task->Description}}
-                </p>
+                <div class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                    {!! $task->TaskInstruction!!}
+                </div>
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
