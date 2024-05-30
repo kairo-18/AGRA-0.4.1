@@ -1,4 +1,4 @@
-<!-- Course Tab -->
+<!-- Module Tab -->
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -36,7 +36,6 @@
 <!--=====================================End Navbar=====================================-->
 
 
-<!--=====================================Start outerDiv/MainDiv-=====================================-->
 <div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
     <!--Inner div-->
     <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-lg xl overflow-auto">
@@ -46,7 +45,7 @@
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
                 <h1 class="text-4xl font-bold text-blue-800">Hello {{$user->name}}!</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h3>
             </div>
 
             <!--2 div Page Tabs -->
@@ -54,27 +53,77 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
-                            <a href="/agraCourses" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Courses</a>
+                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Courses</a>
                         </li>
                         <li class="me-2">
                             <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Lessons</a>
+                        </li>
+                        <li class="me-2">
+                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Modules</a>
+                        </li>
+                        <li class="me-2">
+                            <a class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold cursor-not-allowed" aria-current="page">Game</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                @foreach($courses as $course)
 
-                    <a href="/agraCourses/{{$course->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
-                        <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-lg" src="image-course.png" alt="">
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tigh">{{$course->CourseName}}</h5>
-                            <p class="mb-3 font-normal">{{$course->CourseDescription}}</p>
-                        </div>
+
+                <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <a href="#">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$task->TaskName}}</h5>
                     </a>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$task->Description}}</p>
 
-                @endforeach
+                    <p class="mb-3 font-normal text-xl text-gray-900 dark:text-gray-400"><strong>Instruction:</strong></p>
+                    <div class="mb-3 font-normal text-l text-gray-900 dark:text-gray-400">{!!$task->TaskInstruction !!}</div>
+
+                    <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Date Given:</strong> {{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</p>
+                    <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Deadline:</strong> {{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</p>
+
+                    @php
+                        $latestScore = null;
+                    @endphp
+
+                    @foreach($task->score as $sc)
+                        @if ($sc->user_id == $user->id)
+                            @if (is_null($latestScore) || $sc->created_at > $latestScore->created_at)
+                                @php
+                                    $latestScore = $sc;
+                                @endphp
+                            @endif
+                        @endif
+                    @endforeach
+                    @if ($latestScore)
+                        <td></td>
+                        <td></td>
+                        <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Score:</strong> {{ $latestScore->score }} / {{ $latestScore->MaxScore }}</p>
+                        <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Percentage:</strong> {{ $latestScore->Percentage }}%</p>
+                    @else
+                        <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Score:</strong> No submission yet</p>
+                        <p class="mb-3 font-normal text-gray-800 dark:text-gray-400"><strong>Percentage:</strong> No submission yet</p>
+                    @endif
+
+                    @php
+                        $taskRoutes = [
+                            'Intermediate' => 'fight',
+                            'Beginner' => 'fitb',
+                            'Advanced' => 'output'
+                        ];
+                    @endphp
+
+                    @if (array_key_exists($task->TaskDifficulty, $taskRoutes))
+                        <a href="/tasks/{{ $taskRoutes[$task->TaskDifficulty] }}/{{ $task->id }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Play
+                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                            </svg>
+                        </a>
+                    @endif
+
+                </div>
             </div>
         </div>
         <!-------------------------End leftPanel----------------------->
@@ -87,7 +136,6 @@
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
-
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
 
                     <!----Agenda deadline 1---->
@@ -101,7 +149,7 @@
 
                             <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
                             <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</time>
-                            <a href="/agraTasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
+                            <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
                                 Go
                                 <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
                                     <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
@@ -113,7 +161,7 @@
                     @endforeach
                     <!----End Agenda deadline---->
                 </ol>
-
+                <!----End lbl and border line---->
             </div>
             <!--------------End Agenda-------------->
 
@@ -126,6 +174,11 @@
 
     </div>
 </div>
+<!--=====================================End outerDiv/MainDiv-=====================================-->
+
+
+
+
 <!--=====================================End outerDiv/MainDiv-=====================================-->
 
 

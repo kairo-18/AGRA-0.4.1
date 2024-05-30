@@ -1,4 +1,4 @@
-<!-- Course Tab -->
+<!-- Module Tab -->
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -37,15 +37,15 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+<div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-10 ">
     <!--Inner div-->
-    <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-lg xl overflow-auto">
+    <div class="innerDiv xl:flex bg-gray-50 h-auto w-full rounded-lg xl overflow-auto">
         <!-------------------------Start leftPanel----------------------->
         <div class="left-panel flex flex-col  bg-trnsparent h-screen w-full p-10">
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Hello {{$user->name}}!</h1>
+                <h1 class="text-4xl font-bold text-blue-800">Learn to {{$lesson->LessonName}}</h1>
                 <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
@@ -54,27 +54,21 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
-                            <a href="/agraCourses" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Courses</a>
+                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold" >Courses</a>
                         </li>
                         <li class="me-2">
-                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Lessons</a>
+                            <a href="/agraCourses/{{$course->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Lessons</a>
+                        </li>
+                        <li class="me-2">
+                            <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Modules</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                @foreach($courses as $course)
+            <div class = "learM-section flex flex-col bg-gray-200 h-[50rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+                <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
 
-                    <a href="/agraCourses/{{$course->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
-                        <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-lg" src="image-course.png" alt="">
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tigh">{{$course->CourseName}}</h5>
-                            <p class="mb-3 font-normal">{{$course->CourseDescription}}</p>
-                        </div>
-                    </a>
-
-                @endforeach
             </div>
         </div>
         <!-------------------------End leftPanel----------------------->
@@ -86,7 +80,10 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+                <h1 class="flex mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                    Agenda
+                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-base text-blue-600 mt-1">View grades</a>
+                </h1>
 
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
 
@@ -113,7 +110,7 @@
                     @endforeach
                     <!----End Agenda deadline---->
                 </ol>
-
+                <!----End lbl and border line---->
             </div>
             <!--------------End Agenda-------------->
 

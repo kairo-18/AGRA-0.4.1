@@ -77,7 +77,6 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/agraCourses', function () {
-
     $user = Auth::user();
     $userCourses = $user->courses;
     $sectionCourses = $user->section->courses;
@@ -87,14 +86,22 @@ Route::get('/agraCourses', function () {
         $query->where('status', 'Done');
     })->pluck('task_id')->toArray();
 
-    // Retrieve all tasks except those that are marked as "Done" for the current user
-    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+    // Get all courses except the ones the user is enrolled in and those authored by 'STI'
+    $excludedCourseIds = $userCourses->pluck('id')->merge($sectionCourses->pluck('id'));
+    $courses = Course::whereNotIn('id', $excludedCourseIds)
+        ->where('author', '!=', 'STI')
+        ->get();
 
-    $courses = Course::all();
-    // Get all courses except the ones the user is enrolled in
-    $courses = $courses->whereNotIn('id', $userCourses->pluck('id'));
-    $courses = $courses->whereNotIn('id', $sectionCourses->pluck('id'));
-    $courses = $courses->whereNotIn('author', 'STI');
+    // Collect tasks from the filtered courses
+    $tasks = collect();
+    foreach ($courses as $course) {
+        foreach ($course->lessons as $lesson) {
+            $tasks = $tasks->merge($lesson->tasks ?? collect());
+        }
+    }
+
+    // Remove tasks that are marked as "Done"
+    $tasks = $tasks->whereNotIn('id', $userDoneTaskIds);
 
     return view('allCourses', [
         'courses' => $courses,
@@ -102,6 +109,7 @@ Route::get('/agraCourses', function () {
         'tasks' => $tasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/courses', function () {
 
@@ -193,6 +201,38 @@ Route::get('courses/{course:id}', function(Course $course) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('agraCourses/{course:id}', function(Course $course) {
+    $lessons = $course->lessons;
+    $user = Auth::user();
+
+    $userCourses = $user->courses;
+    $sectionCourses = $user->section->courses;
+
+    // Get all courses except the ones the user is enrolled in and authored by 'STI'
+    $courses = Course::whereNotIn('id', $userCourses->pluck('id'))
+        ->whereNotIn('id', $sectionCourses->pluck('id'))
+        ->where('author', '!=', 'STI')
+        ->get();
+
+    // Initialize the task collection
+    $tasks = collect();
+
+    // Fetch tasks from the filtered courses
+    foreach($courses as $courseItem) {
+        foreach ($courseItem->lessons as $lesson) {
+            $tasks = $tasks->merge($lesson->tasks ?? collect());
+        }
+    }
+
+    return view('agraLessons', [
+        'course' => $course, // Ensure the original course parameter is passed to the view
+        'lessons' => $lessons,
+        'user' => $user,
+        'tasks' => $tasks
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 Route::get('categories/{category:slug}' , function(Category $category) {
 
     $user = Auth::user();
@@ -281,6 +321,26 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
+    $user = Auth::user();
+
+//    // Retrieve task IDs that the current user has marked as "Done"
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+
+    return view('agraLesson', [
+        'lesson' => $lesson,
+        'tasks' => $lesson->tasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('tasks/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
@@ -306,6 +366,39 @@ Route::get('tasks/{task:id}' , function(Task $task) {
     }
 
     return view('taskView', [
+        'task' => $task,
+        'instructions' => $instructions,
+        'user' => $user,
+        'tasks' => $task->lesson->tasks,
+        'scores' => $scores
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('agraTasks/{task:id}' , function(Task $task) {
+    $instructions = $task->instructions;
+    $user = Auth::user();
+    $scores = \App\Models\Score::where('user_id', $user->id)->get();
+
+
+    $tasks = collect();
+
+    if ($user->courses) {
+        foreach($user->courses as $userCourse) {
+            foreach ($userCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
+    if ($user->section && $user->section->courses) {
+        foreach($user->section->courses as $sectionCourse) {
+            foreach ($sectionCourse->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+    }
+
+    return view('agraTaskView', [
         'task' => $task,
         'instructions' => $instructions,
         'user' => $user,
