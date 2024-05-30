@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>AGRA</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
 
@@ -35,35 +35,64 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto">
+<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto pl-10 pr-10 pb-10">
     <!--Inner div-->
-    <div class="innerDiv xl:flex bg-transparent h-full w-full rounded-lg xl overflow-auto">
-        <div class="left-panel flex flex-col  bg-trnsparent h-5/6 xl:w-5/6 p-10 gap-y-10 ">
-            <h1 class="mb-4 text-3xl font-light text-gray-900 dark:text-white md:text-5xl lg:text-7xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-gray-300 from-blue-400">LEARN PROGRAMMING WHERE IT MEETS GAMING</span></h1>
+    <div class="innerDiv 2xl:flex bg-transparent h-full w-full rounded-xl overflow-hidden">
+        <div class="left-panel flex flex-col  bg-gray-300 h-5/6 3xl:w-2/5 p-10 gap-y-10 ">
+
+            <section class="bg-transparent dark:bg-gray-900">
+                <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
+                    <h1 class="mb-4 text-5xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-8xl dark:text-white">Learn Programming where it meets Gaming</h1>
+                    <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Here at AGRA we focus on learning where programming can be fun.</p>
+                    <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
+                        <a href="/courses" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                            Get started
+                            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                            </svg>
+                        </a>
+                        <a href="about" class="py-3 px-5 sm:ms-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-70">
+                            Learn more
+                        </a>
+                    </div>
+                </div>
+            </section>
+
 
         </div>
-        <div class="right-panel flex flex-col bg-transparent rounded-r-lg h-auto xl:w-2/6 w-full p-5 gap-8 items-end max-xl:hidden">
-            <div class="max-w-sm p-6 bg-blue-700 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <svg class="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M18 5h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C8.4.842 6.949 0 5.5 0A3.5 3.5 0 0 0 2 3.5c.003.52.123 1.033.351 1.5H2a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2ZM8.058 5H5.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM11 13H9v7h2v-7Zm-4 0H2v5a2 2 0 0 0 2 2h3v-7Zm6 0v7h3a2 2 0 0 0 2-2v-5h-5Z"/>
-                </svg>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-light tracking-tight text-gray-200 dark:text-white">Learn AGRA now!!!</h5>
+        <div class="right-panel flex flex-row bg-gray-300 h-auto 3xl:w-3/5 w-full p-5 gap-8 items-end max-xl:hidden">
+            <figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0 focus:ring-4  focus:outline-none ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 ">
+                <a href="/">
+                    <img class="rounded-full" src="5.png" alt="image description">
                 </a>
-                <p class="mb-3 font-extralight text-gray-300 dark:text-gray-400">Take a Step Forward: Learn Programming and Have Fun While Doing It</p>
-                <a href="#" class="inline-flex font-medium items-center text-blue-900 hover:underline">
-                    See our guideline
-                    <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
-                    </svg>
+                <figcaption class="absolute px-4 text-lg text-white bottom-32">
+                    <h1 class="font-extrabold tracking-tight leading-none text-blue-800 md:text-5xl lg:text-3xl dark:text-white bg-white rounded-xl">LEARNING</h1>
+                </figcaption>
+            </figure>
+
+            <figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0 mb-20 focus:ring-4  focus:outline-none ease-in-out delay-150 hover:-translate-y-1 hover:scale-110">
+                <a href="/">
+                    <img class="rounded-full" src="6.png" alt="image description">
                 </a>
-            </div>
+                <figcaption class="absolute px-4 text-lg text-white bottom-32">
+                    <h1 class="font-extrabold tracking-tight leading-none text-blue-800 md:text-5xl lg:text-3xl dark:text-white bg-white rounded-xl">PROGRAMMING</h1>
+                </figcaption>
+            </figure>
+
+            <figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0 mb-40 focus:ring-4  focus:outline-none ease-in-out delay-150 hover:-translate-y-1 hover:scale-110">
+                <a href="/">
+                    <img class="rounded-full" src="7.png" alt="image description">
+                </a>
+                <figcaption class="absolute px-4 text-lg text-white bottom-32 ">
+                    <h1 class="font-extrabold tracking-tight leading-none text-blue-800 md:text-5xl lg:text-3xl dark:text-white bg-white rounded-xl">GAMING</h1>
+                </figcaption>
+            </figure>
         </div>
     </div>
 
 
 
-    <div class="innerDiv xl:flex bg-gray-300 h-full w-full rounded-t-3xl overflow-auto shadow-lg dark:bg-gray-800 dark:border-gray-700 p-5">
+    <div class="innerDiv xl:flex bg-transparent h-full w-full overflow-auto shadow-lg dark:bg-gray-800 dark:border-gray-700 p-16">
 
         <!-------------------------Start leftPanel----------------------->
 
@@ -74,23 +103,23 @@
             <div class="relative h-56 overflow-hidden rounded-lg md:h-[35rem]">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="image-course.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    <img src="1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div>
                 <!-- Item 2 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="image-course.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    <img src="2.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div>
                 <!-- Item 3 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="image-course.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    <img src="3.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div>
                 <!-- Item 4 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="image-course.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    <img src="6.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div>
                 <!-- Item 5 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="image-course.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                    <img src="7.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                 </div>
             </div>
             <!-- Slider indicators -->
@@ -120,87 +149,59 @@
             </button>
         </div>
 
-
-
     </div>
 
 
-    <div class="innerDiv xl:flex bg-gray-300 h-full w-full rounded-b-3xl overflow-auto p-10 justify-center gap-y-10">
+    <div class="innerDiv 2xl:flex bg-transparent h-full w-full rounded-t-xl overflow-hidden">
 
-        <div class="xl:w-full h-[40rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
-            <a href="#">
-                <img class="rounded-t-lg" src="image-course.png" alt="" />
-            </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-            </div>
+        <div class="right-panel flex flex-row bg-gray-300 h-auto 3xl:w-3/5 w-full p-5 gap-8 items-center">
+            <p class="text-left rtl:text-right text-gray-500 dark:text-gray-400">AGRA is an innovative gamified scoring system designed to enhance learning in Java and C# programming. By integrating engaging game mechanics with advanced data analytics, AGRA offers a dynamic and interactive educational experience. It not only evaluates coding proficiency but also provides insightful feedback to help learners improve their skills. AGRA is ideal for aspiring developers seeking a fun and effective way to master programming concepts and stay motivated throughout their learning journey.</p>
         </div>
 
-
-        <div class="xl:w-full h-[40rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-            </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-            </div>
+        <div class="left-panel flex flex-col  bg-gray-300 h-5/6 3xl:w-4/5 p-10 gap-y-10 pl-10">
+            <p class="text-4xl font-medium leading-loose text-gray-900 dark:text-white">AGRA: Revolutionize Your Coding Skills with Gamified Learning and Smart Analytics</p>
         </div>
 
+    </div>
 
-        <div class="xl:w-full h-[40rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+    <div class="innerDiv xl:flex bg-gray-300 h-full w-full overflow-auto p-10 justify-center gap-x-10 rounded-b-xl">
+
+        <figure class="relative max-w-lg transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
+            <a href="/">
+                <img class="rounded-lg" src="1.png" alt="image description">
             </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
+            <figcaption class="absolute px-4 text-4xl font-bold text-white bottom-96">
+                <p>AGRA: Elevate Your Coding Skills with Gamified Learning and Data Analytics</p>
+            </figcaption>
+        </figure>
 
-
-        <div class="xl:w-full h-[40rem] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+        <figure class="relative max-w-lg transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
+            <a href="/">
+                <img class="rounded-lg" src="2.png" alt="image description">
             </a>
-            <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
+            <figcaption class="absolute px-4 text-4xl font-bold text-blue-800 bottom-6">
+                <p>Master Java and C# with AGRA – Where Gamification Meets Insightful Analytics</p>
+            </figcaption>
+        </figure>
+
+        <figure class="relative max-w-lg transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
+            <a href="/">
+                <img class="rounded-lg" src="3.png" alt="image description">
+            </a>
+            <figcaption class="absolute px-4 text-4xl font-bold text-white bottom-96    ">
+                <p>Transform Your Programming Journey: AGRA’s Gamified Scoring & Data Analytics</p>
+            </figcaption>
+        </figure>
+
+        <figure class="relative max-w-lg transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
+            <a href="/">
+                <img class="rounded-lg" src="4.png" alt="image description">
+            </a>
+            <figcaption class="absolute px-4 text-4xl font-bold text-blue-800 bottom-6">
+                <p>Unlock Your Potential in Java and C# with AGRA’s Interactive Learning System</p>
+            </figcaption>
+        </figure>
+
 
 
     </div>
