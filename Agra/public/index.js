@@ -470,9 +470,9 @@ function startIntervalTimer2(rounds, roundDuration, timerDuration) {
     }, (roundDuration + 1) * 1000);
 }
 
-function startIntervalTimer() {
+function startIntervalTimer(timeSec) {
 
-    let time1 = 10;
+    let time1 = timeSec;
     const timer1 = setInterval(function () {
         time1--;
         document.getElementById("timer").innerHTML = time1;
@@ -491,7 +491,7 @@ function startIntervalTimer() {
     let rounds = 5;
     const timer = setInterval(function () {
 
-        let time = 10;
+        let time = timeSec;
         const timer2 = setInterval(function () {
             document.getElementById("timer").innerHTML = time;
             time--;
@@ -509,8 +509,8 @@ function startIntervalTimer() {
 
         rounds--;
         console.log(rounds);
-        monsterTween.play();
-        monster.play("punch", true);
+
+        monsterMove(scene);
         delay(400).then(() => player.play("dmg", true));
 
         if (rounds === 0) {
@@ -529,7 +529,7 @@ function startIntervalTimer() {
             document.getElementById("timer").innerHTML = "Done";
             showResetPanel();
         }
-    }, 11000);
+    }, (timeSec * 1000) + 1000);
 
 
 }
@@ -550,7 +550,7 @@ var startButton = document.getElementById("startButton");
 function startGame(){
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
-    startIntervalTimer();
+    startIntervalTimer(timerSeconds);
 }
 
 

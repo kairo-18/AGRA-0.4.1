@@ -142,6 +142,7 @@
     console.log(checkmarks)
 
     let maxMonsterHealth = (20 * checkmarks.length);
+    let timerSeconds = {{$task->TaskMaxTime}};
 </script>
 
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>

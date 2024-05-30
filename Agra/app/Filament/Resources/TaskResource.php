@@ -39,24 +39,15 @@ class TaskResource extends Resource
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\TextInput::make('Description')->label('Task Description'),
                 Forms\Components\RichEditor::make('TaskInstruction')->label('Task Instruction'),
-                Forms\Components\TextInput::make('TaskMaxTime')->label('Task Max Time')->numeric(),
+                Forms\Components\TextInput::make('TaskMaxTime')->label('Task Interval Time (seconds)')->numeric(),
                 Forms\Components\Select::make('TaskDifficulty')
                     ->options([
                         "Beginner" => "Beginner",
-                        "Easy" => "Easy",
                         "Intermediate" => "Intermediate",
                         "Advanced" => "Advanced"
                     ])
                     ->label('Task Difficulty'),
 
-                Forms\Components\Select::make('TaskType')
-                    ->options([
-                        "FITB" => "FITB",
-                        "ShipGame" => "ShipGame",
-                        "FightGame" => "FightGame",
-                        "OutputGame" => "OutputGame"
-                    ])
-                    ->label('Task Type'),
                 Forms\Components\DateTimePicker::make('DateGiven'),
                 Forms\Components\DateTimePicker::make('Deadline'),
 

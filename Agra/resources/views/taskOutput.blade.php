@@ -215,6 +215,7 @@
 <script type="text/javascript">
     let testcasesTemp = @json($testcases);
     let maxMonsterHealth = 20 * testcasesTemp.length;
+    let timerSeconds = {{$task->TaskMaxTime}};
 </script>
 
 <script src="/shipGame.js"></script>
@@ -226,7 +227,7 @@
     let maxScore = 0;
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
-        startIntervalTimer();
+        startIntervalTimer(timerSeconds);
     }
 
     function showModal(){
@@ -383,9 +384,9 @@
         document.getElementById("Percentage").value = scorePercentage;
     }
 
-    function startIntervalTimer() {
+    function startIntervalTimer(timeSec) {
 
-        let time1 = 10;
+        let time1 = timeSec;
         const timer1 = setInterval(function () {
             time1--;
             document.getElementById("timer").innerHTML = time1;
@@ -404,7 +405,7 @@
         let rounds = 5;
         const timer = setInterval(function () {
 
-            let time = 10;
+            let time = timeSec;
             const timer2 = setInterval(function () {
                 document.getElementById("timer").innerHTML = time;
                 time--;
@@ -442,7 +443,7 @@
                 document.getElementById("timer").innerHTML = "Done";
                 showResetPanel();
             }
-        }, 11000);
+        }, (timeSec * 1000) + 1000);
 
 
     }

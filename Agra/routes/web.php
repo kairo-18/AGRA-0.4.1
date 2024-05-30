@@ -348,7 +348,13 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
         $parts = explode('=', $testcase);
 
         // Initialize inputsArray
-        $inputsArray = array_map('intval', explode(',', trim($parts[0], '()')));
+        $inputsArray = [];
+
+        // Check if there are inputs
+        if (trim($parts[0], '()') !== '') {
+            // Map inputs to an array of integers
+            $inputsArray = array_map('intval', explode(',', trim($parts[0], '()')));
+        }
 
         // Check if there is an '=' character and handle the output part as a string
         if (count($parts) == 2) {
@@ -370,6 +376,7 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
         'methodName' => $task->output[0]->methodName,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 

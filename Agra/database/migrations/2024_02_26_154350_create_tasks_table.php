@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('TaskAnswerKeys');
             $table->text('TaskMaxTime');
             $table->text('TaskDifficulty');
-            $table->text('TaskType');
 
             $table->dateTime('DateGiven');
             $table->dateTime('Deadline');
