@@ -102,7 +102,7 @@
                         <a href="/userProfile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                     </li>
                     <li>
-                        <a href="/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Analytics</a>
+                        <a href="/userAnalytics" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Analytics</a>
                     </li>
                     <li>
                         <form method="POST" id="logout" action="{{ route('logout') }}">

@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('task_id');
             $table->foreignId('score_id');
+            $table->integer('TimeTaken');
+            $table->integer('TimeLeft');
+            $table->integer('Errors');
         });
     }
 

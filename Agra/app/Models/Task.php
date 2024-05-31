@@ -40,5 +40,10 @@ class Task extends Model
             ->withPivot('status');
     }
 
+    public function taskScore(){
+        return $this->belongsToMany(TaskScore::class, 'task_score')
+            ->withPivot(['TimeTaken', 'TimeLeft', 'Errors']);
+    }
+
 
 }

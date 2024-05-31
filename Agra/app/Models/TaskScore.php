@@ -15,4 +15,8 @@ class TaskScore extends Model
         'task_id',
     ];
 
+    public function task(){
+        return $this->belongsToMany(Task::class, 'task_score', 'task_id', 'user_id');
+    }
+
 }

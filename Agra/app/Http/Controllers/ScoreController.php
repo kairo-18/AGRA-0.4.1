@@ -33,7 +33,6 @@ class ScoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $score = new Score();
         $score->user_id = $request->userid;
         $score->task_id = $request->taskid;
@@ -47,7 +46,7 @@ class ScoreController extends Controller
         $user = Auth::user();
 
         $taskStatus->user_id = $request->userid;
-        if($user->section){
+        if ($user->section) {
             $taskStatus->section_id = $request->sectionid;
         }
         $taskStatus->task_id = $request->taskid;
@@ -61,10 +60,17 @@ class ScoreController extends Controller
         $taskScore->score_id = $score->id;
         $taskScore->task_id = $score->task_id;
         $taskScore->timestamps = false;
+        $taskScore->errors = $request->errors;
+        $taskScore->timeTaken = $request->timeTaken;
+        $taskScore->timeLeft = $request->timeLeft;
         $taskScore->save();
+
+
+
 
         return redirect('/courses');
     }
+
 
     /**
      * Display the specified resource.

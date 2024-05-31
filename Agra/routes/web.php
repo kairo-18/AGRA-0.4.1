@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Section;
 use App\Models\Lesson;
 use App\Models\Task;
+use App\Models\TaskScore;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -169,7 +170,7 @@ Route::get('/task/{course:id}/{lesson:id}', function (Course $course, Lesson $le
         'course' => $course,
         'lesson'=>$lesson,
         'tasks' => $tasks,
-        'user' => $user, 
+        'user' => $user,
         'lessons' => $course->lessons,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -381,7 +382,7 @@ Route::get('tasks/{task:id}' , function(Course $course, Lesson $lesson, Task $ta
     return view('taskView', [
         'course' => $course,
         'lesson'=>$lesson,
-        'user' => $user, 
+        'user' => $user,
         'lessons' => $course->lessons,
         'task' => $task,
         'instructions' => $instructions,
@@ -553,10 +554,65 @@ function handleGrades(Course $course, Lesson $lesson) {
 Route::get('/userProfile', function (){
     $user =Auth::user();
 
+    $userCourses = $user->courses;
+    $courses = $user->section->courses;
+    $courses = $courses->merge($userCourses);
+
     return view ('userProfile', [
-        'user' => $user
+        'user' => $user,
+        'courses' => $courses,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/userAnalytics', function () {
+    $user = Auth::user();
+
+    // Fetch task scores for the authenticated user
+    $taskScores = TaskScore::where('user_id', $user->id)->get();
+
+    // Prepare the data for the chart
+    $taskData = [
+        'Java' => [
+            'errors' => [],
+            'timeTaken' => [],
+            'timeLeft' => [],
+            'categories' => []
+        ],
+        'C#' => [
+            'errors' => [],
+            'timeTaken' => [],
+            'timeLeft' => [],
+            'categories' => []
+        ]
+    ];
+
+    foreach ($taskScores as $taskScore) {
+        // Retrieve the task using task_id
+        $task = Task::find($taskScore->task_id);
+
+        if ($task) {
+            // Retrieve the category name from the task's lesson course
+            $categoryName = $task->lesson->course->category->name;
+            $score =\App\Models\Score::find($taskScore->score_id);
+
+            // Store data in the taskData array
+            $taskData[$categoryName]['errors'][] = $taskScore->Errors;
+            $taskData[$categoryName]['timeTaken'][] = $taskScore->TimeTaken;
+            $taskData[$categoryName]['timeLeft'][] = $taskScore->TimeLeft;
+            $taskData[$categoryName]['score'][] = $score->score;
+            $taskData[$categoryName]['maxScore'][] = $score->MaxScore;
+            $taskData[$categoryName]['categories'][] = 'Task ' . $taskScore->task_id;
+        }
+    }
+
+
+    return view('userAnalytics', [
+        'user' => $user,
+        'taskData' => $taskData
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 // Route::get('courses/{course:id}/grades', function(Course $course) {
 //     $user = Auth::user();

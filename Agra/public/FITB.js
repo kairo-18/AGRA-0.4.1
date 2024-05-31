@@ -5,6 +5,10 @@ let userErrors = 0;
 let globalUserError = 0;
 let globalCorrectAnswers;
 let shaker = document.getElementById("coding-area");
+let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
+let startTime; // Time when the user starts the task
+let endTime; // Time when the user completes the task
+
 
 populateCheckmarks();
 calculateMaxMonsterHealth(checkmarks.length);
@@ -533,6 +537,7 @@ document.querySelector(".container1").style.pointerEvents = "none";
 document.querySelector(".container1").style.filter = "blur(3px)";
 
 function startGame(){
+    startTime = Date.now();
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
     document.querySelector(".container1").style.pointerEvents = "auto";
@@ -542,22 +547,30 @@ function startGame(){
 
 
 function showResetPanel(){
+    endTime = Date.now(); // Set the end time when the game ends
+    let timeTaken = Math.floor((endTime - startTime) / 1000); // Calculate the time taken in seconds
+    let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
+
     var endPanel = document.getElementById("endPanel");
     var score2 = document.getElementById("score2");
     endPanel.style.display = "block";
     score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
-    setTimeout(function(){
-        submitScore();
-    }, 2000);
 
+    setTimeout(function(){
+        submitScore(timeTaken, timeLeft);
+    }, 2000);
 }
 
 
-function submitScore(){
+
+function submitScore(timeTaken, timeLeft){
     document.getElementById('TotalScore').value = totalScore;
     document.getElementById('MaxScore').value = maxScore;
     document.getElementById('Percentage').value = globalScore;
     document.getElementById('TaskStatus').value = 'Done';
+    document.getElementById('errors').value = userErrors;
+    document.getElementById('timeTaken').value = timeTaken;
+    document.getElementById('timeLeft').value = timeLeft;
     document.getElementById("scoreForm").submit();
 }
 
