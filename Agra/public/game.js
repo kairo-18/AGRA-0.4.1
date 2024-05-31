@@ -44,9 +44,10 @@ var monsterIsAttacking = false;
 
 function calculateMaxMonsterHealth(calculate) {
     currentMonsterHealth = calculate * 20;
-    console.log(currentMonsterHealth);
     monsterNumber = calculate;
 }
+
+console.log(maxPlayerHealth);
 
 function preload() {
     this.load.image('muteButton', '/FITBAssets/muteButton.png');
@@ -218,28 +219,28 @@ function createAnimations(scene){
         scene.anims.create({
             key: `${monsterKey}Idle`,
             frames: scene.anims.generateFrameNames(monsterKey, { prefix: 'idle', end: idleFrameEnd, zeroPad: 2 }),
-            frameRate: 9,
+            frameRate: idleFrameEnd * 0.75,
             repeat: -1
         });
 
         scene.anims.create({
             key: `${monsterKey}Run`,
             frames: scene.anims.generateFrameNames(monsterKey, { prefix: 'run', end: runFrameEnd, zeroPad: 2 }),
-            frameRate: 6,
+            frameRate: runFrameEnd * 0.75,
             repeat: -1
         });
 
         scene.anims.create({
             key: `${monsterKey}Hurt`,
             frames: scene.anims.generateFrameNames(monsterKey, { prefix: 'hurt', end: hurtFrameEnd, zeroPad: 2 }),
-            frameRate: 5,
+            frameRate: hurtFrameEnd * 0.75,
             repeat: 0
         });
 
         scene.anims.create({
             key: `${monsterKey}Attack`,
             frames: scene.anims.generateFrameNames(monsterKey, { prefix: 'attack', end: attackFrameEnd, zeroPad: 2 }),
-            frameRate: 12,
+            frameRate: attackFrameEnd * 0.75,
             repeat: 0
         });
     }
@@ -268,7 +269,9 @@ function updatePlayerHealthBar() {
 
 // Function to reduce player health
 function reducePlayerHealth(amount) {
-    currentPlayerHealth -= amount;
+    // Calculate the amount based on maxPlayerHealth divided by monsterNumber
+    const calculatedAmount = maxPlayerHealth / monsterNumber;
+    currentPlayerHealth -= calculatedAmount;
     currentPlayerHealth = Math.max(currentPlayerHealth, 0); // Ensure health doesn't go below 0
     updatePlayerHealthBar();
 }

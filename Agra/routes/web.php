@@ -154,6 +154,27 @@ Route::get('/courses', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/task/{course:id}/{lesson:id}', function (Course $course, Lesson $lesson) {
+    $user = Auth::user();
+
+    // Verify that the lesson belongs to the course
+    if (!$course->lessons->contains($lesson)) {
+        abort(404, 'Lesson not found in the course');
+    }
+
+    // Filter tasks to only include those under the current lesson
+    $tasks = $lesson->tasks;
+
+    return view('courseTask', [
+        'course' => $course,
+        'lesson'=>$lesson,
+        'tasks' => $tasks,
+        'user' => $user, 
+        'lessons' => $course->lessons,
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -193,7 +214,7 @@ Route::get('courses/{course:id}', function(Course $course) {
 
     }
 
-    return view('course', [
+    return view('lesson', [
         'course' => $course,
         'lessons' => $lessons,
         'user' => $user,
@@ -304,15 +325,7 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
 
-//    // Retrieve task IDs that the current user has marked as "Done"
-//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-//        $query->where('status', 'Done');
-//    })->pluck('task_id')->toArray();
-//
-//    // Retrieve all tasks except those that are marked as "Done" for the current user
-//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
-
-    return view('lessons', [
+    return view('modules', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
@@ -341,7 +354,7 @@ Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Less
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('tasks/{task:id}' , function(Task $task) {
+Route::get('tasks/{task:id}' , function(Course $course, Lesson $lesson, Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
     $scores = \App\Models\Score::where('user_id', $user->id)->get();
@@ -366,11 +379,15 @@ Route::get('tasks/{task:id}' , function(Task $task) {
     }
 
     return view('taskView', [
+        'course' => $course,
+        'lesson'=>$lesson,
+        'user' => $user, 
+        'lessons' => $course->lessons,
         'task' => $task,
         'instructions' => $instructions,
         'user' => $user,
         'tasks' => $task->lesson->tasks,
-        'scores' => $scores
+        'scores' => $scores,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -470,12 +487,6 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-
-
-
-
 Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
@@ -495,44 +506,41 @@ Route::get('/multiplayer' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/grades', function(Task $task) {
+// Route::get('/courseGrades', function(Task $task) {
+//     $user = Auth::user();
+//     $scores = \App\Models\Score::where('user_id', $user->id)->get();
+//     $tasks = $user->tasks;
+
+//     return view('courseGrades', [
+//         'user' => $user,
+//         'scores' => $scores,
+//         'tasks' => $tasks
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('lessons/{course:id}/{lesson:id}/grades', function(Course $course, Lesson $lesson) {
+    return handleGrades($course, $lesson);
+})->middleware(['auth', 'verified'])->name('lessons.grades');
+
+Route::get('task/{course:id}/{lesson:id}/grades', function(Course $course, Lesson $lesson) {
+    return handleGrades($course, $lesson);
+})->middleware(['auth', 'verified'])->name('task.grades');
+
+function handleGrades(Course $course, Lesson $lesson) {
     $user = Auth::user();
-    $scores = \App\Models\Score::where('user_id', $user->id)->get();
-    $tasks = $user->tasks;
 
-    return view('taskGrades', [
-        'user' => $user,
-        'scores' => $scores,
-        'tasks' => $tasks
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('lessons/{course:id}/{lesson:id}/grades' , function(Course $course, Lesson $lesson) {
-    $user = Auth::user();
-
-    $tasks = collect();
-
-    if ($user->courses) {
-        foreach($user->courses as $userCourse) {
-            foreach ($userCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
+    // Verify that the lesson belongs to the course
+    if (!$course->lessons->contains($lesson)) {
+        abort(404, 'Lesson not found in the course');
     }
 
-    if ($user->section && $user->section->courses) {
-        foreach($user->section->courses as $sectionCourse) {
-            foreach ($sectionCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-    }
+    // Filter tasks to only include those under the current lesson
+    $tasks = $lesson->tasks;
 
     // Filter tasks to get only those that are done by the user
-    $doneTasks = \App\Models\TaskStatus::all()->where('user_id', $user->id);
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
 
-
-    return view('taskGrades', [
+    return view('courseGrades', [
         'lesson' => $lesson,
         'tasks' => $tasks,
         'doneTasks' => $doneTasks,
@@ -540,42 +548,50 @@ Route::get('lessons/{course:id}/{lesson:id}/grades' , function(Course $course, L
         'course' => $course,
         'user' => $user
     ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+}
 
-Route::get('courses/{course:id}/grades', function(Course $course) {
-    $user = Auth::user();
+Route::get('/userProfile', function (){
+    $user =Auth::user();
 
-    $tasks = collect();
-
-    if ($user->courses) {
-        foreach($user->courses as $userCourse) {
-            foreach ($userCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-    }
-
-    if ($user->section && $user->section->courses) {
-        foreach($user->section->courses as $sectionCourse) {
-            foreach ($sectionCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-    }
-
-    // Filter tasks to get only those that are done by the user
-    $doneTasks = \App\Models\TaskStatus::all()->where('user_id', $user->id);
-
-
-
-    return view('taskGrades', [
-        'tasks' => $tasks,
-        'doneTasks' => $doneTasks,
-        'lessons' => $course->lessons,
-        'course' => $course,
+    return view ('userProfile', [
         'user' => $user
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('courses/{course:id}/grades', function(Course $course) {
+//     $user = Auth::user();
+
+//     $tasks = collect();
+
+//     if ($user->courses) {
+//         foreach($user->courses as $userCourse) {
+//             foreach ($userCourse->lessons as $lesson) {
+//                 $tasks = $tasks->merge($lesson->tasks ?? collect());
+//             }
+//         }
+//     }
+
+//     if ($user->section && $user->section->courses) {
+//         foreach($user->section->courses as $sectionCourse) {
+//             foreach ($sectionCourse->lessons as $lesson) {
+//                 $tasks = $tasks->merge($lesson->tasks ?? collect());
+//             }
+//         }
+//     }
+
+//     // Filter tasks to get only those that are done by the user
+//     $doneTasks = \App\Models\TaskStatus::all()->where('user_id', $user->id);
+
+
+
+//     return view('taskGrades', [
+//         'tasks' => $tasks,
+//         'doneTasks' => $doneTasks,
+//         'lessons' => $course->lessons,
+//         'course' => $course,
+//         'user' => $user
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 

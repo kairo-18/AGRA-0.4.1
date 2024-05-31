@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     <title>AGRA</title>
 </head>
 <body>
@@ -47,7 +45,7 @@
             <div class="stu-progress">
                 <div class="info-bar">
                     <div class="score"> Score<span id="score">0</span> </div>
-                    <div class="timer"> Timer<span id="timer">10</span> </div>
+                    <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
 
                     <div class="pb">
                         Progress
@@ -92,13 +90,16 @@
 
 </div>
 
-<div class="startPanel" id="startPanel">
-    <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
-    <button id="startButton" onclick="startGame()">Start</button>
+<div id="startPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+    <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
+    <button id="startButton" class="btn btn-primary" onclick="startGame()">Start</button>
 </div>
 
+
 <div class="endPanel" id="endPanel">
-    <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    </div>
 </div>
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">

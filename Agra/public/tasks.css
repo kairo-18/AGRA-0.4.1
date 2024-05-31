@@ -32,79 +32,7 @@ body{
     gap: 25px;
 }
 
-/*Nav bar*/
-header{
-    padding-left: 50px;
-    padding-right: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 25px;
-    border-bottom: 1px solid black;
-    background-color: #004AA0;
-}
 
-header h2 img {
-    padding: 0;
-    margin-left: 100px;
-    width: 90px;
-    height: auto;
-    margin-right: 80px;
-}
-nav li a:hover {
-    font-weight: 400;
-    color: white;
-    border: 1px solid white;
-    border-radius: 12px;
-    transition: all 0.3s ease 0s;
-}
-
-
-.nav_links{
-    display: flex;
-    gap: 20px;
-    list-style-type: none;
-    font-size: 20px;
-
-}
-.nav_links li a {
-    text-decoration: none;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color grey 0.3s ease;
-
-}
-
-nav{
-    display: flex;
-}
-
-#tutorialPanel{
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    top:30;
-    text-align: center;
-    z-index: 100;
-}
-
-#tutorialPanel img{
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 100;
-}
-
-.header img:last-child{
-    width: 50%;
-    height: 60%;
-    grid-row-start: 2;
-}
-
-.header img:hover{
-    opacity: 85%;
-    cursor: pointer;
-}
 
 .info-bar{
     width: 100%;
@@ -286,23 +214,6 @@ a{
     font-size: 30px;
 }
 
-.startPanel{
-    width: 500px;
-    height: 200px;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    top: 40%;
-    left: 0;
-    right: 0;
-    text-align: center;
-    background-color: #6a2ee8;
-    border: 1px solid white;
-    border-radius: 20px;
-    z-index: 100;
-    color: white;
-}
-
 #startButton{
     margin-top: 10px;
     margin-bottom: 10px;
@@ -320,8 +231,6 @@ a{
 }
 
 .endPanel{
-    width: 500px;
-    height: 200px;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -329,11 +238,8 @@ a{
     left: 0;
     right: 0;
     text-align: center;
-    background-color: #6a2ee8;
-    border: 1px solid white;
     border-radius: 20px;
     z-index: 100;
-    color: white;
     display: none;
 }
 

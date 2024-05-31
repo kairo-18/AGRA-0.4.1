@@ -36,6 +36,12 @@ class TaskResource extends Resource
                 ->relationship('lesson', 'LessonName')
                 ->searchable()
                 ->preload(),
+                Forms\Components\Section::make("Thumbnail")
+                    ->schema([
+                        Forms\Components\FileUpload::make('Thumbnail')
+                        ->columns(1)
+                        ->preserveFilenames()
+                    ]),
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\TextInput::make('Description')->label('Task Description'),
                 Forms\Components\RichEditor::make('TaskInstruction')->label('Task Instruction'),
@@ -54,7 +60,7 @@ class TaskResource extends Resource
                 Forms\Components\Textarea::make('TaskCodeTemplate'),
 
                 Forms\Components\Textarea::make('TaskAnswerKeys')->default(1),
-
+                
             ]);
     }
 

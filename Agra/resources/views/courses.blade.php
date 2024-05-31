@@ -59,6 +59,9 @@
                         <li class="me-2">
                             <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Lessons</a>
                         </li>
+                        <li class="me-2">
+                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed">Tasks</a>
+                        </li>
                     </ul>
                 </div>
             </div>

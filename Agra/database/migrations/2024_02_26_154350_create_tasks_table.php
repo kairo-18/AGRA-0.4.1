@@ -25,6 +25,8 @@ return new class extends Migration
             $table->dateTime('DateGiven');
             $table->dateTime('Deadline');
 
+            $table->text('Thumbnail');
+            
             $table->string('TaskStatus')->default('Unfinished');
             $table->timestamps();
         });

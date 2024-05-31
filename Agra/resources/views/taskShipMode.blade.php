@@ -16,15 +16,14 @@
 <!--=====================================End Navbar=====================================-->
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+<div id="mainContent" class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
     <!--Inner div-->
-
     <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
         <div class="top-panel flex flex-col  bg-white h-5/6 w-full p-3">
             <div class="stu-progress">
                 <div class="info-bar">
                     <div class="score"> Score<span id="score">0</span> </div>
-                    <div class="timer"> Timer<span id="timer">10</span> </div>
+                    <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
 
                     <div class="pb">
                         Progress
@@ -54,28 +53,26 @@
             </div>
 
         </div>
-
-        <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5">
+        <div class="right-panel flex flex-col  bg-white h-full xl:w-2/5 p-5">
             <div class="mini-game" id="minigame"></div>
         </div>
-
-
     </div>
 
 
     <div id="tutorial-container" class="tutorial-container">
 
     </div>
-
 </div>
 
-<div class="startPanel" id="startPanel">
-    <h2 id="startText">Press start when you are ready. (Press the tutorial in the top right corner for a walkthrough)</h2>
-    <button id="startButton" onclick="startGame()">Start</button>
+<div id="startPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+    <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
+    <button id="startButton" class="btn btn-primary" onclick="startGame()">Start</button>
 </div>
 
 <div class="endPanel" id="endPanel">
-    <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    </div>
 </div>
 
     <form method="GET" id="scoreForm" action="{{ route('score.store') }}">

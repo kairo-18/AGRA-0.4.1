@@ -488,7 +488,7 @@ function startIntervalTimer(timeSec) {
         }
     }, 1000);
 
-    let rounds = 5;
+    let rounds = checkmarks.length;
     const timer = setInterval(function () {
 
         let time = timeSec;
@@ -544,16 +544,12 @@ function displayOutput(output) {
     document.getElementById("output").innerHTML = output;
 }
 
-
 var startButton = document.getElementById("startButton");
 
-function startGame(){
-    startButton.style.display = "none";
+function startGame() {
     document.getElementById("startPanel").style.display = "none";
     startIntervalTimer(timerSeconds);
 }
-
-
 
 
 function showResetPanel(){
