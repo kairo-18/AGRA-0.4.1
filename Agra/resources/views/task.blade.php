@@ -110,6 +110,9 @@
     <input type="hidden" id="MaxScore" value="" name="MaxScore">
     <input type="hidden" id="Percentage" value="" name="Percentage">
     <input type="hidden" id="TaskStatus" value="" name="TaskStatus">
+    <input type="hidden" id="errors" value="" name="errors">
+    <input type="hidden" id="timeTaken" value="" name="timeTaken">
+    <input type="hidden" id="timeLeft" value="" name="timeLeft">
     {{csrf_field()}}
 </form>
 
