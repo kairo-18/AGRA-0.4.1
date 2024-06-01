@@ -218,17 +218,16 @@
         let totalTime = timeTaken + timeLeft;
 
         // Check if the user has more than 50% of time left
-        if (timeLeft / totalTime > 0.4) {
-            return 100; // Set coding speed to 100
+        if (timeLeft / totalTime > 0.5) {
+            return 5; // Set coding speed to 5
         } else {
-            // Calculate scaled value based on remaining time
-            let scalingFactor = Math.log(totalTime / (totalTime - timeLeft) + 1);
-            let scaledValue = scalingFactor * 100 / Math.log(2);
+            // Calculate the percentage of time left
+            let percentageTimeLeft = (timeLeft / totalTime) * 100;
 
-            // Deduct scaled value from 100 to get coding speed
-            let codingSpeed = 100 - scaledValue;
+            // Calculate rating based on percentage of time left
+            let rating = Math.max(1, percentageTimeLeft / 10);
 
-            return Math.round(codingSpeed);
+            return parseFloat(rating.toFixed(1));
         }
     }
 
@@ -271,7 +270,7 @@
 
 
     overallSpeed = overallSpeed / totalTasks;
-    document.querySelector('#overallSpeed').textContent = overallSpeed.toFixed(2) + '%';
+    document.querySelector('#overallSpeed').textContent = overallSpeed.toFixed(2) + '*';
 
 
     document.addEventListener("DOMContentLoaded", function() {
