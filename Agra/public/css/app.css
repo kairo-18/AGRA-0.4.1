@@ -969,6 +969,8 @@ video {
   margin-top: 2rem;
 }.mt-auto {
   margin-top: auto;
+}.mr-7 {
+  margin-right: 1.75rem;
 }.line-clamp-\[--line-clamp\] {
   overflow: hidden;
   display: -webkit-box;
