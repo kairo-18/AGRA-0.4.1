@@ -705,7 +705,7 @@ Route::get('/recommendation', function () {
             $lessonId = explode(' ', $categoryName)[1]; // Assuming the category name is like 'Task 123'
             $taskId = Task::find($lessonId);
             $lessonId = $taskId->lesson->id;
-            error_log($categoryName . ' ' . $index . ' l ' . $lessonId);
+            //error_log($categoryName . ' ' . $index . ' l ' . $lessonId);
 
             // Check if the lesson ID exists as a key in the corresponding lesson performance array
             if (!isset($lessonPerformance[$lessonId])) {
@@ -797,21 +797,58 @@ Route::get('/recommendation', function () {
         }
     }
 
-    dd($badperformancelessons);
+    $agraCourses = getAgraCourses($user);
+    $agraLessons = collect();
+    $recommendedLessons = collect();
+
+// Iterate over each course in agraCourses
+    foreach ($agraCourses as $course) {
+        // Merge lessons from the current course into agraLessons collection
+        $agraLessons = $agraLessons->merge($course->lessons);
+    }
+
+// Iterate over each bad performance lesson
+    foreach ($badperformancelessons as $lessonId){
+        // Find the lesson by ID
+        $lesson = Lesson::find($lessonId);
+        $badPerformanceLessonCategories = [];
+        foreach ($lesson->categories as $category) {
+            $badPerformanceLessonCategories[] = $category->name;
+        }
+// Count the number of shared categories with each lesson
 
 
+        foreach ($agraCourses as $course) {
+            foreach ($course->lessons as $lesson) {
+                // Iterate over each category of the lesson
+                $sharedCategoriesCount = 0;
+                foreach ($lesson->categories as $category) {
+                    // Check if the category exists in bad performance lessons
+                    if (in_array($category->name, $badPerformanceLessonCategories)) {
+                        $sharedCategoriesCount++;
+                    }
+                }
+                if ($sharedCategoriesCount >= 1) {
+                    $recommendedLessons->push($lesson);
+                }
+            }
+        }
+
+    }
 
 
+    $index = 0;
+    foreach ($recommendedLessons as $lesson){
+        error_log($badperformancelessons[$index]);
+        error_log($lesson->LessonName);
+        $index++;
+    }
 
-    return view('userAnalytics', [
+
+    $recommendedLessons = $recommendedLessons->unique();
+    return view('recommended', [
         'user' => $user,
-        'taskData' => $taskData,
-        'taskJavaAccuracy' => $taskJavaAccuracy,
-        'taskCsharpAccuracy' => $taskCsharpAccuracy,
-        'taskCsharpCodingSpeed' => $taskCsharpCodingSpeed,
-        'taskJavaCodingSpeed' => $taskJavaCodingSpeed,
-        'overallAccuracy' => $overallAccuracy,
-        'overallCodingSpeed' => $overallSpeed,
+        'lessons' => $recommendedLessons,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
