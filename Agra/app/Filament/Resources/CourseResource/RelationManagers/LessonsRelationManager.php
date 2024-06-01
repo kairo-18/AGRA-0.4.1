@@ -37,6 +37,11 @@ class LessonsRelationManager extends RelationManager
                         ->columns(1)
                         ->preserveFilenames()
                     ]),
+                Forms\Components\Textarea::make('links'),
+                Forms\Components\Select::make('Categories')
+                ->relationship('categories', 'name')
+                ->multiple()
+                ->preload(),
             ]);
     }
 

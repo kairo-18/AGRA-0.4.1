@@ -249,7 +249,6 @@
         taskCsharpAccuracy.push(accuracy);
         overallAccuracy += accuracy;
     });
-    console.log(taskData.Java)
 
     overallAccuracy = overallAccuracy / totalTasks;
 

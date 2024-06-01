@@ -18,4 +18,9 @@ class Lesson extends Model
     public function tasks(){
         return $this->hasMany(Task::class);
     }
+
+    public function categories(){
+        //hasOne, hasMany, belongsTo, belongsToMany
+        return $this->belongsToMany(Category::class, 'category_lessons');
+    }
 }
