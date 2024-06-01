@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profile</title>
-    <link rel="stylesheet" href="{{asset('tailwindcharts/css/flowbite.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
 </head>
@@ -142,9 +141,8 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv=====================================-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tinglejs/modal@1.0.0/dist/tingle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
 <script>
     var taskData = @json($taskData); //this is the data of all the tasks: errors, timeTaken, timeLeft, maxScore, score
     let taskJavaAccuracy = [];
@@ -156,24 +154,60 @@
     let totalCSharpTasks = taskData['C#'].categories.length;
     let totalTasks = totalJavaTasks + totalCSharpTasks;
     let overallAccuracy = 0;
+    let overallSpeed = 0;
+
+    // // Function to calculate accuracy considering errors
+    // function calculateAccuracy(score, maxScore, errors) {
+    //     // Determine the penalty for errors (adjust as needed)
+    //     let errorPenalty = 4; // For example, each error deducts 4 points from the accuracy
+    //
+    //     // Calculate adjusted correctness by deducting penalty for errors
+    //     let correctedScore = score * 100;
+    //     correctedScore -= (errors * errorPenalty);
+    //
+    //     // Ensure corrected score doesn't go below 0
+    //     correctedScore = Math.max(correctedScore, 0);
+    //
+    //     // Calculate accuracy
+    //     let accuracy = Math.round(correctedScore / maxScore);
+    //     return accuracy;
+    // }
+    //
+    //
+    // function calculateCodingSpeed(timeLeft, timeTaken) {
+    //     // Ensure timeLeft and timeTaken are non-negative
+    //     timeLeft = Math.max(timeLeft, 0);
+    //     timeTaken = Math.max(timeTaken, 0);
+    //
+    //     // Calculate total time spent coding
+    //     let totalTime = timeTaken + timeLeft;
+    //
+    //     // Calculate coding speed as a percentage of remaining time relative to total time
+    //     let codingSpeed = (timeLeft / totalTime) * 100;
+    //
+    //     return Math.round(codingSpeed);
+    // }
+
 
     // Function to calculate accuracy considering errors
-    function calculateAccuracy(score, maxScore, errors) {
-        // Determine the penalty for errors (adjust as needed)
-        let errorPenalty = 4; // For example, each error deducts 4 points from the accuracy
+    function calculateAccuracy(score, maxScore, errors, errorPenaltyPercent = 0.5) {
+        // Calculate the base accuracy as a percentage
+        let baseAccuracy = (score / maxScore) * 100;
 
-        // Calculate adjusted correctness by deducting penalty for errors
-        let correctedScore = score * 100;
-        correctedScore -= (errors * errorPenalty);
+        // Calculate the penalty per error as a percentage
+        let errorPenalty = errorPenaltyPercent * errors;
 
-        // Ensure corrected score doesn't go below 0
-        correctedScore = Math.max(correctedScore, 0);
+        // Calculate adjusted accuracy by deducting the penalty for errors
+        let adjustedAccuracy = baseAccuracy - errorPenalty;
 
-        // Calculate accuracy
-        let accuracy = Math.round(correctedScore / maxScore);
-        return accuracy;
+        // Ensure adjusted accuracy doesn't go below 0
+        adjustedAccuracy = Math.max(adjustedAccuracy, 0);
+
+        // Round the accuracy to two decimal places for precision
+        adjustedAccuracy = Math.round(adjustedAccuracy * 100) / 100;
+
+        return adjustedAccuracy;
     }
-
 
     function calculateCodingSpeed(timeLeft, timeTaken) {
         // Ensure timeLeft and timeTaken are non-negative
@@ -183,13 +217,23 @@
         // Calculate total time spent coding
         let totalTime = timeTaken + timeLeft;
 
-        // Calculate coding speed as a percentage of remaining time relative to total time
-        let codingSpeed = (timeLeft / totalTime) * 100;
+        // Check if the user has more than 50% of time left
+        if (timeLeft / totalTime > 0.4) {
+            return 100; // Set coding speed to 100
+        } else {
+            // Calculate scaled value based on remaining time
+            let scalingFactor = Math.log(totalTime / (totalTime - timeLeft) + 1);
+            let scaledValue = scalingFactor * 100 / Math.log(2);
 
-        return Math.round(codingSpeed);
+            // Deduct scaled value from 100 to get coding speed
+            let codingSpeed = 100 - scaledValue;
+
+            return Math.round(codingSpeed);
+        }
     }
 
 
+    console.log(taskData['C#'])
 
 
 
@@ -209,19 +253,25 @@
     console.log(taskData.Java)
 
     overallAccuracy = overallAccuracy / totalTasks;
+
     document.querySelector('.overallAccuracy').textContent = overallAccuracy.toFixed(2) + '%';
+
 
     taskData.Java.timeLeft.forEach((timeLeft, index) => {
         let speed = calculateCodingSpeed(timeLeft, taskData.Java.timeTaken[index]);
         taskJavaCodingSpeed.push(speed);
+        overallSpeed += speed;
     });
 
     taskData['C#'].timeLeft.forEach((timeLeft, index) => {
         let speed = calculateCodingSpeed(timeLeft, taskData['C#'].timeTaken[index]);
         taskCsharpCodingSpeed.push(speed);
+        overallSpeed += speed;
     });
 
-    console.log(taskCsharpCodingSpeed);
+
+    overallSpeed = overallSpeed / totalTasks;
+    document.querySelector('#overallSpeed').textContent = overallSpeed.toFixed(2) + '%';
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -241,7 +291,7 @@
             },
             xaxis: {
                 categories: taskData.Java.categories
-            }
+            },
         };
         var chart3 = new ApexCharts(document.querySelector("#java-coding-accuracy-chart"), optionsJavaErrors);
         chart3.render();
@@ -261,10 +311,11 @@
             },
             xaxis: {
                 categories: taskData['C#'].categories
-            }
+            },
         };
         var chart4 = new ApexCharts(document.querySelector("#csharp-coding-accuracy-chart"), optionsCsharpErrors);
         chart4.render();
+
 
         // Java Coding Speed Chart
         var options5 = {
