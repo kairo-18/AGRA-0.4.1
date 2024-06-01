@@ -325,6 +325,7 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
+    
 
     return view('modules', [
         'lesson' => $lesson,
