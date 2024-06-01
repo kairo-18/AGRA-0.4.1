@@ -8,6 +8,10 @@ let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
 let startTime; // Time when the user starts the task
 let endTime; // Time when the user completes the task
 
+checkmarks.forEach(checkmark => {
+    maxScore += checkmark.points;
+});
+
 
 populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;

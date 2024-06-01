@@ -142,10 +142,18 @@
     <input type="hidden" id="MaxScore" value="" name="MaxScore">
     <input type="hidden" id="Percentage" value="" name="Percentage">
     <input type="hidden" id="TaskStatus" value="" name="TaskStatus">
+    <input type="hidden" id="errors" value="" name="errors">
+    <input type="hidden" id="timeTaken" value="" name="timeTaken">
+    <input type="hidden" id="timeLeft" value="" name="timeLeft">
     {{csrf_field()}}
 </form>
 
 
+<div class="endPanel" id="endPanel">
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    </div>
+</div>
 
 
 <!-- Main modal -->
@@ -224,10 +232,16 @@
 <script>
     let globalScore = 0;
     let totalScore = 0;
-    let maxScore = 0;
+    let maxScore = testcasesTemp.length;
+    let globalUserError = 0;
+    let maxTime = testcasesTemp.length * timerSeconds; // Total maximum time allowed
+    let startTime; // Time when the user starts the task
+    let endTime; // Time when the user completes the task
+
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
         startIntervalTimer(timerSeconds);
+        startTime = Date.now();
     }
 
     function showModal(){
@@ -235,21 +249,28 @@
     }
 
     function showResetPanel(){
-        var endPanel = document.getElementById("resetPanel");
-        var score2 = document.getElementById("score2");
-        endPanel.style.display = "flex";
-        score2.textContent = globalScore + "%";
-        setTimeout(function(){
-            submitScore();
-        }, 2000);
+        endTime = Date.now(); // Set the end time when the game ends
+        let timeTaken = Math.floor((endTime - startTime) / 1000); // Calculate the time taken in seconds
+        let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
+        var endPanel = document.getElementById("endPanel");
+        var score2 = document.getElementById("score2");
+        endPanel.style.display = "block";
+        score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
+
+        setTimeout(function(){
+            submitScore(timeTaken, timeLeft);
+        }, 2000);
     }
 
-    function submitScore(){
+    function submitScore(timeTaken, timeLeft){
         document.getElementById('TotalScore').value = totalScore;
         document.getElementById('MaxScore').value = maxScore;
         document.getElementById('Percentage').value = globalScore;
         document.getElementById('TaskStatus').value = 'Done';
+        document.getElementById('errors').value = globalUserError;
+        document.getElementById('timeTaken').value = timeTaken;
+        document.getElementById('timeLeft').value = timeLeft;
         document.getElementById("scoreForm").submit();
     }
 
@@ -338,6 +359,7 @@
                 resultText += ' (Correct)';
             } else {
                 resultText += ` (Incorrect, User Output: ${answer}, Expected: ${expected})`;
+                globalUserError++;
             }
 
             testCasesResult.push({ resultText, correct });

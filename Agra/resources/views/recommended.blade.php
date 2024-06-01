@@ -96,6 +96,7 @@
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
 
                     <!----Agenda deadline 1---->
+                    @foreach($lessons as $lesson)
                     @foreach($lesson->tasks as $task)
                         <li class="mb-10 ms-6">
                         <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
@@ -115,6 +116,7 @@
 
                         </li>
 
+                    @endforeach
                     @endforeach
                     <!----End Agenda deadline---->
                 </ol>
