@@ -42,7 +42,7 @@
             <div class="profile h-auto xl:flex flex-row items-center md:w-full bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
 
                 <div class="title pb-9">
-                    <h1 class="text-4xl font-bold text-blue-800">Analytics</h1>
+                    <h1 class="text-4xl font-bold text-blue-800">Analytics </h1>
                 </div>
             </div>
 
@@ -136,6 +136,22 @@
                     </div>
                 </div>
 
+                <div class="java-coding-speed w-full xl:w-2/4 p-10">
+                    <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                        <div class="flex justify-between mb-5">
+                            <div>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">JAVA Coding Speed</h5>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Speed this week</p>
+                            </div>
+                            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                Time based
+                            </div>
+                        </div>
+                        <div id="java-lesson-performances-container"></div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -145,6 +161,7 @@
 
 <script>
     var taskData = @json($taskData); //this is the data of all the tasks: errors, timeTaken, timeLeft, maxScore, score
+    let lessonData = @json($lessonPerformance);
     let taskJavaAccuracy = [];
     let taskCsharpAccuracy = [];
     let taskJavaCodingSpeed = [];
@@ -155,6 +172,8 @@
     let totalTasks = totalJavaTasks + totalCSharpTasks;
     let overallAccuracy = 0;
     let overallSpeed = 0;
+
+
 
     // // Function to calculate accuracy considering errors
     // function calculateAccuracy(score, maxScore, errors) {
@@ -354,6 +373,57 @@
         };
         var chart6 = new ApexCharts(document.querySelector("#csharp-coding-speed-chart"), options6);
         chart6.render();
+
+        console.log(lessonData)
+
+
+        const container = document.querySelector("#java-lesson-performances-container");
+
+        let index = 0;
+
+        for (const key in lessonData) {
+            if (lessonData.hasOwnProperty(key)) {
+                console.log(`${key}: ${lessonData[key].overall_performance}`);
+
+                // Create a new div for each lesson
+                const lessonDiv = document.createElement('div');
+                lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
+                container.appendChild(lessonDiv);
+
+                // Add overall performance
+                const performanceParagraph = document.createElement('p');
+                performanceParagraph.textContent = `Overall Performance: ${lessonData[key].overall_performance}`;
+                performanceParagraph.style.fontWeight = 'bold';
+                lessonDiv.appendChild(performanceParagraph);
+
+                // Create a new div for each chart
+                const chartDiv = document.createElement('div');
+                chartDiv.id = `java-lesson-performance-chart-${index}`;
+                lessonDiv.appendChild(chartDiv);
+
+                var options7 = {
+                    series: [{
+                        name: key,
+                        data: lessonData[key].accuracy
+                    }],
+                    chart: {
+                        height: 350,
+                        type: 'line'
+                    },
+                    title: {
+                        text: key,
+                    },
+                    xaxis: {
+                        categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
+                    }
+                };
+
+                var chart7 = new ApexCharts(document.querySelector(`#java-lesson-performance-chart-${index}`), options7);
+                chart7.render();
+            }
+
+            index++;
+        }
     });
 </script>
 </body>
