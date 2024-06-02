@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                <div class="java-coding-speed w-full xl:w-2/4 p-10">
+                <div class="java-coding-speed w-full xl:w-4/4 p-10">
                     <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between mb-5">
                             <div>
