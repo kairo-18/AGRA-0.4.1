@@ -393,8 +393,8 @@
 
                 // Add the custom title div
                 const titleDiv = document.createElement('div');
-                titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key}`;
-                titleDiv.style.fontSize = '16px';
+                titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key} <br> ${lessonData[key].course_category_name}`;
+                titleDiv.style.fontSize = '24px';
                 titleDiv.style.fontWeight = 'bold';
                 titleDiv.style.color = '#263238';
                 lessonDiv.appendChild(titleDiv);
