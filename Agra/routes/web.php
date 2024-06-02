@@ -632,6 +632,7 @@ Route::get('/userAnalytics', function () {
 
     $lessonJavaPerformance = [];
     $lessonCsharpPerformance = [];
+    $tempLessonId = 0;
 
     // Iterate over the task data to group tasks by lessons
     foreach ($taskData as $category => $tasks) {
@@ -641,19 +642,20 @@ Route::get('/userAnalytics', function () {
             $lessonId = explode(' ', $categoryName)[1]; // Assuming the category name is like 'Task 123'
             $taskId = Task::find($lessonId);
             if (!$taskId) continue; // Skip if taskId is not found
-            $lessonId = Lesson::find($taskId->lesson->id)->LessonName;
+            $lessonId = $taskId->lesson->id;
+            $tempLessonId = $lessonId;
             //error_log($categoryName . ' ' . $index . ' l ' . $lessonId);
-
+            $lessonName = Lesson::find($lessonId)->LessonName;
             // Check if the lesson ID exists as a key in the corresponding lesson performance array
-            if (!isset($lessonPerformance[$lessonId])) {
+            if (!isset($lessonPerformance[$lessonName])) {
                 // If the lesson ID doesn't exist, initialize its data structure in the appropriate array
                 if ($category === 'Java') {
-                    $lessonPerformance[$lessonId] = [
+                    $lessonPerformance[$lessonName] = [
                         'accuracy' => [],
                         'speed' => [],
                     ];
                 } elseif ($category === 'C#') {
-                    $lessonPerformance[$lessonId] = [
+                    $lessonPerformance[$lessonName] = [
                         'accuracy' => [],
                         'speed' => [],
                     ];
@@ -673,17 +675,24 @@ Route::get('/userAnalytics', function () {
 
             // Add accuracy and speed for the current task to the appropriate lesson performance array
             if ($category === 'Java') {
-                $lessonJavaPerformance[$lessonId]['accuracy'][] = $accuracy;
-                $lessonJavaPerformance[$lessonId]['speed'][] = $speed;
+                $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
+                $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
+                $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
             } elseif ($category === 'C#') {
-                $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
-                $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
+                $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
+                $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
+                $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
             }
+
+
+
         }
     }
 
     // Calculate overall performance for each lesson
-    foreach ($lessonJavaPerformance as $lessonId => &$performance) {
+    foreach ($lessonJavaPerformance as $lessonName => &$performance) {
         // Calculate overall accuracy and speed for the lesson
         $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
         $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
@@ -695,8 +704,9 @@ Route::get('/userAnalytics', function () {
         $performance['overall_performance'] = $overallPerformance;
     }
 
+
     // Calculate overall performance for each lesson
-    foreach ($lessonCsharpPerformance as $lessonId => &$performance) {
+    foreach ($lessonCsharpPerformance as $lessonName => &$performance) {
         // Calculate overall accuracy and speed for the lesson
         $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
         $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
@@ -710,6 +720,7 @@ Route::get('/userAnalytics', function () {
 
     $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
     $lessonPerformance = removeAgraLessons($lessonPerformance, $user);
+
 
 
 

@@ -140,7 +140,7 @@
                     <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between mb-5">
                             <div>
-                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">JAVA Coding Speed</h5>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Lesson Analytics</h5>
                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">Speed this week</p>
                             </div>
                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -377,6 +377,7 @@
         console.log(lessonData)
 
 
+
         const container = document.querySelector("#java-lesson-performances-container");
 
         let index = 0;
@@ -389,6 +390,14 @@
                 const lessonDiv = document.createElement('div');
                 lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
                 container.appendChild(lessonDiv);
+
+                // Add the custom title div
+                const titleDiv = document.createElement('div');
+                titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key}`;
+                titleDiv.style.fontSize = '16px';
+                titleDiv.style.fontWeight = 'bold';
+                titleDiv.style.color = '#263238';
+                lessonDiv.appendChild(titleDiv);
 
                 // Add overall performance
                 const performanceParagraph = document.createElement('p');
@@ -403,7 +412,7 @@
 
                 var options7 = {
                     series: [{
-                        name: key,
+                        name: lessonData[key].name, // Use the lesson name here
                         data: lessonData[key].accuracy
                     }],
                     chart: {
@@ -411,7 +420,7 @@
                         type: 'line'
                     },
                     title: {
-                        text: key,
+                        text: '', // Leave this empty since we're handling the title outside
                     },
                     xaxis: {
                         categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
