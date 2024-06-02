@@ -783,9 +783,18 @@ Route::get('/recommendation', function () {
 
             // Check if overall performance is below 45
             if ($overallPerformance < 45) {
-                $badperformancelessons[] = $lessonId; // Push lesson ID to badperformancelessons array
+                $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
             }
         }
+
+        // Sort badperformancelessons by overall performance in ascending order
+        usort($badperformancelessons, function ($a, $b) {
+            return $a['performance'] <=> $b['performance'];
+        });
+
+        // Extract sorted lesson IDs
+        $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
+
 
         $agraCourses = getAgraCourses($user);
         $agraLessons = collect();
@@ -798,7 +807,7 @@ Route::get('/recommendation', function () {
         }
 
         // Iterate over each bad performance lesson
-        foreach ($badperformancelessons as $lessonId) {
+        foreach ($badperformancelessonIds as $lessonId) {
             // Find the lesson by ID
             $lesson = Lesson::find($lessonId);
             if (!$lesson) continue; // Skip if lesson is not found
