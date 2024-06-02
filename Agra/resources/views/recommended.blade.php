@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Recommed</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
 
@@ -39,288 +39,63 @@
     <!--Inner div-->
     <div class="innerDiv xl:flex flex-col bg-transparent h-full w-full rounded-xl overflow-hidden">
 
-
-        <div class="Recommed-panel flex flex-col flex-wrap justify-start bg-white h-[30rem] xl:w-full w-full p-5 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin">
-            <h1 class="font-bold text-3xl text-blue-800">Recommeded </h1>
-
-
-            <div class="flex flex-row justify-start gap-5">
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+        <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5">
+            <h1 class="font-bold text-4xl text-blue-800">Recommended </h1>
+            <div class="Recommed-panel flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
+                <div class="flex flex-row justify-start gap-5 p-3">
+                    @foreach($lessons as $lesson)
+                    <a href="#" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                        <div class="h-4/5">
+                            <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
                         </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
+                        <div class="h-1/5 flex">
+                            <div class ="w-3/5">
+                                <h1 class="font-bold text-2xl text-blue-800">{{$lesson->LessonName}}</h1>
+                                <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                            </div>
+                            <div class ="w-2/5 p-3 flex flex-row-reverse flex-wrap">
+                                @foreach($lesson->categories as $category)
+                                <div class="badge mb-2 ml-2">
+                                    <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72 bg-white">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
+                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>
-
-
-
-
-
-
 
 
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5">
-            <h1 class="font-bold text-3xl text-blue-800">More </h1>
+            <h1 class="font-bold text-4xl text-blue-800">You might like </h1>
+            <div class="Recommed-panel flex flex-col justify-start bg-gray-200 h-full xl:w-full w-full pt-5 pl-5 pr-5 pb-8 gap-5 rounded-xl">
 
-
-            <div class="flex flex-row flex-wrap justify-center gap-5 bg-gray-300 rounded-xl p-10">
-
-                <div class="yt-vid w-96 h-72">
+            <div class="flex justify-end gap-5 rounded-xl p-10 flex-row-reverse flex-wrap ">
+                <a href="#" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
                     <div class="h-4/5">
                         <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
                     </div>
                     <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
+                        <div class ="w-3/5">
+                            <h1 class="font-bold text-2xl text-blue-800">{{$lesson->LessonName}}</h1>
                             <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
                         </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
+                        <div class ="w-2/5 p-3 flex flex-row-reverse flex-wrap">
+                            @foreach($lesson->categories as $category)
+                                <div class="badge mb-2 ml-2">
+                                    <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="yt-vid w-96 h-72">
-                    <div class="h-4/5">
-                        <img src="1.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                    </div>
-                    <div class="h-1/5 flex">
-                        <div class ="w-4/5">
-                            <h1 class="font-bold text-xl text-blue-800">LESSON NAME</h1>
-                            <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                        </div>
-                        <div class ="w-1/5 p-3">
-                            <span class="bg-blue-200 text-blue-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">JAVA</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
+            </div>
             </div>
         </div>
-
-
     </div>
-
 </div>
 
 

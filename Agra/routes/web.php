@@ -934,16 +934,16 @@ Route::get('/recommendation', function () {
             $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
 
             // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = (($overallAccuracy + $overallSpeed) / 2) * 100;
-
+            $overallPerformance = (($overallAccuracy + $overallSpeed) / 2);
             // Store the overall user performance for the lesson
             $performance['overall_performance'] = $overallPerformance;
 
             // Check if overall performance is below 45
-            if ($overallPerformance < 45) {
+            if ($overallPerformance < 70) {
                 $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
             }
         }
+
 
         // Sort badperformancelessons by overall performance in ascending order
         usort($badperformancelessons, function ($a, $b) {

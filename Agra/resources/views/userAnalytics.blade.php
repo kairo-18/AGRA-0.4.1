@@ -72,7 +72,7 @@
                     <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between mb-5">
                             <div>
-                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">JAVA Coding Error Frequency</h5>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">JAVA Coding Accuracy</h5>
                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">Accuracy this week</p>
                             </div>
                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -90,7 +90,7 @@
                     <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between mb-5">
                             <div>
-                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">C# Coding Error Frequency</h5>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">C# Coding Accuracy</h5>
                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">Accuracy this week</p>
                             </div>
                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
