@@ -928,7 +928,7 @@ Route::get('/recommendation', function () {
             $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
 
             // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = ($overallAccuracy + $overallSpeed) / 2;
+            $overallPerformance = (($overallAccuracy + $overallSpeed) / 2) * 100;
 
             // Store the overall user performance for the lesson
             $performance['overall_performance'] = $overallPerformance;
@@ -1023,7 +1023,7 @@ function removeAgraLessons($lessonPerformance, $user)
 }
 
 // Functions to calculate accuracy and coding speed
-function calculateAccuracy($score, $maxScore, $errors, $errorPenaltyPercent = 0.5) {
+function calculateAccuracy($score, $maxScore, $errors, $errorPenaltyPercent = 1.5) {
     // Calculate the base accuracy as a percentage
     $baseAccuracy = ($score / $maxScore) * 100;
 
@@ -1058,7 +1058,7 @@ function calculateCodingSpeed($timeLeft, $timeTaken) {
         $percentageTimeLeft = ($timeLeft / $totalTime) * 100;
 
         // Calculate rating based on percentage of time left
-        $rating = max(1, $percentageTimeLeft / 10);
+        $rating = max(1, $percentageTimeLeft / 10) * 20;
 
         return round($rating, 1);
     }

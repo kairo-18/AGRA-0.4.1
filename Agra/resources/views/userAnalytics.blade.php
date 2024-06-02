@@ -209,7 +209,7 @@
 
 
     // Function to calculate accuracy considering errors
-    function calculateAccuracy(score, maxScore, errors, errorPenaltyPercent = 0.5) {
+    function calculateAccuracy(score, maxScore, errors, errorPenaltyPercent = 1.5) {
         // Calculate the base accuracy as a percentage
         let baseAccuracy = (score / maxScore) * 100;
 
@@ -244,7 +244,7 @@
             let percentageTimeLeft = (timeLeft / totalTime) * 100;
 
             // Calculate rating based on percentage of time left
-            let rating = Math.max(1, percentageTimeLeft / 10);
+            let rating = Math.max(1, percentageTimeLeft / 10) * 20;
 
             return parseFloat(rating.toFixed(1));
         }
@@ -378,61 +378,67 @@
 
 
 
-        const container = document.querySelector("#java-lesson-performances-container");
+            const container = document.querySelector("#java-lesson-performances-container");
 
-        let index = 0;
+            let index = 0;
 
-        for (const key in lessonData) {
-            if (lessonData.hasOwnProperty(key)) {
-                console.log(`${key}: ${lessonData[key].overall_performance}`);
+            for (const key in lessonData) {
+                if (lessonData.hasOwnProperty(key)) {
+                    console.log(`${key}: ${lessonData[key].overall_performance}`);
 
-                // Create a new div for each lesson
-                const lessonDiv = document.createElement('div');
-                lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
-                container.appendChild(lessonDiv);
+                    // Create a new div for each lesson
+                    const lessonDiv = document.createElement('div');
+                    lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
+                    container.appendChild(lessonDiv);
 
-                // Add the custom title div
-                const titleDiv = document.createElement('div');
-                titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key} <br> ${lessonData[key].course_category_name}`;
-                titleDiv.style.fontSize = '24px';
-                titleDiv.style.fontWeight = 'bold';
-                titleDiv.style.color = '#263238';
-                lessonDiv.appendChild(titleDiv);
+                    // Add the custom title div
+                    const titleDiv = document.createElement('div');
+                    titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key} <br> ${lessonData[key].course_category_name}`;
+                    titleDiv.style.fontSize = '24px';
+                    titleDiv.style.fontWeight = 'bold';
+                    titleDiv.style.color = '#263238';
+                    lessonDiv.appendChild(titleDiv);
 
-                // Add overall performance
-                const performanceParagraph = document.createElement('p');
-                performanceParagraph.textContent = `Overall Performance: ${lessonData[key].overall_performance}`;
-                performanceParagraph.style.fontWeight = 'bold';
-                lessonDiv.appendChild(performanceParagraph);
+                    // Add overall performance
+                    const performanceParagraph = document.createElement('p');
+                    performanceParagraph.textContent = `Overall Performance: ${lessonData[key].overall_performance}`;
+                    performanceParagraph.style.fontWeight = 'bold';
+                    lessonDiv.appendChild(performanceParagraph);
 
-                // Create a new div for each chart
-                const chartDiv = document.createElement('div');
-                chartDiv.id = `java-lesson-performance-chart-${index}`;
-                lessonDiv.appendChild(chartDiv);
+                    // Create a new div for each chart
+                    const chartDiv = document.createElement('div');
+                    chartDiv.id = `java-lesson-performance-chart-${index}`;
+                    lessonDiv.appendChild(chartDiv);
 
-                var options7 = {
-                    series: [{
-                        name: lessonData[key].name, // Use the lesson name here
-                        data: lessonData[key].accuracy
-                    }],
-                    chart: {
-                        height: 350,
-                        type: 'line'
-                    },
-                    title: {
-                        text: '', // Leave this empty since we're handling the title outside
-                    },
-                    xaxis: {
-                        categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
-                    }
-                };
+                    var options7 = {
+                        series: [
+                            {
+                                name: 'Accuracy',
+                                data: lessonData[key].accuracy
+                            },
+                            {
+                                name: 'Speed',
+                                data: lessonData[key].speed
+                            }
+                        ],
+                        chart: {
+                            height: 350,
+                            type: 'line'
+                        },
+                        title: {
+                            text: '', // Leave this empty since we're handling the title outside
+                        },
+                        xaxis: {
+                            categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
+                        }
+                    };
 
-                var chart7 = new ApexCharts(document.querySelector(`#java-lesson-performance-chart-${index}`), options7);
-                chart7.render();
+                    var chart7 = new ApexCharts(document.querySelector(`#java-lesson-performance-chart-${index}`), options7);
+                    chart7.render();
+                }
+
+                index++;
             }
-
-            index++;
-        }
     });
 </script>
 </body>
