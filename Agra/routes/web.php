@@ -728,6 +728,12 @@ Route::get('/userAnalytics', function () {
         'user' => $user,
         'taskData' => $taskData,
         'lessonPerformance' => $lessonPerformance,
+        'taskJavaAccuracy' => $taskJavaAccuracy,
+        'taskJavaSpeed' => $taskJavaCodingSpeed,
+        'taskCsharpAccuracy' => $taskCsharpAccuracy,
+        'taskCsharpSpeed' => $taskCsharpCodingSpeed,
+        'overallSpeed' => $overallSpeed,
+        'overallAccuracy' => $overallAccuracy
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

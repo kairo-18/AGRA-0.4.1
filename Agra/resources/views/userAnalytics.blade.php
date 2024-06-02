@@ -50,7 +50,7 @@
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
 
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: <span class="overallAccuracy"></span></h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: {{$overallAccuracy}} %</h1>
                     </div>
 
                 </div>
@@ -58,7 +58,7 @@
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
 
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <span id="overallSpeed"></span></h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: {{$overallSpeed}} *</h1>
                     </div>
 
                 </div>
@@ -141,7 +141,7 @@
                         <div class="flex justify-between mb-5">
                             <div>
                                 <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Lesson Analytics</h5>
-                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Speed this week</p>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Advanced stats</p>
                             </div>
                             <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
                                 Time based
@@ -162,133 +162,9 @@
 <script>
     var taskData = @json($taskData); //this is the data of all the tasks: errors, timeTaken, timeLeft, maxScore, score
     let lessonData = @json($lessonPerformance);
-    let taskJavaAccuracy = [];
-    let taskCsharpAccuracy = [];
-    let taskJavaCodingSpeed = [];
-    let taskCsharpCodingSpeed = [];
-
-    let totalJavaTasks = taskData.Java.categories.length;
-    let totalCSharpTasks = taskData['C#'].categories.length;
-    let totalTasks = totalJavaTasks + totalCSharpTasks;
-    let overallAccuracy = 0;
-    let overallSpeed = 0;
 
 
 
-    // // Function to calculate accuracy considering errors
-    // function calculateAccuracy(score, maxScore, errors) {
-    //     // Determine the penalty for errors (adjust as needed)
-    //     let errorPenalty = 4; // For example, each error deducts 4 points from the accuracy
-    //
-    //     // Calculate adjusted correctness by deducting penalty for errors
-    //     let correctedScore = score * 100;
-    //     correctedScore -= (errors * errorPenalty);
-    //
-    //     // Ensure corrected score doesn't go below 0
-    //     correctedScore = Math.max(correctedScore, 0);
-    //
-    //     // Calculate accuracy
-    //     let accuracy = Math.round(correctedScore / maxScore);
-    //     return accuracy;
-    // }
-    //
-    //
-    // function calculateCodingSpeed(timeLeft, timeTaken) {
-    //     // Ensure timeLeft and timeTaken are non-negative
-    //     timeLeft = Math.max(timeLeft, 0);
-    //     timeTaken = Math.max(timeTaken, 0);
-    //
-    //     // Calculate total time spent coding
-    //     let totalTime = timeTaken + timeLeft;
-    //
-    //     // Calculate coding speed as a percentage of remaining time relative to total time
-    //     let codingSpeed = (timeLeft / totalTime) * 100;
-    //
-    //     return Math.round(codingSpeed);
-    // }
-
-
-    // Function to calculate accuracy considering errors
-    function calculateAccuracy(score, maxScore, errors, errorPenaltyPercent = 1.5) {
-        // Calculate the base accuracy as a percentage
-        let baseAccuracy = (score / maxScore) * 100;
-
-        // Calculate the penalty per error as a percentage
-        let errorPenalty = errorPenaltyPercent * errors;
-
-        // Calculate adjusted accuracy by deducting the penalty for errors
-        let adjustedAccuracy = baseAccuracy - errorPenalty;
-
-        // Ensure adjusted accuracy doesn't go below 0
-        adjustedAccuracy = Math.max(adjustedAccuracy, 0);
-
-        // Round the accuracy to two decimal places for precision
-        adjustedAccuracy = Math.round(adjustedAccuracy * 100) / 100;
-
-        return adjustedAccuracy;
-    }
-
-    function calculateCodingSpeed(timeLeft, timeTaken) {
-        // Ensure timeLeft and timeTaken are non-negative
-        timeLeft = Math.max(timeLeft, 0);
-        timeTaken = Math.max(timeTaken, 0);
-
-        // Calculate total time spent coding
-        let totalTime = timeTaken + timeLeft;
-
-        // Check if the user has more than 50% of time left
-        if (timeLeft / totalTime > 0.5) {
-            return 5; // Set coding speed to 5
-        } else {
-            // Calculate the percentage of time left
-            let percentageTimeLeft = (timeLeft / totalTime) * 100;
-
-            // Calculate rating based on percentage of time left
-            let rating = Math.max(1, percentageTimeLeft / 10) * 20;
-
-            return parseFloat(rating.toFixed(1));
-        }
-    }
-
-
-    console.log(taskData['C#'])
-
-
-
-    // Iterate through Java tasks
-    taskData.Java.score.forEach((score, index) => {
-        let accuracy = calculateAccuracy(score, taskData.Java.maxScore[index], taskData.Java.errors[index]);
-        taskJavaAccuracy.push(accuracy);
-        overallAccuracy += accuracy;
-    });
-
-    // Iterate through C# tasks
-    taskData['C#'].score.forEach((score, index) => {
-        let accuracy = calculateAccuracy(score, taskData['C#'].maxScore[index], taskData['C#'].errors[index]);
-        taskCsharpAccuracy.push(accuracy);
-        overallAccuracy += accuracy;
-    });
-
-    overallAccuracy = overallAccuracy / totalTasks;
-
-    document.querySelector('.overallAccuracy').textContent = overallAccuracy.toFixed(2) + '%';
-
-
-    taskData.Java.timeLeft.forEach((timeLeft, index) => {
-        let speed = calculateCodingSpeed(timeLeft, taskData.Java.timeTaken[index]);
-        taskJavaCodingSpeed.push(speed);
-        overallSpeed += speed;
-    });
-
-    taskData['C#'].timeLeft.forEach((timeLeft, index) => {
-        let speed = calculateCodingSpeed(timeLeft, taskData['C#'].timeTaken[index]);
-        taskCsharpCodingSpeed.push(speed);
-        overallSpeed += speed;
-    });
-
-
-    overallSpeed = overallSpeed / totalTasks;
-    document.querySelector('#overallSpeed').textContent = overallSpeed.toFixed(2) + '*';
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -297,7 +173,7 @@
         var optionsJavaErrors = {
             series: [{
                 name: 'Java Accuracy',
-                data: taskJavaAccuracy
+                data: @json($taskJavaAccuracy)
             }],
             chart: {
                 height: 350,
@@ -317,7 +193,7 @@
         var optionsCsharpErrors = {
             series: [{
                 name: 'C# Accuracy',
-                data: taskCsharpAccuracy
+                data: @json($taskCsharpAccuracy)
             }],
             chart: {
                 height: 350,
@@ -338,7 +214,7 @@
         var options5 = {
             series: [{
                 name: 'Java Coding Speed',
-                data: taskJavaCodingSpeed
+                data: @json($taskJavaSpeed)
             }],
             chart: {
                 height: 350,
@@ -358,7 +234,7 @@
         var options6 = {
             series: [{
                 name: 'C# Coding Speed',
-                data: taskCsharpCodingSpeed
+                data: @json($taskCsharpSpeed)
             }],
             chart: {
                 height: 350,
