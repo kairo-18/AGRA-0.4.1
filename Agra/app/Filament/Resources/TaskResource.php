@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OutputResource\RelationManagers\OutputRelationManager;
 use App\Filament\Resources\TaskResource\Pages;
 use App\Filament\Resources\TaskResource\RelationManagers;
+use App\Models\Lesson;
 use App\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -33,9 +34,28 @@ class TaskResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('lesson_id')
-                ->relationship('lesson', 'LessonName')
-                ->searchable()
-                ->preload(),
+                    ->relationship('lesson', 'LessonName')
+                    ->searchable()
+                    ->preload()
+                    ->options(function () {
+                        $user = auth()->user();
+
+                        // If the user has the role 'dev', return all lessons
+                        if ($user->hasRole('dev')) {
+                            return Lesson::pluck('LessonName', 'id');
+                        }
+
+                        // For users with the role 'admin' or 'teacher', exclude lessons from courses authored by 'AGRA'
+                        if ($user->hasRole(['admin', 'teacher'])) {
+                            return Lesson::whereHas('course', function ($query) {
+                                $query->where('author', '!=', 'AGRA');
+                            })->pluck('LessonName', 'id');
+                        }
+
+                        // Default return for other roles
+                        return Lesson::pluck('LessonName', 'id');
+                    }),
+
                 Forms\Components\Section::make("Thumbnail")
                     ->schema([
                         Forms\Components\FileUpload::make('Thumbnail')
@@ -60,7 +80,7 @@ class TaskResource extends Resource
                 Forms\Components\Textarea::make('TaskCodeTemplate'),
 
                 Forms\Components\Textarea::make('TaskAnswerKeys')->default(1),
-                
+
             ]);
     }
 
@@ -68,7 +88,8 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('lesson.id')->label('Lesson ID'),
+                Tables\Columns\TextColumn::make('lesson.course.CourseName')->label('Course')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('lesson.LessonName')->label('Lesson')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('TaskName')->label('Task Name'),
                 Tables\Columns\TextColumn::make('Description')->label('Description'),
                 Tables\Columns\TextColumn::make('TaskMaxScore')->label('Max Score'),
