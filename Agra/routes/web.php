@@ -590,6 +590,8 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
 
     $user = Auth::user();
 
+    if($task->lesson->course->category->name == 'Java'){
+
     return view('taskOutput', [
         'task' => $task,
         'testcases' => $testcasesArray,
@@ -597,6 +599,15 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
         'template' => $template,
         'methodName' => $task->output[0]->methodName,
     ]);
+    }else if($task->lesson->course->category->name == 'C#'){
+        return view('taskOutputCsharp', [
+            'task' => $task,
+            'testcases' => $testcasesArray,
+            'user' => $user,
+            'template' => $template,
+            'methodName' => $task->output[0]->methodName,
+        ]);
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('tasks/fitb/{task:id}' , function(Task $task) {
@@ -1317,6 +1328,8 @@ function calculateCodingSpeed($timeLeft, $timeTaken) {
 
 
 Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode']);
+
+Route::post('/execute-code-csharp', [\App\Http\Controllers\RunCode::class, 'executeCodeCsharp']);
 
 
 require __DIR__.'/auth.php';
