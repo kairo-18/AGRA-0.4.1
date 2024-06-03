@@ -37,7 +37,8 @@ class LessonsRelationManager extends RelationManager
                         ->columns(1)
                         ->preserveFilenames()
                     ]),
-                Forms\Components\Textarea::make('links'),
+                Forms\Components\Textarea::make('links')->label('YT Links'),
+                Forms\Components\Textarea::make('webLinks')->label('Web Links'),
                 Forms\Components\Select::make('Categories')
                 ->relationship('categories', 'name')
                 ->multiple()

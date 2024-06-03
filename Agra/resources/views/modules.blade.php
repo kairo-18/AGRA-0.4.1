@@ -41,12 +41,12 @@
     <!--Inner div-->
     <div class="innerDiv xl:flex bg-gray-50 h-auto w-full rounded-lg xl overflow-auto">
         <!-------------------------Start leftPanel----------------------->
-        <div class="left-panel flex flex-col  bg-trnsparent h-screen w-full p-10">
+        <div class="left-panel flex flex-col  bg-trnsparent h-full w-full p-10">
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
                 <h1 class="text-4xl font-bold text-blue-800">Learn to {{$lesson->LessonName}}</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
             <!--2 div Page Tabs -->
@@ -69,12 +69,130 @@
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-[50rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
+            <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-y-4">
+                <h1 class="font-bold text-2xl text-blue-800">Materials </h1>
+                <div id="indicators-carousel" class="relative w-full h-full overflow-auto" data-carousel="static">
+                    <!-- Carousel wrapper -->
+                    <div class="relative h-full overflow-hidden rounded-lg">
+                        <!-- Item 1 -->
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+                            <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-5 gap-5">
+                                <h1 class="font-semibold text-xl text-blue-800">Module</h1>
+                                <div class="Recommed-panel flex flex-col flex-wrap justify-start bg-gray-100 h-full gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner pl-20 pr-10 pt-10">
+                                    <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-5 gap-5">
+                                <h1 class="font-semibold text-xl text-blue-800">Videos</h1>
+
+                                <div class="Recommed-panel flex flex-wrap justify-center bg-gray-100 h-full p-5 gap-5 rounded-xl shadow-inner">
+
+                                    <div class="flex flex-col md:flex-row justify-start gap-5 p-3">
+                                        @php
+                                            $index = 1;
+                                        @endphp
+
+                                        @foreach($ytLinks as $webLink)
+                                            <a href="{{ $webLink }}" class="yt-vid w-80 h-80 xl:h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                                                <div class="h-4/5">
+                                                    <iframe class="mx-auto w-full lg:max-w-xl h-full rounded-lg shadow-xl" src="{{ $webLink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </div>
+                                                <div class="h-1/5 flex">
+                                                    <div class="w-2/5">
+                                                        <h1 class="font-bold text-xl text-blue-800">Youtube Video #{{ $index }}</h1>
+                                                        <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                                                    </div>
+                                                    <div class="w-3/5 p-3 flex flex-row-reverse flex-wrap">
+                                                        @foreach($lesson->categories as $category)
+                                                            <div class="badge mb-2 ml-2">
+                                                                <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            @php
+                                                $index++;
+                                            @endphp
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-5 gap-5">
+                                <h1 class="font-semibold text-xl text-blue-800">Articles</h1>
+                                <div class="Recommed-panel flex flex-wrap justify-center bg-gray-100 h-full p-5 gap-5 rounded-xl shadow-inner">
+                                    <div class="flex flex-col md:flex-row justify-start gap-5 p-3">
+                                        @php
+                                            $index = 1;
+                                        @endphp
+
+                                        @foreach($webLinks as $webLink)
+                                            <a href="{{ $webLink }}" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                                                <div class="h-4/5">
+                                                    <iframe class="w-full h-full rounded-lg shadow-xl" src="{{ $webLink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </div>
+                                                <div class="h-1/5 flex">
+                                                    <div class="w-2/5">
+                                                        <h1 class="font-bold text-xl text-blue-800">Web Article {{ $index }}</h1>
+                                                        <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                                                    </div>
+                                                    <div class="w-3/5 p-3 flex flex-row-reverse flex-wrap">
+                                                        @foreach($lesson->categories as $category)
+                                                            <div class="badge mb-2 ml-2 ">
+                                                                <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            @php
+                                                $index++;
+                                            @endphp
+                                        @endforeach
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slider indicators -->
+                    <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2 bg-gray-400 p-2 rounded-full">
+                        <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                    </div>
+                    <!-- Slider controls -->
+                    <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-400/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-blue-400 dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                            </svg>
+                            <span class="sr-only">Previous</span>
+                        </span>
+                    </button>
+                    <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-400/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-blue-400 dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                            <span class="sr-only">Next</span>
+                        </span>
+                    </button>
+                </div>
+
 
             </div>
         </div>
         <!-------------------------End leftPanel----------------------->
+
 
         <!-------------------------Start RightPanel----------------------->
         <div class="right-panel flex flex-col bg-transparent rounded-r-lg h-screen xl:w-2/5 w-full p-5 gap-8">

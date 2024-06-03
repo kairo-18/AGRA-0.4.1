@@ -391,6 +391,22 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
     $user = Auth::user();
 
     $allTasks = getAllTasksSti($user);
+    $ytLinks = explode("\n", $lesson->links);
+
+    $webLinks = explode("\n", $lesson->webLinks);
+
+    $ytLinks = explode("\n", $lesson->links);
+
+    function convertToEmbedUrl($url) {
+        if (preg_match('/youtu\.be\/([^\?]*)/', $url, $matches)) {
+            return 'https://www.youtube.com/embed/' . $matches[1];
+        } elseif (preg_match('/youtube\.com\/watch\?v=([^\&\?]*)/', $url, $matches)) {
+            return 'https://www.youtube.com/embed/' . $matches[1];
+        }
+        return $url; // return the original URL if it doesn't match
+    }
+
+    $ytEmbedLinks = array_map('convertToEmbedUrl', $ytLinks);
 
     return view('modules', [
         'lesson' => $lesson,
@@ -398,7 +414,9 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
         'lessons' => $course->lessons,
         'course' => $course,
         'user' => $user,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'ytLinks' => $ytEmbedLinks,
+        'webLinks' => $webLinks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
