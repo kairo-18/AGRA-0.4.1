@@ -50,7 +50,7 @@
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
 
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: {{$overallAccuracy}} %</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: <br>{{$overallAccuracy}} %</h1>
                     </div>
 
                 </div>
@@ -58,7 +58,15 @@
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
 
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: {{$overallSpeed}} *</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{$overallSpeed}} *</h1>
+                    </div>
+
+                </div>
+
+                <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+
+                    <div class="title pb-9">
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Performance: <br>{{$overallPerformance}} %</h1>
                     </div>
 
                 </div>
@@ -133,6 +141,38 @@
                             </div>
                         </div>
                         <div id="csharp-coding-speed-chart"></div>
+                    </div>
+                </div>
+
+                <div class="java-score w-full xl:w-2/4 p-10">
+                    <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                        <div class="flex justify-between mb-5">
+                            <div>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">JAVA Scores</h5>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Speed this week</p>
+                            </div>
+                            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                Time based
+
+                            </div>
+                        </div>
+                        <div id="java-score-chart"></div>
+                    </div>
+                </div>
+
+                <div class="csharp-score w-full xl:w-2/4 p-10">
+                    <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                        <div class="flex justify-between mb-5">
+                            <div>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">C# Scores</h5>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">Speed this week</p>
+                            </div>
+                            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                Time based
+
+                            </div>
+                        </div>
+                        <div id="csharp-score-chart"></div>
                     </div>
                 </div>
 
@@ -250,6 +290,44 @@
         var chart6 = new ApexCharts(document.querySelector("#csharp-coding-speed-chart"), options6);
         chart6.render();
 
+        var options7 = {
+            series: [{
+                name: 'Java Scores',
+                data: @json($taskJavaScore)
+            }],
+            chart: {
+                height: 350,
+                type: 'line'
+            },
+            title: {
+                text: 'Java Scores'
+            },
+            xaxis: {
+                categories: taskData['C#'].categories
+            }
+        };
+        var chart7 = new ApexCharts(document.querySelector("#java-score-chart"), options7);
+        chart7.render();
+
+        var options8 = {
+            series: [{
+                name: 'C# Scores',
+                data: @json($taskCsharpScore)
+            }],
+            chart: {
+                height: 350,
+                type: 'line'
+            },
+            title: {
+                text: 'C# Scores'
+            },
+            xaxis: {
+                categories: taskData['C#'].categories
+            }
+        };
+        var chart8 = new ApexCharts(document.querySelector("#csharp-score-chart"), options8);
+        chart8.render();
+
         console.log(lessonData)
 
 
@@ -295,6 +373,10 @@
                             {
                                 name: 'Speed',
                                 data: lessonData[key].speed
+                            },
+                            {
+                                name: 'Score',
+                                data: lessonData[key].score
                             }
                         ],
                         chart: {

@@ -9,6 +9,7 @@ use App\Models\Lesson;
 use App\Models\Task;
 use App\Models\TaskScore;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -149,7 +150,7 @@ Route::get('/agraCourses/References', function () {
         'user' => $user,
         'tasks' => $tasks,
         'allTasks' => $allTasks
-    ]); 
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -668,7 +669,7 @@ Route::get('/userProfile', function (){
 Route::get('/userAnalytics', function () {
     try{
 
-    
+
     $user = Auth::user();
     $taskData = fetchUserData($user);
 
@@ -676,12 +677,16 @@ Route::get('/userAnalytics', function () {
     $taskCsharpAccuracy = [];
     $taskJavaCodingSpeed = [];
     $taskCsharpCodingSpeed = [];
+    $taskJavaScore = [];
+    $taskCsharpScore = [];
 
     $totalJavaTasks = count($taskData['Java']['categories']);
     $totalCSharpTasks = count($taskData['C#']['categories']);
     $totalTasks = $totalJavaTasks + $totalCSharpTasks;
     $overallAccuracy = 0;
     $overallSpeed = 0;
+    $overallScore = 0;
+    $overallPerformance = 0;
 
     // Iterate through Java tasks
     foreach ($taskData['Java']['score'] as $index => $score) {
@@ -690,7 +695,10 @@ Route::get('/userAnalytics', function () {
             $taskData['Java']['maxScore'][$index],
             $taskData['Java']['errors'][$index]
         );
+        $score = calculateScore($taskData['Java']['score'][$index], $taskData['Java']['maxScore'][$index]);
         $taskJavaAccuracy[] = $accuracy;
+        $taskJavaScore[] = $score;
+        $overallScore += $score;
         $overallAccuracy += $accuracy;
     }
 
@@ -701,8 +709,11 @@ Route::get('/userAnalytics', function () {
             $taskData['C#']['maxScore'][$index],
             $taskData['C#']['errors'][$index]
         );
+        $score = calculateScore($taskData['C#']['score'][$index], $taskData['C#']['maxScore'][$index]);
         $taskCsharpAccuracy[] = $accuracy;
+        $taskCsharpScore[] = $score;
         $overallAccuracy += $accuracy;
+        $overallScore += $score;
     }
 
 
@@ -721,12 +732,14 @@ Route::get('/userAnalytics', function () {
         $taskJavaCodingSpeed[] = $speed;
         $overallSpeed += $speed;
     }
-    
+
 
     // Calculate overall accuracy and speed
     if ($totalTasks > 0) {
         $overallAccuracy = $overallAccuracy / $totalTasks;
         $overallSpeed = $overallSpeed / $totalTasks;
+        $overallScore = $overallScore / $totalTasks;
+        $overallPerformance = ($overallScore + $overallSpeed + $overallAccuracy) / 3;
     }
 
 
@@ -753,11 +766,13 @@ Route::get('/userAnalytics', function () {
                     $lessonPerformance[$lessonName] = [
                         'accuracy' => [],
                         'speed' => [],
+                        'score' => [],
                     ];
                 } elseif ($category === 'C#') {
                     $lessonPerformance[$lessonName] = [
                         'accuracy' => [],
                         'speed' => [],
+                        'score' => [],
                     ];
                 }
             }
@@ -772,16 +787,22 @@ Route::get('/userAnalytics', function () {
                 $tasks['timeLeft'][$index],
                 $tasks['timeTaken'][$index]
             );
+            $score = calculateScore(
+                $tasks['score'][$index],
+                $tasks['maxScore'][$index]
+            );
 
             // Add accuracy and speed for the current task to the appropriate lesson performance array
             if ($category === 'Java') {
                 $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
                 $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
+                $lessonJavaPerformance[$lessonName]['score'][] = $score;
                 $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
                 $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
             } elseif ($category === 'C#') {
                 $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
                 $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
+                $lessonCsharpPerformance[$lessonName]['score'][] = $score;
                 $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
                 $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
             }
@@ -796,9 +817,10 @@ Route::get('/userAnalytics', function () {
         // Calculate overall accuracy and speed for the lesson
         $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
         $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+        $tempOverallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['speed']) : 0;
 
         // Perform your formula to compute overall user performance for the lesson
-        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed) / 2;
+        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallScore) / 3;
 
         // Store the overall user performance for the lesson
         $performance['overall_performance'] = $overallPerformance;
@@ -810,9 +832,10 @@ Route::get('/userAnalytics', function () {
         // Calculate overall accuracy and speed for the lesson
         $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
         $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+        $tempOverallscore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
         // Perform your formula to compute overall user performance for the lesson
-        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed) / 2;
+        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallscore) / 3;
 
         // Store the overall user performance for the lesson
         $performance['overall_performance'] = $overallPerformance;
@@ -832,17 +855,21 @@ Route::get('/userAnalytics', function () {
         'taskJavaSpeed' => $taskJavaCodingSpeed,
         'taskCsharpAccuracy' => $taskCsharpAccuracy,
         'taskCsharpSpeed' => $taskCsharpCodingSpeed,
+        'taskJavaScore' => $taskJavaScore,
+        'taskCsharpScore' => $taskCsharpScore,
         'overallSpeed' => $overallSpeed,
-        'overallAccuracy' => $overallAccuracy
+        'overallAccuracy' => $overallAccuracy,
+        'overallScore' => $overallScore,
+        'overallPerformance' => $overallPerformance,
     ]);
     }
     catch(Exception $e) {
         // Log the exception message for debugging purposes
         Log::error('Error occurred in user analytics: ' . $e->getMessage());
-    
+
         // Retrieve the authenticated user
         $user = Auth::user();
-    
+
         // Initialize the collections and other variables if not already set
         $taskData = $taskData ?? collect();
         $lessonPerformance = $lessonPerformance ?? collect();
@@ -852,7 +879,7 @@ Route::get('/userAnalytics', function () {
         $taskCsharpCodingSpeed = $taskCsharpCodingSpeed ?? 0;
         $overallSpeed = $overallSpeed ?? 0;
         $overallAccuracy = $overallAccuracy ?? 0;
-    
+
         // Return the view with the user data and analytics
         return view('userAnalytics', [
             'user' => $user,
@@ -866,7 +893,7 @@ Route::get('/userAnalytics', function () {
             'overallAccuracy' => $overallAccuracy
         ]);
     }
-    
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 function fetchUserData($user)  {
@@ -913,20 +940,24 @@ function fetchUserData($user)  {
 
 Route::get('/recommendation', function () {
     $user = Auth::user();
-
     try {
+
         $taskData = fetchUserData($user);
 
         $taskJavaAccuracy = [];
         $taskCsharpAccuracy = [];
         $taskJavaCodingSpeed = [];
         $taskCsharpCodingSpeed = [];
+        $taskJavaScore = [];
+        $taskCsharpScore = [];
 
         $totalJavaTasks = count($taskData['Java']['categories']);
         $totalCSharpTasks = count($taskData['C#']['categories']);
         $totalTasks = $totalJavaTasks + $totalCSharpTasks;
         $overallAccuracy = 0;
         $overallSpeed = 0;
+        $overallScore = 0;
+        $overallPerformance = 0;
 
         // Iterate through Java tasks
         foreach ($taskData['Java']['score'] as $index => $score) {
@@ -935,7 +966,10 @@ Route::get('/recommendation', function () {
                 $taskData['Java']['maxScore'][$index],
                 $taskData['Java']['errors'][$index]
             );
+            $score = calculateScore($taskData['Java']['score'][$index], $taskData['Java']['maxScore'][$index]);
             $taskJavaAccuracy[] = $accuracy;
+            $taskJavaScore[] = $score;
+            $overallScore += $score;
             $overallAccuracy += $accuracy;
         }
 
@@ -946,13 +980,21 @@ Route::get('/recommendation', function () {
                 $taskData['C#']['maxScore'][$index],
                 $taskData['C#']['errors'][$index]
             );
+            $score = calculateScore($taskData['C#']['score'][$index], $taskData['C#']['maxScore'][$index]);
             $taskCsharpAccuracy[] = $accuracy;
+            $taskCsharpScore[] = $score;
             $overallAccuracy += $accuracy;
+            $overallScore += $score;
         }
 
-        // Calculate overall accuracy
-        if ($totalTasks > 0) {
-            $overallAccuracy = $overallAccuracy / $totalTasks;
+
+
+
+        // Iterate through C# tasks for coding speed
+        foreach ($taskData['C#']['timeLeft'] as $index => $timeLeft) {
+            $speed = calculateCodingSpeed($timeLeft, $taskData['C#']['timeTaken'][$index]);
+            $taskCsharpCodingSpeed[] = $speed;
+            $overallSpeed += $speed;
         }
 
         // Iterate through Java tasks for coding speed
@@ -962,17 +1004,13 @@ Route::get('/recommendation', function () {
             $overallSpeed += $speed;
         }
 
-        // Iterate through C# tasks for coding speed
-        foreach ($taskData['C#']['timeLeft'] as $index => $timeLeft) {
-            $speed = calculateCodingSpeed($timeLeft, $taskData['C#']['timeTaken'][$index]);
-            $taskCsharpCodingSpeed[] = $speed;
-            $overallSpeed += $speed;
-        }
 
         // Calculate overall accuracy and speed
         if ($totalTasks > 0) {
             $overallAccuracy = $overallAccuracy / $totalTasks;
             $overallSpeed = $overallSpeed / $totalTasks;
+            $overallScore = $overallScore / $totalTasks;
+            $overallPerformance = ($overallScore + $overallSpeed + $overallAccuracy) / 3;
         }
 
         $lessonJavaPerformance = [];
@@ -996,11 +1034,13 @@ Route::get('/recommendation', function () {
                         $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
+                            'score'=> [],
                         ];
                     } elseif ($category === 'C#') {
                         $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
+                            'score' => [],
                         ];
                     }
                 }
@@ -1015,14 +1055,20 @@ Route::get('/recommendation', function () {
                     $tasks['timeLeft'][$index],
                     $tasks['timeTaken'][$index]
                 );
+                $score = calculateScore(
+                   $tasks['score'][$index],
+                   $tasks['maxScore'][$index]
+                );
 
                 // Add accuracy and speed for the current task to the appropriate lesson performance array
                 if ($category === 'Java') {
                     $lessonJavaPerformance[$lessonId]['accuracy'][] = $accuracy;
                     $lessonJavaPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonJavaPerformance[$lessonId]['score'][] = $score;
                 } elseif ($category === 'C#') {
                     $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
                     $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonCsharpPerformance[$lessonId]['score'][] = $score;
                 }
             }
         }
@@ -1032,9 +1078,10 @@ Route::get('/recommendation', function () {
             // Calculate overall accuracy and speed for the lesson
             $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $overallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
             // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = ($overallAccuracy + $overallSpeed) / 2;
+            $overallPerformance = ($overallAccuracy + $overallSpeed + $overallScore) / 3;
 
             // Store the overall user performance for the lesson
             $performance['overall_performance'] = $overallPerformance;
@@ -1045,9 +1092,10 @@ Route::get('/recommendation', function () {
             // Calculate overall accuracy and speed for the lesson
             $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $overallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
             // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = ($overallAccuracy + $overallSpeed) / 2;
+            $overallPerformance = ($overallAccuracy + $overallSpeed + $overallScore) / 3;
 
             // Store the overall user performance for the lesson
             $performance['overall_performance'] = $overallPerformance;
@@ -1064,9 +1112,10 @@ Route::get('/recommendation', function () {
             // Calculate overall accuracy and speed for the lesson
             $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $overallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
             // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = (($overallAccuracy + $overallSpeed) / 2);
+            $overallPerformance = ($overallAccuracy + $overallSpeed + $overallScore) / 3;
             // Store the overall user performance for the lesson
             $performance['overall_performance'] = $overallPerformance;
 
@@ -1075,6 +1124,7 @@ Route::get('/recommendation', function () {
                 $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
             }
         }
+
 
 
         // Sort badperformancelessons by overall performance in ascending order
@@ -1162,13 +1212,15 @@ function removeAgraLessons($lessonPerformance, $user)
 // Functions to calculate accuracy and coding speed
 function calculateAccuracy($score, $maxScore, $errors, $errorPenaltyPercent = 1.5) {
     // Calculate the base accuracy as a percentage
-    $baseAccuracy = ($score / $maxScore) * 100;
 
     // Calculate the penalty per error as a percentage
-    $errorPenalty = $errorPenaltyPercent * $errors;
+    $basePenalty = ($maxScore * 0.2) * 10;
+
+    //Calculate error percentage
+    $errorPenalty = $basePenalty * $errors;
 
     // Calculate adjusted accuracy by deducting the penalty for errors
-    $adjustedAccuracy = $baseAccuracy - $errorPenalty;
+    $adjustedAccuracy = 100 - $errorPenalty;
 
     // Ensure adjusted accuracy doesn't go below 0
     $adjustedAccuracy = max($adjustedAccuracy, 0);
@@ -1177,6 +1229,10 @@ function calculateAccuracy($score, $maxScore, $errors, $errorPenaltyPercent = 1.
     $adjustedAccuracy = round($adjustedAccuracy, 2);
 
     return $adjustedAccuracy;
+}
+
+function calculateScore($score, $maxScore){
+    return ($score / $maxScore) * 100;
 }
 
 function calculateCodingSpeed($timeLeft, $timeTaken) {

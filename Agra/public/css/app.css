@@ -914,8 +914,6 @@ video {
   top: 1rem;
 }.top-6 {
   top: 1.5rem;
-}.bottom-full {
-  bottom: 100%;
 }.isolate {
   isolation: isolate;
 }.z-0 {
@@ -1089,8 +1087,6 @@ video {
   margin-top: 0.75rem;
 }.mt-4 {
   margin-top: 1rem;
-}.mt-5 {
-  margin-top: 1.25rem;
 }.mt-6 {
   margin-top: 1.5rem;
 }.mt-8 {
@@ -1126,8 +1122,6 @@ video {
   height: 0.25rem;
 }.h-1\.5 {
   height: 0.375rem;
-}.h-1\/2 {
-  height: 50%;
 }.h-10 {
   height: 2.5rem;
 }.h-11 {
@@ -1144,8 +1138,6 @@ video {
   height: 66.666667%;
 }.h-20 {
   height: 5rem;
-}.h-24 {
-  height: 6rem;
 }.h-3 {
   height: 0.75rem;
 }.h-3\.5 {
@@ -1180,8 +1172,6 @@ video {
   height: 270px;
 }.h-\[30rem\] {
   height: 30rem;
-}.h-\[4rem\] {
-  height: 4rem;
 }.h-\[50rem\] {
   height: 50rem;
 }.h-\[calc\(100\%-1rem\)\] {
@@ -1194,7 +1184,6 @@ video {
   height: 100%;
 }.h-screen {
   height: 100vh;
-<<<<<<< Updated upstream
 }.h-1\/5 {
   height: 20%;
 }.h-4\/5 {
@@ -1203,12 +1192,10 @@ video {
   height: 18rem;
 }.h-2\/5 {
   height: 40%;
-=======
-}.h-\[12\%\] {
-  height: 12%;
-}.h-\[88\%\] {
-  height: 88%;
->>>>>>> Stashed changes
+}.h-1\/2 {
+  height: 50%;
+}.h-24 {
+  height: 6rem;
 }.max-h-72 {
   max-height: 18rem;
 }.max-h-full {
@@ -1273,8 +1260,6 @@ video {
   width: 24rem;
 }.w-\[--sidebar-width\] {
   width: var(--sidebar-width);
-}.w-\[10rem\] {
-  width: 10rem;
 }.w-\[21rem\] {
   width: 21rem;
 }.w-\[30px\] {
@@ -1574,9 +1559,6 @@ video {
 }.gap-x-6 {
   -moz-column-gap: 1.5rem;
        column-gap: 1.5rem;
-}.gap-x-80 {
-  -moz-column-gap: 20rem;
-       column-gap: 20rem;
 }.gap-y-1 {
   row-gap: 0.25rem;
 }.gap-y-10 {
@@ -1718,9 +1700,6 @@ video {
   border-width: 1px;
 }.border-0 {
   border-width: 0px;
-}.border-x-\[0\.5px\] {
-  border-left-width: 0.5px;
-  border-right-width: 0.5px;
 }.border-y {
   border-top-width: 1px;
   border-bottom-width: 1px;
@@ -1891,13 +1870,8 @@ video {
   padding: 1.25rem;
 }.p-6 {
   padding: 1.5rem;
-<<<<<<< Updated upstream
 }.p-14 {
   padding: 3.5rem;
-=======
-}.p-7 {
-  padding: 1.75rem;
->>>>>>> Stashed changes
 }.px-0 {
   padding-left: 0px;
   padding-right: 0px;
@@ -2361,15 +2335,10 @@ video {
 }.before\:w-0\.5::before {
   content: var(--tw-content);
   width: 0.125rem;
-}.first\:border-s-0:first-child {
-  border-inline-start-width: 0px;
 }.first\:border-t-0:first-child {
   border-top-width: 0px;
-<<<<<<< Updated upstream
 }.first\:border-s-0:first-child {
   border-inline-start-width: 0px;
-=======
->>>>>>> Stashed changes
 }.last\:border-e-0:last-child {
   border-inline-end-width: 0px;
 }.first-of-type\:ps-1:first-of-type {
@@ -2383,13 +2352,13 @@ video {
 }.hover\:-translate-y-1:hover {
   --tw-translate-y: -0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}.hover\:scale-105:hover {
-  --tw-scale-x: 1.05;
-  --tw-scale-y: 1.05;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }.hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}.hover\:scale-105:hover {
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }.hover\:transform:hover {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -2637,9 +2606,6 @@ video {
   border-end-end-radius: 0.5rem;
 }.group:hover .group-hover\:bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
-}.group\/button:hover .group-hover\/button\:text-gray-500 {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
 }.group:hover .group-hover\:text-blue-800 {
   --tw-text-opacity: 1;
   color: rgb(30 66 159 / var(--tw-text-opacity));
@@ -2652,15 +2618,12 @@ video {
 }.group:hover .group-hover\:text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
-<<<<<<< Updated upstream
 }.group\/button:hover .group-hover\/button\:text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
-=======
 }.group:hover .group-hover\:text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
->>>>>>> Stashed changes
 }.group\/item:hover .group-hover\/item\:underline {
   text-decoration-line: underline;
 }.group\/link:hover .group-hover\/link\:underline {
@@ -2976,9 +2939,6 @@ video {
   background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }.group:hover .dark\:group-hover\:bg-gray-800\/60:is(.dark *) {
   background-color: rgb(31 41 55 / 0.6);
-}.group\/button:hover .dark\:group-hover\/button\:text-gray-400:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
 }.group:hover .dark\:group-hover\:text-gray-200:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
