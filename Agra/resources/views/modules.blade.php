@@ -134,7 +134,7 @@
                                         @endphp
 
                                         @foreach($webLinks as $webLink)
-                                            <a href="{{ $webLink }}" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                                            <a href="{{ $webLink }}" class="yt-vid w-[21rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
                                                 <div class="h-4/5">
                                                     <iframe class="w-full h-full rounded-lg shadow-xl" src="{{ $webLink }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                 </div>

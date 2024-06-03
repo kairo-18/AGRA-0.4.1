@@ -1291,6 +1291,14 @@ video {
   width: 27rem;
 }.w-80 {
   width: 20rem;
+}.w-\[24rem\] {
+  width: 24rem;
+}.w-\[20rem\] {
+  width: 20rem;
+}.w-\[23rem\] {
+  width: 23rem;
+}.w-\[22rem\] {
+  width: 22rem;
 }.min-w-0 {
   min-width: 0px;
 }.min-w-\[theme\(spacing\.4\)\] {
