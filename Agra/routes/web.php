@@ -389,8 +389,29 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
-
     $allTasks = getAllTasksSti($user);
+
+    return view('modules', [
+        'lesson' => $lesson,
+        'tasks' => $lesson->tasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user,
+        'allTasks' => $allTasks,
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
+    $user = Auth::user();
+
+//    // Retrieve task IDs that the current user has marked as "Done"
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+
     $ytLinks = explode("\n", $lesson->links);
 
     $webLinks = explode("\n", $lesson->webLinks);
@@ -408,29 +429,6 @@ Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $
 
     $ytEmbedLinks = array_map('convertToEmbedUrl', $ytLinks);
 
-    return view('modules', [
-        'lesson' => $lesson,
-        'tasks' => $lesson->tasks,
-        'lessons' => $course->lessons,
-        'course' => $course,
-        'user' => $user,
-        'allTasks' => $allTasks,
-        'ytLinks' => $ytEmbedLinks,
-        'webLinks' => $webLinks,
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
-    $user = Auth::user();
-
-//    // Retrieve task IDs that the current user has marked as "Done"
-//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-//        $query->where('status', 'Done');
-//    })->pluck('task_id')->toArray();
-//
-//    // Retrieve all tasks except those that are marked as "Done" for the current user
-//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
-
     $allTasks = getAllTasksSti($user);
 
     return view('agraLesson', [
@@ -439,7 +437,9 @@ Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Less
         'lessons' => $course->lessons,
         'course' => $course,
         'user' => $user,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'ytLinks' => $ytEmbedLinks,
+        'webLinks' => $webLinks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
