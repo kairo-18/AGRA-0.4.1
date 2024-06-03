@@ -59,6 +59,9 @@
                         <li class="me-2">
                             <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Lessons</a>
                         </li>
+                        <li class="me-2">
+                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">References</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -120,7 +123,9 @@
 
             <!--------------Start Calendar-------------->
 
-            <x-calendar></x-calendar>
+            @if ($allTasks->count() > 0)
+                <x-calendar :tasks="$allTasks" />
+            @endif
         </div>
         <!--------------End Calendar-------------->
 

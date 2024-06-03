@@ -120,7 +120,9 @@
 
             <!--------------Start Calendar-------------->
 
-                <x-calendar></x-calendar>
+                @if ($tasks->count() > 0)
+                    <x-calendar :tasks="$allTasks" />
+                @endif
             </div>
             <!--------------End Calendar-------------->
 

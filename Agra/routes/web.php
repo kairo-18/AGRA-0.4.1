@@ -69,7 +69,7 @@ Route::get('/', function () {
     // Retrieve all tasks except those that are marked as "Done" for the current user
     $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
-
+    $tasks = getAllTasksSti($user);
 
     return view('home', [
         'courses' => $courses,
@@ -106,6 +106,8 @@ Route::get('/agraCourses', function () {
     $user = Auth::user();
     $courses = getAgraCourses($user);
 
+    $allTasks = getAllTasksSti($user);
+
     // Collect tasks from the filtered courses
     $tasks = collect();
     foreach ($courses as $course) {
@@ -121,26 +123,37 @@ Route::get('/agraCourses', function () {
         'courses' => $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-Route::get('/courses', function () {
-
+Route::get('/agraCourses/References', function () {
     $user = Auth::user();
+    $courses = getAgraCourses($user);
 
-    $userCourses = $user->courses;
-    $courses = $user->section->courses;
-    $courses = $courses->merge($userCourses);
+    // Collect tasks from the filtered courses
+    $tasks = collect();
+    foreach ($courses as $course) {
+        foreach ($course->lessons as $lesson) {
+            $tasks = $tasks->merge($lesson->tasks ?? collect());
+        }
+    }
 
-    // Retrieve task IDs that the current user has marked as "Done"
-//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-//        $query->where('status', 'Done');
-//    })->pluck('task_id')->toArray();
-//
-//    // Retrieve all tasks except those that are marked as "Done" for the current user
-//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+    $allTasks = getAllTasksSti($user);
 
+    // Remove tasks that are marked as "Done"
+    $tasks = $tasks->whereNotIn('id', getUserDoneTaskIds($user));
+
+    return view('agraReferences', [
+        'courses' => $courses,
+        'user' => $user,
+        'tasks' => $tasks,
+        'allTasks' => $allTasks
+    ]); 
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+function getAllTasksSti($user){
     $tasks = collect();
 
     if ($user->courses) {
@@ -161,23 +174,41 @@ Route::get('/courses', function () {
 
     }
 
+    return $tasks;
+}
+
+Route::get('/courses', function () {
+
+    $user = Auth::user();
+
+    $userCourses = $user->courses;
+    $courses = $user->section->courses;
+    $courses = $courses->merge($userCourses);
+
+    // Retrieve task IDs that the current user has marked as "Done"
+//    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
+//        $query->where('status', 'Done');
+//    })->pluck('task_id')->toArray();
+//
+//    // Retrieve all tasks except those that are marked as "Done" for the current user
+//    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
+
+    $tasks = getAllTasksSti($user);
+
     return view('courses', [
         'courses'=> $courses,
         'user' => $user,
-        'tasks' => $tasks
+        'tasks' => $tasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/task/{course:id}/{lesson:id}', function (Course $course, Lesson $lesson) {
     $user = Auth::user();
 
-    // Verify that the lesson belongs to the course
-    if (!$course->lessons->contains($lesson)) {
-        abort(404, 'Lesson not found in the course');
-    }
-
     // Filter tasks to only include those under the current lesson
     $tasks = $lesson->tasks;
+
+    $allTasks = getAllTasksSti($user);
 
     return view('courseTask', [
         'course' => $course,
@@ -185,8 +216,31 @@ Route::get('/task/{course:id}/{lesson:id}', function (Course $course, Lesson $le
         'tasks' => $tasks,
         'user' => $user,
         'lessons' => $course->lessons,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/taskDeadlines/{date}', function ($date, Course $course, Lesson $lesson) {
+    $user = Auth::user();
+
+    $tasks = getAllTasksSti($user);
+
+    // Filter tasks based on the given deadline date
+    $taskDeadlines = $tasks->filter(function($task) use ($date) {
+        return $task->Deadline && $task->Deadline->format('Y-m-d') === $date;
+    });
+
+    return view('taskDeadlines', [
+        'course' => $course,
+        'lesson' => $lesson,
+        'tasks' => $tasks,
+        'user' => $user,
+        'lessons' => $course->lessons,
+        'taskDeadlines' => $taskDeadlines,
+        'selectedDate' => $date
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -217,11 +271,13 @@ Route::get('courses/{course}', function (Course $course) {
         }
     }
 
+    $tasks = getAllTasksSti($user);
+
     return view('lesson', [
         'course' => $course,
         'lessons' => $lessons,
         'user' => $user,
-        'tasks' => $tasks
+        'tasks' => $tasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -249,13 +305,17 @@ Route::get('agraCourses/{course:id}', function(Course $course) {
         }
     }
 
+    $allTasks = getAllTasksSti($user);
+
     return view('agraLessons', [
         'course' => $course, // Ensure the original course parameter is passed to the view
         'lessons' => $lessons,
         'user' => $user,
-        'tasks' => $tasks
+        'tasks' => $tasks,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::get('categories/{category:slug}' , function(Category $category) {
@@ -329,13 +389,15 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
 
+    $allTasks = getAllTasksSti($user);
 
     return view('modules', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
         'course' => $course,
-        'user' => $user
+        'user' => $user,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -350,12 +412,30 @@ Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Less
 //    // Retrieve all tasks except those that are marked as "Done" for the current user
 //    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
+    $allTasks = getAllTasksSti($user);
+
     return view('agraLesson', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
         'course' => $course,
-        'user' => $user
+        'user' => $user,
+        'allTasks' => $allTasks
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('agraTasks/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson, Task $tasks) {
+    $user = Auth::user();
+
+    $allTasks = getAllTasksSti($user);
+
+    return view('agraLessonTasks', [
+        'lesson' => $lesson,
+        'tasks' => $lesson->tasks,
+        'lessons' => $course->lessons,
+        'course' => $course,
+        'user' => $user,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -383,6 +463,8 @@ Route::get('tasks/{task:id}' , function(Course $course, Lesson $lesson, Task $ta
         }
     }
 
+    $tasks = getAllTasksSti($user);
+
     return view('taskView', [
         'course' => $course,
         'lesson'=>$lesson,
@@ -400,6 +482,7 @@ Route::get('agraTasks/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
     $scores = \App\Models\Score::where('user_id', $user->id)->get();
+    $courses = getAgraCourses($user);
 
 
     $tasks = collect();
@@ -420,12 +503,16 @@ Route::get('agraTasks/{task:id}' , function(Task $task) {
         }
     }
 
+    $allTasks = getAllTasksSti($user);
+
     return view('agraTaskView', [
         'task' => $task,
+        'courses' => $courses,
         'instructions' => $instructions,
         'user' => $user,
         'tasks' => $task->lesson->tasks,
-        'scores' => $scores
+        'scores' => $scores,
+        'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -436,7 +523,7 @@ Route::get('tasks/fight/{task:id}' , function(Task $task) {
     return view('task', [
         'task' => $task,
         'instructions' => $instructions,
-        'user' => $user
+        'user' => $user,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -446,6 +533,7 @@ Route::get('tasks/ship/{task:id}' , function(Task $task) {
 
     return view('taskShipMode', [
         'task' => $task,
+        'courses' => $courses,
         'instructions' => $instructions,
         'user' => $user
     ]);
@@ -545,13 +633,22 @@ function handleGrades(Course $course, Lesson $lesson) {
     // Filter tasks to get only those that are done by the user
     $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
 
+    // Collect all tasks from the courses
+    $allTasks = collect();
+    foreach ($courses as $course) {
+        foreach ($lesson->tasks ?? collect() as $task) {
+            $allTasks->push($task);
+        }
+    }
+
     return view('courseGrades', [
         'lesson' => $lesson,
         'tasks' => $tasks,
         'doneTasks' => $doneTasks,
         'lessons' => $course->lessons,
         'course' => $course,
-        'user' => $user
+        'user' => $user,
+        'allTasks'=> $allTasks
     ]);
 }
 
@@ -569,6 +666,9 @@ Route::get('/userProfile', function (){
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/userAnalytics', function () {
+    try{
+
+    
     $user = Auth::user();
     $taskData = fetchUserData($user);
 
@@ -605,17 +705,8 @@ Route::get('/userAnalytics', function () {
         $overallAccuracy += $accuracy;
     }
 
-    // Calculate overall accuracy
-    if ($totalTasks > 0) {
-        $overallAccuracy = $overallAccuracy / $totalTasks;
-    }
 
-    // Iterate through Java tasks for coding speed
-    foreach ($taskData['Java']['timeLeft'] as $index => $timeLeft) {
-        $speed = calculateCodingSpeed($timeLeft, $taskData['Java']['timeTaken'][$index]);
-        $taskJavaCodingSpeed[] = $speed;
-        $overallSpeed += $speed;
-    }
+
 
     // Iterate through C# tasks for coding speed
     foreach ($taskData['C#']['timeLeft'] as $index => $timeLeft) {
@@ -624,11 +715,20 @@ Route::get('/userAnalytics', function () {
         $overallSpeed += $speed;
     }
 
+    // Iterate through Java tasks for coding speed
+    foreach ($taskData['Java']['timeLeft'] as $index => $timeLeft) {
+        $speed = calculateCodingSpeed($timeLeft, $taskData['Java']['timeTaken'][$index]);
+        $taskJavaCodingSpeed[] = $speed;
+        $overallSpeed += $speed;
+    }
+    
+
     // Calculate overall accuracy and speed
     if ($totalTasks > 0) {
         $overallAccuracy = $overallAccuracy / $totalTasks;
         $overallSpeed = $overallSpeed / $totalTasks;
     }
+
 
     $lessonJavaPerformance = [];
     $lessonCsharpPerformance = [];
@@ -694,11 +794,11 @@ Route::get('/userAnalytics', function () {
     // Calculate overall performance for each lesson
     foreach ($lessonJavaPerformance as $lessonName => &$performance) {
         // Calculate overall accuracy and speed for the lesson
-        $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
-        $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+        $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
+        $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
 
         // Perform your formula to compute overall user performance for the lesson
-        $overallPerformance = ($overallAccuracy + $overallSpeed) / 2;
+        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed) / 2;
 
         // Store the overall user performance for the lesson
         $performance['overall_performance'] = $overallPerformance;
@@ -708,11 +808,11 @@ Route::get('/userAnalytics', function () {
     // Calculate overall performance for each lesson
     foreach ($lessonCsharpPerformance as $lessonName => &$performance) {
         // Calculate overall accuracy and speed for the lesson
-        $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
-        $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+        $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
+        $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
 
         // Perform your formula to compute overall user performance for the lesson
-        $overallPerformance = ($overallAccuracy + $overallSpeed) / 2;
+        $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed) / 2;
 
         // Store the overall user performance for the lesson
         $performance['overall_performance'] = $overallPerformance;
@@ -735,6 +835,38 @@ Route::get('/userAnalytics', function () {
         'overallSpeed' => $overallSpeed,
         'overallAccuracy' => $overallAccuracy
     ]);
+    }
+    catch(Exception $e) {
+        // Log the exception message for debugging purposes
+        Log::error('Error occurred in user analytics: ' . $e->getMessage());
+    
+        // Retrieve the authenticated user
+        $user = Auth::user();
+    
+        // Initialize the collections and other variables if not already set
+        $taskData = $taskData ?? collect();
+        $lessonPerformance = $lessonPerformance ?? collect();
+        $taskJavaAccuracy = $taskJavaAccuracy ?? 0;
+        $taskJavaCodingSpeed = $taskJavaCodingSpeed ?? 0;
+        $taskCsharpAccuracy = $taskCsharpAccuracy ?? 0;
+        $taskCsharpCodingSpeed = $taskCsharpCodingSpeed ?? 0;
+        $overallSpeed = $overallSpeed ?? 0;
+        $overallAccuracy = $overallAccuracy ?? 0;
+    
+        // Return the view with the user data and analytics
+        return view('userAnalytics', [
+            'user' => $user,
+            'taskData' => $taskData,
+            'lessonPerformance' => $lessonPerformance,
+            'taskJavaAccuracy' => $taskJavaAccuracy,
+            'taskJavaSpeed' => $taskJavaCodingSpeed,
+            'taskCsharpAccuracy' => $taskCsharpAccuracy,
+            'taskCsharpSpeed' => $taskCsharpCodingSpeed,
+            'overallSpeed' => $overallSpeed,
+            'overallAccuracy' => $overallAccuracy
+        ]);
+    }
+    
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 function fetchUserData($user)  {
@@ -1057,7 +1189,7 @@ function calculateCodingSpeed($timeLeft, $timeTaken) {
 
     // Check if the user has more than 50% of time left
     if ($timeLeft / $totalTime > 0.5) {
-        return 5; // Set coding speed to 5
+        return 5 * 20; // Set coding speed to 5
     } else {
         // Calculate the percentage of time left
         $percentageTimeLeft = ($timeLeft / $totalTime) * 100;

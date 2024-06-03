@@ -120,7 +120,9 @@
 
         <div class="right-panel flex flex-col bg-gray-300 h-auto w-full xl:w-1/4 bg-white gap-6 items-center pt-20">
             <div class="mr-7 w-full">
-            <x-calendar></x-calendar>
+            @if ($tasks->count() > 0)
+                <x-calendar :tasks="$tasks" />
+            @endif
             </div>
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow mr-7">
