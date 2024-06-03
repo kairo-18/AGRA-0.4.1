@@ -30,8 +30,11 @@ editor.setOptions({
 });
 
 editor.insert(template);
-
-editor.moveCursorTo(2, 8)
+editor.getSession().selection.on('changeSelection', function (e)
+{
+    editor.getSession().selection.clearSelection();
+});
+editor.container.style.pointerEvents="none"
 
 editor.setReadOnly(true);
 

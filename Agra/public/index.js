@@ -28,12 +28,7 @@ editor.setOptions({
     fontSize: "20px"
 });
 
-editor.insert(`public class myClass{
-    public static void main(String[] args){
-
-
-    }
-}`);
+editor.insert(template);
 
 editor.moveCursorTo(2, 8)
 

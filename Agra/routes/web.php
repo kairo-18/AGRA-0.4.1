@@ -871,7 +871,7 @@ Route::get('/userAnalytics', function () {
     }
 
     $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
-    $lessonPerformance = removeAgraLessons($lessonPerformance, $user);
+    //$lessonPerformance = removeAgraLessons($lessonPerformance, $user);
 
 
 

@@ -121,6 +121,7 @@
 
     var checkmarks = [];
     let counter = 0; // Initialize a counter for incrementing id
+    let template = `{{$task->TaskCodeTemplate}}`;
 
     @foreach($instructions as $instruction)
         <?php
