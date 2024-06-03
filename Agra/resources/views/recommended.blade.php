@@ -44,7 +44,7 @@
             <div class="Recommed-panel flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
                 <div class="flex flex-row justify-start gap-5 p-3">
                     @foreach($lessons as $lesson)
-                    <a href="#" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                    <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
                         <div class="h-4/5">
                             <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
                         </div>
@@ -74,8 +74,8 @@
             <div class="Recommed-panel flex flex-col justify-start bg-gray-200 h-full xl:w-full w-full pt-5 pl-5 pr-5 pb-8 gap-5 rounded-xl">
 
             <div class="flex justify-end gap-5 rounded-xl p-10 flex-row-reverse flex-wrap ">
-                @foreach($lessons as $lesson)
-                <a href="#" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl">
+                @foreach($relatedLessons as $lesson)
+                <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-72 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl mb-[5rem]">
                     <div class="h-4/5">
                         <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
                     </div>

@@ -99,7 +99,7 @@ class SectionResource extends Resource
         $user = auth()->user();
 
         // Check if the user is authenticated and has the role of 'admin'
-        if ($user && $user->hasRole('admin')) {
+        if ($user && $user->hasRole(['admin', 'dev'])) {
             return parent::getEloquentQuery();
         }
 
