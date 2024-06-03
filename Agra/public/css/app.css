@@ -1697,6 +1697,9 @@ video {
 }.border-y {
   border-top-width: 1px;
   border-bottom-width: 1px;
+}.border-x-\[0\.5px\] {
+  border-left-width: 0.5px;
+  border-right-width: 0.5px;
 }.\!border-t-0 {
   border-top-width: 0px !important;
 }.border-b {
@@ -2328,6 +2331,10 @@ video {
   width: 0.125rem;
 }.first\:border-t-0:first-child {
   border-top-width: 0px;
+}.first\:border-s-0:first-child {
+  border-inline-start-width: 0px;
+}.last\:border-e-0:last-child {
+  border-inline-end-width: 0px;
 }.first-of-type\:ps-1:first-of-type {
   padding-inline-start: 0.25rem;
 }.last-of-type\:pe-1:last-of-type {
@@ -2506,6 +2513,8 @@ video {
   --tw-ring-offset-width: 0px;
 }.focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
+}.focus-visible\:z-10:focus-visible {
+  z-index: 10;
 }.focus-visible\:bg-gray-100:focus-visible {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -2577,6 +2586,12 @@ video {
 }.disabled\:checked\:text-gray-400:checked:disabled {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
+}.group\/item:first-child .group-first\/item\:rounded-s-lg {
+  border-start-start-radius: 0.5rem;
+  border-end-start-radius: 0.5rem;
+}.group\/item:last-child .group-last\/item\:rounded-e-lg {
+  border-start-end-radius: 0.5rem;
+  border-end-end-radius: 0.5rem;
 }.group:hover .group-hover\:bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
 }.group:hover .group-hover\:text-blue-800 {
@@ -2591,6 +2606,9 @@ video {
 }.group:hover .group-hover\:text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
+}.group\/button:hover .group-hover\/button\:text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }.group\/item:hover .group-hover\/item\:underline {
   text-decoration-line: underline;
 }.group\/link:hover .group-hover\/link\:underline {
@@ -2915,6 +2933,9 @@ video {
 }.group:hover .dark\:group-hover\:text-white:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}.group\/button:hover .dark\:group-hover\/button\:text-gray-400:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }.group:focus .dark\:group-focus\:ring-gray-800\/70:is(.dark *) {
   --tw-ring-color: rgb(31 41 55 / 0.7);
 }.group:focus-visible .dark\:group-focus-visible\:text-gray-200:is(.dark *) {

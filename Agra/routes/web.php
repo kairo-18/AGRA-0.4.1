@@ -953,7 +953,6 @@ Route::get('/recommendation', function () {
         // Extract sorted lesson IDs
         $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
 
-
         $agraCourses = getAgraCourses($user);
         $agraLessons = collect();
         $recommendedLessons = collect();
@@ -985,7 +984,7 @@ Route::get('/recommendation', function () {
                             $sharedCategoriesCount++;
                         }
                     }
-                    if ($sharedCategoriesCount >= 4) {
+                    if ($sharedCategoriesCount >= 2) {
                         $recommendedLessons->push($lesson);
                     }
                 }
