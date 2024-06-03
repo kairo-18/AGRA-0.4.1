@@ -41,6 +41,10 @@ var monsterGroup;
 var monster;
 var playerIsAttacking = false;
 var monsterIsAttacking = false;
+var isAttackInProgress = false;
+var playerIsMoving = false;
+var monsterIsMoving = false;
+
 
 function calculateMaxMonsterHealth(calculate) {
     currentMonsterHealth = calculate * 20;
@@ -325,11 +329,11 @@ function fadeTransition(camera, duration) {
     camera.fadeIn(duration, 0, 0, 0);
 }
 
-// Inside playerMove()
 function playerMove(scene) {
-    // Check if the monster is not currently attacking
-    if (!monsterIsAttacking) {
-        playerIsAttacking = true;
+    if (!monsterIsAttacking && !playerIsMoving && !isAttackInProgress) {
+        isAttackInProgress = true;
+        playerIsMoving = true;
+
         player.setVelocityX(500);
         player.play('playerRun');
         scene.time.delayedCall(700, function () {
@@ -337,31 +341,34 @@ function playerMove(scene) {
             player.play('playerAttack');
         });
 
-        // Register animationcomplete event listener outside the delay callback
         player.once('animationcomplete', function (animation) {
             if (animation.key === 'playerAttack') {
                 reduceMonsterHealth(20);
                 fadeTransition(scene.cameras.main, 1500);
                 player.x = 250;
                 player.play('playerIdle');
+
+                playerIsMoving = false;
+                isAttackInProgress = false;
+
                 spawnMonster(monsterGroup);
-                playerIsAttacking = false;
             }
         });
     }
 }
 
-// Inside monsterMove()
 function monsterMove() {
-    // Check if the player is not currently attacking
-    if (!playerIsAttacking) {
-        monsterIsAttacking = true;
+    if (!playerIsAttacking && !monsterIsMoving && !isAttackInProgress) {
+        isAttackInProgress = true;
+        monsterIsMoving = true;
+
         monster.play(`${monster.texture.key}Run`);
         monster.setVelocityX(-500);
         scene.time.delayedCall(700, function () {
             monster.setVelocityX(0);
             monster.play(`${monster.texture.key}Attack`);
         });
+
         monster.once('animationcomplete', function (animation) {
             if (animation.key === `${monster.texture.key}Attack`) {
                 player.play('playerHurt');
@@ -371,7 +378,9 @@ function monsterMove() {
                 });
                 monster.x = 750;
                 monster.play(`${monster.texture.key}Idle`);
-                monsterIsAttacking = false;
+
+                monsterIsMoving = false;
+                isAttackInProgress = false;
             }
         });
     }

@@ -2,9 +2,6 @@ var progressIncrement;
 let totalScore = 0;
 let maxScore = 0;
 
-checkmarks.forEach(checkmark => {
-    maxScore += checkmark.points;
-});
 
 populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;

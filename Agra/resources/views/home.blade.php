@@ -16,7 +16,7 @@
         <div class="px-4 py-3">
             <span class="block text-sm text-gray-900 dark:text-white">{{$user->name}}</span>
             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
-        </div>
+        </div>  
 
         <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
@@ -49,23 +49,23 @@
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-[35rem]">
                     <!-- Item 1 -->
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="AGRA BANNER 1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 2 -->
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="2.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="AGRA BANNER 2.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 3 -->
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="6.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="AGRA BANNER 3.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 4 -->
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="7.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="AGRA BANNER 4.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 5 -->
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="4.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="AGRA BANNER 5.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                 </div>
                 <!-- Slider indicators -->
@@ -98,19 +98,27 @@
 
             <div class="course">
                 <div class="lbl-title flex justify-end border-b-2 border-gray-300 mb-2">
-                    <h1 class = "flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white">Courses: </h1>
-                    <a href="/calendar" class="text-blue-600">view</a>
+                    <h1 class = "flex  mb-3 text-2xl font-semibold text-blue-800 dark:text-white">Courses: </h1>
+                    <a href="/courses" class="text-blue-600">view</a>
                 </div>
-                <div class = "learM-section flex flex-row bg-gray-200 h-2/3 w-full rounded-lg overflow-auto items-start p-10 shadow-inner gap-y-4">
+                <div class="flex justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
                     @foreach($courses as $course)
-                        <a href="/courses/{{$course->id}}" class="flex flex-col items-center ml-5 rounded-lg shadow h-96 flex-row md:w-[600px] w-96 text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
-                            <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-60 md:rounded-none md:rounded-lg" src="image-course.png" alt="">
-                            <div class="flex flex-col justify-between p-4 leading-normal">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tigh">{{$course->CourseName}}</h5>
-                                <p class="mb-3 text-sm font-normal">{{$course->CourseDescription}}</p>
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-96 h-80 focus:outline-none transition ease-in-out delay-150 hover:bg-blue-800 text-blue-800 hover:text-white  hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl bg-white p-5">
+                        <div class="h-4/5">
+                            <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
+                        </div>
+                        <div class="h-1/5 flex">
+                            <div class ="w-3/5">
+                                <h1 class="font-bold text-2xl">{{$course->CourseName}}</h1>
+                                <h3 class="font-normal text-base">{{$course->CourseDescription}}</h3>
                             </div>
-                        </a>
-
+                            <div class ="w-2/5 p-3 flex flex-row-reverse flex-wrap">
+                                <div class="badge mb-2 ml-2">
+                                    <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$course->category->name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                     @endforeach
                 </div>
             </div>

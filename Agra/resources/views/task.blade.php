@@ -6,10 +6,15 @@
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
-    <link rel="stylesheet" href="/tasks.css">
-    <link rel="stylesheet" href="/tasks2.css">
+    <link rel="stylesheet" href="{{ asset('tasks.css') }}">
+    <link rel="stylesheet" href="{{ asset('tasks2.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <title>AGRA</title>
+    <style>
+        .coding-area{
+            height: 60%;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,7 +22,7 @@
 <x-navbar>
     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
         <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white">{{$user->name}}</span>
+            <span class="block text-sm text-gray-900 dark:text-white"><a class="text-black">{{$user->name}}</a></span>
             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
         </div>
 
@@ -37,58 +42,41 @@
 <!--=====================================End Navbar=====================================-->
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
-    <!--Inner div-->
-
-    <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
-        <div class="top-panel flex flex-col  bg-white h-5/6 w-full p-3">
-            <div class="stu-progress">
-                <div class="info-bar">
-                    <div class="score"> Score<span id="score">0</span> </div>
-                    <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
-
-                    <div class="pb">
-                        Progress
-                        <div class="progress-bar">
-                            <div class="progress-barc"></div>
+    <div class="wrapper">
+        <div class="main pl-5 transition-all ease-in-out duration-350 bg-gradient-to-r from-blue-800 to-blue-600">
+            <div class="second-main ">
+                <div class="container1">
+                    <div class="in-container1">
+                        <div class="stu-progress">
+                            <div class="info-bar">
+                                <div class="score">Score <span id="score">0</span></div>
+                                <div class="timer">Timer <span id="timer">10</span></div>
+                                <div class="pb">
+                                    Progress
+                                    <div class="progress-bar">
+                                        <div class="progress-barc"></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn" onclick="runClick();">RUN</button>
+                            </div>
                         </div>
+                        <div class="coding-area">
+                            <div class="code-editor" id="code-editor"></div>
+                        </div>
+                        <div class="instrucContainer">
+                            <div class="instructions" id="instructions">
+                                <div class="instrucName">Instructions</div>
+                            </div>
+                        </div>
+                        <div id="code" style="display: none;"></div>
                     </div>
-                    <button type="button" class="btn" onclick="runClick();">RUN</button>
+                    <div class="in-container2">
+                        <div class="mini-game" id="minigame"></div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <div class="innerDiv xl:flex bg-gray-50 h-full w-full rounded-lg overflow-auto">
-
-
-        <div class="left-panel flex flex-col  bg-white h-3/6 xl:w-3/5 p-5">
-            <div class="coding-area h-96 mb-4" id="coding-area">
-                <div class="code-editor" id="code-editor"></div>
-                <div class="code" id="code" style="display: none"></div>
-            </div>
-
-            <div class="instrucContainer overflow-scroll max-h-72">
-                <div class="instructions" id="instructions">
-                    <div class="instrucName">Instructions</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5">
-            <div class="mini-game" id="minigame"></div>
-        </div>
-
-
-    </div>
-
-
-    <div id="tutorial-container" class="tutorial-container">
-
-    </div>
-
-</div>
 
 <div id="startPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
     <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>

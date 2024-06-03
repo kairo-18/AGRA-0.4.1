@@ -664,12 +664,7 @@ function handleGrades(Course $course, Lesson $lesson) {
     $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
 
     // Collect all tasks from the courses
-    $allTasks = collect();
-    foreach ($courses as $course) {
-        foreach ($lesson->tasks ?? collect() as $task) {
-            $allTasks->push($task);
-        }
-    }
+    $allTasks = getAllTasksSti($user);
 
     return view('courseGrades', [
         'lesson' => $lesson,

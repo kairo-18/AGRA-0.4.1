@@ -7,6 +7,7 @@ let globalCorrectAnswers;
 let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
 let startTime; // Time when the user starts the task
 let endTime; // Time when the user completes the task
+var isAttackInProgress = false;
 
 checkmarks.forEach(checkmark => {
     maxScore += checkmark.points;
@@ -192,13 +193,16 @@ function readonly_lines(id, content, line_numbers) {
 }
 
 function checkCodeByLine(editorLines) {
-    var errorDetected = false; // Flag to track if an error is detected in the user's code
+    if (isAttackInProgress) {
+        console.log("Checking is disabled during an attack.");
+        return;
+    }
+
+    var errorDetected = false;
     var correctAnswers = 0;
 
-    //this is to get the currentLine value the user is typing
     var currline = editor.getSelectionRange().start.row;
-    var wholelinetxt = editor.session.getLine(currline);
-    wholelinetxt = wholelinetxt.trim();
+    var wholelinetxt = editor.session.getLine(currline).trim();
 
     var content = document.getElementById("code");
     content.innerHTML = editor.getValue();
@@ -206,13 +210,11 @@ function checkCodeByLine(editorLines) {
     console.log("Line:" + wholelinetxt);
 
     if (wholelinetxt === checkmarks[currentCheckmark].answer.trim()) {
-        console.log("Answer:" + checkmarks[currentCheckmark].answer.trim())
+        console.log("Answer:" + checkmarks[currentCheckmark].answer.trim());
         checkmarks[currentCheckmark].done = true;
         currentCheckmark++;
         checkCheckmarks();
         correctAnswers++;
-        // Disable the lines marked as correct
-        console.log(getCorrectLineNumbers())
         editor.insert("\n\n");
         readonly_lines("code-editor", content, getCorrectLineNumbers());
 
@@ -220,21 +222,14 @@ function checkCodeByLine(editorLines) {
             editor.moveCursorTo(editor.getSelectionRange().start.row - 1, 0);
             editor.insert("        ");
         });
-
-
-
     } else {
-        errorDetected = true; // Set the flag if an error is detected
+        errorDetected = true;
         userErrors++;
         editor.find(wholelinetxt);
     }
 
     console.log("User Error:" + userErrors);
 
-
-
-
-    // Update the checkmarks and score after each iteration
     checkCheckmarks();
     updateScore();
 
@@ -242,6 +237,7 @@ function checkCodeByLine(editorLines) {
     globalCorrectAnswers = correctAnswers;
     globalUserError = userErrors;
 }
+
 
 function refresheditor(id, content, readonly) {
     set_readonly(editor, readonly);
