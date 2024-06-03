@@ -90,9 +90,9 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('CourseName'),
-                Tables\Columns\TextColumn::make('category.name'),
-                Tables\Columns\TextColumn::make('author'),
+                Tables\Columns\TextColumn::make('CourseName')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('category.name')->sortable(),
+                Tables\Columns\TextColumn::make('author')->sortable(),
             ])
             ->filters([
                 //
