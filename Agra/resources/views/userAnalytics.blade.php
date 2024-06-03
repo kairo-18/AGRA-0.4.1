@@ -48,28 +48,23 @@
 
             <div class="flex gap-5">
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
-
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: <br>{{$overallAccuracy}} %</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: <br>{{ number_format($overallAccuracy, 2) }} %</h1>
                     </div>
-
                 </div>
 
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
-
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{$overallSpeed}} *</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{ number_format($overallSpeed, 2) }} *</h1>
                     </div>
-
                 </div>
 
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
-
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Performance: <br>{{$overallPerformance}} %</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Performance: <br>{{ number_format($overallPerformance, 2) }} %</h1>
                     </div>
-
                 </div>
+
             </div>
 
             <div class="Analytics h-auto flex flex-col xl:flex-row flex-wrap">
@@ -209,11 +204,15 @@
 
     document.addEventListener("DOMContentLoaded", function() {
 
+        function formatDataToInteger(data) {
+            return data.map(value => Math.round(value));
+        }
+
         // Java Coding Accuracy Chart
         var optionsJavaErrors = {
             series: [{
                 name: 'Java Accuracy',
-                data: @json($taskJavaAccuracy)
+                data: formatDataToInteger(@json($taskJavaAccuracy))
             }],
             chart: {
                 height: 350,
@@ -233,7 +232,7 @@
         var optionsCsharpErrors = {
             series: [{
                 name: 'C# Accuracy',
-                data: @json($taskCsharpAccuracy)
+                data: formatDataToInteger(@json($taskCsharpAccuracy))
             }],
             chart: {
                 height: 350,
@@ -249,12 +248,11 @@
         var chart4 = new ApexCharts(document.querySelector("#csharp-coding-accuracy-chart"), optionsCsharpErrors);
         chart4.render();
 
-
         // Java Coding Speed Chart
         var options5 = {
             series: [{
                 name: 'Java Coding Speed',
-                data: @json($taskJavaSpeed)
+                data: formatDataToInteger(@json($taskJavaSpeed))
             }],
             chart: {
                 height: 350,
@@ -274,7 +272,7 @@
         var options6 = {
             series: [{
                 name: 'C# Coding Speed',
-                data: @json($taskCsharpSpeed)
+                data: formatDataToInteger(@json($taskCsharpSpeed))
             }],
             chart: {
                 height: 350,
@@ -290,10 +288,11 @@
         var chart6 = new ApexCharts(document.querySelector("#csharp-coding-speed-chart"), options6);
         chart6.render();
 
+        // Java Scores Chart
         var options7 = {
             series: [{
                 name: 'Java Scores',
-                data: @json($taskJavaScore)
+                data: formatDataToInteger(@json($taskJavaScore))
             }],
             chart: {
                 height: 350,
@@ -303,16 +302,17 @@
                 text: 'Java Scores'
             },
             xaxis: {
-                categories: taskData['C#'].categories
+                categories: taskData.Java.categories
             }
         };
         var chart7 = new ApexCharts(document.querySelector("#java-score-chart"), options7);
         chart7.render();
 
+        // C# Scores Chart
         var options8 = {
             series: [{
                 name: 'C# Scores',
-                data: @json($taskCsharpScore)
+                data: formatDataToInteger(@json($taskCsharpScore))
             }],
             chart: {
                 height: 350,
@@ -328,76 +328,74 @@
         var chart8 = new ApexCharts(document.querySelector("#csharp-score-chart"), options8);
         chart8.render();
 
-        console.log(lessonData)
+        console.log(lessonData);
 
+        const container = document.querySelector("#java-lesson-performances-container");
+        let index = 0;
 
+        for (const key in lessonData) {
+            if (lessonData.hasOwnProperty(key)) {
+                console.log(`${key}: ${lessonData[key].overall_performance}`);
 
-            const container = document.querySelector("#java-lesson-performances-container");
+                // Create a new div for each lesson
+                const lessonDiv = document.createElement('div');
+                lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
+                container.appendChild(lessonDiv);
 
-            let index = 0;
+                // Add the custom title div
+                const titleDiv = document.createElement('div');
+                titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key} <br> ${lessonData[key].course_category_name}`;
+                titleDiv.style.fontSize = '24px';
+                titleDiv.style.fontWeight = 'bold';
+                titleDiv.style.color = '#263238';
+                lessonDiv.appendChild(titleDiv);
 
-            for (const key in lessonData) {
-                if (lessonData.hasOwnProperty(key)) {
-                    console.log(`${key}: ${lessonData[key].overall_performance}`);
+                // Add overall performance
+                const performanceParagraph = document.createElement('p');
+                performanceParagraph.textContent = `Overall Performance: ${lessonData[key].overall_performance.toFixed(2)}`;
+                performanceParagraph.style.fontWeight = 'bold';
+                lessonDiv.appendChild(performanceParagraph);
 
-                    // Create a new div for each lesson
-                    const lessonDiv = document.createElement('div');
-                    lessonDiv.style.marginBottom = '20px'; // Add some spacing between lessons
-                    container.appendChild(lessonDiv);
+                // Create a new div for each chart
+                const chartDiv = document.createElement('div');
+                chartDiv.id = `java-lesson-performance-chart-${index}`;
+                lessonDiv.appendChild(chartDiv);
 
-                    // Add the custom title div
-                    const titleDiv = document.createElement('div');
-                    titleDiv.innerHTML = `Course: ${lessonData[key].course_name} <br> Lesson: ${key} <br> ${lessonData[key].course_category_name}`;
-                    titleDiv.style.fontSize = '24px';
-                    titleDiv.style.fontWeight = 'bold';
-                    titleDiv.style.color = '#263238';
-                    lessonDiv.appendChild(titleDiv);
-
-                    // Add overall performance
-                    const performanceParagraph = document.createElement('p');
-                    performanceParagraph.textContent = `Overall Performance: ${lessonData[key].overall_performance}`;
-                    performanceParagraph.style.fontWeight = 'bold';
-                    lessonDiv.appendChild(performanceParagraph);
-
-                    // Create a new div for each chart
-                    const chartDiv = document.createElement('div');
-                    chartDiv.id = `java-lesson-performance-chart-${index}`;
-                    lessonDiv.appendChild(chartDiv);
-
-                    var options7 = {
-                        series: [
-                            {
-                                name: 'Accuracy',
-                                data: lessonData[key].accuracy
-                            },
-                            {
-                                name: 'Speed',
-                                data: lessonData[key].speed
-                            },
-                            {
-                                name: 'Score',
-                                data: lessonData[key].score
-                            }
-                        ],
-                        chart: {
-                            height: 350,
-                            type: 'line'
+                var options7 = {
+                    series: [
+                        {
+                            name: 'Accuracy',
+                            data: formatDataToInteger(lessonData[key].accuracy)
                         },
-                        title: {
-                            text: '', // Leave this empty since we're handling the title outside
+                        {
+                            name: 'Speed',
+                            data: formatDataToInteger(lessonData[key].speed)
                         },
-                        xaxis: {
-                            categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
+                        {
+                            name: 'Score',
+                            data: formatDataToInteger(lessonData[key].score)
                         }
-                    };
+                    ],
+                    chart: {
+                        height: 350,
+                        type: 'line'
+                    },
+                    title: {
+                        text: '', // Leave this empty since we're handling the title outside
+                    },
+                    xaxis: {
+                        categories: lessonData[key].accuracy.map((_, i) => 'Attempt: ' + (i + 1)),
+                    }
+                };
 
-                    var chart7 = new ApexCharts(document.querySelector(`#java-lesson-performance-chart-${index}`), options7);
-                    chart7.render();
-                }
-
-                index++;
+                var chart7 = new ApexCharts(document.querySelector(`#java-lesson-performance-chart-${index}`), options7);
+                chart7.render();
             }
+
+            index++;
+        }
     });
+
 </script>
 </body>
 </html>

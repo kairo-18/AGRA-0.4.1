@@ -35,9 +35,9 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto pl-10 pr-10 pb-10">
+<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-screen pl-10 pr-10 pb-10">
     <!--Inner div-->
-    <div class="innerDiv xl:flex flex-col bg-transparent h-full w-full rounded-xl overflow-hidden">
+    <div class="innerDiv xl:flex flex-col bg-transparent min-h-screen w-full rounded-xl overflow-hidden">
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5">
             <h1 class="font-bold text-4xl text-blue-800">Recommended </h1>
