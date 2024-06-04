@@ -639,6 +639,13 @@ function submitAnswer(){
             document.getElementById('userAnswer').focus();
             updateScore();
             whenPlayerAttack();
+            // Scroll to the next checkmark div
+            if (currentCheckmark < checkmarks.length) {
+                var nextCheckmarkDiv = document.getElementById("instruction" + checkmarks[currentCheckmark].id);
+                if (nextCheckmarkDiv) {
+                    nextCheckmarkDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }
         } else {
             userErrors++;
             document.getElementById('userAnswer').value = "";

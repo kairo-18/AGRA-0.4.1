@@ -57,7 +57,6 @@
                                         <div class="progress-barc"></div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn" onclick="runClick();">RUN</button>
                             </div>
                         </div>
                         <div class="coding-area">

@@ -222,6 +222,14 @@ function checkCodeByLine(editorLines) {
             editor.moveCursorTo(editor.getSelectionRange().start.row - 1, 0);
             editor.insert("        ");
         });
+
+        // Scroll to the next checkmark div
+        if (currentCheckmark < checkmarks.length) {
+            var nextCheckmarkDiv = document.getElementById("instruction" + checkmarks[currentCheckmark].id);
+            if (nextCheckmarkDiv) {
+                nextCheckmarkDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
     } else {
         errorDetected = true;
         userErrors++;
@@ -237,6 +245,7 @@ function checkCodeByLine(editorLines) {
     globalCorrectAnswers = correctAnswers;
     globalUserError = userErrors;
 }
+
 
 
 function refresheditor(id, content, readonly) {
