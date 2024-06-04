@@ -1197,6 +1197,8 @@ video {
   height: 100%;
 }.h-screen {
   height: 100vh;
+}.h-\[100rem\] {
+  height: 100rem;
 }.max-h-72 {
   max-height: 18rem;
 }.max-h-full {

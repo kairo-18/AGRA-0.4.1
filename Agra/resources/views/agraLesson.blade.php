@@ -71,6 +71,12 @@
                     </ul>
                 </div>
             </div>
+
+            <!--3 div Courses Content-->
+            <div class = "learM-section flex flex-col bg-gray-200 h-[100rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4 mb-10">
+                <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
+
+            </div>
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-y-4">
                 <h1 class="font-bold text-2xl text-blue-800">Materials </h1>
@@ -78,14 +84,6 @@
                     <!-- Carousel wrapper -->
                     <div class="relative h-full overflow-hidden rounded-lg">
                         <!-- Item 1 -->
-                        <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                            <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-5 gap-5">
-                                <h1 class="font-semibold text-xl text-blue-800">Module</h1>
-                                <div class="Recommed-panel flex flex-col flex-wrap justify-start bg-gray-100 h-full gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner pl-20 pr-10 pt-10">
-                                    <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
-                                </div>
-                            </div>
-                        </div>
                         <!-- Item 2 -->
                         <div class="hidden duration-700 ease-in-out" data-carousel-item>
                             <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-5 gap-5">
