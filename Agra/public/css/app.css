@@ -2190,6 +2190,9 @@ video {
 }.text-purple-800 {
   --tw-text-opacity: 1;
   color: rgb(85 33 181 / var(--tw-text-opacity));
+}.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(63 131 248 / var(--tw-text-opacity));
 }.underline {
   text-decoration-line: underline;
 }.antialiased {
