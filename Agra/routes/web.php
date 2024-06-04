@@ -1231,13 +1231,16 @@ function calculateAccuracy($score, $maxScore, $errors, $errorPenaltyPercent = 1.
     // Calculate the base accuracy as a percentage
 
     // Calculate the penalty per error as a percentage
-    $basePenalty = ($maxScore * 0.2) * 10;
+    //20  * 0.2 = 0.4
+    $basePenalty = ($maxScore * 0.02);
 
     //Calculate error percentage
+    //5 errors = 2
     $errorPenalty = $basePenalty * $errors;
 
     // Calculate adjusted accuracy by deducting the penalty for errors
-    $adjustedAccuracy = 100 - $errorPenalty;
+    $adjustedAccuracy = $maxScore - $errorPenalty;
+    $adjustedAccuracy = ($adjustedAccuracy / $maxScore) * 100;
 
     // Ensure adjusted accuracy doesn't go below 0
     $adjustedAccuracy = max($adjustedAccuracy, 0);
@@ -1275,7 +1278,13 @@ function calculateCodingSpeed($timeLeft, $timeTaken) {
 }
 
 
+Route::get('/aboutUs', function (){
+    $user =Auth::user();
 
+    return view ('aboutUs', [
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // Route::get('courses/{course:id}/grades', function(Course $course) {

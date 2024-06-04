@@ -55,7 +55,7 @@
 
                 <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{ number_format($overallSpeed, 2) }} *</h1>
+                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{ number_format($overallSpeed, 2) }} %</h1>
                     </div>
                 </div>
 
