@@ -18,6 +18,8 @@ populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
 calculateMaxMonsterHealth(checkmarks.length);
 
+
+
 var progressBar = document.querySelector(".progress-barc");
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
@@ -477,6 +479,20 @@ function startIntervalTimer2(rounds, roundDuration, timerDuration) {
     }, (roundDuration + 1) * 1000);
 }
 
+async function sendPrompt(instruction, userCode) {
+    try {
+        const response = await axios.post('/prompt', {
+            instruction: instruction,
+            userCode: userCode
+        });
+        return response.data.result;
+    } catch (error) {
+        console.error(error);
+        return null; // or handle the error as needed
+    }
+}
+
+
 function startIntervalTimer(timeSec) {
 
     let time1 = timeSec;
@@ -496,7 +512,7 @@ function startIntervalTimer(timeSec) {
     }, 1000);
 
     let rounds = checkmarks.length;
-    const timer = setInterval(function () {
+    const timer = setInterval(async function () {
 
         let time = timeSec;
         const timer2 = setInterval(function () {
@@ -505,7 +521,7 @@ function startIntervalTimer(timeSec) {
             if (time === 0) {
                 clearInterval(timer2);
             }
-            if(globalScore === 100){
+            if (globalScore === 100) {
                 clearInterval(timer);
                 clearInterval(timer1);
                 clearInterval(timer2);
@@ -516,6 +532,9 @@ function startIntervalTimer(timeSec) {
 
         rounds--;
         console.log(rounds);
+        const result = await sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue());
+        createAlertBox(result);
+
 
         monsterMove(scene);
         delay(400).then(() => player.play("dmg", true));
@@ -529,7 +548,7 @@ function startIntervalTimer(timeSec) {
             showResetPanel();
         }
 
-        if(globalScore === 100){
+        if (globalScore === 100) {
             clearInterval(timer);
             clearInterval(timer1);
             clearInterval(timer2);
@@ -542,7 +561,32 @@ function startIntervalTimer(timeSec) {
 }
 
 
+function createAlertBox(message) {
+    // Create a new alert box element
+    const alertBox = document.createElement('div');
+    alertBox.innerHTML = `
+        <div class="flex bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md alert-box opacity-70">
+            <div class="py-1">
+                <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold ">Tips to help</p>
+                <p class="text-xl">${message}</p>
+            </div>
+        </div>
+    `;
 
+    // Append the alert box to the container
+    document.getElementById('alertContainer').appendChild(alertBox);
+
+    // Set a timeout to remove the alert box after 7 seconds
+    setTimeout(() => {
+        alertBox.classList.add('fade-out');
+        setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
+    }, 7000);
+}
 
 
 function displayOutput(output) {
@@ -573,7 +617,7 @@ function showResetPanel(){
 
     setTimeout(function(){
         submitScore(timeTaken, timeLeft);
-    }, 2000);
+    }, 5000);
 }
 
 

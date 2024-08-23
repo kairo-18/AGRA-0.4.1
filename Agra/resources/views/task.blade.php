@@ -14,6 +14,17 @@
         .coding-area{
             height: 60%;
         }
+
+        .top-6{
+            top: 7.5rem;
+        }
+
+        .alert-box {
+            transition: opacity 1.5s ease-out;
+        }
+        .fade-out {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +100,12 @@
     </div>
 </div>
 
+<div id="alertContainer" class="fixed top-6 right-4 space-y-2 z-50 w-1/4">
+
+</div>
+
+
+
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
     <input type="hidden" id="userid" value="{{$user->id}}" name="userid">
     <input type="hidden" value="{{$task->id}}" name="taskid">
@@ -135,6 +152,7 @@
 
     let maxMonsterHealth = (20 * checkmarks.length);
     let timerSeconds = {{$task->TaskMaxTime}};
+
 </script>
 
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>

@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Session;
 
 Route::post('/checkmarkComplete', [App\Http\Controllers\PusherController::class, 'broadcast']);
 
+
 Route::get('/agra', function () {
 
     $user = Auth::user();
@@ -1328,5 +1329,6 @@ Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode
 
 Route::post('/execute-code-csharp', [\App\Http\Controllers\RunCode::class, 'executeCodeCsharp']);
 
+Route::post('/prompt', [\App\Http\Controllers\GeminiController::class, 'prompt']);
 
 require __DIR__.'/auth.php';
