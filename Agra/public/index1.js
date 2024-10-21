@@ -1,13 +1,15 @@
 var progressIncrement;
 let totalScore = 0;
 let maxScore = 0;
-
+let globalScore = 0;
 
 populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
 calculateMaxMonsterHealth(checkmarks.length);
 
 var progressBar = document.querySelector(".progress-barc");
+progressBar.style.opacity = "0";  // Start with opacity 0 (invisible)
+
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
@@ -24,8 +26,7 @@ editor.insert(`public class myClass{
     }
 }`);
 
-editor.moveCursorTo(2, 8)
-
+editor.moveCursorTo(2, 8);
 
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
@@ -33,23 +34,23 @@ function populateCheckmarks() {
         var imgDiv = document.createElement("div");
         var checkmarkImg = document.createElement("img");
 
-
         imgDiv.style.height = "100px";
         imgDiv.style.width = "50px";
-        imgDiv.style.marginLeft = "10px";
-        imgDiv.style.borderLeft = "1px solid black";
+        imgDiv.style.marginLeft = "20px";
+        imgDiv.style.marginRight = "30px";
         imgDiv.style.display = "flex";
 
-        checkmarkImg.src = "/remove.png";
         checkmarkImg.style.width = "50px";
         checkmarkImg.style.height = "50px";
         checkmarkImg.style.margin = "auto 0 ";
+        checkmarkImg.style.margin = "auto 10px auto 0";
         checkmarkImg.id = "img" + checkmark.id;
 
-
         checkmarkDiv.classList.add("instruc-container");
+        checkmarkImg.src = "/remove.png";
         checkmarkDiv.id = "instruction" + checkmark.id;
         checkmarkDiv.textContent = checkmark.instruction;
+        checkmarkDiv.style.marginLeft = "10px";
         checkmarkDiv.style.backgroundColor = "#F3F8FF";
         checkmarkDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)";
         checkmarkDiv.style.borderRadius = "10px";
@@ -60,10 +61,12 @@ function populateCheckmarks() {
         parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
 
         checkmarkDiv.style.display = "flex";
+        checkmarkDiv.style.flexDirection = "row-reverse";
         checkmarkDiv.style.alignItems = "center";
-        checkmarkDiv.style.justifyContent = "end";
-        imgDiv.appendChild(checkmarkImg);
+        checkmarkDiv.style.justifyContent = "start";
         checkmarkDiv.appendChild(imgDiv);
+        imgDiv.appendChild(checkmarkImg);
+        
     });
 }
 
@@ -73,12 +76,11 @@ function checkCheckmarks() {
         if (checkmark.done) {
             document.getElementById("img" + index).src = "/check-mark.png";
         } else {
-            document.getElementById("img" + index).src = "/remove.png"
+            document.getElementById("img" + index).src = "/remove.png";
         }
         index++;
     });
 }
-
 
 var code = `public class Main {
 
@@ -95,11 +97,9 @@ var code = `public class Main {
 
 let keywords = uniq(extractKeywords(code));
 
-//create a function that will extract keywords from the given code
+// Function to extract keywords from code
 function extractKeywords(code) {
-    //split the code into words
     let words = code.split(/\s+|(?<=[^\w\s])|(?=[^\w\s])/g).filter(Boolean);
-
     return removeNonWords(words);
 }
 
@@ -107,11 +107,10 @@ function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
+// Filter only words, removing non-words
 function removeNonWords(arr) {
     const wordPattern = /[\w']+(!)?/g;
-
     const wordsOnly = arr.join(' ').match(wordPattern) || [];
-
     return wordsOnly;
 }
 
@@ -122,13 +121,9 @@ function uniq(a) {
     });
 }
 
-
-
-
 function checkCodeByWord() {
     var input = editor.getValue();
     var inputWords = input.split(/[.\s(){}'""\[\]`]+/).filter((word) => word.trim() !== "");
-
 
     inputWords.forEach(word => {
         if (keywords.includes(word)) {
@@ -141,19 +136,16 @@ function checkCodeByWord() {
     });
 }
 
-let globalScore = 0;
-
-
 // Define a map to keep track of whether each checkmark has already been processed
 var checkmarkProcessed = {};
 
 function updateScore() {
-    var score = 0;
-    var scorePercentage = 0;
+    let score = 0;
+    let scorePercentage = 0;
     maxScore = 0;
 
     checkmarks.forEach(checkmark => {
-        if(checkmark.done){
+        if (checkmark.done) {
             score += checkmark.points;
         }
 
@@ -163,31 +155,45 @@ function updateScore() {
                 code: checkmark.answer,
                 points: '10'
             })
-                .then(function(response) {
-                    console.log(response);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
 
             // Mark the checkmark as processed
             checkmarkProcessed[checkmark.answer] = true;
         }
     });
 
+    // Calculate max score
     checkmarks.forEach(checkmark => {
         maxScore += checkmark.points;
     });
 
-    scorePercentage = Math.floor((score / maxScore) * 100);
+    // Calculate score percentage
+    if (maxScore > 0) {
+        scorePercentage = Math.floor((score / maxScore) * 100);
+    }
 
+    // Update global score and total score
     globalScore = scorePercentage;
     totalScore = score;
+
+    // Update score display in HTML
     document.getElementById("score").innerHTML = score;
 
-    // Calculate the width of the progress bar based on the score percentage
+    // Update the progress bar width based on score percentage
     var progressBarWidth = scorePercentage + "%";
     progressBar.style.width = progressBarWidth;
+
+    // Show progress bar if the score is more than 0
+    if (score > 0) {
+        progressBar.style.opacity = "1";  // Make the progress bar visible
+    } else {
+        progressBar.style.opacity = "0";  // Hide the progress bar when score is 0
+    }
 }
 
 

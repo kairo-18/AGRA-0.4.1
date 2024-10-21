@@ -52,48 +52,55 @@
     </div>
 </x-navbar>
 
-    <div class="wrapper">
-        <div class="main pl-5 transition-all ease-in-out duration-350 bg-gradient-to-r from-blue-800 to-blue-600">
-            <div class="second-main ">
-                <div class="container1">
-                    <div class="in-container1">
+<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+    <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
+
+        <div class = "leftDiv flex flex-col  bg-gray-400 h-screen w-full p-5 gap-10">    
+
+                        <!--Information: Score, time, prog-bar-->
                         <div class="stu-progress">
-                            <div class="info-bar">
+                            <div class="w-full h-[75px] bg-blue-600 text-white rounded-[20px] flex justify-between pt-[6px]">
                                 <div class="score">Score <span id="score">0</span></div>
                                 <div class="timer">Timer <span id="timer">10</span></div>
                                 <div class="pb">
-                                    Progress
-                                    <div class="progress-bar">
-                                        <div class="progress-barc"></div>
+                                    <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80">
+                                        <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn" onclick="runClick();">RUN</button>
+                                <div class="butan p-3">
+                                    <button type="button" onclick="runClick();" class="text-white hover:text-white border border-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm pt-2 pl-5 pr-5 pb-2 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">RUN</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="coding-area">
+                        <!--Instruction-->
+                        <div class="instrucContainer">
+                            <div class="instrucName text-2xl"></div>
+                            <div class="instructions bg-blue-800" id="instructions"></div>
+                        </div>
+
+                         <!--Compiler-->
+                         <div class="coding-area">
                             <div class="code-editor" id="code-editor"></div>
                         </div>
-                        <div class="instrucContainer">
-                            <div class="instructions" id="instructions">
-                                <div class="instrucName">Instructions</div>
-                            </div>
-                        </div>
                     </div>
-                    <div class="in-container2">
+                    <div class = "RightDiv flex flex-col bg-gray-400 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
                         <div class="mini-game" id="minigame"></div>
                     </div>
-                </div>
-            </div>
+                
         </div>
     </div>
 
-    <div id="startPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-        <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
-        <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2" onclick="startGame()">Start</button>
+    <div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
+        <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+            <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
+            <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2" onclick="startGame()">Start</button>
+        </div>
     </div>
 
-    <div id="endPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32 hidden">
-        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+    <div class = "endPanel w-full h-full fixed inset-0 backdrop-blur-md" id="endPanel">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32 hidden">
+            <h2 id="endText">Your score is: <span id="score2"></span></h2>
+        </div>
     </div>
 
     <form method="GET" id="scoreForm" action="">

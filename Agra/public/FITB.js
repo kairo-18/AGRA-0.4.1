@@ -19,6 +19,8 @@ calculateMaxMonsterHealth(checkmarks.length);
 progressIncrement = 9 / checkmarks.length;
 
 var progressBar = document.querySelector(".progress-barc");
+progressBar.style.opacity = "0";
+
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
@@ -48,23 +50,23 @@ function populateCheckmarks() {
         var imgDiv = document.createElement("div");
         var checkmarkImg = document.createElement("img");
 
-
         imgDiv.style.height = "100px";
         imgDiv.style.width = "50px";
-        imgDiv.style.marginLeft = "10px";
-        imgDiv.style.borderLeft = "1px solid black";
+        imgDiv.style.marginLeft = "20px";
+        imgDiv.style.marginRight = "30px";
         imgDiv.style.display = "flex";
 
-        checkmarkImg.src = "/remove.png";
         checkmarkImg.style.width = "50px";
         checkmarkImg.style.height = "50px";
         checkmarkImg.style.margin = "auto 0 ";
+        checkmarkImg.style.margin = "auto 10px auto 0";
         checkmarkImg.id = "img" + checkmark.id;
 
-
         checkmarkDiv.classList.add("instruc-container");
+        checkmarkImg.src = "/remove.png";
         checkmarkDiv.id = "instruction" + checkmark.id;
         checkmarkDiv.textContent = checkmark.instruction;
+        checkmarkDiv.style.marginLeft = "10px";
         checkmarkDiv.style.backgroundColor = "#F3F8FF";
         checkmarkDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)";
         checkmarkDiv.style.borderRadius = "10px";
@@ -75,10 +77,12 @@ function populateCheckmarks() {
         parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
 
         checkmarkDiv.style.display = "flex";
+        checkmarkDiv.style.flexDirection = "row-reverse";
         checkmarkDiv.style.alignItems = "center";
-        checkmarkDiv.style.justifyContent = "end";
-        imgDiv.appendChild(checkmarkImg);
+        checkmarkDiv.style.justifyContent = "start";
         checkmarkDiv.appendChild(imgDiv);
+        imgDiv.appendChild(checkmarkImg);
+        
     });
 }
 
@@ -88,25 +92,24 @@ function checkCheckmarks() {
         if (checkmark.done) {
             document.getElementById("img" + index).src = "/check-mark.png";
         } else {
-            document.getElementById("img" + index).src = "/remove.png"
+            document.getElementById("img" + index).src = "/remove.png";
         }
         index++;
     });
 }
 
-
 var code = `public class Main {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        int first = 10;
-        int second = 20;
+    int first = 10;
+    int second = 20;
 
-        int sum = first + second;
-        System.out.println(first + " + " + second + " = "  + sum);
+    int sum = first + second;
+    System.out.println(first + " + " + second + " = "  + sum);
 
-    }
-    }`;
+  }
+}`;
 
 let keywords = uniq(extractKeywords(code));
 
@@ -181,6 +184,12 @@ function updateScore() {
     // Calculate the width of the progress bar based on the score percentage
     var progressBarWidth = scorePercentage + "%";
     progressBar.style.width = progressBarWidth;
+
+    if (score > 0) {
+        progressBar.style.opacity = "1";  // Make the progress bar visible
+    } else {
+        progressBar.style.opacity = "0";  // Hide the progress bar when score is 0
+    }
 }
 
 let globalCurrentCheckmark;

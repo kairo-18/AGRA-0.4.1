@@ -18,9 +18,9 @@ populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
 calculateMaxMonsterHealth(checkmarks.length);
 
-
-
 var progressBar = document.querySelector(".progress-barc");
+progressBar.style.opacity = "0";
+
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 editor.session.setMode("ace/mode/java");
@@ -42,23 +42,23 @@ function populateCheckmarks() {
         var imgDiv = document.createElement("div");
         var checkmarkImg = document.createElement("img");
 
-
         imgDiv.style.height = "100px";
         imgDiv.style.width = "50px";
-        imgDiv.style.marginLeft = "10px";
-        imgDiv.style.borderLeft = "1px solid black";
+        imgDiv.style.marginLeft = "20px";
+        imgDiv.style.marginRight = "30px";
         imgDiv.style.display = "flex";
 
-        checkmarkImg.src = "/remove.png";
         checkmarkImg.style.width = "50px";
         checkmarkImg.style.height = "50px";
         checkmarkImg.style.margin = "auto 0 ";
+        checkmarkImg.style.margin = "auto 10px auto 0";
         checkmarkImg.id = "img" + checkmark.id;
 
-
         checkmarkDiv.classList.add("instruc-container");
+        checkmarkImg.src = "/remove.png";
         checkmarkDiv.id = "instruction" + checkmark.id;
         checkmarkDiv.textContent = checkmark.instruction;
+        checkmarkDiv.style.marginLeft = "10px";
         checkmarkDiv.style.backgroundColor = "#F3F8FF";
         checkmarkDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)";
         checkmarkDiv.style.borderRadius = "10px";
@@ -69,10 +69,12 @@ function populateCheckmarks() {
         parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
 
         checkmarkDiv.style.display = "flex";
+        checkmarkDiv.style.flexDirection = "row-reverse";
         checkmarkDiv.style.alignItems = "center";
-        checkmarkDiv.style.justifyContent = "end";
-        imgDiv.appendChild(checkmarkImg);
+        checkmarkDiv.style.justifyContent = "start";
         checkmarkDiv.appendChild(imgDiv);
+        imgDiv.appendChild(checkmarkImg);
+        
     });
 }
 
@@ -82,12 +84,11 @@ function checkCheckmarks() {
         if (checkmark.done) {
             document.getElementById("img" + index).src = "/check-mark.png";
         } else {
-            document.getElementById("img" + index).src = "/remove.png"
+            document.getElementById("img" + index).src = "/remove.png";
         }
         index++;
     });
 }
-
 
 var code = `public class Main {
 
@@ -180,6 +181,12 @@ function updateScore() {
     // Calculate the width of the progress bar based on the score percentage
     var progressBarWidth = scorePercentage + "%";
     progressBar.style.width = progressBarWidth;
+
+    if (score > 0) {
+        progressBar.style.opacity = "1";  // Make the progress bar visible
+    } else {
+        progressBar.style.opacity = "0";  // Hide the progress bar when score is 0
+    }
 }
 
 let globalCurrentCheckmark;
@@ -457,12 +464,12 @@ function startIntervalTimer2(rounds, roundDuration, timerDuration) {
             showResetPanel();
         }
     }, 1000);
-
+    
     const roundTimer = setInterval(() => {
         rounds--;
         console.log(rounds);
         monsterMove(scene);
-        delay(400).then(() => player.play("dmg", true));
+        delay(200).then(() => player.play("dmg", true));
         if (rounds === 0) {
             clearInterval(timer);
             clearInterval(roundTimer);
@@ -562,17 +569,89 @@ function startIntervalTimer(timeSec) {
 
 
 function createAlertBox(message) {
+    // Add custom styles to the head if they don't exist
+    if (!document.getElementById('customAlertStyles')) {
+        const style = document.createElement('style');
+        style.id = 'customAlertStyles';
+        style.innerHTML = `
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                font-family: Poppins, sans-serif;
+                color: #f0f0f0;
+            }
+            body {
+                min-height: 100vh;
+                background: #0b0d15;
+                color: #a2a5b3;
+                align-content: center;
+            }
+            h1 {
+                color: white;
+            }
+            .card {
+                margin: 0;
+                padding: 10px;
+                width: 90%;
+                background: #1c1f2b;
+                text-align: center;
+                border-radius: 10px;
+                position: relative;
+            }
+            @property --angle {
+                syntax: "<angle>";
+                initial-value: 0deg;
+                inherits: false;
+            }
+            .card::after, .card::before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-image: conic-gradient(from var(--angle), transparent 10%, blue );
+                top: 50%;
+                left: 50%;
+                translate: -50% -50%;
+                z-index: -1;
+                border: 10px;
+                padding: 15px;
+                border-radius: 10px;
+                animation: 3s spin linear infinite;
+            }
+            .card::before {
+                filter: blur(1.5rem);
+                opacity: 100;
+            }
+            @keyframes spin {
+                from {
+                    --angle: 0deg;
+                }
+                to {
+                    --angle: 360deg;
+                }
+            }
+            .fade-out {
+                opacity: 0 !important;
+                transition: opacity 0.5s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     // Create a new alert box element
     const alertBox = document.createElement('div');
+    alertBox.classList.add('card'); // Apply the card class for the animated border
     alertBox.innerHTML = `
-        <div class="flex bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md alert-box opacity-70">
+        <div class="flex bg-blue-800 rounded-b text-white px-4 py-3 alert-box m-10">
             <div class="py-1">
-                <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <svg class="fill-current h-10 w-10 text-white mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
                 </svg>
             </div>
             <div>
-                <p class="text-2xl font-bold ">Tips to help</p>
+                <p class="text-2xl font-bold">Tips to help</p>
                 <p class="text-xl">${message}</p>
             </div>
         </div>

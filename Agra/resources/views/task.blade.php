@@ -31,7 +31,7 @@
 
 <!--=====================================Start Navbar=====================================-->
 <x-navbar>
-    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+    <div class="z-50 hidden my-4 text-base list-none  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
         <div class="px-4 py-3">
             <span class="block text-sm text-gray-900 dark:text-white"><a class="text-black">{{$user->name}}</a></span>
             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
@@ -53,45 +53,46 @@
 <!--=====================================End Navbar=====================================-->
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-    <div class="wrapper">
-        <div class="main pl-5 transition-all ease-in-out duration-350 bg-gradient-to-r from-blue-800 to-blue-600">
-            <div class="second-main ">
-                <div class="container1">
-                    <div class="in-container1">
-                        <div class="stu-progress">
-                            <div class="info-bar">
-                                <div class="score">Score <span id="score">0</span></div>
-                                <div class="timer">Timer <span id="timer">10</span></div>
-                                <div class="pb">
-                                    Progress
-                                    <div class="progress-bar">
-                                        <div class="progress-barc"></div>
-                                    </div>
-                                </div>
-                            </div>
+<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+    <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
+
+        <div class = "leftDiv flex flex-col  bg-gray-200 h-screen w-full p-5 gap-10">
+            <div class="stu-progress">
+            <!--Information: Score, time, prog-bar-->
+                <div class="info-bar">
+                    <div class="score">Score <span id="score">0</span></div>
+                    <div class="timer">Timer <span id="timer">10</span></div>
+                    <div class="pb">
+                        <div class="progress-bar bg-gray-300 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
+                            <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
-                        <div class="coding-area">
-                            <div class="code-editor" id="code-editor"></div>
-                        </div>
-                        <div class="instrucContainer">
-                            <div class="instructions" id="instructions">
-                                <div class="instrucName">Instructions</div>
-                            </div>
-                        </div>
-                        <div id="code" style="display: none;"></div>
-                    </div>
-                    <div class="in-container2">
-                        <div class="mini-game" id="minigame"></div>
                     </div>
                 </div>
             </div>
+
+            <!--Instruction-->
+            <div class="instrucContainer">
+                <div class="instrucName text-2xl"></div>
+                <div class="instructions bg-blue-800" id="instructions"></div>
+            </div>
+            <!--Compiler-->
+            <div class="coding-area">
+                <div class="code-editor" id="code-editor"></div>
+            </div> 
+            <!--idk-->
+            <div id="code" style="display: none;"></div>
+        </div>
+        <div class = "RightDiv flex flex-col bg-gray-200 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
+            <div class="mini-game" id="minigame"></div>
+        </div>
+</div>
+
+<div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
+        <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
+            <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
+            <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2" onclick="startGame()">Start</button>
         </div>
     </div>
-
-<div id="startPanel" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-    <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
-    <button id="startButton" class="btn btn-primary" onclick="startGame()">Start</button>
-</div>
 
 
 <div class="endPanel" id="endPanel">
