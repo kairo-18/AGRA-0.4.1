@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ asset('tasks.css') }}">
     <link rel="stylesheet" href="{{ asset('tasks2.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ace-builds/src-noconflict/ext-language_tools.js"></script>
     <title>AGRA</title>
     <style>
         .coding-area{
@@ -67,6 +69,9 @@
                             <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
                     </div>
+
+                    <button id="resume" onclick="pauseTimer();">Pause</button>
+                    <button id="pause" onclick="resumeTimer();">Resume</button>
                 </div>
             </div>
 
@@ -78,7 +83,7 @@
             <!--Compiler-->
             <div class="coding-area">
                 <div class="code-editor" id="code-editor"></div>
-            </div> 
+            </div>
             <!--idk-->
             <div id="code" style="display: none;"></div>
         </div>
@@ -101,7 +106,7 @@
     </div>
 </div>
 
-<div id="alertContainer" class="fixed top-6 right-4 space-y-2 z-50 w-1/4">
+<div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
 
 </div>
 
@@ -127,6 +132,7 @@
     var checkmarks = [];
     let counter = 0; // Initialize a counter for incrementing id
     let template = `{{$task->TaskCodeTemplate}}`;
+    let language = "{{$task->lesson->LessonCategory}}";
 
     @foreach($instructions as $instruction)
         <?php
@@ -156,7 +162,6 @@
 
 </script>
 
-<script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/game.js"></script>
 <script src="/index.js"></script>
 <script src="/tutorial.js"></script>

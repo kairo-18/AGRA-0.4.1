@@ -21,14 +21,23 @@ calculateMaxMonsterHealth(checkmarks.length);
 var progressBar = document.querySelector(".progress-barc");
 progressBar.style.opacity = "0";
 
+var langTools = ace.require("/ace-builds/src-noconflict/ext-language_tools.js");
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
-editor.session.setMode("ace/mode/java");
+
+if(language === "C#"){
+    editor.session.setMode("ace/mode/csharp");
+}else{
+    editor.session.setMode("ace/mode/java");
+}
 editor.setShowPrintMargin(false);
 editor.setAutoScrollEditorIntoView(true);
 editor.resize();
 editor.setOptions({
-    fontSize: "20px"
+    fontSize: "20px",
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: true,
 });
 
 editor.insert(template);
@@ -325,7 +334,6 @@ function set_readonly(editor,readonly_ranges, fromAdminFlag) {
     }else{//means from user
         ranges.forEach(function(range){session.addMarker(range, "readonly-highlight");});
     }
-    session.setMode("ace/mode/java");
     editor.keyBinding.addKeyboardHandler({
         handleKeyboard : function(data, hash, keyString, keyCode, event) {
             if (Math.abs(keyCode) == 13 && onEnd(editor.getCursorPosition())){
@@ -472,74 +480,130 @@ async function sendPrompt(instruction, userCode) {
 
 function startIntervalTimer(timeSec) {
     let rounds = 30;
+    let time = timeSec;
+    let isPaused = false;  // Flag to track if the timer is paused
+    let timer, timer2;  // Declare timers to allow access in pause/resume
 
-    // Run the code that should execute immediately
+    // Start the timer cycle immediately
     runTimerCycle();
 
     // Set the interval to run after the initial execution
-    const timer = setInterval(async function () {
-        runTimerCycle();
+    timer = setInterval(async function () {
+        if (!isPaused) runTimerCycle();  // Only run if not paused
     }, (timeSec * 1000) + 2000);
 
     function runTimerCycle() {
-        let time = timeSec;
+        time = timeSec;  // Reset the countdown time
 
-        const timer2 = setInterval(function () {
+        // Create the inner timer for countdown
+        timer2 = setInterval(function () {
+            if (isPaused) return;  // If paused, skip the rest
+
+            document.getElementById("timer").innerHTML = time;
+            time--;
+            if (time === 0) {
+                // Trigger monster move and damage after countdown
+                monsterMove(scene);
+                delay(400).then(() => {
+                    player.play("dmg", true);
+
+                    // Check player health after the animation
+                    console.log(currentPlayerHealth);
+                    if (currentPlayerHealth <= 25) {
+                        rounds = 1;  // Reduce rounds to 1 if health is low
+                    }
+                });
+
+                // Send prompt and show result
+                sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
+                    createAlertBox(result);
+                });
+                clearInterval(timer2);  // Stop the inner timer when the round ends
+            }
+
+            // Check for global score to finish
+            if (globalScore === 100) {
+                stopTimer();  // Call stopTimer to clear intervals
+            }
+        }, 1000);
+
+        rounds--;
+        console.log(rounds);
+
+        if (rounds === 0) {
+            stopTimer();  // Stop the timer when rounds reach zero
+        }
+
+        if (globalScore === 100) {
+            stopTimer();
+        }
+    }
+
+    // Function to stop both timers
+    function stopTimer() {
+        clearInterval(timer);
+        clearInterval(timer2);
+        console.log("Done!");
+        document.getElementById("timer").innerHTML = "Done";
+        showResetPanel();
+    }
+
+    // Function to pause the timer
+    function pauseTimer() {
+        isPaused = true;
+        clearInterval(timer);
+        clearInterval(timer2);
+        console.log("Timer paused.");
+    }
+
+    // Function to resume the timer
+    function resumeTimer() {
+        if (!isPaused) return;  // Only resume if it was paused
+
+        isPaused = false;
+        console.log("Timer resumed.");
+
+        // Resume the timer with remaining time
+        timer2 = setInterval(function () {
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {
                 monsterMove(scene);
                 delay(400).then(() => {
                     player.play("dmg", true);
-
-                    // Check player health after the animation
-
                     console.log(currentPlayerHealth);
                     if (currentPlayerHealth <= 25) {
                         rounds = 1;
                     }
                 });
 
-                // You can await async functions here
                 sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
                     createAlertBox(result);
                 });
                 clearInterval(timer2);
             }
-            if (globalScore === 100) {
-                clearInterval(timer);
-                clearInterval(timer2);
-                document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
-            }
 
+            if (globalScore === 100) {
+                stopTimer();
+            }
         }, 1000);
 
-        rounds--;
-        console.log(rounds);
-
-
-        if (rounds === 0) {
-            clearInterval(timer);
-            clearInterval(timer2);
-            console.log("Done!");
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
-
-        if (globalScore === 100) {
-            clearInterval(timer);
-            clearInterval(timer2);
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
+        timer = setInterval(async function () {
+            if (!isPaused) runTimerCycle();
+        }, (timeSec * 1000) + 2000);
     }
+
+    // Expose the pause and resume functions globally
+    window.pauseTimer = pauseTimer;
+    window.resumeTimer = resumeTimer;
 }
+
 
 
 
 function createAlertBox(message) {
     // Add custom styles to the head if they don't exist
+    document.getElementById("startPanel").style.display = "block";
     if (!document.getElementById('customAlertStyles')) {
         const style = document.createElement('style');
         style.id = 'customAlertStyles';
@@ -614,7 +678,8 @@ function createAlertBox(message) {
     const alertBox = document.createElement('div');
     alertBox.classList.add('card'); // Apply the card class for the animated border
     alertBox.innerHTML = `
-        <div class="flex bg-blue-800 rounded-b text-white px-4 py-3 alert-box m-10">
+        <div class="flex flex-col gap-2.5">
+        <div class="flex bg-blue-800 rounded-b text-white px-4 py-3 alert-box m-10 pb-10">
             <div class="py-1">
                 <svg class="fill-current h-10 w-10 text-white mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
@@ -624,17 +689,29 @@ function createAlertBox(message) {
                 <p class="text-2xl font-bold">Tips to help</p>
                 <p class="text-xl">${message}</p>
             </div>
+
+
+        </div>
+
+            <button type="button" onclick="removeAlertBox()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">Understood!</button>
         </div>
     `;
 
     // Append the alert box to the container
     document.getElementById('alertContainer').appendChild(alertBox);
+    setTimeout(() => pauseTimer(), 1000);
 
     // Set a timeout to remove the alert box after 7 seconds
-    setTimeout(() => {
+
+    function removeAlertBox(){
         alertBox.classList.add('fade-out');
         setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
-    }, 7000);
+        setTimeout(() => resumeTimer(), 1000);
+        document.getElementById("startPanel").style.display = "none";
+    }
+
+    window.removeAlertBox = removeAlertBox;
+
 }
 
 
