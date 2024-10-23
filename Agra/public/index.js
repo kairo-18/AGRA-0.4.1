@@ -35,6 +35,10 @@ editor.insert(template);
 
 editor.moveCursorTo(2, 8)
 
+var content = document.getElementById("code");
+content.innerHTML = editor.getValue();
+
+readonly_lines("code-editor", content, [1,2,3], true);
 
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
@@ -74,7 +78,7 @@ function populateCheckmarks() {
         checkmarkDiv.style.justifyContent = "start";
         checkmarkDiv.appendChild(imgDiv);
         imgDiv.appendChild(checkmarkImg);
-        
+
     });
 }
 
@@ -192,13 +196,13 @@ function updateScore() {
 let globalCurrentCheckmark;
 var currentCheckmark = 0;
 
-function readonly_lines(id, content, line_numbers) {
+function readonly_lines(id, content, line_numbers, fromAdminFlag) {
     var readonly_ranges = [];
     for (var i = 0; i < line_numbers.length; i++) {
         readonly_ranges.push([line_numbers[i] - 1, 0, line_numbers[i], 0]);
     }
     console.log("ran")
-    refresheditor(id, content, readonly_ranges);
+    refresheditor(id, content, readonly_ranges, fromAdminFlag);
 }
 
 function checkCodeByLine(editorLines) {
@@ -225,7 +229,7 @@ function checkCodeByLine(editorLines) {
         checkCheckmarks();
         correctAnswers++;
         editor.insert("\n\n");
-        readonly_lines("code-editor", content, getCorrectLineNumbers());
+        readonly_lines("code-editor", content, getCorrectLineNumbers(), false);
 
         delay(10).then(() => {
             editor.moveCursorTo(editor.getSelectionRange().start.row - 1, 0);
@@ -257,11 +261,11 @@ function checkCodeByLine(editorLines) {
 
 
 
-function refresheditor(id, content, readonly) {
-    set_readonly(editor, readonly);
+function refresheditor(id, content, readonly, fromAdminFlag) {
+    set_readonly(editor, readonly, fromAdminFlag);
 }
 
-function set_readonly(editor,readonly_ranges) {
+function set_readonly(editor,readonly_ranges, fromAdminFlag) {
     var session = editor.getSession();
     var Range = ace.require('ace/range').Range;
 
@@ -316,7 +320,11 @@ function set_readonly(editor,readonly_ranges) {
         ranges.push(new Range(...readonly_ranges[i]));
     }
 
-    ranges.forEach(function(range){session.addMarker(range, "readonly-highlight");});
+    if(fromAdminFlag){//means the request to readline is from admin
+        ranges.forEach(function(range){session.addMarker(range, "readonly-highlight1");});
+    }else{//means from user
+        ranges.forEach(function(range){session.addMarker(range, "readonly-highlight");});
+    }
     session.setMode("ace/mode/java");
     editor.keyBinding.addKeyboardHandler({
         handleKeyboard : function(data, hash, keyString, keyCode, event) {
@@ -447,44 +455,6 @@ function runClick() {
 }
 
 
-function startIntervalTimer2(rounds, roundDuration, timerDuration) {
-    let globalScore = 0;
-
-    const timer = setInterval(() => {
-        timerDuration--;
-        document.getElementById("timer").innerHTML = timerDuration;
-        if (timerDuration === 0) {
-            clearInterval(timer);
-            console.log("Time's up!");
-        }
-        if (globalScore === 100) {
-            clearInterval(timer);
-            clearInterval(roundTimer);
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
-    }, 1000);
-    
-    const roundTimer = setInterval(() => {
-        rounds--;
-        console.log(rounds);
-        monsterMove(scene);
-        delay(200).then(() => player.play("dmg", true));
-        if (rounds === 0) {
-            clearInterval(timer);
-            clearInterval(roundTimer);
-            console.log("Done!");
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
-        if (globalScore === 100) {
-            clearInterval(timer);
-            clearInterval(roundTimer);
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
-    }, (roundDuration + 1) * 1000);
-}
 
 async function sendPrompt(instruction, userCode) {
     try {
@@ -501,54 +471,56 @@ async function sendPrompt(instruction, userCode) {
 
 
 function startIntervalTimer(timeSec) {
+    let rounds = 30;
 
-    let time1 = timeSec;
-    const timer1 = setInterval(function () {
-        time1--;
-        document.getElementById("timer").innerHTML = time1;
-        if (time1 === 0) {
-            clearInterval(timer1);
-            console.log("Time's up!");
-        }
-        if(globalScore === 100){
-            clearInterval(timer);
-            clearInterval(timer1);
-            document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
-        }
-    }, 1000);
+    // Run the code that should execute immediately
+    runTimerCycle();
 
-    let rounds = checkmarks.length;
+    // Set the interval to run after the initial execution
     const timer = setInterval(async function () {
+        runTimerCycle();
+    }, (timeSec * 1000) + 2000);
 
+    function runTimerCycle() {
         let time = timeSec;
+
         const timer2 = setInterval(function () {
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {
+                monsterMove(scene);
+                delay(400).then(() => {
+                    player.play("dmg", true);
+
+                    // Check player health after the animation
+
+                    console.log(currentPlayerHealth);
+                    if (currentPlayerHealth <= 25) {
+                        rounds = 1;
+                    }
+                });
+
+                // You can await async functions here
+                sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
+                    createAlertBox(result);
+                });
                 clearInterval(timer2);
             }
             if (globalScore === 100) {
                 clearInterval(timer);
-                clearInterval(timer1);
                 clearInterval(timer2);
                 document.getElementById("timer").innerHTML = "Done";
                 showResetPanel();
             }
+
         }, 1000);
 
         rounds--;
         console.log(rounds);
-        const result = await sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue());
-        createAlertBox(result);
 
-
-        monsterMove(scene);
-        delay(400).then(() => player.play("dmg", true));
 
         if (rounds === 0) {
             clearInterval(timer);
-            clearInterval(timer1);
             clearInterval(timer2);
             console.log("Done!");
             document.getElementById("timer").innerHTML = "Done";
@@ -557,15 +529,13 @@ function startIntervalTimer(timeSec) {
 
         if (globalScore === 100) {
             clearInterval(timer);
-            clearInterval(timer1);
             clearInterval(timer2);
             document.getElementById("timer").innerHTML = "Done";
             showResetPanel();
         }
-    }, (timeSec * 1000) + 1000);
-
-
+    }
 }
+
 
 
 function createAlertBox(message) {
