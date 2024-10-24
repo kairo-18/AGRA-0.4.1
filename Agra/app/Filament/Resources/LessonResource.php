@@ -10,9 +10,13 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
+use PHPUnit\Util\Filter;
 
 class LessonResource extends Resource
 {
@@ -62,6 +66,9 @@ class LessonResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make('course_id')
+                    ->label('Course Name')
+                    ->relationship('course', 'CourseName', fn (Builder $query) => $query->where('author', '!=', 'AGRA'))
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -94,6 +101,23 @@ class LessonResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('course_id', request('record'));
+        $user = Auth::user();
+        $query = parent::getEloquentQuery();
+
+        // Check if the request is for the 'edit' page
+        if (Request::is('*/edit')) {
+            return $query;
+        }
+
+        // Check if the user has the 'admin' role
+        if ($user->hasRole('admin')) {
+            // Modify the query to filter out lessons where the related course's author is 'AGRA'
+            return $query->whereHas('course', function (Builder $query) {
+                $query->where('author', '!=', 'AGRA');
+            });
+        }
+
+        return $query;
     }
+
 }

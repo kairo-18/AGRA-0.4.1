@@ -78,10 +78,10 @@ class SectionResource extends Resource
     {
         return [
             RelationManagers\UsersRelationManager::class,
-            RelationManagers\CoursesRelationManager::class,
             RelationManagers\EnrollmentsRelationManager::class,
             RelationManagers\TaskScoresRelationManager::class,
             RelationManagers\TaskStatusesRelationManager::class,
+            RelationManagers\LessonsRelationManager::class,
         ];
     }
 

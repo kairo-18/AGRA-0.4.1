@@ -36,6 +36,8 @@ class Section extends Model
         return $this->hasMany(TaskStatus::class);
     }
 
-
+    public function lessons(){
+        return $this->belongsToMany(Lesson::class);
+    }
 
 }

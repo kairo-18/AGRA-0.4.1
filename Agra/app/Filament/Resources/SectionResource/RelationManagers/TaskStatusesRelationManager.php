@@ -30,6 +30,7 @@ class TaskStatusesRelationManager extends RelationManager
             ->recordTitleAttribute('status')
             ->columns([
                 Tables\Columns\TextColumn::make('user.name'),
+                Tables\Columns\TextColumn::make('task.TaskName'),
                 Tables\Columns\TextColumn::make('status'),
             ])
             ->filters([

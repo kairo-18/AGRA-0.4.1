@@ -252,8 +252,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('courses/{course}', function (Course $course) {
-    $lessons = $course->lessons;
     $user = Auth::user();
+    // Fetch lessons from the course, but exclude those present in lesson_section table for this user
+    $lessons = $course->lessons()->whereDoesntHave('sections', function ($query) use ($user) {
+        $query->where('section_id', $user->section->id);
+    })->get();
 
     $tasks = collect();
 

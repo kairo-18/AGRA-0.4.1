@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\SectionResource\RelationManagers;
+namespace App\Filament\Resources\LessonResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -10,34 +10,36 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EnrollmentsRelationManager extends RelationManager
+class SectionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'enrollments';
+    protected static string $relationship = 'sections';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('course_id')
-                    ->relationship('course', 'CourseName')
-                    ->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Course')
+            ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('course.CourseName'),
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()->label("Enroll A Course to this section"),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

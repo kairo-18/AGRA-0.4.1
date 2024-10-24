@@ -10,34 +10,39 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class EnrollmentsRelationManager extends RelationManager
+class LessonsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'enrollments';
+    protected static string $relationship = 'lessons';
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('course_id')
-                    ->relationship('course', 'CourseName')
-                    ->required(),
+                Forms\Components\TextInput::make('LessonName')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Course')
+            ->recordTitleAttribute('LessonName')
             ->columns([
-                Tables\Columns\TextColumn::make('course.CourseName'),
+                Tables\Columns\TextColumn::make('LessonName'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()->label("Enroll A Course to this section"),
+                Tables\Actions\AttachAction::make()->preloadRecordSelect()->label('Hide Lessons')->recordSelectOptionsQuery(function (Builder $query) {
+                    return $query->whereHas('course', function (Builder $query) {
+                        $query->where('author', '!=', 'AGRA');
+                    });
+                }),
             ])
             ->actions([
+                Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
