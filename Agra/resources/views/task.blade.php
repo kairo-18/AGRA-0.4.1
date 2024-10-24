@@ -69,9 +69,6 @@
                             <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
                     </div>
-
-                    <button id="resume" onclick="pauseTimer();">Pause</button>
-                    <button id="pause" onclick="resumeTimer();">Resume</button>
                 </div>
             </div>
 

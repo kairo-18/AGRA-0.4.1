@@ -22,4 +22,9 @@ class Score extends Model
     public function taskScore(){
         return $this->belongsToMany(Task::class, 'task_score');
     }
+
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
+
 }

@@ -509,7 +509,7 @@ function startIntervalTimer(timeSec) {
 
                     // Check player health after the animation
                     console.log(currentPlayerHealth);
-                    if (currentPlayerHealth <= 25) {
+                    if (currentPlayerHealth <= 0) {
                         rounds = 1;  // Reduce rounds to 1 if health is low
                     }
                 });
@@ -572,7 +572,7 @@ function startIntervalTimer(timeSec) {
                 delay(400).then(() => {
                     player.play("dmg", true);
                     console.log(currentPlayerHealth);
-                    if (currentPlayerHealth <= 25) {
+                    if (currentPlayerHealth <= maxPlayerHealth / 2) {
                         rounds = 1;
                     }
                 });
@@ -699,14 +699,14 @@ function createAlertBox(message) {
 
     // Append the alert box to the container
     document.getElementById('alertContainer').appendChild(alertBox);
-    setTimeout(() => pauseTimer(), 1000);
+    setTimeout(() => pauseTimer(), 3000);
 
     // Set a timeout to remove the alert box after 7 seconds
 
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
         setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
-        setTimeout(() => resumeTimer(), 1000);
+        setTimeout(() => resumeTimer(), 3000);
         document.getElementById("startPanel").style.display = "none";
     }
 

@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class ScoreResource extends Resource
 {
@@ -34,6 +35,7 @@ class ScoreResource extends Resource
                 //
                 Tables\Columns\TextColumn::make('user.name'),
                 Tables\Columns\TextColumn::make('task.TaskName'),
+                Tables\Columns\TextColumn::make('section.SectionCode'),
                 Tables\Columns\TextColumn::make('score'),
                 Tables\Columns\TextColumn::make('MaxScore'),
                 Tables\Columns\TextColumn::make('Percentage'),
@@ -65,5 +67,19 @@ class ScoreResource extends Resource
             'create' => Pages\CreateScore::route('/create'),
             'edit' => Pages\EditScore::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Subquery to get the latest attempt (maximum created_at) for each user and task combination
+        $subQuery = DB::table('scores as s')
+            ->select(DB::raw('MAX(s.id) as latest_id'))
+            ->whereColumn('s.user_id', 'scores.user_id')
+            ->whereColumn('s.task_id', 'scores.task_id')
+            ->groupBy('s.user_id', 's.task_id');
+
+        return parent::getEloquentQuery()
+            ->whereIn('id', $subQuery) // Only include the records from the latest attempts
+            ->orderBy('created_at', 'desc'); // Order by latest attempt
     }
 }

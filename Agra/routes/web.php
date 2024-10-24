@@ -4,6 +4,7 @@ use App\Events\PusherBroadcast;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\LessonSection;
 use App\Models\Section;
 use App\Models\Lesson;
 use App\Models\Task;
@@ -258,25 +259,17 @@ Route::get('courses/{course}', function (Course $course) {
         $query->where('section_id', $user->section->id);
     })->get();
 
-    $tasks = collect();
-
-    if ($user->courses) {
-        foreach ($user->courses as $userCourse) {
-            foreach ($userCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-    }
-
-    if ($user->section && $user->section->courses) {
-        foreach ($user->section->courses as $sectionCourse) {
-            foreach ($sectionCourse->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-    }
-
     $tasks = getAllTasksSti($user);
+
+    // Get all the hidden lessons (where the lesson_id and section_id exist in lesson_section table)
+    $hiddenLessons = LessonSection::where('section_id', $user->section->id)
+        ->pluck('lesson_id')
+        ->toArray();
+
+    // Filter out tasks that belong to hidden lessons
+    $tasks = $tasks->filter(function ($task) use ($hiddenLessons) {
+        return !in_array($task->lesson_id, $hiddenLessons);
+    });
 
     return view('lesson', [
         'course' => $course,
