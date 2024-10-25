@@ -74,10 +74,13 @@ Route::get('/', function () {
 
     $tasks = getAllTasksSti($user);
 
+    $notifications = $user->notifications;
+
     return view('home', [
         'courses' => $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'notifications' => $notifications,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -1326,5 +1329,7 @@ Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode
 Route::post('/execute-code-csharp', [\App\Http\Controllers\RunCode::class, 'executeCodeCsharp']);
 
 Route::post('/prompt', [\App\Http\Controllers\GeminiController::class, 'prompt']);
+
+Route::post('/readNotifications', [\App\Http\Controllers\AgraNotificationController::class, 'store']);
 
 require __DIR__.'/auth.php';

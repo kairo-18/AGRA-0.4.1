@@ -78,14 +78,14 @@
                     </div>
 
 
-                    
+
                 </div>
 
                 <div class = "RightDiv flex flex-col bg-gray-900 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
                     <div class="mini-game" id="minigame"></div>
                 </div>
 
-            
+
 
 
         </div>
@@ -161,7 +161,10 @@
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>
-
-
+    <script>
+        const sectionId = "{{$user->section->id}}";
+        const username = "{{Auth::user()->name}}";
+    </script>
+    <script src="agraNotification.js"></script>
 </body>
 </html>

@@ -89,4 +89,8 @@ class User extends Authenticatable implements FilamentUser
     public function sections(){
         return $this->hasMany(Section::class);
     }
+
+    public function notifications(){
+        return $this->hasMany(AgraNotification::class);
+    }
 }

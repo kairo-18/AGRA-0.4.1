@@ -132,6 +132,36 @@
                 </ul>
             </div>
 
+            <!-- Notifications Button -->
+            <div class="relative ml-4">
+                <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M6 12c0 3.33 2.67 6 6 6s6-2.67 6-6H6z"/>
+                    </svg>
+                </button>
+
+                <!-- Notifications Dropdown -->
+                <div id="notifications-dropdown" class="absolute right-0 z-50 hidden w-[300px] mt-5 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div class="py-2">
+                        <span class="block px-4 py-2 text-sm text-gray-900 dark:text-white">Notifications</span>
+                        <button id="read-all-button" class="block px-4 py-2 text-sm text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                            Read All
+                        </button>
+                        <div id="notification-list">
+
+                            @foreach(Auth::user()->notifications as $notification)
+                                @if($notification->read_at == null)
+                                <div class="px-4 py-2 text-gray-700" data-notification-id="{{ $notification->id }}">
+                                    {{ $notification->sender }}: {{ $notification->message }}
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
@@ -147,4 +177,5 @@
         </div>
     </div>
 </nav>
+
 <!--=====================================End Navbar=====================================-->

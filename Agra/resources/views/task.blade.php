@@ -162,8 +162,11 @@
 <script src="/game.js"></script>
 <script src="/index.js"></script>
 <script src="/tutorial.js"></script>
-
-
+    <script>
+        const sectionId = "{{$user->section->id}}";
+        const username = "{{Auth::user()->name}}";
+    </script>
+    <script src="agraNotification.js"></script>
 
 </body>
 </html>

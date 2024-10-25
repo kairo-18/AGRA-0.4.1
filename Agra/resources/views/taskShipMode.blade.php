@@ -113,7 +113,10 @@
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/index3.js"></script>
 <script src="/shipGame.js"></script>
-
-
+<script>
+    const sectionId = "{{$user->section->id}}";
+    const username = "{{Auth::user()->name}}";
+</script>
+<script src="agraNotification.js"></script>
 </body>
 </html>

@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
 
+    <style>
+        .notification-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1000; /* Make sure it is above other content */
+        }
+    </style>
+
 </head>
 <body>
 <!--=====================================Start Navbar=====================================-->
@@ -16,7 +31,7 @@
         <div class="px-4 py-3">
             <span class="block text-sm text-gray-900 dark:text-white">{{$user->name}}</span>
             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
-        </div>  
+        </div>
 
         <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
@@ -29,7 +44,9 @@
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
             </li>
         </ul>
+
     </div>
+
 </x-navbar>
 <!--=====================================End Navbar=====================================-->
 
@@ -168,11 +185,10 @@
     </div>
 
 </div>
-
-
-
-
-
-
+<script>
+    const sectionId = "{{$user->section->id}}";
+    const username = "{{Auth::user()->name}}";
+</script>
+<script src="agraNotification.js"></script>
 </body>
 </html>

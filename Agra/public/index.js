@@ -468,7 +468,8 @@ async function sendPrompt(instruction, userCode) {
     try {
         const response = await axios.post('/prompt', {
             instruction: instruction,
-            userCode: userCode
+            userCode: userCode,
+            progLanguage: language,
         });
         return response.data.result;
     } catch (error) {

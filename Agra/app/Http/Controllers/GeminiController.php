@@ -12,7 +12,7 @@ class GeminiController extends Controller
         $yourApiKey = getenv('GEMINI_API_KEY');
         $client = Gemini::client($yourApiKey);
 
-        $result = $client->geminiPro()->generateContent('Can you provide a 2 sentence tip to what i am trying to code, but do not show the answer. The instruction is this: ' . $request->instruction . ' \n and my code is this : ' . $request->userCode);
+        $result = $client->geminiPro()->generateContent('Provide any relevant information that can help to improve or correct the code, however, do not include the answer to your response and limit your response for up to 2 sentences only. Refer to this instruction: ' . $request->instruction . ' \n and refer to this code : ' . $request->userCode . 'for reference, this code is written in this language: ' . $request->progLanguage);
 
         return response()->json(["result" => $result->text()]);
     }

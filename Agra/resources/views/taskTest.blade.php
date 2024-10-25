@@ -160,7 +160,10 @@
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>
-
-
+    <script>
+        const sectionId = "{{$user->section->id}}";
+        const username = "{{Auth::user()->name}}";
+    </script>
+    <script src="agraNotification.js"></script>
 </body>
 </html>

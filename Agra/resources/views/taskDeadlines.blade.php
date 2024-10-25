@@ -90,7 +90,7 @@
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
-                    Agenda 
+                    Agenda
                 <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-base text-blue-600 mt-1">View grades</a>
                 </h1>
 
@@ -135,8 +135,11 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
-
-
+<script>
+    const sectionId = "{{$user->section->id}}";
+    const username = "{{Auth::user()->name}}";
+</script>
+<script src="agraNotification.js"></script>
 
 
 </body>
