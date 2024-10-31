@@ -9,20 +9,23 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
-class AgraNotification implements ShouldBroadcast
+class AgraNotificationPusher implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public string $message;
     public string $username;
+    public string $sectionId;
     /**
      * Create a new event instance.
      */
-    public function __construct(string $message, string $username)
+    public function __construct(string $message, string $username, string $sectionId)
     {
         $this->message = $message;
         $this->username = $username;
+        $this->sectionId = $sectionId;
     }
 
 
@@ -34,7 +37,7 @@ class AgraNotification implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('private.notif.' . auth()->user()->section->id),
+            new PrivateChannel('private.notif.' . $this->sectionId),
         ];
     }
 
@@ -47,7 +50,7 @@ class AgraNotification implements ShouldBroadcast
     {
         return[
             'message' => $this->message,
-            'username' => $this->username
+            'username' => $this->username,
         ];
     }
 }

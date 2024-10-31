@@ -2,8 +2,9 @@
 
 namespace App\Observers;
 
-use App\Events\AgraNotification;
+use App\Events\AgraNotificationPusher;
 use App\Models\Score;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +36,7 @@ class ScoreObserver
 
         }
 
-        event(new AgraNotification("scored {$score->score} on {$score->task->TaskName}!", $score->user->name));
+        broadcast(new AgraNotificationPusher("scored {$score->score} on {$score->task->TaskName}!", $score->user->name, $user->section->id));
 
 
     }
