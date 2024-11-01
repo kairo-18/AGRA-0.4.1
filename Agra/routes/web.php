@@ -848,7 +848,6 @@ Route::get('/userAnalytics', function () {
         }
 
         $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
-
         return view('userAnalytics', [
             'user' => $user,
             'taskData' => $taskData,
@@ -866,8 +865,7 @@ Route::get('/userAnalytics', function () {
         ]);
     } catch (Exception $e) {
         // Log the exception message for debugging purposes
-        Log::error('Error occurred in user analytics: ' . $e->getMessage());
-
+        Log::error('Error occurred in user analytics: ' . $e->getMessage());    
         // Retrieve the authenticated user
         $user = Auth::user();
 

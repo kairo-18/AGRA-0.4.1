@@ -22,7 +22,7 @@
             border-radius: 5px;
             padding: 10px;
             width: 100%;
-            height: 88%;
+            
             overflow: auto;
         }
         .calendar-header {
@@ -113,7 +113,7 @@
     </style>
 </head>
 <body>
-    <div class="calendar-panel pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
+    <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto xl:overflow-hidden shadow">
         <div class="lbl-title flex justify-end">
             <h3 class="text-2xl font-semibold text-gray-900">Calendar</h3>
 {{--            <a href="/calendar" class="text-blue-600">view</a>--}}
@@ -137,7 +137,7 @@
                 <div class="week-cell">Fri</div>
                 <div class="week-cell">Sat</div>
             </div>
-            <div class="calendar-body text-blue-800" id="calendarBody"></div>
+            <div class="calendar-body text-blue-800 pb-5" id="calendarBody"></div>
         </div>
     </div>
 
