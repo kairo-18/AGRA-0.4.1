@@ -20,7 +20,7 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: true
+        disableWebAudio: false
     }
 };
 
@@ -33,7 +33,6 @@ var monsterNumber;
 var currentPlayerHealth = maxPlayerHealth;
 var playerHealthWidth;
 var calculate = currentMonsterHealth / 20;
-var music;
 var playerHealthText;
 var enemyList = ['monster1', 'monster2', 'monster3', 'monster4', 'monster5'];
 var monsterList = [];
@@ -44,6 +43,7 @@ var monsterIsAttacking = false;
 var isAttackInProgress = false;
 var playerIsMoving = false;
 var monsterIsMoving = false;
+var hitMusic, killMusic, walkMusic, swingMusic;
 
 
 function calculateMaxMonsterHealth(calculate) {
@@ -54,7 +54,6 @@ function calculateMaxMonsterHealth(calculate) {
 console.log(maxPlayerHealth);
 
 function preload() {
-    this.load.image('muteButton', '/FITBAssets/muteButton.png');
     this.load.image('backgroundTileset', '/FITBAssets/tilesetFull.png');
     this.load.tilemapTiledJSON('background', '/FITBAssets/background.json');
     this.load.atlas('monster1', '/FITBAssets/monster1.png', '/FITBAssets/monster1.json');
@@ -65,10 +64,36 @@ function preload() {
     this.load.atlas('player', '/FITBAssets/player.png', '/FITBAssets/player.json');
     this.load.image('container', '/FITBAssets/healthContainerAsset.png');
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+
+    this.load.audio('bgm', [
+        '/IntermediateGameAssets/background.mp3'
+    ]);
+    this.load.audio('hit', [
+        '/IntermediateGameAssets/hit.wav'
+    ]);
+    this.load.audio('kill', [
+        '/IntermediateGameAssets/kill.wav'
+    ]);
+    this.load.audio('walk', [
+        '/IntermediateGameAssets/walk.mp3'
+    ]);
+    this.load.audio('swing', [
+        '/IntermediateGameAssets/swing.wav'
+    ]);
 }
 
 function create() {
     scene = this;
+
+    this.sound.pauseOnBlur = true;
+
+    const music = this.sound.add('bgm', { loop: true, volume: 0.5 });
+    walkMusic = this.sound.add('walk', { volume: 2, rate: 2 });
+    walkMusic.setSeek(2);
+    hitMusic = this.sound.add('hit', { volume: 2 });
+    killMusic = this.sound.add('kill', { volume: 2 });
+    swingMusic = this.sound.add('swing', { volume: 2 });
+    music.play();
 
     //Add Background
     const map = this.make.tilemap({ key: 'background' });
@@ -148,9 +173,6 @@ function create() {
             console.error('Font loading failed.');
         }
     });
-
-    // Create the mute button
-    muteButton = this.add.image(950, 0, 'muteButton').setOrigin(0).setScale(0.25).setInteractive();
 }
 
 function update() {
@@ -335,19 +357,26 @@ function fadeTransition(camera, duration) {
 }
 
 function playerMove(scene) {
+
     if (!monsterIsAttacking && !playerIsMoving && !isAttackInProgress) {
         isAttackInProgress = true;
         playerIsMoving = true;
 
         player.setVelocityX(500);
         player.play('playerRun');
+        walkMusic.play();
         scene.time.delayedCall(700, function () {
+            walkMusic.stop();
+            swingMusic.play();
             player.setVelocityX(0);
             player.play('playerAttack');
+            
         });
 
         player.once('animationcomplete', function (animation) {
             if (animation.key === 'playerAttack') {
+                swingMusic.stop();
+                killMusic.play();
                 reduceMonsterHealth(20);
                 fadeTransition(scene.cameras.main, 1500);
                 player.x = 250;
@@ -369,13 +398,18 @@ function monsterMove() {
 
         monster.play(`${monster.texture.key}Run`);
         monster.setVelocityX(-500);
+        walkMusic.play();
         scene.time.delayedCall(700, function () {
+            walkMusic.stop();
+            swingMusic.play();
             monster.setVelocityX(0);
             monster.play(`${monster.texture.key}Attack`);
         });
 
         monster.once('animationcomplete', function (animation) {
             if (animation.key === `${monster.texture.key}Attack`) {
+                swingMusic.stop();
+                hitMusic.play();
                 player.play('playerHurt');
                 shakeCamera(scene);
                 scene.time.delayedCall(500, function () {

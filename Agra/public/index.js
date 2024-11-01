@@ -517,7 +517,7 @@ function startIntervalTimer(timeSec) {
             if (time <= 0) {
                 time = 0; // Ensure it doesn't go below zero
                 clearInterval(timer2); // Stop the countdown timer
-                document.getElementById("timer").innerHTML = "Time's up!";
+                document.getElementById("timer").innerHTML = "0";
                 return; // Exit the function to prevent further execution
             }
 
@@ -749,7 +749,7 @@ function createAlertBox(message) {
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
         setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
-        setTimeout(() => resumeTimer(), 1000);
+        setTimeout(() => resumeTimer(), 2000);
         document.getElementById("startPanel").style.display = "none";
     }
 

@@ -20,7 +20,7 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: true,
+        disableWebAudio: false,
     }
 };
 
@@ -42,6 +42,7 @@ var playerX;
 var tempText, currentText;
 var moveCounter = 0;
 var monsterGroup;
+var music, walkMusic, hitMusic, typeMusic, randomMusic;
 
 function calculateMaxMonsterHealth(calculate) {
     currentMonsterHealth = calculate * 20;
@@ -84,17 +85,19 @@ function preload() {
     this.load.image('dialougeBox', '/FITBAssets2/dialogueBox.png')
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     this.load.audio('bgm', [
-        '/FITBAssets2/FITBAssets2-BG.mp3'
+        '/FITBAssets2/FITBbgm.mp3'
+    ]);
+    this.load.audio('type', [
+        '/FITBAssets2/FITBtype.wav'
     ]);
 }
 
 function create() {
-    scene = this;
-
-    // Queue music 
-    const music = this.sound.add('bgm', {volume: 0.5, loop: true });
-
+    scene = this; 
+    music = this.sound.add('bgm', {volume: 0.5, loop: true });
     music.play();
+    typeMusic = this.sound.add('type', {volume: 1});
+    typeMusic.setSeek(10.5);
 
     this.sound.pauseOnBlur = true;
 
@@ -249,7 +252,9 @@ function movePlayer(scene, onComplete) {
             // Change text
             const randomText = ["I must find the exit", "Got to get out quick", "Is the exit near?"];
             if(moveCounter != monsterNumber){
+                typeMusic.play();
                 currentText.setText(Phaser.Math.RND.pick(randomText));
+                
             } else {
                 currentText.setText("The exit! I'm safe!");
             }
