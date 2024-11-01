@@ -8,11 +8,10 @@ let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
 let startTime; // Time when the user starts the task
 let endTime; // Time when the user completes the task
 var isAttackInProgress = false;
-
+var game = document.getElementById('minigame');
 checkmarks.forEach(checkmark => {
     maxScore += checkmark.points;
 });
-
 
 // populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
@@ -67,13 +66,13 @@ editor.selection.on('changeCursor', () => {
     displayInstruction(currentCheckmarkIndex);  // Reposition instruction div
 });
 
-
 // Function to display the instruction div below the captured last typed line
 function displayInstruction(index) {
     if (index < checkmarks.length) {
         const instruction = checkmarks[index].instruction;
         instructionText.innerHTML = instruction;
         instructionDiv.style.display = "block"; // Show the instruction div
+        instructionDiv.style.minWidth = "500px";
 
         // Get screen position for the next line after the last typed line
         const lineScreenPosition = editor.renderer.textToScreenCoordinates(lastTypedLine + 1, 0);
@@ -194,7 +193,7 @@ function uniq(a) {
         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
     });
 }
-
+hideLineNumber()
 function checkCodeByWord() {
     var input = editor.getValue();
     var inputWords = input.split(/[.\s(){}'""\[\]`]+/).filter((word) => word.trim() !== "");
@@ -527,16 +526,24 @@ function startIntervalTimer(timeSec) {
                 // Trigger monster move and damage after countdown
                 monsterMove(scene);
 
+
+
+                // Call the function to center the div
+                temporarilyCenterGameDiv();
+
+
+                delay(1300).then( () => {showHitOverlay();})
                 rounds--;
                 console.log(rounds);
                 console.log(currentPlayerHealth);
+
 
                 clearInterval(timer2);  // Stop the inner timer when the round ends
 
                 // Check if AlertBox should be displayed based on the rounds value
                 if (rounds > 0) {
                     sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
-                        createAlertBox(result); // Show alert box only if rounds > 1
+                        delay(1500).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
                     });
                 }
             }
@@ -597,7 +604,7 @@ function startIntervalTimer(timeSec) {
             if (time === 0) {
                 // Trigger monster move and damage after countdown
                 monsterMove(scene);
-
+                temporarilyCenterGameDiv()
                 rounds--;
                 console.log(rounds);
                 console.log(currentPlayerHealth);
@@ -630,7 +637,6 @@ function startIntervalTimer(timeSec) {
 
 function createAlertBox(message) {
     // Add custom styles to the head if they don't exist
-    document.getElementById("startPanel").style.display = "block";
     if (!document.getElementById('customAlertStyles')) {
         const style = document.createElement('style');
         style.id = 'customAlertStyles';
@@ -770,6 +776,9 @@ function startGame(){
     startTime = Date.now();
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
+    document.getElementById("startPanel").style.zIndex = 10;
+
+    showLineNumber();
     startIntervalTimer(timerSeconds);
 }
 
@@ -812,3 +821,55 @@ function reset(){
 }
 
 
+function showHitOverlay() {
+    const overlay = document.getElementById('hit-overlay');
+    overlay.style.opacity = '1'; // Show overlay
+
+    // Hide overlay after a brief duration
+    setTimeout(() => {
+        overlay.style.opacity = '0'; // Fade out
+    }, 300); // Adjust time to how long you want the effect to last
+}
+
+function temporarilyCenterGameDiv() {
+    // Get the dimensions of the viewport and the div
+    var viewportWidth = window.innerWidth;
+    var viewportHeight = window.innerHeight;
+    var gameWidth = game.offsetWidth;
+    var gameHeight = game.offsetHeight;
+
+    // Check if the screen width is below a certain threshold (e.g., 600px)
+    if (viewportWidth < 1000) {
+        // For smaller screens, center horizontally and move to the top
+        var translateX = (viewportWidth); // Center horizontally
+        var translateY = (viewportHeight); // Move down slightly from the top
+
+        // Apply transform to center horizontally and position near the top
+        game.style.transform = `translate(0px, -${translateY}px)`;
+    } else {
+        // For larger screens, center vertically and horizontally
+        var translateX = (viewportWidth - gameWidth) / 2;
+
+        // Apply transform to center in the viewport
+        game.style.transform = `translate(-${translateX}px, 0px)`;
+    }
+
+
+
+    // After 2 seconds, reset the transform and animation
+    setTimeout(function() {
+        game.style.transform = 'translate(0, 0)'; // Reset to original position
+    }, 2000); // Change this duration as needed
+}
+
+function hideLineNumber(){
+    document.querySelector(".ace_gutter-cell").style.visibility = "hidden";
+    document.querySelector(".ace_gutter").style.visibility = "hidden";
+    document.querySelector(".ace_gutter-layer").style.visibility = "hidden";
+}
+
+function showLineNumber(){
+    document.querySelector(".ace_gutter-cell").style.visibility = "visible";
+    document.querySelector(".ace_gutter").style.visibility = "visible";
+    document.querySelector(".ace_gutter-layer").style.visibility = "visible";
+}

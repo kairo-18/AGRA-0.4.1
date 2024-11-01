@@ -9,10 +9,81 @@
     padding: 0;
 }
 
-.readonly-highlight{
+.readonly-highlight {
     background-color: green;
     opacity: 0.2;
     position: absolute;
+    animation: slide-in 1s ease forwards; /* Use the animation */
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(-100%); /* Start off-screen */
+        opacity: 0; /* Start with full transparency */
+    }
+    100% {
+        transform: translateX(0); /* Slide to final position */
+        opacity: 0.2; /* Final opacity */
+    }
+}
+
+.progress-barc {
+    background-color: #3b82f6; /* Adjust to your preferred color */
+    height: 100%; /* Fill the height of the parent */
+    width: 0; /* Start with 0 width */
+    transition: width 0.5s ease, opacity 0.5s ease; /* Transition for width and opacity */
+}
+
+.progress-container {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: #e0e0e0;
+}
+.hit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.5); /* Red tint */
+    opacity: 0;
+    pointer-events: none; /* Allows clicks to go through */
+    transition: opacity 0.2s ease-in-out; /* Smooth transition */
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+.progress-barc {
+    height: 100%;
+    width: 0;
+    background-color: #4CAF50;
+    transition: width 0.5s; /* Smooth transition */
+}
+
+.checkmark {
+    position: absolute;
+    font-size: 20px; /* Adjust size as necessary */
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Animation */
+}
+
+
+#minigame {
+    background-color: lightblue;
+    position: relative; /* Keeps the original layout */
+    transition: transform 0.5s ease; /* Smooth transition for transform */
+    animation: none; /* Initialize animation */
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Removing default link underline */

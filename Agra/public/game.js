@@ -180,7 +180,7 @@ function update() {
         // Round currentPlayerHealth and maxPlayerHealth to the nearest integer
         const roundedCurrentHealth = Phaser.Math.RoundTo(currentPlayerHealth, 0);
         const roundedMaxHealth = Phaser.Math.RoundTo(maxPlayerHealth, 0);
-        
+
         playerHealthText.setText(`${roundedCurrentHealth}/${roundedMaxHealth}`);
     }
 }

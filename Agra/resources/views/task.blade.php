@@ -91,6 +91,8 @@
         </div>
     </div>
 
+    <div id="hit-overlay" class="hit-overlay"></div>
+
 
 <div class="endPanel" id="endPanel">
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
@@ -163,10 +165,6 @@
         const username = "{{Auth::user()->name}}";
     </script>
     <script src="agraNotification.js"></script>
-=======
-
-
->>>>>>> Stashed changes
 
 </body>
 </html>
