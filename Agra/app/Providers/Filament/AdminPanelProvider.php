@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => '#004aad',
                 'info' => Color::Yellow,
             ])
+            ->databaseNotifications()
             ->font('Poppins')
             ->favicon('/image-removebg-preview (23) 1.png')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

@@ -90,7 +90,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Section::class);
     }
 
-    public function notifications(){
+    public function agraNotifications(){
         return $this->hasMany(AgraNotification::class);
     }
 }

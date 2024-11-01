@@ -78,7 +78,7 @@ Route::get('/', function () {
 
     $tasks = getAllTasksSti($user);
     $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
-    $notifications = $user->notifications;
+    $notifications = $user->agraNotifications;
 
     return view('home', [
         'courses' => $courses,

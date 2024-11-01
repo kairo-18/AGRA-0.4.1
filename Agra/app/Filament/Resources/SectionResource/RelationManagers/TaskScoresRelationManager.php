@@ -2,6 +2,10 @@
 
 namespace App\Filament\Resources\SectionResource\RelationManagers;
 
+use App\Filament\Exports\TaskScoreExporter;
+use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Actions\Exports\Models\Export;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -10,6 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\DB;
+use Filament\Tables\Filters\Filter;
 
 class TaskScoresRelationManager extends RelationManager
 {
@@ -38,9 +43,10 @@ class TaskScoresRelationManager extends RelationManager
             ])
             ->filters([
                 //
+                Tables\Filters\SelectFilter::make("Task")->relationship('task', "TaskName"),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                ExportAction::make()->exporter(TaskScoreExporter::class)->formats([ExportFormat::Csv])->fileName(fn () => 'TaskScores_' . $this->ownerRecord->SectionCode),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
