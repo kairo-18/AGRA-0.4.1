@@ -20,7 +20,7 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: true
+        disableWebAudio: true,
     }
 };
 
@@ -33,7 +33,6 @@ var monsterNumber;
 var currentPlayerHealth = maxPlayerHealth;
 var playerHealthWidth;
 var calculate = currentMonsterHealth / 20;
-var music;
 var playerHealthText;
 var monsterGroup;
 var playerIsAttacking = false;
@@ -84,10 +83,20 @@ function preload() {
     this.load.atlas('portal', '/FITBAssets2/portal.png', '/FITBAssets2/portal.json');
     this.load.image('dialougeBox', '/FITBAssets2/dialogueBox.png')
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+    this.load.audio('bgm', [
+        '/FITBAssets2/FITBAssets2-BG.mp3'
+    ]);
 }
 
 function create() {
     scene = this;
+
+    // Queue music 
+    const music = this.sound.add('bgm', {volume: 0.5, loop: true });
+
+    music.play();
+
+    this.sound.pauseOnBlur = true;
 
     // Example calculation for maxPlayerHealth based on monsterNumber
     maxPlayerHealth = monsterNumber * 20;
@@ -176,6 +185,7 @@ function create() {
         args: [scene, width, height],
         loop: true
     });
+
 }
 
 function update() {

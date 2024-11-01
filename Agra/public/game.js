@@ -153,11 +153,16 @@ function create() {
     muteButton = this.add.image(950, 0, 'muteButton').setOrigin(0).setScale(0.25).setInteractive();
 }
 
-function update(){
+function update() {
     if (playerHealthText) {
-        playerHealthText.setText(`${currentPlayerHealth}/${maxPlayerHealth}`);
+        // Round currentPlayerHealth and maxPlayerHealth to the nearest integer
+        const roundedCurrentHealth = Phaser.Math.RoundTo(currentPlayerHealth, 0);
+        const roundedMaxHealth = Phaser.Math.RoundTo(maxPlayerHealth, 0);
+        
+        playerHealthText.setText(`${roundedCurrentHealth}/${roundedMaxHealth}`);
     }
 }
+
 
 function spawnMonster(monsterGroup) {
     // Check if there's already a monster in the group
@@ -187,7 +192,7 @@ function createAnimations(scene){
             case 'monster5':
                 idleFrameEnd = 17;
                 runFrameEnd = 7;
-                attackFrameEnd = 37;
+                attackFrameEnd = 20;
                 hurtFrameEnd = 6;
                 break;
             case 'monster4':

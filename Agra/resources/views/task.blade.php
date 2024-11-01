@@ -14,7 +14,7 @@
     <title>AGRA</title>
     <style>
         .coding-area{
-            height: 60%;
+            flex-grow: 1;
         }
 
         .top-6{
@@ -63,7 +63,7 @@
             <!--Information: Score, time, prog-bar-->
                 <div class="info-bar">
                     <div class="score">Score <span id="score">0</span></div>
-                    <div class="timer">Timer <span id="timer">10</span></div>
+                    <div class="timer">Timer <span id="timer">{{$task->TaskMaxTime}}</span></div>
                     <div class="pb">
                         <div class="progress-bar bg-gray-300 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
                             <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
@@ -71,15 +71,10 @@
                     </div>
                 </div>
             </div>
-
-            <!--Instruction-->
-            <div class="instrucContainer">
-                <div class="instrucName text-2xl"></div>
-                <div class="instructions bg-blue-800" id="instructions"></div>
-            </div>
-            <!--Compiler-->
-            <div class="coding-area">
-                <div class="code-editor" id="code-editor"></div>
+            <!-- Compiler -->
+            <div class="coding-area relative h-full w-full">
+                <!-- Ace Editor Div -->
+                <div id="code-editor" class="w-full h-full border border-gray-300 text-lg"></div>
             </div>
             <!--idk-->
             <div id="code" style="display: none;"></div>
@@ -161,12 +156,17 @@
 
 <script src="/game.js"></script>
 <script src="/index.js"></script>
+<<<<<<< Updated upstream
 <script src="/tutorial.js"></script>
     <script>
         const sectionId = "{{$user->section->id}}";
         const username = "{{Auth::user()->name}}";
     </script>
     <script src="agraNotification.js"></script>
+=======
+
+
+>>>>>>> Stashed changes
 
 </body>
 </html>

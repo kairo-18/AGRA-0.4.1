@@ -14,7 +14,7 @@ checkmarks.forEach(checkmark => {
 });
 
 
-populateCheckmarks();
+// populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
 calculateMaxMonsterHealth(checkmarks.length);
 
@@ -24,6 +24,112 @@ progressBar.style.opacity = "0";
 var langTools = ace.require("/ace-builds/src-noconflict/ext-language_tools.js");
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
+
+//Test 2
+// Create instruction container for dynamically displaying instructions
+const instructionDiv = document.createElement("div");
+instructionDiv.style.position = "absolute";
+instructionDiv.style.backgroundColor = "white";
+instructionDiv.style.border = "1px solid #ddd";
+instructionDiv.style.padding = "10px";
+instructionDiv.style.borderRadius = "8px";
+instructionDiv.style.boxShadow = "0px 4px 8px rgba(0,0,0,0.2)";
+instructionDiv.style.display = "none"; // Initially hidden
+
+const instructionText = document.createElement("p");
+instructionText.style.margin = "0 0 10px 0";
+instructionText.style.fontSize = "20px";
+instructionText.style.color = "black";
+instructionDiv.appendChild(instructionText);
+
+// Create button for checking answer
+const checkButton = document.createElement("button");
+checkButton.textContent = "Check Answer";
+checkButton.style.padding = "8px 16px";
+checkButton.style.fontSize = "14px";
+checkButton.style.backgroundColor = "#4CAF50";
+checkButton.style.color = "white";
+checkButton.style.border = "none";
+checkButton.style.borderRadius = "4px";
+checkButton.style.cursor = "pointer";
+instructionDiv.appendChild(checkButton);
+
+// Append the instruction div to the editor's container
+document.getElementById("code-editor").appendChild(instructionDiv);
+
+let currentCheckmarkIndex = 0;
+let lastTypedLine = 0; // Track the last line the user typed on
+
+// Capture the last line when the user stops typing
+editor.selection.on('changeCursor', () => {
+    const cursorPosition = editor.getCursorPosition();
+    lastTypedLine = cursorPosition.row;
+    displayInstruction(currentCheckmarkIndex);  // Reposition instruction div
+});
+
+
+// Function to display the instruction div below the captured last typed line
+function displayInstruction(index) {
+    if (index < checkmarks.length) {
+        const instruction = checkmarks[index].instruction;
+        instructionText.textContent = instruction;
+        instructionDiv.style.display = "block"; // Show the instruction div
+
+        // Get screen position for the next line after the last typed line
+        const lineScreenPosition = editor.renderer.textToScreenCoordinates(lastTypedLine + 1, 0);
+        const editorScrollTop = editor.session.getScrollTop();
+
+        console.log(lineScreenPosition);
+
+        // Position the instruction div based on the captured line position
+        const lineHeight = editor.renderer.lineHeight - 200;
+        instructionDiv.style.top = `${lineScreenPosition.pageY - editorScrollTop + lineHeight}px`;
+        instructionDiv.style.left = `60px`;
+    } else {
+        instructionDiv.style.display = "none"; // Hide when all instructions are complete
+    }
+}
+
+// Event listener for the check button
+checkButton.addEventListener("click", () => {
+    // Move cursor to the end of the current line
+    // const currentLine = editor.getCursorPosition().row;
+    // const lineLength = editor.session.getLine(currentLine).length;
+    // editor.moveCursorTo(currentLine, lineLength);
+    editor.navigateLineEnd();
+
+    // Proceed with the rest of the check answer logic
+    const currentAnswer = checkmarks[currentCheckmarkIndex].answer.trim();
+    const userCode = editor.getValue().trim();
+    var editorValue = editor.getValue();
+    var editorLines = editorValue.split("\n");
+    var initialErrors = userErrors;
+
+    checkCodeByLine(editorLines);
+
+    // Check if the user's code contains the correct answer
+    if (userCode.includes(currentAnswer)) {
+        checkmarks[currentCheckmarkIndex].done = true;
+        currentCheckmarkIndex++;
+
+        if (currentCheckmarkIndex < checkmarks.length) {
+            displayInstruction(currentCheckmarkIndex);
+            whenPlayerAttack();
+        } else {
+            instructionText.textContent = "All Instructions Complete!";
+            checkButton.disabled = true;
+        }
+    } else {
+        alert("Incorrect answer. Please try again.");
+    }
+});
+
+// Show the first instruction but offset it down
+const initialInstructionIndex = currentCheckmarkIndex; // Keep it for the first instruction
+lastTypedLine = 100; // Adjust this value to move the initial instruction further down
+displayInstruction(initialInstructionIndex); // This call displays the instruction based on the offset
+
+//Test 2 end
 
 if(language === "C#"){
     editor.session.setMode("ace/mode/csharp");
@@ -42,66 +148,10 @@ editor.setOptions({
 
 editor.insert(template);
 
-editor.moveCursorTo(2, 8)
-
 var content = document.getElementById("code");
 content.innerHTML = editor.getValue();
 
 readonly_lines("code-editor", content, [1,2,3], true);
-
-function populateCheckmarks() {
-    checkmarks.forEach(checkmark => {
-        var checkmarkDiv = document.createElement("div");
-        var imgDiv = document.createElement("div");
-        var checkmarkImg = document.createElement("img");
-
-        imgDiv.style.height = "100px";
-        imgDiv.style.width = "50px";
-        imgDiv.style.marginLeft = "20px";
-        imgDiv.style.marginRight = "30px";
-        imgDiv.style.display = "flex";
-
-        checkmarkImg.style.width = "50px";
-        checkmarkImg.style.height = "50px";
-        checkmarkImg.style.margin = "auto 0 ";
-        checkmarkImg.style.margin = "auto 10px auto 0";
-        checkmarkImg.id = "img" + checkmark.id;
-
-        checkmarkDiv.classList.add("instruc-container");
-        checkmarkImg.src = "/remove.png";
-        checkmarkDiv.id = "instruction" + checkmark.id;
-        checkmarkDiv.textContent = checkmark.instruction;
-        checkmarkDiv.style.marginLeft = "10px";
-        checkmarkDiv.style.backgroundColor = "#F3F8FF";
-        checkmarkDiv.style.boxShadow = "0px 0px 10px 0px rgba(0,0,0,0.75)";
-        checkmarkDiv.style.borderRadius = "10px";
-
-        var parentDiv = document.getElementById("instructions");
-        parentDiv.appendChild(checkmarkDiv);
-
-        parentDiv.style.gridTemplateRows = "30px repeat(" + checkmarks.length + ", 1fr)";
-
-        checkmarkDiv.style.display = "flex";
-        checkmarkDiv.style.flexDirection = "row-reverse";
-        checkmarkDiv.style.alignItems = "center";
-        checkmarkDiv.style.justifyContent = "start";
-        checkmarkDiv.appendChild(imgDiv);
-        imgDiv.appendChild(checkmarkImg);
-
-    });
-}
-
-function checkCheckmarks() {
-    var index = 0;
-    checkmarks.forEach(checkmark => {
-        if (checkmark.done) {
-            document.getElementById("img" + index).src = "/check-mark.png";
-        } else {
-            document.getElementById("img" + index).src = "/remove.png";
-        }
-        index++;
-    });
-}
 
 var code = `public class Main {
 
@@ -144,9 +194,6 @@ function uniq(a) {
         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
     });
 }
-
-
-
 
 function checkCodeByWord() {
     var input = editor.getValue();
@@ -235,23 +282,17 @@ function checkCodeByLine(editorLines) {
         console.log("Answer:" + checkmarks[currentCheckmark].answer.trim());
         checkmarks[currentCheckmark].done = true;
         currentCheckmark++;
-        checkCheckmarks();
+        // checkCheckmarks();
         correctAnswers++;
-        editor.insert("\n\n");
+        editor.insert("\n");
         readonly_lines("code-editor", content, getCorrectLineNumbers(), false);
 
         delay(10).then(() => {
-            editor.moveCursorTo(editor.getSelectionRange().start.row - 1, 0);
-            editor.insert("        ");
+            lastTypedLine = editor.getCursorPosition().row;
+            displayInstruction(currentCheckmarkIndex);
+            editor.insert("");
         });
 
-        // Scroll to the next checkmark div
-        if (currentCheckmark < checkmarks.length) {
-            var nextCheckmarkDiv = document.getElementById("instruction" + checkmarks[currentCheckmark].id);
-            if (nextCheckmarkDiv) {
-                nextCheckmarkDiv.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-        }
     } else {
         errorDetected = true;
         userErrors++;
@@ -260,7 +301,6 @@ function checkCodeByLine(editorLines) {
 
     console.log("User Error:" + userErrors);
 
-    checkCheckmarks();
     updateScore();
 
     globalCurrentCheckmark = currentCheckmark;
@@ -406,36 +446,11 @@ function whenPlayerAttack(){
     if(tempCtr < checkmarks.length){
         if(checkmarks[tempCtr].done){
             playerMove(scene);
-            delay(400).then(() => monster.play("dmg", true));
+            delay(400).then(() => monster.play(`${monsterKey}Attack`, true));
             tempCtr++;
         }
     }
 }
-
-
-
-// editor.session.on('change', function (delta) {
-//     //setEditorCode();
-//     //checkCode();
-//     var editorValue = editor.getValue();
-//     var editorLines = editorValue.split("\n");
-//
-//     checkCodeByLine(editorLines);
-//     whenPlayerAttack();
-// });
-
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey) {
-        var editorValue = editor.getValue();
-        var editorLines = editorValue.split("\n");
-        var initialErrors = userErrors;
-
-        checkCodeByLine(editorLines);
-        whenPlayerAttack();
-
-
-    }
-});
 
 function runClick() {
 
@@ -462,8 +477,6 @@ function runClick() {
     req.send();
 }
 
-
-
 async function sendPrompt(instruction, userCode) {
     try {
         const response = await axios.post('/prompt', {
@@ -480,7 +493,7 @@ async function sendPrompt(instruction, userCode) {
 
 
 function startIntervalTimer(timeSec) {
-    let rounds = 30;
+    let rounds = checkmarks.length;
     let time = timeSec;
     let isPaused = false;  // Flag to track if the timer is paused
     let timer, timer2;  // Declare timers to allow access in pause/resume
@@ -499,27 +512,33 @@ function startIntervalTimer(timeSec) {
         // Create the inner timer for countdown
         timer2 = setInterval(function () {
             if (isPaused) return;  // If paused, skip the rest
+            
+            // Prevent the timer from going negative
+            if (time <= 0) {
+                time = 0; // Ensure it doesn't go below zero
+                clearInterval(timer2); // Stop the countdown timer
+                document.getElementById("timer").innerHTML = "Time's up!";
+                return; // Exit the function to prevent further execution
+            }
 
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {
                 // Trigger monster move and damage after countdown
                 monsterMove(scene);
-                delay(400).then(() => {
-                    player.play("dmg", true);
 
-                    // Check player health after the animation
-                    console.log(currentPlayerHealth);
-                    if (currentPlayerHealth <= 0) {
-                        rounds = 1;  // Reduce rounds to 1 if health is low
-                    }
-                });
+                rounds--;
+                console.log(rounds);
+                console.log(currentPlayerHealth);
 
-                // Send prompt and show result
-                sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
-                    createAlertBox(result);
-                });
                 clearInterval(timer2);  // Stop the inner timer when the round ends
+
+                // Check if AlertBox should be displayed based on the rounds value
+                if (rounds > 0) {
+                    sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
+                        createAlertBox(result); // Show alert box only if rounds > 1
+                    });
+                }
             }
 
             // Check for global score to finish
@@ -528,10 +547,7 @@ function startIntervalTimer(timeSec) {
             }
         }, 1000);
 
-        rounds--;
-        console.log(rounds);
-
-        if (rounds === 0) {
+        if (rounds <= 0) {
             stopTimer();  // Stop the timer when rounds reach zero
         }
 
@@ -566,26 +582,39 @@ function startIntervalTimer(timeSec) {
 
         // Resume the timer with remaining time
         timer2 = setInterval(function () {
+            if (isPaused) return;  // If paused, skip the rest
+
+            // Prevent the timer from going negative
+            if (time <= 0) {
+                time = 0; // Ensure it doesn't go below zero
+                clearInterval(timer2); // Stop the countdown timer
+                document.getElementById("timer").innerHTML = "Time's up!";
+                return; // Exit the function to prevent further execution
+            }
+            
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {
+                // Trigger monster move and damage after countdown
                 monsterMove(scene);
-                delay(400).then(() => {
-                    player.play("dmg", true);
-                    console.log(currentPlayerHealth);
-                    if (currentPlayerHealth <= maxPlayerHealth / 2) {
-                        rounds = 1;
-                    }
-                });
 
-                sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
-                    createAlertBox(result);
-                });
-                clearInterval(timer2);
+                rounds--;
+                console.log(rounds);
+                console.log(currentPlayerHealth);
+
+                clearInterval(timer2);  // Stop the inner timer when the round ends
+
+                // Check if AlertBox should be displayed based on the rounds value
+                if (rounds > 0) {
+                    sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
+                        createAlertBox(result); // Show alert box only if rounds > 1
+                    });
+                }
             }
 
+            // Check for global score to finish
             if (globalScore === 100) {
-                stopTimer();
+                stopTimer();  // Call stopTimer to clear intervals
             }
         }, 1000);
 
@@ -598,9 +627,6 @@ function startIntervalTimer(timeSec) {
     window.pauseTimer = pauseTimer;
     window.resumeTimer = resumeTimer;
 }
-
-
-
 
 function createAlertBox(message) {
     // Add custom styles to the head if they don't exist
@@ -694,20 +720,36 @@ function createAlertBox(message) {
 
         </div>
 
-            <button type="button" onclick="removeAlertBox()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">Understood!</button>
+            <button type="button" onclick="removeAlertBox()" disabled class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">3</button>
         </div>
     `;
 
     // Append the alert box to the container
     document.getElementById('alertContainer').appendChild(alertBox);
-    setTimeout(() => pauseTimer(), 3000);
+
+    const button = alertBox.querySelector("button");
+    let countdown = 3;
+
+    // Start the countdown interval
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+            button.textContent = countdown; // Update button text with countdown
+        } else {
+            clearInterval(countdownInterval); // Stop countdown
+            button.textContent = "Understood"; // Set final text
+            button.disabled = false; // Enable the button
+        }
+    }, 1000);
+    // setTimeout(() => pauseTimer(), 3000);
+    pauseTimer();
 
     // Set a timeout to remove the alert box after 7 seconds
 
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
         setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
-        setTimeout(() => resumeTimer(), 3000);
+        setTimeout(() => resumeTimer(), 1000);
         document.getElementById("startPanel").style.display = "none";
     }
 
