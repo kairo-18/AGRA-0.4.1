@@ -78,7 +78,7 @@
                                 $taskStatus = 'Pending';  // Initialize with default status
 
                                 foreach($doneTasks as $doneTask) {
-                                    if($task->id === $doneTask->id) {
+                                    if($task->id === $doneTask->task_id) {
                                         $taskStatus = 'Done';
                                         break;  // Exit loop once a match is found
                                     }

@@ -175,31 +175,46 @@
                         }
                     }) as $task)
                         @php
-                            // Get current date and the task's deadline for each item
-                            $now = \Carbon\Carbon::now();
-                            $deadline = \Carbon\Carbon::parse($task->Deadline);
-                            $deadlineWord = $deadline->isToday() ? 'Today' :
-                                            ($deadline->isTomorrow() ? 'Tomorrow' :
-                                            ($deadline->isFuture() && $deadline->diffInDays($now) <= 30 ? 'Upcoming' : 'Past Due'));
-                            
-                            // Set text and background color based on deadline type
-                            if ($deadline->isToday()) {
-                                $deadlineClass = 'text-green-500 bg-green-100';
-                            } elseif ($deadline->isTomorrow()) {
-                                $deadlineClass = 'text-blue-500 bg-blue-100';
-                            } elseif ($deadline->isFuture()) {
-                                $deadlineClass = 'text-blue-900 bg-blue-100';
-                            } else {
-                                $deadlineClass = 'text-red-600 bg-red-100'; // For past due
+                            // Determine if the current task is "Done"
+                        $taskStatus = 'Pending'; // Default status
+                        $isDone = false;
+
+                        foreach($doneTasks as $doneTask) {
+                            if ($task->id === $doneTask->task_id) {
+                                $taskStatus = 'Done';
+                                $isDone = true;
+                                break;
                             }
+                        }
+                                // Get current date and the task's deadline for each item
+                                $now = \Carbon\Carbon::now();
+                                $deadline = \Carbon\Carbon::parse($task->Deadline);
+                                $deadlineWord = $deadline->isToday() ? 'Today' :
+                                                ($deadline->isTomorrow() ? 'Tomorrow' :
+                                                ($deadline->isFuture() && $deadline->diffInDays($now) <= 30 ? 'Upcoming' : 'Past Due'));
+
+                                // Set text and background color based on deadline type
+                                if(!$isDone){
+                                    if ($deadline->isToday()) {
+                                        $deadlineClass = 'text-green-500 bg-green-100';
+                                    } elseif ($deadline->isTomorrow()) {
+                                        $deadlineClass = 'text-blue-500 bg-blue-100';
+                                    } elseif ($deadline->isFuture()) {
+                                        $deadlineClass = 'text-blue-900 bg-blue-100';
+                                    } else {
+                                        $deadlineClass = 'text-red-600 bg-red-100'; // For past due
+                                    }
+                                }else{
+                                        $deadlineClass = 'text-green-500 bg-green-100';
+                                }
                         @endphp
 
                         <li class="mb-10 ms-6">
-                            <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                                <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                </svg>
-                            </span>
+                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                        <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                        </svg>
+                    </span>
 
                             <div class="flex shadow-xl rounded-md lesson-card">
                                 <div class="{{ $deadlineClass }} min-h-[50px] w-2 rounded-sm"></div>
@@ -207,24 +222,27 @@
                                     <div class="p-2">
                                         <h3 class="flex items-center text-lg font-bold text-blue-700 dark:text-white">
                                             {{$task->TaskName}}
+                                            @if ($isDone)
+                                                <span class="ml-2 text-sm text-green-600 font-semibold">(Done)</span> <!-- Done indicator -->
+                                            @endif
                                         </h3>
                                         <h5 class="flex items-center mb-1 text-md font-bold text-gray-500 dark:text-white">
-                                            {{$task->lesson->LessonName}}
+                                            {{ $task->lesson->LessonName}}
                                         </h5>
                                         <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">
-                                            <strong>Deadline:</strong> 
+                                            <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-sm">{{ $deadline->format('g:i A') }}</span>
                                             <span class="{{ $deadlineClass }} font-bold text-sm">{{ $deadlineWord }}</span>
                                         </time>
                                     </div>
                                     <div class="p-3 pt-8">
                                         <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
-                                        onclick="showTransitionOverlay(event, '/tasks/{{$task->id}}')">
+                                           onclick="showTransitionOverlay(event, '/tasks/{{$task->id}}')">
                                             Go
                                             <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
                                             </svg>
-                                        </a>    
+                                        </a>
                                     </div>
                                 </div>
                             </div>

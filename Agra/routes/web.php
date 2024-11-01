@@ -69,17 +69,22 @@ Route::get('/', function () {
         $query->where('status', 'Done');
     })->pluck('task_id')->toArray();
 
+
+    // Filter tasks to get only those that are done by the user
+
+
     // Retrieve all tasks except those that are marked as "Done" for the current user
     $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     $tasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     $notifications = $user->notifications;
 
     return view('home', [
         'courses' => $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
         'notifications' => $notifications,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -124,11 +129,13 @@ Route::get('/agraCourses', function () {
 
     // Remove tasks that are marked as "Done"
     $tasks = $tasks->whereNotIn('id', getUserDoneTaskIds($user));
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
 
     return view('allCourses', [
         'courses' => $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
         'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -149,11 +156,12 @@ Route::get('/agraCourses/References', function () {
 
     // Remove tasks that are marked as "Done"
     $tasks = $tasks->whereNotIn('id', getUserDoneTaskIds($user));
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('agraReferences', [
         'courses' => $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
         'allTasks' => $allTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -200,11 +208,12 @@ Route::get('/courses', function () {
 //    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     $tasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('courses', [
         'courses'=> $courses,
         'user' => $user,
         'tasks' => $tasks,
+        'doneTasks' => $doneTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -215,14 +224,15 @@ Route::get('/task/{course:id}/{lesson:id}', function (Course $course, Lesson $le
     $tasks = $lesson->tasks;
 
     $allTasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('courseTask', [
         'course' => $course,
         'lesson'=>$lesson,
         'tasks' => $tasks,
         'user' => $user,
         'lessons' => $course->lessons,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'doneTasks' => $doneTasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -273,12 +283,13 @@ Route::get('courses/{course}', function (Course $course) {
     $tasks = $tasks->filter(function ($task) use ($hiddenLessons) {
         return !in_array($task->lesson_id, $hiddenLessons);
     });
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('lesson', [
         'course' => $course,
         'lessons' => $lessons,
         'user' => $user,
         'tasks' => $tasks,
+        'doneTasks' => $doneTasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -307,13 +318,14 @@ Route::get('agraCourses/{course:id}', function(Course $course) {
     }
 
     $allTasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('agraLessons', [
         'course' => $course, // Ensure the original course parameter is passed to the view
         'lessons' => $lessons,
         'user' => $user,
         'tasks' => $tasks,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'doneTasks' => $doneTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -390,11 +402,13 @@ Route::get('/done', [\App\Http\Controllers\TaskController::class, 'update'])->na
 Route::get('lessons/{course:id}/{lesson:id}' , function(Course $course, Lesson $lesson) {
     $user = Auth::user();
     $allTasks = getAllTasksSti($user);
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
 
     return view('modules', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
+        'doneTasks' => $doneTasks,
         'course' => $course,
         'user' => $user,
         'allTasks' => $allTasks,
@@ -430,7 +444,7 @@ Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Less
     $ytEmbedLinks = array_map('convertToEmbedUrl', $ytLinks);
 
     $allTasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('agraLesson', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
@@ -440,6 +454,7 @@ Route::get('agraLessons/{course:id}/{lesson:id}' , function(Course $course, Less
         'allTasks' => $allTasks,
         'ytLinks' => $ytEmbedLinks,
         'webLinks' => $webLinks,
+        'doneTasks' => $doneTasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -447,14 +462,15 @@ Route::get('agraTasks/{course:id}/{lesson:id}' , function(Course $course, Lesson
     $user = Auth::user();
 
     $allTasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('agraLessonTasks', [
         'lesson' => $lesson,
         'tasks' => $lesson->tasks,
         'lessons' => $course->lessons,
         'course' => $course,
         'user' => $user,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'doneTasks' => $doneTasks
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -483,7 +499,7 @@ Route::get('tasks/{task:id}' , function(Course $course, Lesson $lesson, Task $ta
     }
 
     $tasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('taskView', [
         'course' => $course,
         'lesson'=>$lesson,
@@ -491,9 +507,9 @@ Route::get('tasks/{task:id}' , function(Course $course, Lesson $lesson, Task $ta
         'lessons' => $course->lessons,
         'task' => $task,
         'instructions' => $instructions,
-        'user' => $user,
         'tasks' => $task->lesson->tasks,
         'scores' => $scores,
+        'doneTasks' => $doneTasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -523,7 +539,7 @@ Route::get('agraTasks/{task:id}' , function(Task $task) {
     }
 
     $allTasks = getAllTasksSti($user);
-
+    $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('agraTaskView', [
         'task' => $task,
         'courses' => $courses,
@@ -531,7 +547,8 @@ Route::get('agraTasks/{task:id}' , function(Task $task) {
         'user' => $user,
         'tasks' => $task->lesson->tasks,
         'scores' => $scores,
-        'allTasks' => $allTasks
+        'allTasks' => $allTasks,
+        'doneTasks' => $doneTasks,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -865,7 +882,7 @@ Route::get('/userAnalytics', function () {
         ]);
     } catch (Exception $e) {
         // Log the exception message for debugging purposes
-        Log::error('Error occurred in user analytics: ' . $e->getMessage());    
+        Log::error('Error occurred in user analytics: ' . $e->getMessage());
         // Retrieve the authenticated user
         $user = Auth::user();
 
