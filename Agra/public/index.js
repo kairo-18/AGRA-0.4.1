@@ -72,7 +72,7 @@ editor.selection.on('changeCursor', () => {
 function displayInstruction(index) {
     if (index < checkmarks.length) {
         const instruction = checkmarks[index].instruction;
-        instructionText.textContent = instruction;
+        instructionText.innerHTML = instruction;
         instructionDiv.style.display = "block"; // Show the instruction div
 
         // Get screen position for the next line after the last typed line
@@ -512,7 +512,7 @@ function startIntervalTimer(timeSec) {
         // Create the inner timer for countdown
         timer2 = setInterval(function () {
             if (isPaused) return;  // If paused, skip the rest
-            
+
             // Prevent the timer from going negative
             if (time <= 0) {
                 time = 0; // Ensure it doesn't go below zero
@@ -591,7 +591,7 @@ function startIntervalTimer(timeSec) {
                 document.getElementById("timer").innerHTML = "Time's up!";
                 return; // Exit the function to prevent further execution
             }
-            
+
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {

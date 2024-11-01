@@ -18,9 +18,10 @@ class InstructionsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('instruction')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Textarea::make('instruction')->label('Instruction (You can use html tags)')
+                    ->columnSpan(5)
+                    ->grow()
+                    ->required(),
                 Forms\Components\Textarea::make('answer')
                     ->required()
                     ->maxLength(255),
