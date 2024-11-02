@@ -28,7 +28,7 @@ var monsterHealthBar, playerHealthBar;
 var maxPlayerHealth = 100;
 var peopleCount = maxPlayerHealth/20;
 var currentMonsterHealth = maxMonsterHealth;
-var currentPlayerHealth = maxPlayerHealth;
+currentPlayerHealth = maxPlayerHealth;
 var monsterHealth;
 var monsterAttacks = ['attack1', 'attack2', 'attack3'];
 var explosions = ['explosion1', 'explosion2', 'explosion3']
@@ -59,11 +59,13 @@ function preload() {
     this.load.image('playerHealthBar', '/playerHealthBar.png');
     this.load.image('healthPlayer', '/containerHealth.png')
     this.load.image('healthMonster', '/monsterHealth.png')
+    this.load.image('crosshair', '/shipGameAssets/crosshair.png');
     this.load.audio('bgm', '/background.mp3')
     this.load.image('muteButton', '/muteButton.png')
     this.load.atlas('explosion1', '/explosions/explosion1.png', '/explosions/explosion1.json');
     this.load.atlas('explosion2', '/explosions/explosion2.png', '/explosions/explosion2.json');
     this.load.atlas('explosion3', '/explosions/explosion3.png', '/explosions/explosion3.json');
+    this.load.atlas('shootButton', '/shipGameAssets/shootButton.png', '/shipGameAssets/shootButton.json');
     this.load.atlas('crowd', '/crowd.png', '/crowd.json');
 }
 
@@ -210,6 +212,14 @@ function create() {
         repeat: -1
     });
 
+    this.anims.create({
+        key: 'shootButton',
+        frames: this.anims.generateFrameNames('shootButton', {prefix: 'button', start: 0, end: 1, zeroPad: 2}),
+        frameRate: 12,
+        repeat: 0,
+        yoyo: true
+    });
+
     people.children.iterate(function (child) {
         child.setBounceX(Phaser.Math.FloatBetween(0.4, 0.8));
         child.setCollideWorldBounds(true);
@@ -265,10 +275,10 @@ function update() {
 
 }
 
-
 function createCrosshair() {
     // Add crosshair to the center of the screen, slightly above the player
-    crosshair = scene.add.image(500, 250, 'crosshair').setScale(0.9).setDepth(4); // Ensure to load crosshair image in preload
+    crosshair = scene.add.image(500, 250, 'crosshair').setDepth(4); // Ensure to load crosshair image in preload
+    crosshair.setScale(0.1);
 
     // Tween to make the crosshair move left and right in a loop
     scene.tweens.add({
@@ -281,7 +291,7 @@ function createCrosshair() {
     });
 
     // Add the shoot button
-    shootButton = scene.add.text(450, 900, 'Shoot', { fontSize: '32px', fill: '#fff' }).setInteractive();
+    shootButton = scene.add.sprite(450, 900, 'shootButton').setInteractive();
     shootButton.setDepth(5); // Ensure it's above other elements
 
     // On shoot button click, stop the crosshair and fire at its position
@@ -297,6 +307,9 @@ function createCrosshair() {
 
 
 function fireBulletAtCrosshair() {
+    let shots = 0;
+    const maxShots = 5;
+
     var bullet = bullets.get(player.x, player.y);
     bullet.setActive(true);
     bullet.setVisible(true);
@@ -341,8 +354,6 @@ function resetCrosshair() {
         repeat: -1
     });
 }
-
-
 
 //Function for firing bullet
 function fireBullet(){
@@ -409,13 +420,11 @@ function updateMonsterHealthBar() {
     if (currentMonsterHealth > 0) {
         updateMonsterHealth();
     }
-
-
-    if(currentMonsterHealth <= 0 && shouldRegen){
-        currentMonsterHealth = 100;
-        updateMonsterHealth();
-        hideAimingMechanic();
-    }
+    // if(currentMonsterHealth <= 0 && shouldRegen){
+    //     currentMonsterHealth = 100;
+    //     updateMonsterHealth();
+    //     hideAimingMechanic();
+    // }
 
 
 }
@@ -438,12 +447,13 @@ function failedAtAiming(){
     }
 
     if(currentMonsterHealth > 0 && isAiming){
-        //consequence ng di nya napatay
+        disableTyping(editor, window.timerSeconds);
         currentMonsterHealth = 100;
         updateMonsterHealth();
     }else{
-        alert('you scueeded');
+        alert('You Succeeded. Tips will appear in 3 seconds.');
         currentPlayerHealth = currentPlayerHealth + 20;
+        people.create(550 + (people.children.size * 50), 420, 'people').setVelocityX(100).play('crowdRun');
         updatePlayerHealthBar();
         sendPrompt(instruction, editor.getValue()).then(result => {
             delay(1000).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
@@ -586,8 +596,11 @@ function createAlertBox(message) {
 
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
-        setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
-        document.getElementById("startPanel").style.display = "none";
+        setTimeout(() => 
+            alertBox.remove(), 500,
+            resumeTimer(), 1000); // Wait for fade-out transition
+            editor.setReadOnly(false);
+        // document.getElementById("startPanel").style.display = "none";
     }
 
     window.removeAlertBox = removeAlertBox;
@@ -667,14 +680,11 @@ function setupAimingMechanic(scene) {
     });
 
     // Create the shoot button
-    shootButton = scene.add.text(450, 550, 'Shoot', {
-        fontSize: '32px',
-        fill: '#fff',
-        backgroundColor: '#000'
-    }).setInteractive().setDepth(5).setVisible(false);
+    shootButton = scene.add.sprite(525, 550, 'shootButton').setInteractive().setDepth(5).setVisible(false).setScale(4);
 
     // Add event listener for the button click
     shootButton.on('pointerdown', function () {
+        shootButton.play('shootButton');
         if (!isShooting) {
             isShooting = true;
             fireBulletAtCrosshair();

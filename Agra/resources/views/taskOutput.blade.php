@@ -241,7 +241,7 @@
 <script type="text/javascript">
     let testcasesTemp = @json($testcases);
     let maxMonsterHealth = 20 * testcasesTemp.length;
-    let timerSeconds = {{$task->TaskMaxTime}};
+    window.timerSeconds = {{$task->TaskMaxTime}};
 </script>
 
 <script src="/shipGame.js"></script>
@@ -257,10 +257,8 @@
     let endTime; // Time when the user completes the task
     let instruction = `{!!  $task->TaskInstruction!!}`;
     let language = '{{$task->lesson->course->category}}';
-
-
-    let timeRemaining = 7; // Set timer duration
-
+    let timer1, timer2, timer, isPaused = false, remainingTime, roundRemainingTime;
+    let timeRemaining = 7;
 
 
     function createBorderTimer(){
@@ -452,117 +450,176 @@
     }
 
     function startIntervalTimer(timeSec) {
+        remainingTime = timeSec;
+        roundRemainingTime = 5;  // Total rounds to start with
 
-        let time1 = timeSec;
-        const timer1 = setInterval(function () {
-            time1--;
-            document.getElementById("timer").innerHTML = time1;
-            if (time1 === 0) {
-                clearInterval(timer1);
-                console.log("Time's up!");
-            }
-            if(globalScore === 100){
-                clearInterval(timer);
-                clearInterval(timer1);
-                document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
-            }
-        }, 1000);
+        function mainTimer() {
+            timer1 = setInterval(function () {
+                if (!isPaused) {
+                    remainingTime--;
+                    document.getElementById("timer").innerHTML = remainingTime;
 
-        let rounds = 5;
-        const timer = setInterval(function () {
+                    if (remainingTime === 0) {
+                        clearInterval(timer1);
+                        console.log("Time's up!");
+                    }
 
-            let time = timeSec;
-            const timer2 = setInterval(function () {
-                document.getElementById("timer").innerHTML = time;
-                time--;
-                if (time === 0) {
-                    clearInterval(timer2);
+                    if (globalScore === 100) {
+                        stopAllTimers();
+                        document.getElementById("timer").innerHTML = "Done";
+                        showResetPanel();
+                    }
                 }
-                if(globalScore === 100){
-                    clearInterval(timer);
-                    clearInterval(timer1);
-                    clearInterval(timer2);
+            }, 1000);
+        }
+
+        function roundTimer() {
+            timer = setInterval(function () {
+                roundRemainingTime--;
+                console.log(roundRemainingTime);
+                triggerRandomAttack();
+                createHelpPrompt();
+
+                delay(600).then(() => shakeCamera(scene));
+
+                if (currentPlayerHealth === 0) {
+                    stopAllTimers();
+                    console.log("Done!");
                     document.getElementById("timer").innerHTML = "Done";
                     showResetPanel();
                 }
-            }, 1000);
 
-            rounds--;
-            console.log(rounds);
-            //monster attack
-            triggerRandomAttack();
+                if (globalScore === 100) {
+                    stopAllTimers();
+                    document.getElementById("timer").innerHTML = "Done";
+                    showResetPanel();
+                }
+            }, (timeSec * 1000) + 1000);
+        }
 
-            createHelpPrompt()
+        mainTimer();
+        roundTimer();
+    }
 
-            delay(600).then( () => shakeCamera(scene));
+    // Pause function
+    function pauseTimer() {
+        isPaused = true;
+        clearInterval(timer1);
+        clearInterval(timer2);
+        clearInterval(timer);
+    }
 
-            if (rounds === 0) {
-                clearInterval(timer);
-                clearInterval(timer1);
-                clearInterval(timer2);
+    // Resume function
+    function resumeTimer() {
+        if (isPaused) {
+            isPaused = false;
+
+            console.log(currentPlayerHealth);
+            if (currentPlayerHealth === 0) {
+                stopAllTimers();
                 console.log("Done!");
                 document.getElementById("timer").innerHTML = "Done";
                 showResetPanel();
             }
 
-            if(globalScore === 100){
-                clearInterval(timer);
-                clearInterval(timer1);
-                clearInterval(timer2);
-                document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
+            // If paused at 0, reset to original interval time
+            if (remainingTime === 0) {
+                remainingTime = timerSeconds;
             }
-        }, (timeSec * 1000) + 1000);
 
-
+            startIntervalTimer(remainingTime);  // Restart with updated remaining time
+        }
     }
 
+    // Stop all timers
+    function stopAllTimers() {
+        clearInterval(timer);
+        clearInterval(timer1);
+        clearInterval(timer2);
+        document.getElementById("timer").innerHTML = "Done";
+    }
+
+    window.resumeTimer = resumeTimer;
+    window.pauseTimer = pauseTimer;
 
     function createHelpPrompt() {
+        pauseTimer();
+        editor.setReadOnly(true);
+
         // Create the help prompt div
         const helpPrompt = document.createElement('div');
-        helpPrompt.className = 'help-prompt';
-        helpPrompt.style.padding = '20px';
-        helpPrompt.style.border = '1px solid #ccc';
-        helpPrompt.style.borderRadius = '5px';
-        helpPrompt.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-        helpPrompt.style.backgroundColor = '#f9f9f9';
-        helpPrompt.style.position = 'fixed';
-        helpPrompt.style.top = '50%';
-        helpPrompt.style.left = '50%';
-        helpPrompt.style.transform = 'translate(-50%, -50%)';
-        helpPrompt.style.zIndex = '1000';
+        helpPrompt.className = 'help-prompt fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
 
+        // Create the inner container for the prompt
+        const promptContainer = document.createElement('div');
+        promptContainer.className = 'bg-white rounded-lg shadow-lg p-6 space-y-4 max-w-md w-full';
+        
         // Create the message
         const message = document.createElement('p');
         message.textContent = 'Do you need help?';
-        helpPrompt.appendChild(message);
+        message.className = 'text-lg font-semibold';
+        promptContainer.appendChild(message);
+
+        // Create a container for the buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'flex justify-end space-x-4';
 
         // Create the Yes button
         const yesButton = document.createElement('button');
         yesButton.textContent = 'Yes';
+        yesButton.className = 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition';
         yesButton.onclick = () => {
-
             showAimingMechanic();
             createBorderTimer();
-
             document.body.removeChild(helpPrompt); // Remove the prompt
         };
-        helpPrompt.appendChild(yesButton);
+        buttonContainer.appendChild(yesButton);
 
         // Create the No button
         const noButton = document.createElement('button');
         noButton.textContent = 'No';
+        noButton.className = 'px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition';
         noButton.onclick = () => {
             alert('You clicked No.'); // Alert for No
             document.body.removeChild(helpPrompt); // Remove the prompt
+            resumeTimer();
+            editor.setReadOnly(false);
         };
-        helpPrompt.appendChild(noButton);
+        buttonContainer.appendChild(noButton);
+
+        // Append the button container to the prompt container
+        promptContainer.appendChild(buttonContainer);
+
+        // Append the prompt container to the help prompt div
+        helpPrompt.appendChild(promptContainer);
 
         // Append the help prompt to the body or a specific container
         document.body.appendChild(helpPrompt); // Append the prompt to the body
     }
+
+
+    // Function to disable typing for half of timerSeconds
+    function disableTyping(editor, timerSeconds) {
+        const halfTime = (timerSeconds / 2) * 1000; // Convert to milliseconds
+        alert(`You Failed. Typing will be disabled for ${halfTime/1000} seconds`);
+        resumeTimer();
+
+        // Step 2: Disable typing immediately
+        editor.setReadOnly(true);
+        console.log("Typing disabled in Ace Editor");
+
+        // Step 3: Set a timeout to re-enable typing after halfTime
+        setTimeout(() => {
+            pauseTimer();
+            alert('Typing Enabled!');
+            resumeTimer();
+            editor.setReadOnly(false);  // Enable typing
+        }, halfTime);
+    }
+
+    // Make it global by attaching it to the window object
+    window.disableTyping = disableTyping;
+
 
 
 

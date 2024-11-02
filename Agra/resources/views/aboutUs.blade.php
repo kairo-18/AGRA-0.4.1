@@ -42,7 +42,7 @@
 
         <div class="left-panel flex flex-col xl:flex-row bg-gray-200 h-full w-full p-5 xl:p-10 gap-y-10 rounded-xl shadow-xl">
 
-            <div class="profile h-auto xl:flex flex-row items-start w-full xl:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+            <div class="profile h-auto xl:flex flex-row items-start w-full xl:w-2/4 bg-white rounded-xl shadow-xl pl-10 pr-10 pt-10">
                 <section class="bg-white dark:bg-gray-900">
                     <div class="mx-auto max-w-screen-xl lg:py-16">
                         <div class="bg-gray-50 shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8">
@@ -99,7 +99,7 @@
             </div>
 
 
-            <div class="profile h-auto xl:flex flex-row justify-center w-full xl:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-20 pb-20">
+            <div class="profile h-auto xl:flex flex-row justify-center w-full xl:w-2/4 bg-white rounded-xl shadow-xl pl-10 pr-10 pt-20 pb-20">
 
                 <img class="h-full max-w-full rounded-lg shadow-xl dark:shadow-gray-800" src="image-course.png" alt="image description">
 

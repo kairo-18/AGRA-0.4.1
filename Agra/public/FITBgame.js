@@ -42,7 +42,7 @@ var playerX;
 var tempText, currentText;
 var moveCounter = 0;
 var monsterGroup;
-var music, walkMusic, hitMusic, typeMusic, randomMusic;
+var music, runMusic, hitMusic, roarMusic, hurtMusic;
 
 function calculateMaxMonsterHealth(calculate) {
     currentMonsterHealth = calculate * 20;
@@ -87,19 +87,33 @@ function preload() {
     this.load.audio('bgm', [
         '/FITBAssets2/FITBbgm.mp3'
     ]);
-    this.load.audio('type', [
-        '/FITBAssets2/FITBtype.wav'
+    this.load.audio('hit', [
+        '/FITBAssets2/FITBhit.wav'
+    ]);
+    this.load.audio('roar', [
+        '/FITBAssets2/FITBroar.wav'
+    ]);
+    this.load.audio('hurt', [
+        '/FITBAssets2/FITBhurt.wav'
+    ]);
+    this.load.audio('run', [
+        '/FITBAssets2/FITBrun.wav'
     ]);
 }
 
 function create() {
     scene = this; 
-    music = this.sound.add('bgm', {volume: 0.5, loop: true });
-    music.play();
-    typeMusic = this.sound.add('type', {volume: 1});
-    typeMusic.setSeek(10.5);
+    console.log(Phaser.VERSION);
 
     this.sound.pauseOnBlur = true;
+
+    music = scene.sound.add('bgm', {volume: 0.5, loop: true });
+    hitMusic = scene.sound.add('hit', {volume: 0.5});
+    roarMusic = scene.sound.add('roar', {volume: 0.5, seek: 0.1})
+    hurtMusic = scene.sound.add('hurt', {volume: 0.5});;
+    runMusic = scene.sound.add('run', {volume: 1.5});;
+    music.play();
+
 
     // Example calculation for maxPlayerHealth based on monsterNumber
     maxPlayerHealth = monsterNumber * 20;
@@ -248,11 +262,11 @@ function movePlayer(scene, onComplete) {
         duration: duration,
         onStart: () => {
             player.play('playerRun');
+            runMusic.play();
 
             // Change text
             const randomText = ["I must find the exit", "Got to get out quick", "Is the exit near?"];
             if(moveCounter != monsterNumber){
-                typeMusic.play();
                 currentText.setText(Phaser.Math.RND.pick(randomText));
                 
             } else {
@@ -267,6 +281,7 @@ function movePlayer(scene, onComplete) {
         onComplete: () => {
             // Stop player movement animation
             player.play('playerIdle');
+            runMusic.stop;
             console.log(scene.cameras.main.scrollX);
             // Perform onComplete callback
             if (onComplete) {
@@ -277,8 +292,6 @@ function movePlayer(scene, onComplete) {
 
     answerEnable();
 }
-
-
 
 // Function to create player animations
 function createAnimations(scene) {
@@ -299,8 +312,9 @@ function createAnimations(scene) {
     scene.anims.create({
         key: `playerHurt`,
         frames: scene.anims.generateFrameNames('player', { prefix: 'hurt', end: 7, zeroPad: 2 }),
-        frameRate: 8,
-        repeat: 0
+        frameRate: 16,
+        repeat: 0,
+        yoyo: true
     });
 
     scene.anims.create({
@@ -438,6 +452,7 @@ function spawnMonster(scene, width, height) {
 
     // Create monster sprite
     const monster = scene.physics.add.sprite(spawnX, spawnY, 'monster').setScale(5);
+    roarMusic.play();
 
     // Set transparency (reduce alpha)
     monster.setAlpha(0.5); // Set alpha to 50% transparency
@@ -497,6 +512,16 @@ function monsterAttack(scene) {
 
     // Play monster attack animation
     monster.play('monsterAttack');
+    scene.time.delayedCall(300, () => {
+        hitMusic.play();
+    });
+    scene.time.delayedCall(500, () => {
+        player.play('playerHurt');
+        hurtMusic.play();
+        player.on('animationcomplete', () => {
+            player.play('playerIdle');
+        });
+    });
 
     // Set monster depth
     monster.setDepth(9); // Ensure the monster appears above other elements
