@@ -10,7 +10,19 @@
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<style>
+    .timer-border{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 5px solid red; /* Timer border */
+        box-sizing: border-box; /* Ensure padding is included in width/height */
+        clip-path: inset(0 100% 0 0); /* Start with the border clipped to the left */
+        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red; /* Glowing effect */
+    }
+</style>
     <title>AGRA</title>
 </head>
 <body>
@@ -120,7 +132,9 @@
         </div>
 
         <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5">
-            <div class="mini-game" id="minigame"></div>
+            <div class="mini-game" id="minigame">
+            </div>
+
         </div>
 
 
@@ -187,6 +201,10 @@
     </div>
 </div>
 
+<div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
+
+</div>
+
 
 <div id="resetPanel" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -237,6 +255,33 @@
     let maxTime = testcasesTemp.length * timerSeconds; // Total maximum time allowed
     let startTime; // Time when the user starts the task
     let endTime; // Time when the user completes the task
+    let instruction = `{!!  $task->TaskInstruction!!}`;
+    let language = '{{$task->lesson->course->category}}';
+
+
+    let timeRemaining = 7; // Set timer duration
+
+
+
+    function createBorderTimer(){
+        const borderDiv = document.createElement('div');
+        borderDiv.className = 'timer-border';
+        document.querySelector('.mini-game').appendChild(borderDiv);
+        const timerBorder = document.querySelector('.timer-border');
+
+        setTimeout(() => {
+            timerBorder.style.clipPath = 'inset(0 0 0 0)'; // Fill the border
+            timerBorder.style.transition = 'clip-path ' + timeRemaining +'s linear';
+        }, 500);
+
+        setTimeout(() => {
+            borderDiv.remove();
+            failedAtAiming();
+            hideAimingMechanic();
+        }, (timeRemaining  * 1000) + 500);
+    }
+
+
 
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
@@ -447,6 +492,9 @@
             console.log(rounds);
             //monster attack
             triggerRandomAttack();
+
+            createHelpPrompt()
+
             delay(600).then( () => shakeCamera(scene));
 
             if (rounds === 0) {
@@ -468,6 +516,52 @@
         }, (timeSec * 1000) + 1000);
 
 
+    }
+
+
+    function createHelpPrompt() {
+        // Create the help prompt div
+        const helpPrompt = document.createElement('div');
+        helpPrompt.className = 'help-prompt';
+        helpPrompt.style.padding = '20px';
+        helpPrompt.style.border = '1px solid #ccc';
+        helpPrompt.style.borderRadius = '5px';
+        helpPrompt.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        helpPrompt.style.backgroundColor = '#f9f9f9';
+        helpPrompt.style.position = 'fixed';
+        helpPrompt.style.top = '50%';
+        helpPrompt.style.left = '50%';
+        helpPrompt.style.transform = 'translate(-50%, -50%)';
+        helpPrompt.style.zIndex = '1000';
+
+        // Create the message
+        const message = document.createElement('p');
+        message.textContent = 'Do you need help?';
+        helpPrompt.appendChild(message);
+
+        // Create the Yes button
+        const yesButton = document.createElement('button');
+        yesButton.textContent = 'Yes';
+        yesButton.onclick = () => {
+
+            showAimingMechanic();
+            createBorderTimer();
+
+            document.body.removeChild(helpPrompt); // Remove the prompt
+        };
+        helpPrompt.appendChild(yesButton);
+
+        // Create the No button
+        const noButton = document.createElement('button');
+        noButton.textContent = 'No';
+        noButton.onclick = () => {
+            alert('You clicked No.'); // Alert for No
+            document.body.removeChild(helpPrompt); // Remove the prompt
+        };
+        helpPrompt.appendChild(noButton);
+
+        // Append the help prompt to the body or a specific container
+        document.body.appendChild(helpPrompt); // Append the prompt to the body
     }
 
 

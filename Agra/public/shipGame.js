@@ -29,9 +29,11 @@ var maxPlayerHealth = 100;
 var peopleCount = maxPlayerHealth/20;
 var currentMonsterHealth = maxMonsterHealth;
 var currentPlayerHealth = maxPlayerHealth;
+var monsterHealth;
 var monsterAttacks = ['attack1', 'attack2', 'attack3'];
 var explosions = ['explosion1', 'explosion2', 'explosion3']
-
+var crosshair, shootButton, isShooting = false, shouldRegen = true;
+var isAiming = false;
 
 function preload() {
     this.load.atlas('necromancer', '/necromancer.png', '/necromancer.json');
@@ -106,6 +108,11 @@ function create() {
         bounceX: 1,
         velocityX: 100
     });
+
+    setupAimingMechanic(this); // Initialize aiming mechanic
+
+    // Add the overlap check for bullet and monster
+    this.physics.add.overlap(bullets, monster, hitTarget, null, this);
 
     function hitTarget(monster, bullet) {
         reduceMonsterHealth(20);
@@ -254,7 +261,88 @@ function update() {
             child.flipX = true; // Flip sprite horizontally
         }
     });
+
+
 }
+
+
+function createCrosshair() {
+    // Add crosshair to the center of the screen, slightly above the player
+    crosshair = scene.add.image(500, 250, 'crosshair').setScale(0.9).setDepth(4); // Ensure to load crosshair image in preload
+
+    // Tween to make the crosshair move left and right in a loop
+    scene.tweens.add({
+        targets: crosshair,
+        x: { from: 200, to: 800 }, // Adjust left and right limits as needed
+        duration: 1000,
+        ease: 'Sine.easeInOut',
+        yoyo: true,
+        repeat: -1
+    });
+
+    // Add the shoot button
+    shootButton = scene.add.text(450, 900, 'Shoot', { fontSize: '32px', fill: '#fff' }).setInteractive();
+    shootButton.setDepth(5); // Ensure it's above other elements
+
+    // On shoot button click, stop the crosshair and fire at its position
+    shootButton.on('pointerdown', function () {
+        if (!isShooting) {
+            isShooting = true;
+            scene.tweens.killTweensOf(crosshair); // Stop crosshair movement
+            fireBulletAtCrosshair();
+        }
+    });
+}
+
+
+
+function fireBulletAtCrosshair() {
+    var bullet = bullets.get(player.x, player.y);
+    bullet.setActive(true);
+    bullet.setVisible(true);
+
+    // Calculate angle to fire at the crosshair's current position
+    var angle = Phaser.Math.Angle.Between(bullet.x, bullet.y, crosshair.x, crosshair.y);
+    bullet.setRotation(angle);
+    bullet.body.velocity.x = Math.cos(angle) * 300;
+    bullet.body.velocity.y = Math.sin(angle) * 300;
+    bullet.setSize(50, 50).setOffset(50, 50);
+
+    // Enable world bounds check to destroy the bullet when it leaves the screen
+    bullet.body.setCollideWorldBounds(true);
+    bullet.body.onWorldBounds = true;
+
+    // Add a listener to destroy the bullet when it goes out of bounds
+    scene.physics.world.on('worldbounds', function(body) {
+        if (body.gameObject === bullet) {
+            bullet.destroy();
+        }
+    });
+
+    // Detect if the bullet hits the monster
+    isShooting = false;
+    scene.physics.add.overlap(bullet, monster, function() {
+        console.log("hit");
+        bullet.destroy();
+        isShooting = false; // Reset shooting status
+        resetCrosshair(); // Reset crosshair movement
+    });
+}
+
+// Function to reset crosshair position and movement
+function resetCrosshair() {
+    crosshair.x = 500; // Reset to middle
+    scene.tweens.add({
+        targets: crosshair,
+        x: { from: 200, to: 800 }, // Left and right limits
+        duration: 1000,
+        ease: 'Sine.easeInOut',
+        yoyo: true,
+        repeat: -1
+    });
+}
+
+
 
 //Function for firing bullet
 function fireBullet(){
@@ -304,10 +392,10 @@ function updateMonsterHealthBar() {
     monsterHealthBar.clear();
 
     // Ensure current health is not less than 0
-    const monsterHealthWidth = Math.max(0, 230 * (currentMonsterHealth / maxMonsterHealth));
 
-    // Check if health is greater than 0 to draw the health bar
-    if (currentMonsterHealth > 0) {
+
+    function updateMonsterHealth(){
+        const monsterHealthWidth = Math.max(0, 230 * (currentMonsterHealth / maxMonsterHealth));
         // Fill the inner rectangle
         monsterHealthBar.fillStyle(0xff0000, 1);
         monsterHealthBar.fillRoundedRect(170, 120, monsterHealthWidth, 20, 10);
@@ -317,7 +405,195 @@ function updateMonsterHealthBar() {
         // Draw the border around the rectangle
         monsterHealthBar.strokeRoundedRect(170, 120, monsterHealthWidth, 20, 10);
     }
+    // Check if health is greater than 0 to draw the health bar
+    if (currentMonsterHealth > 0) {
+        updateMonsterHealth();
+    }
+
+
+    if(currentMonsterHealth <= 0 && shouldRegen){
+        currentMonsterHealth = 100;
+        updateMonsterHealth();
+        hideAimingMechanic();
+    }
+
+
 }
+
+function failedAtAiming(){
+    function updateMonsterHealth(){
+        const monsterHealthWidth = Math.max(0, 230 * (currentMonsterHealth / maxMonsterHealth));
+        // Fill the inner rectangle
+        monsterHealthBar.fillStyle(0xff0000, 1);
+        monsterHealthBar.fillRoundedRect(170, 120, monsterHealthWidth, 20, 10);
+
+        // Define border properties
+        monsterHealthBar.lineStyle(4, 0x000000, 1); // 4 is the thickness of the border, 0x000000 is the color, 1 is the alpha
+        // Draw the border around the rectangle
+        monsterHealthBar.strokeRoundedRect(170, 120, monsterHealthWidth, 20, 10);
+    }
+    // Check if health is greater than 0 to draw the health bar
+    if (currentMonsterHealth > 0) {
+        updateMonsterHealth();
+    }
+
+    if(currentMonsterHealth > 0 && isAiming){
+        //consequence ng di nya napatay
+        currentMonsterHealth = 100;
+        updateMonsterHealth();
+    }else{
+        alert('you scueeded');
+        currentPlayerHealth = currentPlayerHealth + 20;
+        updatePlayerHealthBar();
+        sendPrompt(instruction, editor.getValue()).then(result => {
+            delay(1000).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
+        });
+    }
+}
+
+
+async function sendPrompt(instruction, userCode) {
+    try {
+        const response = await axios.post('/prompt', {
+            instruction: instruction,
+            userCode: userCode,
+            progLanguage: language,
+            type: "output",
+        });
+        return response.data.result;
+    } catch (error) {
+        console.error(error);
+        return null; // or handle the error as needed
+    }
+}
+
+
+function createAlertBox(message) {
+    // Add custom styles to the head if they don't exist
+    if (!document.getElementById('customAlertStyles')) {
+        const style = document.createElement('style');
+        style.id = 'customAlertStyles';
+        style.innerHTML = `
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                font-family: Poppins, sans-serif;
+                color: #f0f0f0;
+            }
+            body {
+                min-height: 100vh;
+                background: #0b0d15;
+                color: #a2a5b3;
+                align-content: center;
+            }
+            h1 {
+                color: white;
+            }
+            .card {
+                margin: 0;
+                padding: 10px;
+                width: 90%;
+                background: #1c1f2b;
+                text-align: center;
+                border-radius: 10px;
+                position: relative;
+            }
+            @property --angle {
+                syntax: "<angle>";
+                initial-value: 0deg;
+                inherits: false;
+            }
+            .card::after, .card::before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-image: conic-gradient(from var(--angle), transparent 10%, blue );
+                top: 50%;
+                left: 50%;
+                translate: -50% -50%;
+                z-index: -1;
+                border: 10px;
+                padding: 15px;
+                border-radius: 10px;
+                animation: 3s spin linear infinite;
+            }
+            .card::before {
+                filter: blur(1.5rem);
+                opacity: 100;
+            }
+            @keyframes spin {
+                from {
+                    --angle: 0deg;
+                }
+                to {
+                    --angle: 360deg;
+                }
+            }
+            .fade-out {
+                opacity: 0 !important;
+                transition: opacity 0.5s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Create a new alert box element
+    const alertBox = document.createElement('div');
+    alertBox.classList.add('card'); // Apply the card class for the animated border
+    alertBox.innerHTML = `
+        <div class="flex flex-col gap-2.5">
+        <div class="flex bg-blue-800 rounded-b text-white px-4 py-3 alert-box m-10 pb-10">
+            <div class="py-1">
+                <svg class="fill-current h-10 w-10 text-white mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-bold">Tips to help</p>
+                <p class="text-xl">${message}</p>
+            </div>
+
+
+        </div>
+
+            <button type="button" onclick="removeAlertBox()" disabled class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">3</button>
+        </div>
+    `;
+
+    // Append the alert box to the container
+    document.getElementById('alertContainer').appendChild(alertBox);
+
+    const button = alertBox.querySelector("button");
+    let countdown = 3;
+
+    // Start the countdown interval
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+            button.textContent = countdown; // Update button text with countdown
+        } else {
+            clearInterval(countdownInterval); // Stop countdown
+            button.textContent = "Understood"; // Set final text
+            button.disabled = false; // Enable the button
+        }
+    }, 1000);
+
+
+    // Set a timeout to remove the alert box after 7 seconds
+
+    function removeAlertBox(){
+        alertBox.classList.add('fade-out');
+        setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
+        document.getElementById("startPanel").style.display = "none";
+    }
+
+    window.removeAlertBox = removeAlertBox;
+
+}
+
 
 // Function to reduce monster health
 function reduceMonsterHealth(amount) {
@@ -373,4 +649,63 @@ function triggerRandomAttack() {
             monster.setVelocityX(100);
         }
     });
+}
+
+
+function setupAimingMechanic(scene) {
+    // Create crosshair in the center of the screen
+    crosshair = scene.add.image(500, 200, 'crosshair').setDepth(5).setVisible(false);
+
+    // Tween to move the crosshair left and right
+    scene.tweens.add({
+        targets: crosshair,
+        x: { from: 200, to: 800 }, // Adjust the movement range as needed
+        duration: 1000,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut'
+    });
+
+    // Create the shoot button
+    shootButton = scene.add.text(450, 550, 'Shoot', {
+        fontSize: '32px',
+        fill: '#fff',
+        backgroundColor: '#000'
+    }).setInteractive().setDepth(5).setVisible(false);
+
+    // Add event listener for the button click
+    shootButton.on('pointerdown', function () {
+        if (!isShooting) {
+            isShooting = true;
+            fireBulletAtCrosshair();
+        }
+    });
+}
+
+// Function to show the crosshair and button
+function showAimingMechanic() {
+    crosshair.setVisible(true);
+    shootButton.setVisible(true);
+    isAiming = true;
+}
+
+// Function to hide the crosshair and button
+function hideAimingMechanic() {
+    crosshair.setVisible(false);
+    shootButton.setVisible(false);
+    shouldRegen = false;
+
+    isAiming = false;
+    currentMonsterHealth = 100;
+    updateMonsterHealthBar();
+
+}
+
+// Modified overlap function to hide the crosshair and button on bullet hit
+function hitTarget(monster, bullet) {
+    bullet.destroy(); // Destroy the bullet
+    reduceMonsterHealth(20); // Reduce the monster's health
+
+    // Hide the crosshair and button
+    hideAimingMechanic();
 }
