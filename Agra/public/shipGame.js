@@ -19,7 +19,7 @@ var config = {
         }
     },
     audio: {
-        disableWebAudio: true
+        disableWebAudio: false
     }
 };
 
@@ -34,6 +34,7 @@ var monsterAttacks = ['attack1', 'attack2', 'attack3'];
 var explosions = ['explosion1', 'explosion2', 'explosion3']
 var crosshair, shootButton, isShooting = false, shouldRegen = true;
 var isAiming = false;
+var bgmMusic, shootMusic, explosionMusic, hitMusic, winMusic, loseMusic;
 
 function preload() {
     this.load.atlas('necromancer', '/necromancer.png', '/necromancer.json');
@@ -60,17 +61,31 @@ function preload() {
     this.load.image('healthPlayer', '/containerHealth.png')
     this.load.image('healthMonster', '/monsterHealth.png')
     this.load.image('crosshair', '/shipGameAssets/crosshair.png');
-    this.load.audio('bgm', '/background.mp3')
     this.load.image('muteButton', '/muteButton.png')
     this.load.atlas('explosion1', '/explosions/explosion1.png', '/explosions/explosion1.json');
     this.load.atlas('explosion2', '/explosions/explosion2.png', '/explosions/explosion2.json');
     this.load.atlas('explosion3', '/explosions/explosion3.png', '/explosions/explosion3.json');
     this.load.atlas('shootButton', '/shipGameAssets/shootButton.png', '/shipGameAssets/shootButton.json');
     this.load.atlas('crowd', '/crowd.png', '/crowd.json');
+    this.load.audio('bgm', '/shipGameAssets/OUTPUTBgm.flac');
+    this.load.audio('shoot', '/shipGameAssets/OUTPUTHit.wav');
+    this.load.audio('explosion', '/shipGameAssets/OUTPUTExplosion.wav');
+    this.load.audio('win', '/shipGameAssets/OUTPUTWin.wav');
+    this.load.audio('lose', '/shipGameAssets/OUTPUTLose.wav');
+    this.load.audio('hit', '/shipGameAssets/OUTPUTHurt.wav');
 }
 
 function create() {
     scene = this;
+
+    bgmMusic = scene.sound.add('bgm', {volume: 0.05, loop: true});
+    explosionMusic = scene.sound.add('explosion', {volume: 0.5});
+    shootMusic = scene.sound.add('shoot', {volume: 0.5});
+    winMusic = scene.sound.add('win', {volume: 0.5});
+    loseMusic = scene.sound.add('lose', {volume: 0.5});
+    hitMusic = scene.sound.add('hit', {volume: 0.5});
+
+    bgmMusic.play();
 
     //Add Background
     this.add.image(0, 0, 'background').setOrigin(0).setScale(1.7, 1.5).setOrigin(0)
@@ -121,6 +136,7 @@ function create() {
         monster.setVelocityX(0);
         monster.play('hurt');
         bullet.destroy();
+        hitMusic.play();
         monster.on('animationcomplete', function (animation) {
             monster.play('run');
             if(monster.flipX == true){
@@ -291,7 +307,14 @@ function createCrosshair() {
     });
 
     // Add the shoot button
+    scene.add.text(450, 900, 'SHOOT!', {
+        fontSize: '100px',
+        color: '#ffffff',
+        padding: { x: 10, y: 5 },
+        align: 'center'
+    }).setDepth(6);
     shootButton = scene.add.sprite(450, 900, 'shootButton').setInteractive();
+    scene.add.text(450, 900, 'shootButton').setInteractive();
     shootButton.setDepth(5); // Ensure it's above other elements
 
     // On shoot button click, stop the crosshair and fire at its position
@@ -447,10 +470,12 @@ function failedAtAiming(){
     }
 
     if(currentMonsterHealth > 0 && isAiming){
+        loseMusic.play();
         disableTyping(editor, window.timerSeconds);
         currentMonsterHealth = 100;
         updateMonsterHealth();
     }else{
+        winMusic.play();
         alert('You Succeeded. Tips will appear in 3 seconds.');
         currentPlayerHealth = currentPlayerHealth + 20;
         people.create(550 + (people.children.size * 50), 420, 'people').setVelocityX(100).play('crowdRun');
@@ -647,6 +672,7 @@ function triggerRandomAttack() {
         // Spawn a sprite on top of the selected child
         var attackSprite = scene.physics.add.sprite(childX, childY, 'explosion1').setScale(3).setDepth(2);
         attackSprite.anims.play(Phaser.Math.RND.pick(explosions));
+        explosionMusic.play();
         randomChild.destroy();
         scene.time.delayedCall(500, function() {
             attackSprite.destroy();
@@ -667,7 +693,7 @@ function triggerRandomAttack() {
 
 function setupAimingMechanic(scene) {
     // Create crosshair in the center of the screen
-    crosshair = scene.add.image(500, 200, 'crosshair').setDepth(5).setVisible(false);
+    crosshair = scene.add.image(500, 200, 'crosshair').setDepth(5).setVisible(false).setScale(3);
 
     // Tween to move the crosshair left and right
     scene.tweens.add({
@@ -688,12 +714,15 @@ function setupAimingMechanic(scene) {
         if (!isShooting) {
             isShooting = true;
             fireBulletAtCrosshair();
+            shootMusic.play();
         }
     });
 }
 
 // Function to show the crosshair and button
 function showAimingMechanic() {
+    currentMonsterHealth = 100;
+    updateMonsterHealthBar();
     crosshair.setVisible(true);
     shootButton.setVisible(true);
     isAiming = true;
