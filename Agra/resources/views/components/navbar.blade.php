@@ -149,7 +149,7 @@
                         </button>
                         <div id="notification-list">
 
-                            @foreach(Auth::user()->notifications as $notification)
+                            @foreach(Auth::user()->agraNotifications as $notification)
                                 @if($notification->read_at == null)
                                 <div class="px-4 py-2 text-gray-700" data-notification-id="{{ $notification->id }}">
                                     {{ $notification->sender }}: {{ $notification->message }}

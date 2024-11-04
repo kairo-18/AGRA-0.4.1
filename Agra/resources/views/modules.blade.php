@@ -199,11 +199,12 @@
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
 
+
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 
 </body>
 </html>
