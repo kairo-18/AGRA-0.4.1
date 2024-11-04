@@ -79,7 +79,7 @@
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-row flex-wrap justify-center items-start bg-gray-200  h-full xl:w-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-5">
                 @foreach($courses as $course)
-                <a href="/courses/{{$course->id}}" class="yt-vid w-[25rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                <a href="/courses/{{$course->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                     <div class="h-full">
                         <div class ="w-full h-full p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
                             <h2 class="font-bold text-xl text-white mb-10">Courses</h2>
@@ -88,6 +88,7 @@
                         </div>
                     </div>
                 </a>
+                
                 @endforeach
             </div>
 
@@ -217,13 +218,11 @@
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
 
-<<<<<<< Updated upstream
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
 <script src="agraNotification.js"></script>
-=======
 
 <script>
     // Array of background images
@@ -264,7 +263,6 @@
     });
 </script>
 
->>>>>>> Stashed changes
 
 </body>
 </html>

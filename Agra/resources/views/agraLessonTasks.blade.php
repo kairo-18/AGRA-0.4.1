@@ -72,17 +72,20 @@
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+            <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
                 @foreach($tasks as $task)
-
-                    <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-11 duration-300">
-                        <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-lg" src="/image-course.png" alt="">
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tigh">{{$task->TaskName}}</h5>
-                            <p class="mb-3 font-normal">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
+                    <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <div class="h-1/5">
+                            <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                                <!-- Image is set as a background image -->
+                            </div>
+                            <div class="w-full p-3 bg-white rounded-xl">
+                                <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">Tasks ⦿</h2>
+                                <h1 class="font-bold text-lg text-blue-800">{{$task->TaskName}}</h1>
+                                <p class="font-normal text-base text-blue-800 line-clamp">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
+                            </div>
                         </div>
                     </a>
-
                 @endforeach
             </div>
         </div>
@@ -141,6 +144,45 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
+<script>
+    // Array of background images
+    const backgroundImages = [
+        '/bg-agraL1.png', '/bg-agraL2.png', '/bg-agraL3.png', 
+        '/bg-agraL4.png', '/bg-agraL5.png', '/bg-agraL6.png', '/bg-agraL7.png'
+    ];
+
+    // Shuffle the array to randomize the images
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Shuffle images
+    shuffleArray(backgroundImages);
+
+    // Get all lesson cards
+    const lessonCards = document.querySelectorAll('.lesson-card .bg-image');
+
+    // Keep track of the last used image
+    let lastUsedImage = null;
+
+    lessonCards.forEach((card, index) => {
+        // Ensure no two consecutive lessons get the same image
+        let currentImage = backgroundImages[index % backgroundImages.length];
+        if (currentImage === lastUsedImage) {
+            currentImage = backgroundImages[(index + 1) % backgroundImages.length];
+        }
+
+        // Set the background image
+        card.style.backgroundImage = `url(${currentImage})`;
+
+        // Update the last used image
+        lastUsedImage = currentImage;
+    });
+</script>
+
 
 <script>
     const sectionId = "{{$user->section->id}}";

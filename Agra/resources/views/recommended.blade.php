@@ -101,35 +101,34 @@
 
 
 
-        <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5">
-            <h1 class="font-bold text-2xl text-blue-800">You might like </h1>
-            <div class="Recommed-panel flex flex-col justify-start bg-gray-200 h-full xl:w-full w-full pt-5 pl-5 pr-5 pb-8 gap-5 rounded-xl">
-
-            <div class="flex flex-row justify-start gap-5 p-5 bg-gray-100 rounded-xl" id="lessonsContainer">
-                @foreach($relatedLessons as $lesson)
-                <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
-                        <div class="h-1/5">
-                            <div class ="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <h1 class="font-bold text-xl text-white">{{$lesson->LessonName}}</h1>
-                            </div>
-                            <div class ="w-full h-[20rem] p-3 bg-white rounded-xl">
-                                <h1 class="font-bold text-lg text-blue-800">{{$lesson->LessonName}}</h1>
-                                <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
-                            </div>
-                            <div class ="w-full p-2 flex flex-wrap bg-white rounded-xl line-clamp h-[20rem]">
-                                @foreach($lesson->categories as $category)
-                                <div class="badge mb-1 ml-1">
-                                    <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+        <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5 recommended-panel">
+            <h1 class="font-bold text-2xl text-blue-800">You might like</h1>
+            <div class="flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
+                <div class="flex flex-row justify-start gap-5 p-5 bg-gray-100 rounded-xl" id="lessonsContainer">
+                    @foreach($relatedLessons as $lesson)
+                        <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-full focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                            <div class="h-1/5">
+                                <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md" style="background-image: url('/image-course.png');">
+                                    <h1 class="font-bold text-xl text-white">{{$lesson->LessonName}}</h1>
                                 </div>
-                                @endforeach
+                                <div class="w-full p-3 bg-white rounded-xl">
+                                    <h1 class="font-bold text-lg text-blue-800">{{$lesson->LessonName}}</h1>
+                                    <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                                </div>
+                                <div class="w-full p-2 flex flex-wrap bg-white line-clamp rounded-xl">
+                                    @foreach($lesson->categories as $category)
+                                        <div class="badge mb-1 ml-1">
+                                            <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$category->name}}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                @endforeach
+                        </a>
+                    @endforeach
+                </div>
             </div>
-            </div>
-
         </div>
+
     </div>
 </div>
 

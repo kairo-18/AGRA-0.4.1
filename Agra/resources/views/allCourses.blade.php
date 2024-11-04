@@ -11,6 +11,26 @@
     <script src="{{asset('js/app.js')}}"></script>
 
 </head>
+<style>
+    .line-clamp {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 3; /* Adjust this number for the line count */
+        max-height: calc(2em * 3); /* Adjust based on font size and line count */
+        white-space: normal;
+        position: relative;
+    }
+
+    .line-clamp::after {
+        content: '...';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: white; /* Match this to the background color to make the dots blend in */
+        padding-left: 0.2em;
+    }
+</style>
 <body>
 <!--=====================================Start Navbar=====================================-->
 <x-navbar>
@@ -66,14 +86,19 @@
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+            <div class = "learM-section flex flex-wrap bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-10 gap-x-5">
                 @foreach($courses as $course)
 
-                    <a href="/agraCourses/{{$course->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
-                        <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-lg" src="image-course.png" alt="">
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tigh">{{$course->CourseName}}</h5>
-                            <p class="mb-3 font-normal">{{$course->CourseDescription}}</p>
+                    <a href="/agraCourses/{{$course->id}}" class="yt-vid w-[23rem] h-[25rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <div class="h-1/5">
+                            <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                                <!-- Image is set as a background image -->
+                            </div>
+                            <div class="w-full p-3 bg-white rounded-xl">
+                                <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">AGRA ⦿</h2>
+                                <h1 class="font-bold text-lg text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-base text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
+                            </div>
                         </div>
                     </a>
 
@@ -132,6 +157,44 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
+<script>
+    // Array of background images
+    const backgroundImages = [
+        '/bg-agracuric1.png', '/bg-agracuric2.png', '/bg-agracuric3.png', 
+        '/bg-agracuric4.png', '/bg-agracuric5.png', '/bg-agracuric6.png', '/bg-agracuric7.png'
+    ];
+
+    // Shuffle the array to randomize the images
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Shuffle images
+    shuffleArray(backgroundImages);
+
+    // Get all lesson cards
+    const lessonCards = document.querySelectorAll('.lesson-card .bg-image');
+
+    // Keep track of the last used image
+    let lastUsedImage = null;
+
+    lessonCards.forEach((card, index) => {
+        // Ensure no two consecutive lessons get the same image
+        let currentImage = backgroundImages[index % backgroundImages.length];
+        if (currentImage === lastUsedImage) {
+            currentImage = backgroundImages[(index + 1) % backgroundImages.length];
+        }
+
+        // Set the background image
+        card.style.backgroundImage = `url(${currentImage})`;
+
+        // Update the last used image
+        lastUsedImage = currentImage;
+    });
+</script>
 
 <script>
     const sectionId = "{{$user->section->id}}";

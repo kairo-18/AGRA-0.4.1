@@ -88,7 +88,7 @@
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-row flex-wrap justify-center items-start bg-gray-200  h-full xl:w-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-5">
                 @foreach($lessons as $lesson)
-                <a href="/lessons/{{$course->id}}/{{$lesson->id}}" class="yt-vid w-[25rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                <a href="/lessons/{{$course->id}}/{{$lesson->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                     <div class="h-1/5">
                         <div class ="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
                         </div>

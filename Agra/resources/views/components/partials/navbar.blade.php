@@ -84,7 +84,7 @@
 
         <!-----------------Start Logo--------------------->
         <div class ="btn-logo flex flex-row justify-center w-1/3">
-            <a href="" class="flex items-center space-x-3 rtl:space-x-reverse transition ease-in-out delay-150 bg-transparent hover:-translate-y-1 hover:scale-110 hover:bg-blue-600 duration-300 rounded-lg w-30 h-full">
+            <a href="/agra" class="flex items-center space-x-3 rtl:space-x-reverse transition ease-in-out delay-150 bg-transparent hover:-translate-y-1 hover:scale-110 hover:bg-blue-600 duration-300 rounded-lg w-30 h-full">
                 <img src="AGRA-Logo.png" class="h-8" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">AGRA</span>
             </a>

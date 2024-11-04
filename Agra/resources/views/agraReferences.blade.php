@@ -61,103 +61,90 @@
                 <!-- JAVA Section -->
                 <div class="course-section w-full">
                     <h2 class="text-3xl font-bold text-blue-800 mb-4">JAVA:</h2>
-                    <div class="grid grid-cols-4 gap-4 mb-8">
-                        <a class="group course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-1/2 w-full overflow-hidden">
-                                <img src="/ReferenceAssets/Head-First-Java.png" alt="Head First Java Thumbnail" class="h-full w-full">
-                            </div>
-                            <h3 class="text-xl font-semibold">Head First Java (3rd Edition)</h3>
-                            <p class="text-gray-600 group-hover:text-white">Kathy Sierra & Bert Bates <span class="float-right group-hover:text-white">(2005)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-1/2 w-full overflow-hidden">
-                                <img src="/ReferenceAssets/Java-Fundamentals.jpg" alt="Core Java Volume I Thumbnail" class="h-full w-full">
-                            </div>
-                            <h3 class="text-xl font-semibold">Core Java Volume I - Fundamentals (11th Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Cay S. Horstmann <span class="float-right">(2018)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Effective-Java.jpg" alt="Effective Java Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Effective Java (3rd Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Joshua Bloch <span class="float-right">(2017)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Thinking-Java.jpg" alt="Thinking in Java Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Thinking in Java (4th Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Bruce Eckel <span class="float-right">(2006)</span></p>
-                        </a>
-                    </div>
-                    <div class="grid grid-cols-4 gap-4 mb-8">
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Java-Complete-Reference.jpg" alt="Java: The Complete Reference Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Java: The Complete Reference (11th Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Herbert Schildt <span class="float-right">(2018)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Java-Puzzlers.jpg" alt="Java Puzzlers Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Java Puzzlers</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Joshua Bloch & Neal Gafter <span class="float-right">(2005)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Java-Tutorial.jpg" alt="The Java Tutorial Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">The Java Tutorial</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Oracle <span class="float-right">(2021)</span></p>
-                        </a>
-                    </div>
-                </div>
+                    @php
+                    $references = [
+                        (object) [
+                            'id' => 101,
+                            'courseId' => 1,
+                            'LessonName' => 'Head First Java (3rd Edition)',
+                            'LessonDescription' => 'Kathy Sierra & Bert Bates (2005)',
+                            'image' => '/ReferenceAssets/Head-First-Java.png',
+                        ],
+                        (object) [
+                            'id' => 102,
+                            'courseId' => 1,
+                            'LessonName' => 'Core Java Volume I - Fundamentals (11th Edition)',
+                            'LessonDescription' => 'Cay S. Horstmann (2018)',
+                            'image' => '/ReferenceAssets/Java-Fundamentals.jpg',
+                        ],
+                        (object) [
+                            'id' => 201,
+                            'courseId' => 1,
+                            'LessonName' => 'Java Puzzlers',
+                            'LessonDescription' => 'Joshua Bloch & Neal Gafter (2005)',
+                            'image' => '/ReferenceAssets/Java-Puzzlers.jpg',
+                        ],
+                        (object) [
+                            'id' => 202,
+                            'courseId' => 1,
+                            'LessonName' => 'The Java Tutorial',
+                            'LessonDescription' => 'Oracle (2021)',
+                            'image' => '/ReferenceAssets/Java-Tutorial.jpg',
+                        ],
+                        (object) [
+                            'id' => 301,
+                            'courseId' => 2,
+                            'LessonName' => 'C# Fundamentals - C# 10 and .NET 6 using Visual Studio 2022: Course in a Book',
+                            'LessonDescription' => 'Adam Seebak (2022)',
+                            'image' => '/ReferenceAssets/C-Fundamentals.jpg',
+                        ],
+                        (object) [
+                            'id' => 302,
+                            'courseId' => 2,
+                            'LessonName' => 'Pro C# 10 with .Net 6: Foundational Principles and Practices in Programming',
+                            'LessonDescription' => 'Andrew Troelsen & Phil Japikse (2021)',
+                            'image' => '/ReferenceAssets/Pro-C.jpg',
+                        ],
+                        (object) [
+                            'id' => 303,
+                            'courseId' => 2,
+                            'LessonName' => 'Starting out with C# (Early Objects)',
+                            'LessonDescription' => 'Tony Gaddis (2019)',
+                            'image' => '/ReferenceAssets/Starting-C.jpg',
+                        ],
+                        (object) [
+                            'id' => 304,
+                            'courseId' => 2,
+                            'LessonName' => 'C# in Depth (Fourth Edition)',
+                            'LessonDescription' => 'Jon Skeet (2019)',
+                            'image' => '/ReferenceAssets/C-Depth.jpg',
+                        ],
+                        (object) [
+                            'id' => 305,
+                            'courseId' => 2,
+                            'LessonName' => 'Head First C# (5th Edition)',
+                            'LessonDescription' => 'Jennifer Greene (2021)',
+                            'image' => '/ReferenceAssets/C-Headstart.jpg',
+                        ],
+                    ];
+                    @endphp
+                    <div class="flex flex-row flex-wrap justify-center items-start bg-gray-200 gap-x-5 gap-y-10">
+                        @foreach($references as $reference)
+                            <a href="/lessons/{{ $reference->courseId }}/{{ $reference->id }}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                                <div class="h-1/5">
+                                    <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md" style="background-image: url('{{ $reference->image }}');">
+                                    </div>
+                                    <div class="w-full p-3 bg-white rounded-xl">
+                                        <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">References ⦿</h2>
+                                        <h1 class="font-bold text-lg text-blue-800">{{ $reference->LessonName }}</h1>
+                                        <p class="font-normal text-base text-blue-800 line-clamp">{{ $reference->LessonDescription }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
 
-                <!-- C# Section -->
-                <div class="course-section w-full">
-                    <h2 class="text-3xl font-bold text-blue-800 mb-4">C#:</h2>
-                    <div class="grid grid-cols-4 gap-4 mb-8">
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/C-Fundamentals.jpg" alt="C# Fundamentals Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">C# Fundamentals - C# 10 and .NET 6 using Visual Studio 2022: Course in a Book</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Adam Seebak <span class="float-right">(2022)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Pro-C.jpg" alt="Pro C# Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Pro C# 10 with .Net 6: Foundational Principles and Practices in Programming</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Andrew Troelsen & Phil Japikse <span class="float-right">(2021)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/Starting-C.jpg" alt="The Java Tutorial Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Starting out with C# (Early Objects)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Tony Gaddis <span class="float-right">(2019)</span></p>
-                        </a>
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/C-Depth.jpg" alt="The Java Tutorial Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">C# in Depth (Fourth Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Jon Skeet <span class="float-right">(2019)</span></p>
-                        </a>
                     </div>
-                    <div class="grid grid-cols-4 gap-4 mb-8">
-                        <a class="course-box bg-white shadow p-4 hover:bg-blue-800 hover:transform hover:scale-105 transition-all duration-300">
-                            <div class="bg-gray-300 mb-4 h-24 overflow-hidden">
-                                <img src="/ReferenceAssets/C-Headstart.jpg" alt="The Java Tutorial Thumbnail" class="h-full w-full object-cover">
-                            </div>
-                            <h3 class="text-xl font-semibold">Head First C# (5th Edition)</h3>
-                            <p class="text-gray-600 hover:text-white transition-colors duration-300">Jennifer Greene <span class="float-right">(2021)</span></p>
-                        </a>
-                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -65,23 +65,23 @@
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-[35rem]">
                     <!-- Item 1 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 2 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 2.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 3 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 3.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 4 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 4.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 5 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                    <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 5.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                 </div>
@@ -118,25 +118,24 @@
                     <h1 class = "flex  mb-3 text-2xl font-semibold text-blue-800 dark:text-white">Courses: </h1>
                     <a href="/courses" class="text-blue-600">view</a>
                 </div>
-                <div class="flex justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
-                    @foreach($courses as $course)
-                    <a href="/courses/{{$course->id}}" class="yt-vid w-96 h-80 focus:outline-none transition ease-in-out delay-150 hover:bg-blue-800 text-blue-800 hover:text-white  hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl bg-white p-5">
-                        <div class="h-4/5">
-                            <img src="image-course.png" class="w-full lg:max-w-xl rounded-lg h-full shadow-xl" alt="...">
-                        </div>
-                        <div class="h-1/5 flex">
-                            <div class ="w-3/5">
-                                <h1 class="font-bold text-2xl">{{$course->CourseName}}</h1>
-                                <h3 class="font-normal text-base">{{$course->CourseDescription}}</h3>
+                <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
+                @foreach($courses as $course)
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <div class="h-1/5">
+                            <div class="w-full h-48 p-3 flex justify-between rounded-xl bg-cover bg-center bg-image shadow-md">
+                                <h2 class="h-7 bg-blue-200 rounded-xl font-bold text-sm text-blue-800 p-1 w-fit mb-2">Courses ⦿</h2>
+                                <span class="h-7 hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3 ">{{$course->category->name}}</span>
                             </div>
-                            <div class ="w-2/5 p-3 flex flex-row-reverse flex-wrap">
-                                <div class="badge mb-2 ml-2">
-                                    <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">{{$course->category->name}}</span>
-                                </div>
+                            <div class="w-full p-3 bg-white rounded-xl">
+                                
+                                <h1 class="font-bold text-lg text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-base text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
                         </div>
                     </a>
-                    @endforeach
+                @endforeach
+
+                    
                 </div>
             </div>
 
@@ -260,5 +259,43 @@
     const username = "{{Auth::user()->name}}";
 </script>
 <script src="agraNotification.js"></script>
+<script>
+    // Array of background images
+    const backgroundImages = [
+        'bg-course1.png', 'bg-course2.png', 'bg-course3.png', 
+        'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
+    ];
+
+    // Shuffle the array to randomize the images
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Shuffle images
+    shuffleArray(backgroundImages);
+
+    // Get all lesson cards
+    const lessonCards = document.querySelectorAll('.lesson-card .bg-image');
+
+    // Keep track of the last used image
+    let lastUsedImage = null;
+
+    lessonCards.forEach((card, index) => {
+        // Ensure no two consecutive lessons get the same image
+        let currentImage = backgroundImages[index % backgroundImages.length];
+        if (currentImage === lastUsedImage) {
+            currentImage = backgroundImages[(index + 1) % backgroundImages.length];
+        }
+
+        // Set the background image
+        card.style.backgroundImage = `url(${currentImage})`;
+
+        // Update the last used image
+        lastUsedImage = currentImage;
+    });
+</script>
 </body>
 </html>

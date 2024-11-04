@@ -61,22 +61,79 @@
                     </ul>
                 </div>
             </div>
-            <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                @if($taskDeadlines->isEmpty())
-                <p>No tasks are due on this date.</p>
+            <!--3 div Courses Contendt-->
+            @php
+                // Ensure tasks are unique before processing
+                $distinctTasks = $taskDeadlines->unique('id'); // Assuming 'id' is the unique identifier
+
+                // Define a function to sort tasks
+                $getSortedTasks = function ($tasks) {
+                    return $tasks->sortBy(function($task) {
+                        $now = \Carbon\Carbon::now();
+                        $deadline = \Carbon\Carbon::parse($task->Deadline);
+
+                        if ($deadline->isToday()) {
+                            return 0; // Today has the highest priority
+                        } elseif ($deadline->isTomorrow()) {
+                            return 1; // Tomorrow next
+                        } elseif ($deadline->isFuture()) {
+                            return 2; // Future dates after Today and Tomorrow
+                        } else {
+                            return 3; // Past due is last
+                        }
+                    });
+                };
+            @endphp  
+
+            <div class="learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+                @if($distinctTasks->isEmpty())
+                    <p>No tasks are due on this date.</p>
                 @else
-                    @foreach($taskDeadlines as $taskDeadline)
-                        <a href="/tasks/{{$taskDeadline->id}}" class="flex flex-col items-center rounded-lg shadow h-xl md:flex-row md:w-[900px] text-blue-800 hover:text-white hover:bg-blue-200 p-10 transition ease-in-out delay-150 bg-white hover:-translate-y-1 hover:scale-110 hover:bg-blue-800 duration-300">
-                            <img class="object-cover w-full rounded-t-lg h-full md:h-auto md:w-72 md:rounded-none md:rounded-lg" src="image-course.png" alt="">
-                            <div class="flex flex-col justify-between p-4 leading-normal">
-                                <div>
-                                    <h5 class="font-bold">{{ $taskDeadline->TaskName }}</h5>
-                                    <p>{{ $taskDeadline->DateGiven->format('m-d-Y') }} - {{ $taskDeadline->Deadline->format('m-d-Y') }}</p>
+                    <div class="flex flex-row flex-wrap justify-start gap-5 pl-9 pt-5" id="lessonsContainer">
+                    @foreach($getSortedTasks($distinctTasks) as $task)
+                        @php
+                            // Define the deadline variable
+                            $deadline = \Carbon\Carbon::parse($task->Deadline);
+
+                            // Determine the deadline status and associated classes
+                            if ($deadline->isToday()) {
+                                $deadlineWord = 'Today';
+                                $deadlineClass = 'text-green-500'; // Class for "Today"
+                            } elseif ($deadline->isTomorrow()) {
+                                $deadlineWord = 'Tomorrow';
+                                $deadlineClass = 'text-blue-500'; // Class for "Tomorrow"
+                            } elseif ($deadline->isFuture()) {
+                                $deadlineWord = 'Upcoming'; // You can customize this
+                                $deadlineClass = 'text-blue-900'; // Class for future dates
+                            } else {
+                                $deadlineWord = 'Past Due';
+                                $deadlineClass = 'text-red-600'; // Class for past due
+                            }
+                        @endphp
+
+                        <a href="/tasks/{{$task->id}}" class="yt-vid w-[25rem] h-64 mt-2 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-lg rounded-xl lesson-card">
+                            <div class="h-1/5">
+                                <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-gradient shadow-md flex justify-between">
+                                    <h1 class="font-bold text-xl text-white">Task</h1>
+                                    <div class="badge mb-2 ml-2">
+                                        @if($task->course && $task->course->category) <!-- Check if course and category are not null -->
+                                            <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">
+                                                {{$task->course->category->name}}
+                                            </span>
+                                        @else
+                                            <span class="bg-gray-300 text-gray-600 text-base font-medium px-2.5 py-0.5 rounded">Deadline Now!</span> <!-- Fallback if null -->
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="w-full p-3 bg-white rounded-xl">
+                                    <h1 class="font-bold text-lg text-blue-800">{{$task->TaskName}}</h1>
+                                    <span class="text-gray-500 font-bold">Deadline: {{ $deadline->format('g:i A') }}</span>
+                                    <span class="{{ $deadlineClass }} font-bold">{{ $deadlineWord }}</span>
                                 </div>
                             </div>
                         </a>
                     @endforeach
+                    </div>
                 @endif
             </div>
         </div>
@@ -186,6 +243,49 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
+<script>
+    // Array of color gradients
+    const gradients = [
+        'linear-gradient(to right, #00f, #1e3a8a)', // Blue to Dark Blue
+        'linear-gradient(to right, #7b2cbf, #c77dff)', // Violet to Pink
+        'linear-gradient(to right, #ff9a9e, #fad0c4)', // Light Pink to White
+        'linear-gradient(to right, #d9a7c7, #fffcdc)', // Light Purple to White
+        'linear-gradient(to right, #8e2de2, #4a00e0)', // Purple to Dark Blue
+        'linear-gradient(to right, #43cea2, #185a9d)', // Blue-Green to Blue
+        'linear-gradient(to right, #00c6ff, #0072ff)', // Light Blue to Dark Blue
+    ];
+
+    // Shuffle the array to randomize the gradients
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Shuffle gradients
+    shuffleArray(gradients);
+
+    // Get all lesson cards
+    const lessonCards = document.querySelectorAll('.lesson-card .bg-gradient');
+
+    // Keep track of the last used gradient
+    let lastUsedGradient = null;
+
+    lessonCards.forEach((card, index) => {
+        // Ensure no two consecutive lessons get the same gradient
+        let currentGradient = gradients[index % gradients.length];
+        if (currentGradient === lastUsedGradient) {
+            currentGradient = gradients[(index + 1) % gradients.length];
+        }
+
+        // Set the background gradient
+        card.style.background = currentGradient;
+
+        // Update the last used gradient
+        lastUsedGradient = currentGradient;
+    });
+</script>
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";

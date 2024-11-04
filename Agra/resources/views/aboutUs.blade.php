@@ -36,15 +36,19 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
+
+
 <div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto pl-10 pr-10 pb-10">
-    <!--Inner div-->
+    <!-- Inner div -->
     <div class="innerDiv xl:flex bg-white h-full w-full rounded-xl overflow-hidden p-0 xl:p-5">
-
-        <div class="left-panel flex flex-col xl:flex-row bg-gray-200 h-full w-full p-5 xl:p-10 gap-y-10 rounded-xl shadow-xl">
-
+        
+        <div class="left-panel flex flex-col xl:flex-row bg-gray-200 h-full w-full xl:p-10 gap-y-10 rounded-xl shadow-xl">
+            
+            <!-- Left content panel with profile and details -->
             <div class="profile h-auto xl:flex flex-row items-start w-full xl:w-2/4 bg-white rounded-xl shadow-xl pl-10 pr-10 pt-10">
                 <section class="bg-white dark:bg-gray-900">
-                    <div class="mx-auto max-w-screen-xl lg:py-16">
+                    <!-- About Us Section -->
+                    <div class="mx-auto max-w-screen-xl lg:py-16 w-full">
                         <div class="bg-gray-50 shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8">
                             <a href="/" class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 mb-2">
                                 <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
@@ -95,20 +99,13 @@
                         </div>
                     </div>
                 </section>
-
             </div>
-
-
-            <div class="profile h-auto xl:flex flex-row justify-center w-full xl:w-2/4 bg-white rounded-xl shadow-xl pl-10 pr-10 pt-20 pb-20">
-
-                <img class="h-full max-w-full rounded-lg shadow-xl dark:shadow-gray-800" src="image-course.png" alt="image description">
-
-            </div>
-
-
+            
+            <!-- Right content panel with background image -->
+    <div class="profile h-auto xl:flex flex-row justify-center w-full xl:w-2/4 bg-white rounded-xl shadow-xl pl-10 pr-10 pt-20 pb-20">
+        <img class="h-screen max-w-full rounded-lg shadow-xl dark:shadow-gray-800" src="bg-about1.png" alt="image description">
         </div>
     </div>
-
 </div>
 <script>
     const sectionId = "{{$user->section->id}}";

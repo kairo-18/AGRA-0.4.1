@@ -80,7 +80,7 @@
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-y-4">
                 <h1 class="font-bold text-2xl text-blue-800">Materials </h1>
-                <div id="indicators-carousel" class="relative w-full h-full overflow-auto" data-carousel="static">
+                <div id="indicators-carousel" class="relative w-full h-full overflow-auto" data-carousel="slide">
                     <!-- Carousel wrapper -->
                     <div class="relative h-full overflow-hidden rounded-lg">
                         <!-- Item 1 -->
@@ -90,7 +90,7 @@
                                 <h1 class="font-semibold text-xl text-blue-800">Videos</h1>
 
                                 <div class="Recommed-panel flex flex-wrap justify-center bg-gray-100 h-full p-5 gap-5 rounded-xl shadow-inner">
-
+a
                                     <div class="flex flex-col md:flex-row justify-start gap-5 p-3">
                                         @php
                                             $index = 1;
