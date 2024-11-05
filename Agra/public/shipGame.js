@@ -317,8 +317,16 @@ function createCrosshair() {
     scene.add.text(450, 900, 'shootButton').setInteractive();
     shootButton.setDepth(5); // Ensure it's above other elements
 
-    // On shoot button click, stop the crosshair and fire at its position
-    shootButton.on('pointerdown', function () {
+    var pointerEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true) {
+            return 'pointerdown'; // For touch devices, use pointerdown (or 'touchstart' if necessary)
+        } else {
+            return 'pointerdown'; // For non-touch devices, still use pointerdown
+        }
+    })();
+
+// On shoot button click or touch, stop the crosshair and fire at its position
+    shootButton.on(pointerEvent, function () {
         if (!isShooting) {
             isShooting = true;
             scene.tweens.killTweensOf(crosshair); // Stop crosshair movement

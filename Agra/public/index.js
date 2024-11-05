@@ -90,7 +90,7 @@ function displayInstruction(index) {
 }
 
 // Event listener for the check button
-checkButton.addEventListener("click", () => {
+checkButton.addEventListener(clickEvent, () => {
     // Move cursor to the end of the current line
     // const currentLine = editor.getCursorPosition().row;
     // const lineLength = editor.session.getLine(currentLine).length;
@@ -745,6 +745,9 @@ function createAlertBox(message) {
             clearInterval(countdownInterval); // Stop countdown
             button.textContent = "Understood"; // Set final text
             button.disabled = false; // Enable the button
+            button.addEventListener(clickEvent, () => {
+                removeAlertBox();
+            });
         }
     }, 1000);
     // setTimeout(() => pauseTimer(), 3000);
