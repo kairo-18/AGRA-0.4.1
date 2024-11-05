@@ -318,8 +318,8 @@ function createCrosshair() {
     shootButton.setDepth(5); // Ensure it's above other elements
 
     var pointerEvent = (function() {
-        if ('ontouchstart' in document.documentElement === true) {
-            return 'pointerdown'; // For touch devices, use pointerdown (or 'touchstart' if necessary)
+        if ('ontouchend' in document.documentElement === true) {
+            return 'touchend'; // For touch devices, use pointerdown (or 'touchstart' if necessary)
         } else {
             return 'pointerdown'; // For non-touch devices, still use pointerdown
         }
@@ -719,15 +719,24 @@ function setupAimingMechanic(scene) {
     // Create the shoot button
     shootButton = scene.add.sprite(525, 550, 'shootButton').setInteractive().setDepth(5).setVisible(false).setScale(4);
 
-    // Add event listener for the button click
-    shootButton.on('pointerdown', function () {
+    var pointerEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true) {
+            return 'pointerdown'; // For touch devices, use pointerdown (or 'touchstart' if necessary)
+        } else {
+            return 'pointerdown'; // For non-touch devices, still use pointerdown
+        }
+    })();
+
+// On shoot button click or touch, stop the crosshair and fire at its position
+    shootButton.on(pointerEvent, function () {
         shootButton.play('shootButton');
         if (!isShooting) {
             isShooting = true;
             fireBulletAtCrosshair();
             shootMusic.play();
         }
-    });
+    });    // Add event listener for the button click
+
 }
 
 // Function to show the crosshair and button
