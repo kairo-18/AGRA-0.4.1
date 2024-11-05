@@ -548,7 +548,15 @@ function displayOutput(output) {
 
 
 var startButton = document.getElementById("startButton");
-startButton.addEventListener('click', () => {
+startButton.style.zIndex = 100;
+
+var clickEvent = (function() {
+    if ('ontouchstart' in document.documentElement === true)
+        return 'touchstart';
+    else
+        return 'click';
+})();
+startButton.addEventListener(clickEvent, () => {
     startGame();
 });
 
