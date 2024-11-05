@@ -39,69 +39,56 @@
     </div>
 </x-navbar>
 <!--=====================================End Navbar=====================================-->
-<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
+<div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto">
     <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
 
-        <div class = "leftDiv flex flex-col  bg-gray-500 h-screen w-full p-5 gap-10">
+        <div class="leftDiv flex flex-col bg-gray-500 h-screen w-full p-5 gap-10">
 
+            <!--Information: Score, time, prog-bar-->
+            <div class="stu-progress">
+                <div class="info-bar">
+                    <div class="score"> Score<span id="score">0</span> </div>
+                    <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
 
-                    <!--Information: Score, time, prog-bar-->
-                    <div class="stu-progress">
-                        <div class="info-bar">
-                            <div class="score"> Score<span id="score">0</span> </div>
-                            <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
-
-                            <div class="pb">
-                                <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
-                                    <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
-                                </div>
-                            </div>
+                    <div class="pb">
+                        <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
+                            <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
                     </div>
-
-                    <!--Compiler-->
-                    <div class="instrucContainer">
-                        <div class="instrucName text-2xl"></div>
-                        <div class="instructions bg-blue-800" id="instructions"></div>
-                    </div>
-
-                    <div class="coding-area" id="coding-area" style="height: 30%">
-                        <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <input type="text" name="userAnswer" placeholder="Type your answer here" id="userAnswer"
-                                style="width: 50%; height: 50%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem;">
-                            <button id="submit" onclick="submitAnswer();"
-                                    style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;">
-                                Submit Answer
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="coding-area" id="coding-area">
-                        <div class="code-editor" id="code-editor"></div>
-                        <div class="code" id="code" style="display: none"></div>
-                    </div>
-
-
-
                 </div>
+            </div>
 
-                <div class = "RightDiv flex flex-col bg-gray-900 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
-                    <div class="mini-game" id="minigame"></div>
+            <!--Compiler-->
+            <div class="instrucContainer">
+                <div class="instrucName text-2xl"></div>
+                <div class="instructions bg-blue-800" id="instructions"></div>
+            </div>
+
+            <div class="coding-area" id="coding-area" style="height: 30%">
+                <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <input type="text" name="userAnswer" placeholder="Type your answer here" id="userAnswer"
+                           style="width: 50%; height: 50%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem;">
+                    <button id="submit" onclick="submitAnswer();"
+                            style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;">
+                        Submit Answer
+                    </button>
                 </div>
+            </div>
 
-
-
+            <div class="coding-area" id="coding-area">
+                <div class="code-editor" id="code-editor"></div>
+                <div class="code" id="code" style="display: none"></div>
+            </div>
 
         </div>
 
-        <div id="tutorial-container" class="tutorial-container">
-
+        <div class="RightDiv flex flex-col bg-gray-900 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
+            <div class="mini-game" id="minigame"></div>
         </div>
-
-
 
     </div>
 </div>
+
 
 
 
@@ -160,9 +147,6 @@
     let maxMonsterHealth = (20 * checkmarks.length);
     let timerSeconds = {{$task->TaskMaxTime}};
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>
