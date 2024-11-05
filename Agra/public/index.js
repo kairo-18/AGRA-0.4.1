@@ -873,3 +873,7 @@ function showLineNumber(){
     document.querySelector(".ace_gutter").style.visibility = "visible";
     document.querySelector(".ace_gutter-layer").style.visibility = "visible";
 }
+
+document.getElementById('startButton').addEventListener('click', () => {
+    startGame()
+});

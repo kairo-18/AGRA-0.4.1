@@ -548,7 +548,9 @@ function displayOutput(output) {
 
 
 var startButton = document.getElementById("startButton");
-
+startButton.addEventListener('click', () => {
+    startGame();
+});
 
 function startGame(){
     startTime = Date.now();

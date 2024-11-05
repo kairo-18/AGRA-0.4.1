@@ -195,7 +195,7 @@
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button onclick="hideModal();" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
+                <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
                </div>
         </div>
     </div>
@@ -553,7 +553,7 @@
         // Create the inner container for the prompt
         const promptContainer = document.createElement('div');
         promptContainer.className = 'bg-white rounded-lg shadow-lg p-6 space-y-4 max-w-md w-full';
-        
+
         // Create the message
         const message = document.createElement('p');
         message.textContent = 'Do you need help?';
@@ -620,7 +620,9 @@
     // Make it global by attaching it to the window object
     window.disableTyping = disableTyping;
 
-
+    document.getElementById('startButton').addEventListener('click' , () => {
+        hideModal();
+    });
 
 
 </script>

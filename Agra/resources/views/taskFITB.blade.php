@@ -67,9 +67,9 @@
 
                     <div class="coding-area" id="coding-area" style="height: 30%">
                         <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <input type="text" name="userAnswer" placeholder="Type your answer here" id="userAnswer" 
+                            <input type="text" name="userAnswer" placeholder="Type your answer here" id="userAnswer"
                                 style="width: 50%; height: 50%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem;">
-                            <button id="submit" onclick="submitAnswer();" 
+                            <button id="submit" onclick="submitAnswer();"
                                     style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;">
                                 Submit Answer
                             </button>
@@ -108,7 +108,7 @@
 <div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
     <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
         <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
-        <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2" onclick="startGame()">Start</button>
+        <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2">Start</button>
     </div>
 </div>
 
