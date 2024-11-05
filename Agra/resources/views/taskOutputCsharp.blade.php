@@ -473,7 +473,15 @@ public class MyClass
 
     }
 
-    document.getElementById('startButton').addEventListener('click', () => {
+    var clickEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true)
+            return 'touchstart';
+        else
+            return 'click';
+    })();
+
+
+    document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
     });
 

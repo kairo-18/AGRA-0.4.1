@@ -620,9 +620,19 @@
     // Make it global by attaching it to the window object
     window.disableTyping = disableTyping;
 
-    document.getElementById('startButton').addEventListener('click' , () => {
+
+    var clickEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true)
+            return 'touchstart';
+        else
+            return 'click';
+    })();
+
+
+    document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
     });
+
 
 
 </script>

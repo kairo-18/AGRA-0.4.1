@@ -874,6 +874,15 @@ function showLineNumber(){
     document.querySelector(".ace_gutter-layer").style.visibility = "visible";
 }
 
-document.getElementById('startButton').addEventListener('click', () => {
-    startGame()
+var clickEvent = (function() {
+    if ('ontouchstart' in document.documentElement === true)
+        return 'touchstart';
+    else
+        return 'click';
+})();
+
+
+document.getElementById('startButton').addEventListener(clickEvent , () => {
+    startGame();
 });
+

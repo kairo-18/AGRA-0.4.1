@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -154,11 +155,6 @@
         const sectionId = "{{$user->section->id}}";
         const username = "{{Auth::user()->name}}";
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Scroll to the bottom of the page after loading
-            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-        });
-    </script>
+
 </body>
 </html>
