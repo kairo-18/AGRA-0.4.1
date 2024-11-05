@@ -68,11 +68,11 @@
                             <div class="progress-barc"></div>
                         </div>
                     </div>
-                    <button type="button" class="p-5 bg-green-500 rounded" onclick="runCode();">RUN</button>
+                    <button type="button" class="p-5 bg-green-500 rounded" id="runButton">RUN</button>
 
 
                     <!-- Modal toggle -->
-                    <button data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
+                    <button id="instructionsButton" data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
                         Instructions
                     </button>
 
@@ -259,6 +259,24 @@
     let language = '{{$task->lesson->course->category}}';
     let timer1, timer2, timer, isPaused = false, remainingTime, roundRemainingTime;
     let timeRemaining = 7;
+    var clickEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true)
+            return 'touchstart';
+        else
+            return 'click';
+    })();
+
+
+    function hideModal(){
+        document.getElementById('default-modal').style = 'display:none;';
+        startIntervalTimer(timerSeconds);
+        startTime = Date.now();
+    }
+
+    function showModal(){
+        document.getElementById('default-modal').style = 'display:flex;';
+    }
+
 
 
     function createBorderTimer(){
@@ -281,15 +299,37 @@
 
 
 
-    function hideModal(){
-        document.getElementById('default-modal').style = 'display:none;';
-        startIntervalTimer(timerSeconds);
-        startTime = Date.now();
+    // Get elements
+    const instructionsButton = document.getElementById('instructionsButton');
+    const modal = document.getElementById('default-modal1');
+    const closeModalButtons = modal.querySelectorAll('[data-modal-hide]');
+
+    // Function to show the modal
+    function showModal1() {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // Add 'flex' to use flexbox for centering
     }
 
-    function showModal(){
-        document.getElementById('default-modal').style = 'display:flex;';
+    // Function to hide the modal
+    function hideModal1() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
     }
+
+    // Event listener to show the modal when the button is clicked
+    instructionsButton.addEventListener(clickEvent, showModal1);
+
+    // Event listeners to hide the modal when any close button is clicked
+    closeModalButtons.forEach(button => {
+        button.addEventListener(clickEvent, hideModal1);
+    });
+
+    // Optionally, close the modal if clicking outside of the modal content
+    modal.addEventListener(clickEvent, (event) => {
+        if (event.target === modal) {
+            hideModal1();
+        }
+    });
 
     function showResetPanel(){
         endTime = Date.now(); // Set the end time when the game ends
@@ -568,23 +608,22 @@
         const yesButton = document.createElement('button');
         yesButton.textContent = 'Yes';
         yesButton.className = 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition';
-        yesButton.onclick = () => {
+        yesButton.addEventListener(clickEvent ,() => {
             showAimingMechanic();
             createBorderTimer();
             document.body.removeChild(helpPrompt); // Remove the prompt
-        };
+        });
         buttonContainer.appendChild(yesButton);
 
         // Create the No button
         const noButton = document.createElement('button');
         noButton.textContent = 'No';
         noButton.className = 'px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition';
-        noButton.onclick = () => {
-            alert('You clicked No.'); // Alert for No
+        noButton.addEventListener(clickEvent , () => {
             document.body.removeChild(helpPrompt); // Remove the prompt
             resumeTimer();
             editor.setReadOnly(false);
-        };
+        });
         buttonContainer.appendChild(noButton);
 
         // Append the button container to the prompt container
@@ -621,17 +660,16 @@
     window.disableTyping = disableTyping;
 
 
-    var clickEvent = (function() {
-        if ('ontouchstart' in document.documentElement === true)
-            return 'touchstart';
-        else
-            return 'click';
-    })();
 
 
     document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
     });
+
+    document.getElementById('runButton').addEventListener(clickEvent , () => {
+        runCode();
+    });
+
 
 
 

@@ -594,14 +594,14 @@ function createAlertBox(message) {
 
         </div>
 
-            <button type="button" onclick="removeAlertBox()" disabled class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">3</button>
+            <button type="button" id="understoodButton" disabled class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-5 py-2.5 me-2 mb-2 mt-3 z-50">3</button>
         </div>
     `;
 
     // Append the alert box to the container
     document.getElementById('alertContainer').appendChild(alertBox);
 
-    const button = alertBox.querySelector("button");
+    const button = alertBox.querySelector("#understoodButton");
     let countdown = 3;
 
     // Start the countdown interval
@@ -613,6 +613,9 @@ function createAlertBox(message) {
             clearInterval(countdownInterval); // Stop countdown
             button.textContent = "Understood"; // Set final text
             button.disabled = false; // Enable the button
+            button.addEventListener(clickEvent, () => {
+                removeAlertBox();
+            });
         }
     }, 1000);
 
@@ -621,7 +624,7 @@ function createAlertBox(message) {
 
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
-        setTimeout(() => 
+        setTimeout(() =>
             alertBox.remove(), 500,
             resumeTimer(), 1000); // Wait for fade-out transition
             editor.setReadOnly(false);
@@ -748,3 +751,11 @@ function hitTarget(monster, bullet) {
     // Hide the crosshair and button
     hideAimingMechanic();
 }
+
+var clickEvent = (function() {
+    if ('ontouchstart' in document.documentElement === true)
+        return 'touchstart';
+    else
+        return 'click';
+})();
+

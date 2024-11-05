@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="/tasks2.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+    <style>
+        .timer-border{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 5px solid red; /* Timer border */
+            box-sizing: border-box; /* Ensure padding is included in width/height */
+            clip-path: inset(0 100% 0 0); /* Start with the border clipped to the left */
+            box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red; /* Glowing effect */
+        }
+    </style>
     <title>AGRA</title>
 </head>
 <body>
@@ -56,11 +69,11 @@
                             <div class="progress-barc"></div>
                         </div>
                     </div>
-                    <button type="button" class="p-5 bg-green-500 rounded" onclick="runCode();">RUN</button>
+                    <button type="button" class="p-5 bg-green-500 rounded" id="runButton">RUN</button>
 
 
                     <!-- Modal toggle -->
-                    <button data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
+                    <button id="instructionsButton" data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
                         Instructions
                     </button>
 
@@ -187,6 +200,9 @@
     </div>
 </div>
 
+<div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
+
+</div>
 
 <div id="resetPanel" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -237,6 +253,34 @@
     let maxTime = testcasesTemp.length * timerSeconds; // Total maximum time allowed
     let startTime; // Time when the user starts the task
     let endTime; // Time when the user completes the task
+    let instruction = `{!!  $task->TaskInstruction!!}`;
+    let language = '{{$task->lesson->course->category}}';
+    let timer1, timer2, timer, isPaused = false, remainingTime, roundRemainingTime;
+    let timeRemaining = 7;
+    var clickEvent = (function() {
+        if ('ontouchstart' in document.documentElement === true)
+            return 'touchstart';
+        else
+            return 'click';
+    })();
+
+    function createBorderTimer(){
+        const borderDiv = document.createElement('div');
+        borderDiv.className = 'timer-border';
+        document.querySelector('.mini-game').appendChild(borderDiv);
+        const timerBorder = document.querySelector('.timer-border');
+
+        setTimeout(() => {
+            timerBorder.style.clipPath = 'inset(0 0 0 0)'; // Fill the border
+            timerBorder.style.transition = 'clip-path ' + timeRemaining +'s linear';
+        }, 500);
+
+        setTimeout(() => {
+            borderDiv.remove();
+            failedAtAiming();
+            hideAimingMechanic();
+        }, (timeRemaining  * 1000) + 500);
+    }
 
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
@@ -247,6 +291,39 @@
     function showModal(){
         document.getElementById('default-modal').style = 'display:flex;';
     }
+
+
+    // Get elements
+    const instructionsButton = document.getElementById('instructionsButton');
+    const modal = document.getElementById('default-modal1');
+    const closeModalButtons = modal.querySelectorAll('[data-modal-hide]');
+
+    // Function to show the modal
+    function showModal1() {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // Add 'flex' to use flexbox for centering
+    }
+
+    // Function to hide the modal
+    function hideModal1() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Event listener to show the modal when the button is clicked
+    instructionsButton.addEventListener(clickEvent, showModal1);
+
+    // Event listeners to hide the modal when any close button is clicked
+    closeModalButtons.forEach(button => {
+        button.addEventListener(clickEvent, hideModal1);
+    });
+
+    // Optionally, close the modal if clicking outside of the modal content
+    modal.addEventListener(clickEvent, (event) => {
+        if (event.target === modal) {
+            hideModal1();
+        }
+    });
 
     function showResetPanel(){
         endTime = Date.now(); // Set the end time when the game ends
@@ -297,7 +374,7 @@
     var progressBar = document.querySelector(".progress-barc");
     var editor = ace.edit("code-editor");
     editor.setTheme("ace/theme/one_dark");
-    editor.session.setMode("ace/mode/java");
+    editor.session.setMode("ace/mode/csharp");
     editor.setShowPrintMargin(false);
     editor.setAutoScrollEditorIntoView(true);
     editor.resize();
@@ -409,80 +486,183 @@ public class MyClass
         document.getElementById("Percentage").value = scorePercentage;
     }
 
+
     function startIntervalTimer(timeSec) {
+        remainingTime = timeSec;
+        roundRemainingTime = 5;  // Total rounds to start with
 
-        let time1 = timeSec;
-        const timer1 = setInterval(function () {
-            time1--;
-            document.getElementById("timer").innerHTML = time1;
-            if (time1 === 0) {
-                clearInterval(timer1);
-                console.log("Time's up!");
-            }
-            if(globalScore === 100){
-                clearInterval(timer);
-                clearInterval(timer1);
-                document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
-            }
-        }, 1000);
+        function mainTimer() {
+            timer1 = setInterval(function () {
+                if (!isPaused) {
+                    remainingTime--;
+                    document.getElementById("timer").innerHTML = remainingTime;
 
-        let rounds = 5;
-        const timer = setInterval(function () {
+                    if (remainingTime === 0) {
+                        clearInterval(timer1);
+                        console.log("Time's up!");
+                    }
 
-            let time = timeSec;
-            const timer2 = setInterval(function () {
-                document.getElementById("timer").innerHTML = time;
-                time--;
-                if (time === 0) {
-                    clearInterval(timer2);
+                    if (globalScore === 100) {
+                        stopAllTimers();
+                        document.getElementById("timer").innerHTML = "Done";
+                        showResetPanel();
+                    }
                 }
-                if(globalScore === 100){
-                    clearInterval(timer);
-                    clearInterval(timer1);
-                    clearInterval(timer2);
+            }, 1000);
+        }
+
+        function roundTimer() {
+            timer = setInterval(function () {
+                roundRemainingTime--;
+                console.log(roundRemainingTime);
+                triggerRandomAttack();
+                createHelpPrompt();
+
+                delay(600).then(() => shakeCamera(scene));
+
+                if (currentPlayerHealth === 0) {
+                    stopAllTimers();
+                    console.log("Done!");
                     document.getElementById("timer").innerHTML = "Done";
                     showResetPanel();
                 }
-            }, 1000);
 
-            rounds--;
-            console.log(rounds);
-            //monster attack
-            triggerRandomAttack();
-            delay(600).then( () => shakeCamera(scene));
+                if (globalScore === 100) {
+                    stopAllTimers();
+                    document.getElementById("timer").innerHTML = "Done";
+                    showResetPanel();
+                }
+            }, (timeSec * 1000) + 1000);
+        }
 
-            if (rounds === 0) {
-                clearInterval(timer);
-                clearInterval(timer1);
-                clearInterval(timer2);
+        mainTimer();
+        roundTimer();
+    }
+
+    // Pause function
+    function pauseTimer() {
+        isPaused = true;
+        clearInterval(timer1);
+        clearInterval(timer2);
+        clearInterval(timer);
+    }
+
+    // Resume function
+    function resumeTimer() {
+        if (isPaused) {
+            isPaused = false;
+
+            console.log(currentPlayerHealth);
+            if (currentPlayerHealth === 0) {
+                stopAllTimers();
                 console.log("Done!");
                 document.getElementById("timer").innerHTML = "Done";
                 showResetPanel();
             }
 
-            if(globalScore === 100){
-                clearInterval(timer);
-                clearInterval(timer1);
-                clearInterval(timer2);
-                document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
+            // If paused at 0, reset to original interval time
+            if (remainingTime === 0) {
+                remainingTime = timerSeconds;
             }
-        }, (timeSec * 1000) + 1000);
 
-
+            startIntervalTimer(remainingTime);  // Restart with updated remaining time
+        }
     }
 
-    var clickEvent = (function() {
-        if ('ontouchstart' in document.documentElement === true)
-            return 'touchstart';
-        else
-            return 'click';
-    })();
+    // Stop all timers
+    function stopAllTimers() {
+        clearInterval(timer);
+        clearInterval(timer1);
+        clearInterval(timer2);
+        document.getElementById("timer").innerHTML = "Done";
+    }
 
+    window.resumeTimer = resumeTimer;
+    window.pauseTimer = pauseTimer;
+
+    function createHelpPrompt() {
+        pauseTimer();
+        editor.setReadOnly(true);
+
+        // Create the help prompt div
+        const helpPrompt = document.createElement('div');
+        helpPrompt.className = 'help-prompt fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+
+        // Create the inner container for the prompt
+        const promptContainer = document.createElement('div');
+        promptContainer.className = 'bg-white rounded-lg shadow-lg p-6 space-y-4 max-w-md w-full';
+
+        // Create the message
+        const message = document.createElement('p');
+        message.textContent = 'Do you need help?';
+        message.className = 'text-lg font-semibold';
+        promptContainer.appendChild(message);
+
+        // Create a container for the buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'flex justify-end space-x-4';
+
+        // Create the Yes button
+        const yesButton = document.createElement('button');
+        yesButton.textContent = 'Yes';
+        yesButton.className = 'px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition';
+        yesButton.addEventListener(clickEvent ,() => {
+            showAimingMechanic();
+            createBorderTimer();
+            document.body.removeChild(helpPrompt); // Remove the prompt
+        });
+        buttonContainer.appendChild(yesButton);
+
+        // Create the No button
+        const noButton = document.createElement('button');
+        noButton.textContent = 'No';
+        noButton.className = 'px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition';
+        noButton.addEventListener(clickEvent, () => {
+            document.body.removeChild(helpPrompt); // Remove the prompt
+            resumeTimer();
+            editor.setReadOnly(false);
+        });
+        buttonContainer.appendChild(noButton);
+
+        // Append the button container to the prompt container
+        promptContainer.appendChild(buttonContainer);
+
+        // Append the prompt container to the help prompt div
+        helpPrompt.appendChild(promptContainer);
+
+        // Append the help prompt to the body or a specific container
+        document.body.appendChild(helpPrompt); // Append the prompt to the body
+    }
+
+
+    // Function to disable typing for half of timerSeconds
+    function disableTyping(editor, timerSeconds) {
+        const halfTime = (timerSeconds / 2) * 1000; // Convert to milliseconds
+        alert(`You Failed. Typing will be disabled for ${halfTime/1000} seconds`);
+        resumeTimer();
+
+        // Step 2: Disable typing immediately
+        editor.setReadOnly(true);
+        console.log("Typing disabled in Ace Editor");
+
+        // Step 3: Set a timeout to re-enable typing after halfTime
+        setTimeout(() => {
+            pauseTimer();
+            alert('Typing Enabled!');
+            resumeTimer();
+            editor.setReadOnly(false);  // Enable typing
+        }, halfTime);
+    }
+
+    // Make it global by attaching it to the window object
+    window.disableTyping = disableTyping;
 
     document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
+    });
+
+    document.getElementById('runButton').addEventListener(clickEvent , () => {
+        runCode();
     });
 
 
