@@ -98,7 +98,7 @@ function displayInstruction(index) {
 }
 
 // Event listener for the check button
-checkButton.addEventListener(clickEvent, () => {
+checkButton.addEventListener("click", () => {
     // Move cursor to the end of the current line
     // const currentLine = editor.getCursorPosition().row;
     // const lineLength = editor.session.getLine(currentLine).length;
