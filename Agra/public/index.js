@@ -51,6 +51,7 @@ instructionDiv.appendChild(instructionText);
 
 // Create button for checking answer
 const checkButton = document.createElement("button");
+checkButton.id = "checkButton";
 checkButton.textContent = "Check Answer";
 checkButton.style.padding = "8px 16px";
 checkButton.style.fontSize = "14px";
@@ -98,7 +99,7 @@ function displayInstruction(index) {
 }
 
 // Event listener for the check button
-checkButton.addEventListener("click", () => {
+document.getElementById('checkButton').addEventListener(clickEvent, () => {
     // Move cursor to the end of the current line
     // const currentLine = editor.getCursorPosition().row;
     // const lineLength = editor.session.getLine(currentLine).length;
