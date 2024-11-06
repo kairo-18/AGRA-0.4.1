@@ -13,6 +13,14 @@ checkmarks.forEach(checkmark => {
     maxScore += checkmark.points;
 });
 
+var clickEvent = (function() {
+    if ('ontouchstart' in document.documentElement === true)
+        return 'touchstart';
+    else
+        return 'click';
+})();
+
+
 // populateCheckmarks();
 progressIncrement = 9 / checkmarks.length;
 calculateMaxMonsterHealth(checkmarks.length);
@@ -876,13 +884,6 @@ function showLineNumber(){
     document.querySelector(".ace_gutter").style.visibility = "visible";
     document.querySelector(".ace_gutter-layer").style.visibility = "visible";
 }
-
-var clickEvent = (function() {
-    if ('ontouchstart' in document.documentElement === true)
-        return 'touchstart';
-    else
-        return 'click';
-})();
 
 
 document.getElementById('startButton').addEventListener(clickEvent , () => {
