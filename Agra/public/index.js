@@ -62,6 +62,39 @@ checkButton.style.borderRadius = "4px";
 checkButton.style.cursor = "pointer";
 instructionDiv.appendChild(checkButton);
 
+checkButton.addEventListener(clickEvent, () => {
+    // Move cursor to the end of the current line
+    // const currentLine = editor.getCursorPosition().row;
+    // const lineLength = editor.session.getLine(currentLine).length;
+    // editor.moveCursorTo(currentLine, lineLength);
+    editor.navigateLineEnd();
+
+    // Proceed with the rest of the check answer logic
+    const currentAnswer = checkmarks[currentCheckmarkIndex].answer.trim();
+    const userCode = editor.getValue().trim();
+    var editorValue = editor.getValue();
+    var editorLines = editorValue.split("\n");
+    var initialErrors = userErrors;
+
+    checkCodeByLine(editorLines);
+
+    // Check if the user's code contains the correct answer
+    if (userCode.includes(currentAnswer)) {
+        checkmarks[currentCheckmarkIndex].done = true;
+        currentCheckmarkIndex++;
+
+        if (currentCheckmarkIndex < checkmarks.length) {
+            displayInstruction(currentCheckmarkIndex);
+            whenPlayerAttack();
+        } else {
+            instructionText.textContent = "All Instructions Complete!";
+            checkButton.disabled = true;
+        }
+    } else {
+        alert("Incorrect answer. Please try again.");
+    }
+});
+
 // Append the instruction div to the editor's container
 document.getElementById("code-editor").appendChild(instructionDiv);
 
@@ -98,39 +131,7 @@ function displayInstruction(index) {
     }
 }
 
-// Event listener for the check button
-document.getElementById('checkButton').addEventListener(clickEvent, () => {
-    // Move cursor to the end of the current line
-    // const currentLine = editor.getCursorPosition().row;
-    // const lineLength = editor.session.getLine(currentLine).length;
-    // editor.moveCursorTo(currentLine, lineLength);
-    editor.navigateLineEnd();
 
-    // Proceed with the rest of the check answer logic
-    const currentAnswer = checkmarks[currentCheckmarkIndex].answer.trim();
-    const userCode = editor.getValue().trim();
-    var editorValue = editor.getValue();
-    var editorLines = editorValue.split("\n");
-    var initialErrors = userErrors;
-
-    checkCodeByLine(editorLines);
-
-    // Check if the user's code contains the correct answer
-    if (userCode.includes(currentAnswer)) {
-        checkmarks[currentCheckmarkIndex].done = true;
-        currentCheckmarkIndex++;
-
-        if (currentCheckmarkIndex < checkmarks.length) {
-            displayInstruction(currentCheckmarkIndex);
-            whenPlayerAttack();
-        } else {
-            instructionText.textContent = "All Instructions Complete!";
-            checkButton.disabled = true;
-        }
-    } else {
-        alert("Incorrect answer. Please try again.");
-    }
-});
 
 // Show the first instruction but offset it down
 const initialInstructionIndex = currentCheckmarkIndex; // Keep it for the first instruction
