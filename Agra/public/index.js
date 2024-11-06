@@ -34,7 +34,8 @@ editor.setTheme("ace/theme/one_dark");
 
 //Test 2
 // Create instruction container for dynamically displaying instructions
-const instructionDiv = document.createElement("div");
+// Get the existing instruction container and elements by their IDs
+const instructionDiv = document.getElementById("instructionDiv");
 instructionDiv.style.position = "absolute";
 instructionDiv.style.backgroundColor = "white";
 instructionDiv.style.border = "1px solid #ddd";
@@ -43,16 +44,13 @@ instructionDiv.style.borderRadius = "8px";
 instructionDiv.style.boxShadow = "0px 4px 8px rgba(0,0,0,0.2)";
 instructionDiv.style.display = "none"; // Initially hidden
 
-const instructionText = document.createElement("p");
+const instructionText = document.getElementById("instructionText");
 instructionText.style.margin = "0 0 10px 0";
 instructionText.style.fontSize = "20px";
 instructionText.style.color = "black";
-instructionDiv.appendChild(instructionText);
 
-// Create button for checking answer
-const checkButton = document.createElement("button");
-checkButton.id = "checkButton";
-checkButton.textContent = "Check Answer";
+// Style the check answer button
+const checkButton = document.getElementById("checkButton");
 checkButton.style.padding = "8px 16px";
 checkButton.style.fontSize = "14px";
 checkButton.style.backgroundColor = "#4CAF50";
@@ -60,7 +58,7 @@ checkButton.style.color = "white";
 checkButton.style.border = "none";
 checkButton.style.borderRadius = "4px";
 checkButton.style.cursor = "pointer";
-instructionDiv.appendChild(checkButton);
+
 
 checkButton.addEventListener(clickEvent, () => {
     // Move cursor to the end of the current line
@@ -159,8 +157,6 @@ editor.insert(template);
 
 var content = document.getElementById("code");
 content.innerHTML = editor.getValue();
-
-readonly_lines("code-editor", content, [1,2,3], true);
 
 var code = `public class Main {
 
@@ -316,8 +312,6 @@ function checkCodeByLine(editorLines) {
     globalCorrectAnswers = correctAnswers;
     globalUserError = userErrors;
 }
-
-
 
 function refresheditor(id, content, readonly, fromAdminFlag) {
     set_readonly(editor, readonly, fromAdminFlag);

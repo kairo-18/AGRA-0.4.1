@@ -104,6 +104,10 @@
 
 </div>
 
+<div id="instructionDiv">
+    <p id="instructionText"></p>
+    <button id="checkButton">Check Answer</button>
+</div>
 
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
