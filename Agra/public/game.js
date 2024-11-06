@@ -393,12 +393,14 @@ function playerMove(scene) {
 
 function monsterMove() {
     if (!playerIsAttacking && !monsterIsMoving && !isAttackInProgress) {
+
         isAttackInProgress = true;
         monsterIsMoving = true;
 
         monster.play(`${monster.texture.key}Run`);
         monster.setVelocityX(-500);
         walkMusic.play();
+
         scene.time.delayedCall(700, function () {
             walkMusic.stop();
             swingMusic.play();
@@ -412,9 +414,11 @@ function monsterMove() {
                 hitMusic.play();
                 player.play('playerHurt');
                 shakeCamera(scene);
+
                 scene.time.delayedCall(500, function () {
                     player.play('playerIdle');
                 });
+
                 monster.x = 750;
                 monster.play(`${monster.texture.key}Idle`);
 
@@ -424,3 +428,4 @@ function monsterMove() {
         });
     }
 }
+

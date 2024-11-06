@@ -762,6 +762,7 @@ function createAlertBox(message) {
     function removeAlertBox(){
         alertBox.classList.add('fade-out');
         setTimeout(() => alertBox.remove(), 500); // Wait for fade-out transition
+        setTimeout(() => enableCheckButton(), 500);
         setTimeout(() => resumeTimer(), 2000);
         document.getElementById("startPanel").style.display = "none";
     }
@@ -839,34 +840,36 @@ function showHitOverlay() {
 }
 
 function temporarilyCenterGameDiv() {
-    // Get the dimensions of the viewport and the div
+    disableCheckButton();
+
     var viewportWidth = window.innerWidth;
     var viewportHeight = window.innerHeight;
     var gameWidth = game.offsetWidth;
     var gameHeight = game.offsetHeight;
 
-    // Check if the screen width is below a certain threshold (e.g., 600px)
     if (viewportWidth < 1000) {
-        // For smaller screens, center horizontally and move to the top
-        var translateX = (viewportWidth); // Center horizontally
-        var translateY = (viewportHeight); // Move down slightly from the top
-
-        // Apply transform to center horizontally and position near the top
+        var translateX = (viewportWidth);
+        var translateY = (viewportHeight);
         game.style.transform = `translate(0px, -${translateY}px)`;
     } else {
-        // For larger screens, center vertically and horizontally
         var translateX = (viewportWidth - gameWidth) / 2;
-
-        // Apply transform to center in the viewport
         game.style.transform = `translate(-${translateX}px, 0px)`;
     }
 
-
-
-    // After 2 seconds, reset the transform and animation
     setTimeout(function() {
-        game.style.transform = 'translate(0, 0)'; // Reset to original position
-    }, 2000); // Change this duration as needed
+        game.style.transform = 'translate(0, 0)';
+    }, 2000);
+}
+
+function disableCheckButton() {
+    const checkButton = document.getElementById("checkButton");
+    checkButton.disabled = true; // Disable the button
+}
+
+function enableCheckButton() {
+    const checkButton = document.getElementById("checkButton");
+    checkButton.disabled = false; // Re-enable after specified duration
+
 }
 
 function hideLineNumber(){
