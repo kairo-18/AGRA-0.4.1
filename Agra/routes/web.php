@@ -628,14 +628,30 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+function generateTemplateWithBlanks($template, $answers) {
+    // Iterate over the answers and replace each `{blank}` with the correct number of underscores
+    foreach ($answers as $answer) {
+        // Count the number of underscores needed for the answer
+        $underscoreString = str_repeat('_', strlen($answer));
+        // Replace the first occurrence of `{blank}` with the underscore string
+        $template = preg_replace('/\{blank\}/', $underscoreString, $template, 1);
+    }
+    return $template;
+}
+
 Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
-
+    $answers = array();
+    foreach ($instructions as $instruction){
+        array_push($answers, $instruction->answer);
+    }
+    $template = generateTemplateWithBlanks($task->TaskCodeTemplate, $answers);
     return view('taskFITB', [
         'task' => $task,
         'instructions' => $instructions,
-        'user' => $user
+        'user' => $user,
+        'template' => $template
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

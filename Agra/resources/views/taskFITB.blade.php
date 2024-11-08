@@ -129,7 +129,7 @@
 <script type="text/javascript">
 
     let counter = 0; // Initialize a counter for incrementing id
-    let template = `{!!$task->TaskCodeTemplate!!}`;
+    let template = `{!!$template!!}`;
 
     var checkmarks = [
             @foreach($instructions as $instruction)
