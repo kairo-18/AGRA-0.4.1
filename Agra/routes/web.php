@@ -100,7 +100,7 @@ function getAgraCourses($user){
     $excludedCourseIds = $userCourses->pluck('id')->merge($sectionCourses->pluck('id'));
     $courses = Course::whereNotIn('id', $excludedCourseIds)
         ->where('author', '!=', 'STI')
-        ->orderBy('name', 'asc')
+        ->orderBy('CourseName', 'asc')
         ->get();
 
     return $courses;
@@ -296,7 +296,7 @@ Route::get('courses/{course}', function (Course $course) {
 
 
 Route::get('agraCourses/{course:id}', function(Course $course) {
-    $lessons = $course->lessons()->orderBy('name', 'asc');
+    $lessons = $course->lessons()->orderBy('LessonName', 'asc');
     $user = Auth::user();
 
     $userCourses = $user->courses;
