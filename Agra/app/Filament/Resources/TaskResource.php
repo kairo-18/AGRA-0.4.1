@@ -92,8 +92,7 @@ class TaskResource extends Resource
                 Tables\Columns\TextColumn::make('lesson.LessonName')->label('Lesson')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('TaskName')->label('Task Name'),
                 Tables\Columns\TextColumn::make('Description')->label('Description'),
-                Tables\Columns\TextColumn::make('TaskMaxScore')->label('Max Score'),
-                Tables\Columns\TextColumn::make('TaskMaxTime')->label('Max Time'),
+                Tables\Columns\TextColumn::make('TaskMaxTime')->label('Interval of rounds'),
                 Tables\Columns\TextColumn::make('TaskDifficulty')->label('Difficulty'),
             ])
             ->filters([
