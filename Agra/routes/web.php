@@ -296,7 +296,7 @@ Route::get('courses/{course}', function (Course $course) {
 
 
 Route::get('agraCourses/{course:id}', function(Course $course) {
-    $lessons = $course->lessons()->orderBy('LessonName', 'asc');
+    $lessons = $course->lessons()->orderBy('LessonName', 'asc')->get();
     $user = Auth::user();
 
     $userCourses = $user->courses;
