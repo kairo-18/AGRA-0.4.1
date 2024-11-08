@@ -36,19 +36,26 @@ class LessonResource extends Resource
                 Forms\Components\TextInput::make('LessonName')->required(),
                 Forms\Components\TextInput::make('LessonDescription')->required()->minLength(10)->maxLength(255),
                 Forms\Components\Section::make("Category")
-                ->schema([
-                    Forms\Components\Select::make('LessonCategory')
-                        ->options([
-                            'Java' => 'Java',
-                            'C#' => 'C#',
-                        ])
-                        ->required(),
-
-                    Forms\Components\Select::make('course_id')
-                        ->relationship('course', 'CourseName')
-                        ->searchable()
-                        ->required(),
-                ]),
+                    ->schema([
+                        Forms\Components\Select::make('LessonCategory')
+                            ->options([
+                                'Java' => 'Java',
+                                'C#' => 'C#',
+                            ])
+                            ->required(),
+                    ]),
+                Forms\Components\Section::make("Lesson Material")
+                    ->schema([
+                        Forms\Components\FileUpload::make('LessonFile')
+                            ->columns(1)
+                            ->preserveFilenames()
+                    ]),
+                Forms\Components\Textarea::make('links')->label('YT Links'),
+                Forms\Components\Textarea::make('webLinks')->label('Web Links'),
+                Forms\Components\Select::make('Categories')
+                    ->relationship('categories', 'name')
+                    ->multiple()
+                    ->preload(),
 
             ]);
     }
