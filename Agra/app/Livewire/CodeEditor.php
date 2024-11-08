@@ -19,6 +19,6 @@ class CodeEditor extends Component
 
     public function render()
     {
-        return view('livewire.code-editor');
+        return view('profile.livewire.code-editor');
     }
 }

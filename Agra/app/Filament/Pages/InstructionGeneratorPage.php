@@ -22,7 +22,7 @@ class InstructionGeneratorPage extends Page implements HasTable, HasForms
 
     protected static string $view = 'filament.pages.instruction-generator-page';
 
-    protected static ?string $title = "Instruction Creation";
+    protected static ?string $title = "Instruction Creation Java";
 
 
     public function table(Table $table): Table
