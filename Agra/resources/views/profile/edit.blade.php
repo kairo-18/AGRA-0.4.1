@@ -61,15 +61,12 @@
                 <div class="back-btn flex justify-around mt-28 mb-10">
                     <div class="h-10 w-[21rem]"></div>
                         <a href="/userProfile" class="text-blue-700 w-40 h-14 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Done</a>
-                    </div>  
+                    </div>
 
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex justify-around flex-col xl:flex-row">
-                    <div class="max-w-xl">
-                        @include('profile.partials.delete-user-form')
-                    </div>
                 </div>
             </div>
-            
+
         </div>
         <!-------------------------End leftPanel----------------------->
 
