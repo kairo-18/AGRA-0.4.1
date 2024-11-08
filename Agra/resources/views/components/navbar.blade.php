@@ -135,9 +135,7 @@
             <!-- Notifications Button -->
             <div class="relative ml-4">
                 <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M6 12c0 3.33 2.67 6 6 6s6-2.67 6-6H6z"/>
-                    </svg>
+                    <img src="/notif-icon.svg" alt="Notification Icon" class="w-8 h-8" />
                 </button>
 
                 <!-- Notifications Dropdown -->

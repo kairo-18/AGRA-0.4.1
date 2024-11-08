@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+	<title>notif-icon</title>
+	<defs>
+		<image  width="42" height="50" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAyCAMAAAAdmLmfAAAAAXNSR0IB2cksfwAAAVlQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////0dWm5wAAAHN0Uk5TAB2s8q4n7f8cqvHwCXSIJS/X/DQ1QvXsNkH7oDcKOC4I1nVyBerpTUqUk8jG6Ob49wYSEB4bKihJRnBtltTQ/hoD3N5hX+4ZDs/MDSLT0iFA61f6VeTjp6TZ2BiOjWSw568fSGiHtsTi/YZnFBEH82rNbMfveA4AAAIQSURBVHicjdXbSxRRHAfw38/dDbVyt7KwLcnUEKm8oSVlF3FhI4S8INKrb/pg/0r01JOvvYmGQm2ou8Uitcl2Nak1tiIDSXG8Lsjs8cxMjc6Z+Z2ZgeF3zpkPzDmcw/cg2B5E5O+ufdw+EtDGWEHOnRYEjLLjTn1+o2x7pv4td+r36WU3L6dHENcDqC+rSClhbJOkIdw+jCuF3OaOKqX5rWK2RtCTqHCu/tU7Zav8U9D3x5GGDilaOaFvgcpWtE6w6IcDrcAl2xIBwixrp5W/HSTA2UUbrcafjvRcPiPSmqyjBDi/INLa7wStmhfpxQxBL3wS6eWvBK35INL6BYLWvhNo4zwhAcozVtr0maSX5qy0+SNJ61JWeuU9SRteW2lrmqRNs1Z6bY6kzUkrbUuRtPKLld54Q9KrLy20kJESWjF+kEqmak7WoO2YlNC2/Mw+jbySSICbL0zaciwhpaGG5//oHZyWSoAOnNRpJ8ZcJEAUxzntml1zlQB32Rj24IQHqf0b+556kgD3sFj1SP3YP+aRduPt06OeZC8PvfJbMcUVBqPxX/oWnEJ8InH3UV1+tn9eB3iqbpTg0hmeR1UjMLCoRWOYrR/HHBsxiP3aIB+RdlbwyH4EwwxYdkJOHzw2m+IlJ9IDgWhGIEGvvzWbgw/ldPjb/7M7FE/LKbSUGnYoHQcXCo3tsQ6YiiRsybQHT9aEmwwOZn8AAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="4" y="0"/>
+</svg>
