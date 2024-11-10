@@ -109,19 +109,42 @@
 
     <script>
 
-        var checkmarks = [
-            { id: 0, instruction: "Create an integer variable called num1 with the value of 10", answer: "int num1 = 10;", points: 10, done: false },
-            { id: 1, instruction: "Create an integer variable called num2 with the value of 10", answer: "int num2 = 10;", points: 10, done: false },
-            { id: 2, instruction: "Create a double variable called sum with the value of num1 added by num2", answer: "double sum = num1 + num2;", points: 10, done: false },
-            { id: 3, instruction: "Compute the average and put it into a variable called average ( sum / 2 )", answer: "double average = sum / 2;", points: 10, done: false },
-            { id: 4, instruction: "Display the average using system print line", answer: "System.out.println(average);", points: 10, done: false }
-        ];
+        var checkmarks = [];
+        let counter = 0; // Initialize a counter for incrementing id
+        let template = `{{$task->TaskCodeTemplate}}`;
+        let language = "{{$task->lesson->LessonCategory}}";
+
+        @foreach($instructions as $instruction)
+            <?php
+            // Split the answer into lines by newline character
+            $lines = explode("\n", $instruction->answer);
+
+            // Calculate points per line (assuming points are equally divided)
+            $pointsPerLine = $instruction->points / count($lines);
+            ?>
+
+        @foreach ($lines as $line)
+        checkmarks.push({
+            id: counter,
+            instruction: `{!! $instruction->instruction !!}`,
+            answer: `{!! $line !!}`,
+            points: {{ $pointsPerLine }}, // No need for number_format here
+            done: false
+        });
+        counter++; // Increment counter after each checkmark object
+        @endforeach
+        @endforeach
+
 
         let maxMonsterHealth = (20 * checkmarks.length);
 
         var channel = Echo.channel('public');
 
-        var enemy = prompt("Enter the username of your enemy");
+        var enemy;
+        document.addEventListener("DOMContentLoaded", function() {
+            enemy = prompt("Enter the username of your enemy");
+        });
+
 
         channel.listen('.chat', function(data) {
             if(data.username !== "{{$user->name}}"){

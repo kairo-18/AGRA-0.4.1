@@ -10,6 +10,7 @@ use App\Models\Lesson;
 use App\Models\Task;
 use App\Models\TaskScore;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -655,13 +656,52 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/multiplayer' , function(Task $task) {
+
+Route::get('/multiplayer', function () {
     $user = Auth::user();
+    $tasks = getAllTasksSti($user);
+    $intermediateTasks = collect();
+
+    // Filter the tasks with "Intermediate" difficulty
+    foreach ($tasks as $task) {
+        if ($task->TaskDifficulty == "Intermediate") {
+            $intermediateTasks->push($task);  // Use push() for collections
+        }
+    }
+
+    // Generate a unique game ID for the current match (this could be passed when pairing users)
+    $gameId = session('game_id');  // Assuming the game ID is stored in the session when users are paired
+
+    // If the game ID does not exist, it means the users are not paired, so generate a new game ID
+    if (!$gameId) {
+        $gameId = uniqid('game_');  // Generate a unique game ID for this match
+        session(['game_id' => $gameId]);  // Store the game ID in the session
+    }
+
+    // Check if the random task is already stored in the cache for the game
+    $randomTask = Cache::get('random_task_' . $gameId);
+
+    if (!$randomTask && $intermediateTasks->isNotEmpty()) {
+        // If not in the cache, select a random task
+        $randomTask = $intermediateTasks->random();
+
+        // Store the random task in the cache for 10 minutes with the game ID as the key
+        Cache::put('random_task_' . $gameId, $randomTask, now()->addMinutes(10));
+    }
+
+    // If no intermediate tasks exist, you could handle the case where the collection is empty
+    if (!$randomTask) {
+        return response()->json(['message' => 'No intermediate tasks available'], 404);
+    }
 
     return view('taskMultiplayer', [
-        'user' => $user
+        'user' => $user,
+        'instructions' => $randomTask->instructions,
+        'task' => $randomTask,
+        'gameId' => $gameId,  // Pass the game ID to the view if needed
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // Route::get('/courseGrades', function(Task $task) {
 //     $user = Auth::user();

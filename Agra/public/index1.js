@@ -66,7 +66,7 @@ function populateCheckmarks() {
         checkmarkDiv.style.justifyContent = "start";
         checkmarkDiv.appendChild(imgDiv);
         imgDiv.appendChild(checkmarkImg);
-        
+
     });
 }
 
@@ -358,14 +358,11 @@ function displayOutput(output) {
 
 var startButton = document.getElementById("startButton");
 
-document.querySelector(".container1").style.pointerEvents = "none";
-document.querySelector(".container1").style.filter = "blur(3px)";
 
 function startGame(){
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
-    document.querySelector(".container1").style.pointerEvents = "auto";
-    document.querySelector(".container1").style.filter = "blur(0px)";
+
 }
 
 

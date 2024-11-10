@@ -133,18 +133,16 @@
 </div>
 
 
-<<<<<<< Updated upstream
 
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
-=======
+<script src="/agraNotification.js"></script>
 <script>
     // Array of background images
     const backgroundImages = [
-        'Bg-Reco1.png', 'Bg-Reco2.png', 'Bg-Reco3.png', 
+        'Bg-Reco1.png', 'Bg-Reco2.png', 'Bg-Reco3.png',
         'Bg-Reco4.png', 'Bg-Reco5.png', 'Bg-Reco6.png', 'Bg-Reco7.png'
     ];
 
@@ -180,8 +178,6 @@
     });
 </script>
 
-
->>>>>>> Stashed changes
 
 </body>
 </html>
