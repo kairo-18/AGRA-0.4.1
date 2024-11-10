@@ -193,6 +193,23 @@ function getAllTasksSti($user){
     return $tasks;
 }
 
+function getAllTasks($user){
+    $tasks = collect();
+    $courses = Course::all();
+    if ($courses) {
+        foreach($courses as $course){
+            foreach ($course->lessons as $lesson) {
+                $tasks = $tasks->merge($lesson->tasks ?? collect());
+            }
+        }
+
+    }
+
+
+    return $tasks;
+}
+
+
 Route::get('/courses', function () {
 
     $user = Auth::user();
@@ -659,7 +676,7 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
 
 Route::get('/multiplayer', function () {
     $user = Auth::user();
-    $tasks = getAllTasksSti($user);
+    $tasks = getAllTasks($user);
     $intermediateTasks = collect();
 
     // Filter the tasks with "Intermediate" difficulty

@@ -142,7 +142,7 @@
 
         var enemy;
         document.addEventListener("DOMContentLoaded", function() {
-            enemy = prompt("Enter the username of your enemy");
+            enemy = prompt("Your Username is " + "{{$user->name}} \n" + "Enter the username of your enemy:");
         });
 
 
