@@ -1,7 +1,7 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -33,11 +33,6 @@
                     <span class="ms-2 text-sm text-white dark:text-gray-400">{{ __('Remember me') }}</span>
                 </label>
             </div>
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-white dark:text-gray-400 hover:text-blue-400 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
         </div>
 
         <x-primary-button class="mt-7 w-full justify-center h-11">

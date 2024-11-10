@@ -952,25 +952,30 @@ Route::get('/userAnalytics', function () {
 
 
 function fetchUserData($user)  {
-    // Fetch task scores for the authenticated user
-    $taskScores = TaskScore::where('user_id', $user->id)->get();
-
-    // Prepare the data for the chart
+    // Default taskData structure with default values set to 0 for Java and C#
     $taskData = [
         'Java' => [
-            'errors' => [],
-            'timeTaken' => [],
-            'timeLeft' => [],
-            'categories' => []
+            'errors' => [1],
+            'timeTaken' => [1],
+            'timeLeft' => [1],
+            'score' => [1],
+            'maxScore' => [1],
+            'categories' => ['No Java Tasks Available']
         ],
         'C#' => [
-            'errors' => [],
-            'timeTaken' => [],
-            'timeLeft' => [],
-            'categories' => []
+            'errors' => [1],
+            'timeTaken' => [1],
+            'timeLeft' => [1],
+            'score' => [1],
+            'maxScore' => [1],
+            'categories' => ['No C# Tasks Available']
         ]
     ];
 
+    // Fetch task scores for the authenticated user
+    $taskScores = TaskScore::where('user_id', $user->id)->get();
+
+    // Populate taskData if there are relevant task scores
     foreach ($taskScores as $taskScore) {
         // Retrieve the task using task_id
         $task = Task::find($taskScore->task_id);
@@ -978,15 +983,28 @@ function fetchUserData($user)  {
         if ($task) {
             // Retrieve the category name from the task's lesson course
             $categoryName = $task->lesson->course->category->name;
-            $score =\App\Models\Score::find($taskScore->score_id);
+            $score = \App\Models\Score::find($taskScore->score_id);
 
-            // Store data in the taskData array
+            // Store data in the taskData array, replacing the default 0 values
             $taskData[$categoryName]['errors'][] = $taskScore->Errors;
             $taskData[$categoryName]['timeTaken'][] = $taskScore->TimeTaken;
             $taskData[$categoryName]['timeLeft'][] = $taskScore->TimeLeft;
             $taskData[$categoryName]['score'][] = $score->score;
             $taskData[$categoryName]['maxScore'][] = $score->MaxScore;
             $taskData[$categoryName]['categories'][] = 'Task ' . $taskScore->task_id;
+        }
+    }
+
+    // Remove the default values if actual data exists
+    foreach (['Java', 'C#'] as $category) {
+        if (count($taskData[$category]['categories']) > 1) { // more than the default item
+            // Remove the initial default 0 values
+            array_shift($taskData[$category]['errors']);
+            array_shift($taskData[$category]['timeTaken']);
+            array_shift($taskData[$category]['timeLeft']);
+            array_shift($taskData[$category]['score']);
+            array_shift($taskData[$category]['maxScore']);
+            array_shift($taskData[$category]['categories']);
         }
     }
 

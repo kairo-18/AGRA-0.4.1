@@ -82,11 +82,11 @@ class Kernel extends ConsoleKernel
                 $randomTask = $tasks->random();
 
                 // Cache the random task for 10 minutes
-                Cache::put('random_task', $randomTask, now()->addMinutes(10));
+                Cache::put('random_task', $randomTask, now()->addMinutes(15));
             } catch (\Exception $e) {
                 Log::error("Error in random task selection: " . $e->getMessage(), ['stack' => $e->getTraceAsString()]);
             }
-        })->everyMinute();  // Runs every two hours or adjust to your needs
+        })->everyFifteenMinutes();  // Runs every two hours or adjust to your needs
 
     }
 
