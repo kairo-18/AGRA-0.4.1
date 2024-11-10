@@ -370,7 +370,7 @@ function playerMove(scene) {
             swingMusic.play();
             player.setVelocityX(0);
             player.play('playerAttack');
-            
+
         });
 
         player.once('animationcomplete', function (animation) {

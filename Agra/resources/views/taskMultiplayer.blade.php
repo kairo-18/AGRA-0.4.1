@@ -15,9 +15,10 @@
         .coding-area {
             height: 60%;
         }
-        .main-container.blurred {
+        .blurred {
             filter: blur(5px);
         }
+
     </style>
 
     <!-- Scripts -->
@@ -113,6 +114,8 @@
         let counter = 0; // Initialize a counter for incrementing id
         let template = `{{$task->TaskCodeTemplate}}`;
         let language = "{{$task->lesson->LessonCategory}}";
+        var isPlayerReady;
+        var isEnemyReady;
 
         @foreach($instructions as $instruction)
             <?php
@@ -140,28 +143,175 @@
 
         var channel = Echo.channel('public');
 
-        var enemy;
+        var enemy = "";
+
         document.addEventListener("DOMContentLoaded", function() {
-            enemy = prompt("Your Username is " + "{{$user->name}} \n" + "Enter the username of your enemy:");
+            hideStart();
+            showEnemyPrompt();
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('startButton').textContent = "Waiting";
+
+           if(enemy){
+               showReadyPrompt();
+           }
+
         });
 
 
         channel.listen('.chat', function(data) {
             if(data.username !== "{{$user->name}}"){
-                if(data.username.toLowerCase() === enemy.toLowerCase()) {
+
+                if(data.message === "Ready"){
+                    document.getElementById('startButton').disabled = false;
+                    document.getElementById('startButton').textContent = "Start";
+
+                    isEnemyReady = true;
+                }
+
+
+                if(data.username.toLowerCase() === enemy.toLowerCase() && isEnemyReady && data.message !== "Ready") {
                     monsterMove(scene);
                     delay(400).then(() => player.play("dmg", true));
-                    if(data.message === "int grade = 90;"){
-                        alert("You Lose");
-                    }
+
                 }
             }
         });
 
+        function showReadyPrompt() {
+            // Create the overlay
+            const overlay = document.createElement("div");
+            overlay.className = "fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50";
+            overlay.id = "readyPromptOverlay";
 
-        function startGame() {
-            $("#startPanel").hide();
-            $(".main-container").removeClass("blurred");
+            // Create the modal content
+            const modal = document.createElement("div");
+            modal.className = "bg-white rounded-lg p-6 text-center shadow-md w-80";
+
+            // Add the question text
+            const message = document.createElement("p");
+            message.className = "text-lg font-semibold text-gray-700 mb-4";
+            message.textContent = "Are you ready to start the game?";
+            modal.appendChild(message);
+
+            // Create the button container
+            const buttonContainer = document.createElement("div");
+            buttonContainer.className = "flex justify-around mt-4";
+
+            // "Yes" button
+            const yesButton = document.createElement("button");
+            yesButton.className = "bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600";
+            yesButton.textContent = "Yes";
+            yesButton.onclick = () => {
+                handleUserReadyResponse(true);
+                document.body.removeChild(overlay); // Remove overlay when clicked
+                showStart();
+            };
+            buttonContainer.appendChild(yesButton);
+
+            // "No" button
+            const noButton = document.createElement("button");
+            noButton.className = "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-600";
+            noButton.textContent = "No";
+            noButton.onclick = () => {
+                handleUserReadyResponse(false);
+                document.body.removeChild(overlay); // Remove overlay when clicked
+            };
+            buttonContainer.appendChild(noButton);
+
+            // Append the buttons to the modal
+            modal.appendChild(buttonContainer);
+
+            // Add modal to overlay, and overlay to the body
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+        }
+
+        // Callback function for handling user response
+        function handleUserReadyResponse(isReady) {
+            if (isReady) {
+                // Send the "ready" state to Pusher or perform any necessary actions for readiness
+                axios.post('/checkmarkComplete', {
+                    user: document.getElementById('username').value,
+                    code: "Ready",
+                    points: '10'
+                })
+                    .then(function(response) {
+                        console.log("User is ready:", response);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            } else {
+                console.log("User is not ready.");
+            }
+        }
+
+        function showEnemyPrompt() {
+            // Create the overlay
+            const overlay = document.createElement("div");
+            overlay.className = "fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50";
+            overlay.id = "enemyPromptOverlay";
+
+            // Create the modal content
+            const modal = document.createElement("div");
+            modal.className = "bg-white rounded-lg p-6 text-center shadow-md w-80";
+
+            // Add a title
+            const title = document.createElement("h2");
+            title.className = "text-lg font-semibold text-gray-700 mb-4";
+            title.textContent = "Enter Enemy Username";
+            const username = document.createElement('div');
+            username.innerHTML = "<span class='font-medium'>Your username: </span>" + "<span class='font-bold text-green-500'>{{$user->name}}</span>";
+            modal.appendChild(title);
+            modal.appendChild(username);
+
+            // Input box for enemy username
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "border rounded-lg w-full px-4 py-2 mb-4 text-gray-700";
+            input.placeholder = "Enemy Username";
+            input.id = "enemyInput";
+            modal.appendChild(input);
+
+            // "Submit" button
+            const submitButton = document.createElement("button");
+            submitButton.className = "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full";
+            submitButton.textContent = "Submit";
+            submitButton.onclick = () => {
+                const enemyUsername = input.value.trim();
+                if (enemyUsername && enemyUsername !== "{{$user->name}}") {
+                    handleEnemyUsername(enemyUsername);
+                    document.body.removeChild(overlay); // Remove overlay when done
+                    showReadyPrompt(); // Show the ready prompt after entering the enemy username
+                } else {
+                    alert("Please enter a valid username.");
+                }
+            };
+            modal.appendChild(submitButton);
+
+            // Add modal to overlay, and overlay to the body
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+        }
+
+        function handleEnemyUsername(enemyUsername) {
+            console.log("Enemy Username:", enemyUsername);
+            enemy = enemyUsername;
+        }
+
+
+        function showStart() {
+            // Show the start panel
+            document.getElementById("startPanel").style.display = "block";
+            // Add the blur effect to the main container
+            document.querySelector(".startPanel").classList.add("blurred");
+        }
+
+        function hideStart() {
+            // Hide the start panel
+            document.getElementById("startPanel").style.display = "none";
+            // Remove the blur effect from the main container
+            document.querySelector("#startPanel").classList.remove("blurred");
         }
 
         function showResetPanel() {

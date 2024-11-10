@@ -162,6 +162,8 @@ function updateScore() {
                 console.log(error);
             });
 
+            editor.setReadOnly(true);
+            delay(1000).then( () => {editor.setReadOnly(false)});
             // Mark the checkmark as processed
             checkmarkProcessed[checkmark.answer] = true;
         }
@@ -231,8 +233,7 @@ function checkCodeByLine(editorLines) {
     updateScore();
 
     if(globalScore === 100){
-        document.getElementById("timer").innerHTML = "Done";
-        showResetPanel();
+        delay(1500).then(() => {alert("You win")});
     }
 }
 
@@ -299,7 +300,6 @@ function startIntervalTimer() {
             clearInterval(timer);
             clearInterval(timer1);
             document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
         }
     }, 1000);
 
@@ -318,7 +318,6 @@ function startIntervalTimer() {
                 clearInterval(timer1);
                 clearInterval(timer2);
                 document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
             }
         }, 1000);
 
@@ -334,7 +333,6 @@ function startIntervalTimer() {
             clearInterval(timer2);
             console.log("Done!");
             document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
         }
 
         if(globalScore === 100){
@@ -342,7 +340,6 @@ function startIntervalTimer() {
             clearInterval(timer1);
             clearInterval(timer2);
             document.getElementById("timer").innerHTML = "Done";
-            showResetPanel();
         }
     }, 11000);
 

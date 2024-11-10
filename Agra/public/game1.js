@@ -268,8 +268,12 @@ function updatePlayerHealthBar() {
 
 // Function to reduce player health
 function reducePlayerHealth(amount) {
-    currentPlayerHealth -= amount;
+    const calculatedAmount = maxPlayerHealth / monsterNumber;
+    currentPlayerHealth -= calculatedAmount;
     currentPlayerHealth = Math.max(currentPlayerHealth, 0); // Ensure health doesn't go below 0
+    if(currentPlayerHealth <= 0){
+        alert("You Lose");
+    }
     updatePlayerHealthBar();
 }
 
