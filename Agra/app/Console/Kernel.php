@@ -3,11 +3,15 @@
 namespace App\Console;
 
 use App\Events\AgraNotificationPusher;
+use App\Models\Course;
 use App\Models\Section;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
@@ -67,7 +71,22 @@ class Kernel extends ConsoleKernel
                 // Log the error with the message and stack trace
                 Log::error("Error in scheduled task: " . $e->getMessage(), ['stack' => $e->getTraceAsString()]);
             }
-        })->everyMinute();
+
+        })->everyTwoHours();
+
+        // Task for selecting a random task
+        $schedule->call(function () {
+            try {
+                // Get intermediate tasks
+                $tasks = Task::where('TaskDifficulty', 'Intermediate')->get();
+                $randomTask = $tasks->random();
+
+                // Cache the random task for 10 minutes
+                Cache::put('random_task', $randomTask, now()->addMinutes(10));
+            } catch (\Exception $e) {
+                Log::error("Error in random task selection: " . $e->getMessage(), ['stack' => $e->getTraceAsString()]);
+            }
+        })->everyMinute();  // Runs every two hours or adjust to your needs
 
     }
 

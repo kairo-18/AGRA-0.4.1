@@ -193,23 +193,6 @@ function getAllTasksSti($user){
     return $tasks;
 }
 
-function getAllTasks($user){
-    $tasks = collect();
-    $courses = Course::all();
-    if ($courses) {
-        foreach($courses as $course){
-            foreach ($course->lessons as $lesson) {
-                $tasks = $tasks->merge($lesson->tasks ?? collect());
-            }
-        }
-
-    }
-
-
-    return $tasks;
-}
-
-
 Route::get('/courses', function () {
 
     $user = Auth::user();
@@ -673,52 +656,26 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
 Route::get('/multiplayer', function () {
     $user = Auth::user();
-    $tasks = getAllTasks($user);
-    $intermediateTasks = collect();
 
-    // Filter the tasks with "Intermediate" difficulty
-    foreach ($tasks as $task) {
-        if ($task->TaskDifficulty == "Intermediate") {
-            $intermediateTasks->push($task);  // Use push() for collections
-        }
-    }
+    // Retrieve the cached random task
+    $randomTask = Cache::get('random_task');
 
-    // Generate a unique game ID for the current match (this could be passed when pairing users)
-    $gameId = session('game_id');  // Assuming the game ID is stored in the session when users are paired
-
-    // If the game ID does not exist, it means the users are not paired, so generate a new game ID
-    if (!$gameId) {
-        $gameId = uniqid('game_');  // Generate a unique game ID for this match
-        session(['game_id' => $gameId]);  // Store the game ID in the session
-    }
-
-    // Check if the random task is already stored in the cache for the game
-    $randomTask = Cache::get('random_task_' . $gameId);
-
-    if (!$randomTask && $intermediateTasks->isNotEmpty()) {
-        // If not in the cache, select a random task
-        $randomTask = $intermediateTasks->random();
-
-        // Store the random task in the cache for 10 minutes with the game ID as the key
-        Cache::put('random_task_' . $gameId, $randomTask, now()->addMinutes(10));
-    }
-
-    // If no intermediate tasks exist, you could handle the case where the collection is empty
+    // If the task is not found (e.g., cache expired), generate and cache it again
     if (!$randomTask) {
-        return response()->json(['message' => 'No intermediate tasks available'], 404);
+        // Handle the situation when the cache expires or is not set
+        // You could redirect, show an error, or select a new task
+        return response()->json('An Error occurred please refresh after a minute');
     }
 
+    // Now use the task in the view
     return view('taskMultiplayer', [
         'user' => $user,
         'instructions' => $randomTask->instructions,
         'task' => $randomTask,
-        'gameId' => $gameId,  // Pass the game ID to the view if needed
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 // Route::get('/courseGrades', function(Task $task) {
 //     $user = Auth::user();
