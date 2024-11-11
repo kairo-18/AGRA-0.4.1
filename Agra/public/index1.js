@@ -27,6 +27,7 @@ editor.insert(`public class myClass{
 }`);
 
 editor.moveCursorTo(2, 8);
+scrollToCheckmark(0);
 
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
@@ -213,6 +214,7 @@ function checkCodeByLine(editorLines) {
                     console.log(checkmarks);
                     console.log(currentCheckmark);
                     currentCheckmark++;
+                    scrollToCheckmark(currentCheckmark);
                 }
             }
         });
@@ -233,7 +235,10 @@ function checkCodeByLine(editorLines) {
     updateScore();
 
     if(globalScore === 100){
-        delay(1500).then(() => {alert("You win")});
+        delay(1500).then(() => {
+            document.getElementById("winModal").classList.remove("hidden");
+            document.getElementById("finalScore").textContent = globalScore;
+        });
     }
 }
 
@@ -249,6 +254,18 @@ function whenPlayerAttack(){
     }
 }
 
+function scrollToCheckmark(index) {
+    // Get the checkmark element by ID
+    var checkmarkElement = document.getElementById("instruction" + index);
+
+    // If the element exists, scroll it into view
+    if (checkmarkElement) {
+        checkmarkElement.scrollIntoView({
+            behavior: "smooth", // Smooth scroll
+            block: "center"     // Center the element in the viewport
+        });
+    }
+}
 
 editor.session.on('change', function (delta) {
     //setEditorCode();

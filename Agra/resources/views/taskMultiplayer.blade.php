@@ -108,6 +108,30 @@
         </div>
     </div>
 
+<div id="winModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm text-center animate-bounce">
+        <h2 class="text-4xl font-bold text-green-500 mb-4">🎉 You Win! 🎉</h2>
+        <p class="text-gray-700 mb-6">Congratulations on completing the game! Your score: <span id="finalScore" class="font-semibold text-blue-500"></span>%</p>
+
+        <!-- Action Buttons -->
+        <button onclick="location.reload()" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+            Play Again
+        </button>
+    </div>
+</div>
+
+<div id="loseModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm text-center animate-bounce">
+        <h2 class="text-4xl font-bold text-red-500 mb-4">😞 You Lose! 😞</h2>
+        <p class="text-gray-700 mb-6">Unfortunately, you didn't make it. Your score: <span id="loseScore" class="font-semibold text-blue-500"></span>%</p>
+
+        <!-- Action Buttons -->
+        <button onclick="location.reload()" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+            Try Again
+        </button>
+    </div>
+</div>
+
     <form method="GET" id="scoreForm" action="">
         <input type="hidden" id="username" value="{{ $user->name }}" name="username">
     </form>
@@ -120,6 +144,7 @@
         let language = "{{$task->lesson->LessonCategory}}";
         var isPlayerReady;
         var isEnemyReady;
+        var username = "{{$user->name}}";
 
         @foreach($instructions as $instruction)
             <?php
