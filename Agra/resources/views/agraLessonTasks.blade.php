@@ -73,8 +73,13 @@
             </div>
             <!--3 div Courses Content-->
             <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+<<<<<<< Updated upstream
                 @foreach($tasks as $task)
                     <a href="/agraTasks/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+=======
+                @foreach($tasks->sortBy('TaskName') as $task)
+                    <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+>>>>>>> Stashed changes
                         <div class="h-1/5">
                             <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
                                 <!-- Image is set as a background image -->

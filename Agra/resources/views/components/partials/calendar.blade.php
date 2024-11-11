@@ -113,7 +113,7 @@
     </style>
 </head>
 <body>
-    <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto xl:overflow-hidden shadow">
+    <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto shadow">
         <div class="lbl-title flex justify-end">
             <h3 class="text-2xl font-semibold text-gray-900">Calendar</h3>
 {{--            <a href="/calendar" class="text-blue-600">view</a>--}}

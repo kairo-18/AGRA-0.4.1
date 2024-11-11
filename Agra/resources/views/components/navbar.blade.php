@@ -94,7 +94,7 @@
 
         <!-----------------Start Logo--------------------->
         <div class ="btn-logo flex flex-row justify-center w-1/3">
-            <a href="" class="flex items-center space-x-3 rtl:space-x-reverse transition ease-in-out delay-150 bg-transparent hover:-translate-y-1 hover:scale-110 hover:bg-blue-600 duration-300 rounded-lg w-30 h-full">
+            <a href="/agra" class="flex items-center space-x-3 rtl:space-x-reverse transition ease-in-out delay-150 bg-transparent hover:-translate-y-1 hover:scale-110 hover:bg-blue-600 duration-300 rounded-lg w-30 h-full">
                 <img src="/AGRA-Logo.png" class="h-8" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">AGRA</span>
             </a>
@@ -103,8 +103,35 @@
 
 
         <!---------------Start User Profile btn img---------------->
-        <div class ="btn-profile flex flex-row justify-end w-1/3">
+        <div class ="btn-profile flex flex-row gap-10 justify-end w-1/3">
+            <!-- Notifications Button -->
+            <div class="relative ml-4">
+                <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M6 12c0 3.33 2.67 6 6 6s6-2.67 6-6H6z"/>
+                    </svg>
+                </button>
 
+                <!-- Notifications Dropdown -->
+                <div id="notifications-dropdown" class="absolute right-0 z-50 hidden w-[500px] mt-5 bg-gray-300 shadow-2xl divide-y divide-gray-100 rounded-lg dark:bg-gray-700 dark:divide-gray-600">
+                    <div class="pb-2">
+                        <span class="block px-4 py-2 text-lg font-bold text-white bg-blue-900 dark:text-white rounded-lg">Notifications</span>
+                        <button id="read-all-button" class="block underline px-4 py-2 text-sm text-blue-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                            Read All
+                        </button>
+                        <div id="notification-list">
+
+                            @foreach(Auth::user()->agraNotifications as $notification)
+                                @if($notification->read_at == null)
+                                <div class="px-4 py-2 text-blue-700" data-notification-id="{{ $notification->id }}">
+                                    {{ $notification->sender }}: {{ $notification->message }}
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-black bg-white hover:bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                 <img src="/profileIcon.png" class="w-[30px] mr-4">
                 <a class="">{{\Illuminate\Support\Facades\Auth::user()->name}}</a> <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -132,6 +159,7 @@
                 </ul>
             </div>
 
+<<<<<<< Updated upstream
             <!-- Notifications Button -->
             <div class="relative ml-4">
                 <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
@@ -158,6 +186,8 @@
                     </div>
                 </div>
 
+=======
+>>>>>>> Stashed changes
             </div>
 
         </div>

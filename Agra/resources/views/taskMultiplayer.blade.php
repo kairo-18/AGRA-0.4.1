@@ -56,11 +56,11 @@
 <div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
     <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
 
-        <div class = "leftDiv flex flex-col  bg-gray-400 h-screen w-full p-5 gap-10">
+        <div class = "leftDiv flex flex-col  bg-gray-200 h-screen w-full p-5 gap-10">
 
                         <!--Information: Score, time, prog-bar-->
                         <div class="stu-progress">
-                            <div class="w-full h-[75px] bg-blue-600 text-white rounded-[20px] flex justify-between pt-[6px]">
+                            <div class="w-full h-[75px] bg-blue-800 text-white rounded-[20px] flex justify-between pt-[6px]">
                                 <div class="score">Score <span id="score">0</span></div>
                                 <div class="timer">Timer <span id="timer">10</span></div>
                                 <div class="pb">
@@ -84,9 +84,9 @@
                             <div class="code-editor" id="code-editor"></div>
                         </div>
                     </div>
-                    <div class = "RightDiv flex flex-col bg-gray-400 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
-                        <div class="mini-game" id="minigame"></div>
-                    </div>
+            <div class = "RightDiv flex flex-col bg-gray-200 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
+                <div class="mini-game" id="minigame"></div>
+            </div>
 
         </div>
     </div>

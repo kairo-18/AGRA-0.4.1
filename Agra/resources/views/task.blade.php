@@ -58,7 +58,7 @@
 <div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto ">
     <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
 
-        <div class = "leftDiv flex flex-col  bg-gray-200 h-screen w-full p-5 gap-10">
+        <div class = "leftDiv flex flex-col  bg-gray-300 h-screen w-full p-5 gap-10">
             <div class="stu-progress">
             <!--Information: Score, time, prog-bar-->
                 <div class="info-bar">
@@ -79,7 +79,7 @@
             <!--idk-->
             <div id="code" style="display: none;"></div>
         </div>
-        <div class = "RightDiv flex flex-col bg-gray-200 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
+        <div class = "RightDiv flex flex-col bg-gray-300 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
             <div class="mini-game" id="minigame"></div>
         </div>
 </div>

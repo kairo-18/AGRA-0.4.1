@@ -10,17 +10,20 @@
     <style>
         
         .container{
-            height: 45vh;
+            height: 40vh;
             width: 50vh;
-            position: absolute;
+            position: relative;
             
             transform: translate(-50%, -50%);
             perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .box{
             height: 250px;
             width: 250px;
-            position: absolute;
+            position: static;
             
             transform-style: preserve-3d;
             animation: animate 10s infinite;
@@ -103,6 +106,111 @@
         .active #bottom {
             top: 180px;
         }
+        @media (max-width: 1280px) {
+            .container {
+                height: 100vh;
+                width: 120vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 1180px and below */
+        @media (max-width: 1180px) {
+            .container {
+                height: 100vh;
+                width: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 1080px and below */
+        @media (max-width: 1080px) {
+            .container {
+                height: 100vh;
+                width: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 980px and below */
+        @media (max-width: 980px) {
+            .container {
+                height: 95vh;
+                width: 75vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 880px and below */
+        @media (max-width: 880px) {
+            .container {
+                height: 90vh;
+                width: 70vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 780px and below */
+        @media (max-width: 780px) {
+            .container {
+                height: 100vh;
+                width: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 680px and below */
+        @media (max-width: 680px) {
+            .container {
+                height: 100vh;
+                width: 50vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+
+        /* 580px and below */
+        @media (max-width: 580px) {
+            .container {
+                height: 90vh;
+                width: 40vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+            #left{
+                right: 87px;
+                transform: rotateY(-90deg);
+            }
+        }
+
+        /* 480px and below */
+        @media (max-width: 480px) {
+            .container {
+                height: 60vh;
+                width: 20vh;
+                display: flex;
+                justify-content: end;
+                align-items: end;
+            }
+            #left{
+                right: 60px;
+                transform: rotateY(-90deg);
+            }
+        }
     </style>
 
 
@@ -135,12 +243,12 @@
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
 <div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-full pl-10 pr-10 pb-10">
     <!--Inner div-->
-    <div class="innerDiv 2xl:flex bg-transparent h-full w-full rounded-xl overflow-hidden">
-        <div class="left-panel flex flex-col  bg-gray-900 h-screen 3xl:w-2/5 p-10 gap-y-10 ">
+    <div class="innerDiv flex-col xl:flex xl:flex-row bg-transparent h-full w-full rounded-xl overflow-hidden">
+        <div class="left-panel flex flex-col  bg-gray-900 h-100vh  p-10 gap-y-10 xl:pb-0 pb-30">
 
             <section class="bg-transparent dark:bg-gray-200">
-                <div class="py-8 px-4 mx-auto h-full max-w-screen-xl text-center lg:py-16">
-                    <h1 class="mb-4 text-6xl font-extrabold tracking-tight leading-none text-gray-200 md:text-6xl sm:text-2xl lg:text-8xl dark:text-white">Learn Programming where it meets Gaming</h1>
+                <div class="py-8 px-4 mx-auto h-full max-w-screen-2xl text-center lg:py-16">
+                    <h1 class="mb-4 text-5xl font-extrabold tracking-tight leading-none text-gray-200 md:text-6xl sm:text-6xl lg:text-7xl dark:text-white">Learn Programming where it meets Gaming</h1>
                     <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Here at AGRA we focus on learning where programming can be fun.</p>
                     <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
                         <a href="/agraCourses" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
@@ -158,8 +266,9 @@
 
 
         </div>
-        <div class="right-panel flex justify-end flex-row bg-gray-900 h-auto 3xl:w-3/5 w-full p-5 gap-8 items-end max-2xl:hidden">
-            <div class="container">
+        <div class="right-panel p-30 xl:pl-20 flex justify-end flex-row bg-gray-900 h-100vh max-w-screen-3xl 3xl:w-3/5 w-full p-5 gap-8 items-end">
+            <div class="space xl:w-2/6 w-4/6 xl:h-screnn h-full p-0"></div>
+            <div class="container xl:w-full w-2/6 h-full">
                 <div class="box" id="toggleBox">
                     <div class="card" id="front"></div>
                     <div class="card" id="back"></div>
@@ -174,7 +283,7 @@
 </div>
 
 <div class="outerDiv flex flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-full pl-10 pr-10 pb-10">
-<div class="grid md:grid-cols-3 gap-20">
+<div class="flex flex-col xl:flex-row gap-20">
                             <div class="bg-gray-50 shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
                                 <a href="/agraCourses" class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 mb-2">
                                     <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">

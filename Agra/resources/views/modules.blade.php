@@ -66,12 +66,22 @@
                             <a href="/task/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Tasks</a>
                         </li>
                     </ul>
+                    
                 </div>
             </div>
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-[50rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
-
+                
+                <iframe id="lessonIframe" frameborder="0" class="w-full h-full rounded-xl shadow-2xl" src="{{asset('storage/' . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
+                    <div class="flex gap-10">
+                        <button onclick="toggleLayout()" class="mt-4 p-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
+                            Expand Module
+                        </button>
+                        <!-- Fullscreen Button -->
+                        <button id="fullscreenButton" onclick="toggleFullscreen()" class="mt-4 p-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
+                            Go Fullscreen
+                        </button>
+                    </div>
             </div>
         </div>
         <!-------------------------End leftPanel----------------------->
@@ -198,7 +208,58 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
+<script>
+function toggleLayout() {
+    const innerDiv = document.querySelector('.innerDiv');
+    const rightPanel = document.querySelector('.right-panel');
+    const leftPanel = document.querySelector('.left-panel');
 
+    // Toggle flex direction of innerDiv
+    innerDiv.classList.toggle('xl:flex');
+    innerDiv.classList.toggle('flex-col');
+
+    // Toggle width of right-panel
+    rightPanel.classList.toggle('w-full');
+    rightPanel.classList.toggle('xl:w-2/5');
+
+    // Toggle height of left-panel
+    leftPanel.classList.toggle('h-full');
+    leftPanel.classList.toggle('h-screen');
+}
+</script>
+<script>
+function toggleFullscreen() {
+    const iframe = document.getElementById('lessonIframe');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+
+    if (!document.fullscreenElement) {
+        // Request fullscreen on iframe
+        iframe.requestFullscreen().catch((err) => {
+            alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        // Exit fullscreen
+        document.exitFullscreen();
+    }
+}
+
+// Update button text based on fullscreen state
+document.addEventListener('fullscreenchange', () => {
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    if (document.fullscreenElement) {
+        fullscreenButton.textContent = 'Exit Fullscreen';
+    } else {
+        fullscreenButton.textContent = 'Go Fullscreen';
+    }
+});
+
+// Exit fullscreen when the Escape key is pressed
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+});
+</script>
 
 <script>
     const sectionId = "{{$user->section->id}}";

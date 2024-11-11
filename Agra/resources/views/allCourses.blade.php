@@ -87,7 +87,7 @@
             </div>
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-wrap bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-10 gap-x-5">
-                @foreach($courses as $course)
+                @foreach($courses->sortBy('CourseName') as $course)
 
                     <a href="/agraCourses/{{$course->id}}" class="yt-vid w-[23rem] h-[25rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-1/5">

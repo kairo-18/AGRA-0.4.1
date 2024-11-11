@@ -17,6 +17,10 @@
         @csrf
         @method('patch')
 
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
