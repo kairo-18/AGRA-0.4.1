@@ -159,7 +159,6 @@
                 </ul>
             </div>
 
-<<<<<<< Updated upstream
             <!-- Notifications Button -->
             <div class="relative ml-4">
                 <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
@@ -186,8 +185,6 @@
                     </div>
                 </div>
 
-=======
->>>>>>> Stashed changes
             </div>
 
         </div>
