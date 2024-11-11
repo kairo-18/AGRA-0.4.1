@@ -132,11 +132,9 @@ function create() {
             families: ['VT323']
         },
         active: function () {
-            add.text(275, 745, 'Player Health', { fontFamily: 'VT323', fontSize: '30px' });
+            add.text(275, 745, username, { fontFamily: 'VT323', fontSize: '30px' });
             playerHealthText = add.text(630, 815, '', { fontFamily: 'VT323', fontSize: '30px' });
 
-            add.text(265, 150, username, { fontFamily: 'VT323', fontSize: '30px' });
-            monsterCount = add.text(630, 150, '', { fontFamily: 'VT323', fontSize: '30px' });
         },
         // Handle font loading error
         inactive: function () {
@@ -272,8 +270,7 @@ function reducePlayerHealth(amount) {
     currentPlayerHealth -= calculatedAmount;
     currentPlayerHealth = Math.max(currentPlayerHealth, 0); // Ensure health doesn't go below 0
     if(currentPlayerHealth <= 0){
-        document.getElementById("loseModal").classList.remove("hidden");
-        document.getElementById("loseScore").textContent = globalScore;
+        alert("You Lose");
     }
     updatePlayerHealthBar();
 }

@@ -307,6 +307,21 @@
             submitButton.className = "bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full";
             submitButton.textContent = "Submit";
             submitButton.onclick = () => {
+                const add = scene.add;  // Reference to the scene's add method for creating text
+
+                WebFont.load({
+                    google: {
+                        families: ['VT323']
+                    },
+                    active: function () {
+                        add.text(265, 150, enemy, { fontFamily: 'VT323', fontSize: '30px' });  // Display the enemy name
+                        playerHealthText = add.text(630, 815, '', { fontFamily: 'VT323', fontSize: '30px' });
+                        monsterCount = add.text(630, 150, '', { fontFamily: 'VT323', fontSize: '30px' });
+                    },
+                    inactive: function () {
+                        console.error('Font loading failed.');
+                    }
+                });
                 const enemyUsername = input.value.trim();
                 if (enemyUsername && enemyUsername !== "{{$user->name}}") {
                     handleEnemyUsername(enemyUsername);
