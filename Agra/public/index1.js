@@ -357,6 +357,7 @@ var startButton = document.getElementById("startButton");
 
 
 function startGame(){
+    document.getElementById("blurPanel").style.display = "none";
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
 

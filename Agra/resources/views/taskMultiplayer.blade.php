@@ -91,11 +91,15 @@
         </div>
     </div>
 
-    <div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
+    <div id="startPanel" class="w-full h-full fixed inset-0 z-[1] backdrop-blur-md">
         <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
             <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
             <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2" onclick="startGame()">Start</button>
         </div>
+    </div>
+
+    <div id="blurPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
+
     </div>
 
     <div class = "endPanel w-full h-full fixed inset-0 backdrop-blur-md" id="endPanel">
