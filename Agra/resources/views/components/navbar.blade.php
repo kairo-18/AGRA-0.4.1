@@ -107,13 +107,11 @@
             <!-- Notifications Button -->
             <div class="relative ml-4">
                 <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M6 12c0 3.33 2.67 6 6 6s6-2.67 6-6H6z"/>
-                    </svg>
+                    <img src="/notif-icon.svg" alt="Notification Icon" class="w-8 h-8" />
                 </button>
 
                 <!-- Notifications Dropdown -->
-                <div id="notifications-dropdown" class="absolute right-0 z-50 hidden w-[500px] mt-5 bg-gray-300 shadow-2xl divide-y divide-gray-100 rounded-lg dark:bg-gray-700 dark:divide-gray-600">
+                <div id="notifications-dropdown" class="absolute right-0 z-50 hidden w-[500px] mt-5 bg-gray-100 shadow-2xl divide-y divide-gray-100 rounded-lg dark:bg-gray-700 dark:divide-gray-600">
                     <div class="pb-2">
                         <span class="block px-4 py-2 text-lg font-bold text-white bg-blue-900 dark:text-white rounded-lg">Notifications</span>
                         <button id="read-all-button" class="block underline px-4 py-2 text-sm text-blue-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
@@ -159,31 +157,7 @@
                 </ul>
             </div>
 
-            <!-- Notifications Button -->
-            <div class="relative ml-4">
-                <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
-                    <img src="/notif-icon.svg" alt="Notification Icon" class="w-8 h-8" />
-                </button>
 
-                <!-- Notifications Dropdown -->
-                <div id="notifications-dropdown" class="absolute right-0 z-50 hidden w-[300px] mt-5 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                    <div class="py-2">
-                        <span class="block px-4 py-2 text-sm text-gray-900 dark:text-white">Notifications</span>
-                        <button id="read-all-button" class="block px-4 py-2 text-sm text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                            Read All
-                        </button>
-                        <div id="notification-list">
-
-                            @foreach(Auth::user()->agraNotifications as $notification)
-                                @if($notification->read_at == null)
-                                <div class="px-4 py-2 text-gray-700" data-notification-id="{{ $notification->id }}">
-                                    {{ $notification->sender }}: {{ $notification->message }}
-                                </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
 
             </div>
 

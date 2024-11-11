@@ -43,11 +43,7 @@
 <div class="outerDiv flex flex-wrap flex-col pb-5 pl-5 pr-5 bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto">
     <div class="innerDiv lg:flex bg-gray-50 h-full w-full rounded-t-lg overflow-auto">
 
-<<<<<<< Updated upstream
         <div class="leftDiv flex flex-col bg-gray-500 h-screen w-full p-5 gap-10">
-=======
-        <div class = "leftDiv flex flex-col  bg-gray-600 h-screen w-full p-5 gap-10">
->>>>>>> Stashed changes
 
             <!--Information: Score, time, prog-bar-->
             <div class="stu-progress">
@@ -61,7 +57,6 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< Updated upstream
             </div>
 
             <!--Compiler-->
@@ -78,11 +73,6 @@
                             style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;">
                         Submit Answer
                     </button>
-=======
-
-                <div class = "RightDiv flex flex-col bg-gray-600 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
-                    <div class="mini-game" id="minigame"></div>
->>>>>>> Stashed changes
                 </div>
             </div>
 
@@ -161,10 +151,10 @@
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>
-    <script>
-        const sectionId = "{{$user->section->id}}";
-        const username = "{{Auth::user()->name}}";
-    </script>
+<script>
+    const sectionId = "{{$user->section->id}}";
+    const username = "{{Auth::user()->name}}";
+</script>
 
 </body>
 </html>

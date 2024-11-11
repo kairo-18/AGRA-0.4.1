@@ -73,25 +73,23 @@
             </div>
             <!--3 div Courses Content-->
             <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-<<<<<<< Updated upstream
-                @foreach($tasks as $task)
-                    <a href="/agraTasks/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
-=======
-                @foreach($tasks->sortBy('TaskName') as $task)
-                    <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
->>>>>>> Stashed changes
-                        <div class="h-1/5">
-                            <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <!-- Image is set as a background image -->
+
+                    @foreach($tasks->sortBy('TaskName') as $task)
+                        <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+
+                            <div class="h-1/5">
+                                <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                                    <!-- Image is set as a background image -->
+                                </div>
+                                <div class="w-full p-3 bg-white rounded-xl">
+                                    <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">Tasks ⦿</h2>
+                                    <h1 class="font-bold text-lg text-blue-800">{{$task->TaskName}}</h1>
+                                    <p class="font-normal text-base text-blue-800 line-clamp">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
+                                </div>
                             </div>
-                            <div class="w-full p-3 bg-white rounded-xl">
-                                <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">Tasks ⦿</h2>
-                                <h1 class="font-bold text-lg text-blue-800">{{$task->TaskName}}</h1>
-                                <p class="font-normal text-base text-blue-800 line-clamp">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
+                        </a>
+                    @endforeach
+
             </div>
         </div>
         <!-------------------------End leftPanel----------------------->
