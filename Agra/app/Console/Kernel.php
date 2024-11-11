@@ -77,8 +77,13 @@ class Kernel extends ConsoleKernel
         // Task for selecting a random task
         $schedule->call(function () {
             try {
-                // Get intermediate tasks
-                $tasks = Task::where('TaskDifficulty', 'Intermediate')->get();
+                // Get intermediate tasks only from AGRA-authored courses
+                $tasks = Task::where('TaskDifficulty', 'Intermediate')
+                    ->whereHas('lesson.course', function ($query) {
+                        $query->where('author', 'AGRA');
+                    })
+                    ->get();
+
                 $randomTask = $tasks->random();
 
                 // Cache the random task for 10 minutes
