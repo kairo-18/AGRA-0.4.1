@@ -3,6 +3,7 @@ let totalScore = 0;
 let maxScore = 0;
 let userErrors = 0;
 let globalUserError = 0;
+let globalTimeTaken = 0;
 let globalCorrectAnswers;
 let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
 let startTime; // Time when the user starts the task
@@ -59,6 +60,18 @@ checkButton.style.border = "none";
 checkButton.style.borderRadius = "4px";
 checkButton.style.cursor = "pointer";
 
+// Create the recalibration button
+const recalibrateButton = document.createElement('button');
+recalibrateButton.innerText = 'Click to recreate';
+recalibrateButton.style.position = 'absolute';
+recalibrateButton.style.bottom = '5px';
+recalibrateButton.style.right = '5px';
+recalibrateButton.style.fontSize = '12px';
+recalibrateButton.style.padding = '4px 8px';
+recalibrateButton.style.cursor = 'pointer';
+
+// Append the button to the instructionDiv
+instructionDiv.appendChild(recalibrateButton);
 
 checkButton.addEventListener(clickEvent, () => {
     // Move cursor to the end of the current line
@@ -89,7 +102,8 @@ checkButton.addEventListener(clickEvent, () => {
             checkButton.disabled = true;
         }
     } else {
-        alert("Incorrect answer. Please try again.");
+        pulsateRed(instructionDiv);
+        shake(instructionDiv);
     }
 });
 
@@ -118,10 +132,8 @@ function displayInstruction(index) {
         const lineScreenPosition = editor.renderer.textToScreenCoordinates(lastTypedLine + 1, 0);
         const editorScrollTop = editor.session.getScrollTop();
 
-        console.log(lineScreenPosition);
-
         // Position the instruction div based on the captured line position
-        const lineHeight = editor.renderer.lineHeight - 200;
+        const lineHeight = editor.renderer.lineHeight - 100;
         instructionDiv.style.top = `${lineScreenPosition.pageY - editorScrollTop + lineHeight}px`;
         instructionDiv.style.left = `60px`;
     } else {
@@ -129,7 +141,17 @@ function displayInstruction(index) {
     }
 }
 
+function recalibrateInstructionDiv() {
+    const cursorPosition = editor.getCursorPosition();
+    const cursorScreenPosition = editor.renderer.textToScreenCoordinates(cursorPosition.row, cursorPosition.column);
 
+    // Update `instructionDiv` to be slightly below the cursor
+    instructionDiv.style.top = `${cursorScreenPosition.pageY + 20}px`;
+    instructionDiv.style.left = `$60px`;
+}
+
+// Attach click event to the recalibrate button
+recalibrateButton.addEventListener('click', recalibrateInstructionDiv);
 
 // Show the first instruction but offset it down
 const initialInstructionIndex = currentCheckmarkIndex; // Keep it for the first instruction
@@ -506,7 +528,7 @@ function startIntervalTimer(timeSec) {
 
     // Set the interval to run after the initial execution
     timer = setInterval(async function () {
-        if (!isPaused) runTimerCycle();  // Only run if not paused
+        if (!isPaused) runTimerCycle();
     }, (timeSec * 1000) + 2000);
 
     function runTimerCycle() {
@@ -514,119 +536,108 @@ function startIntervalTimer(timeSec) {
 
         // Create the inner timer for countdown
         timer2 = setInterval(function () {
-            if (isPaused) return;  // If paused, skip the rest
+            if (isPaused) return;
 
-            // Prevent the timer from going negative
             if (time <= 0) {
-                time = 0; // Ensure it doesn't go below zero
-                clearInterval(timer2); // Stop the countdown timer
+                clearInterval(timer2);
                 document.getElementById("timer").innerHTML = "0";
-                return; // Exit the function to prevent further execution
+                return;
             }
 
             document.getElementById("timer").innerHTML = time;
             time--;
             if (time === 0) {
-                // Trigger monster move and damage after countdown
                 monsterMove(scene);
-
-
-
-                // Call the function to center the div
                 temporarilyCenterGameDiv();
-
-
-                delay(1300).then( () => {showHitOverlay();})
                 rounds--;
-                console.log(rounds);
-                console.log(currentPlayerHealth);
 
+                clearInterval(timer2);
 
-                clearInterval(timer2);  // Stop the inner timer when the round ends
-
-                // Check if AlertBox should be displayed based on the rounds value
                 if (rounds > 0) {
                     sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
-                        delay(1500).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
+                        delay(1500).then(() => createAlertBox(result));
                     });
                 }
             }
 
-            // Check for global score to finish
-            if (globalScore === 100) {
-                stopTimer();  // Call stopTimer to clear intervals
-            }
+            if (globalScore === 100) stopTimer();
         }, 1000);
 
-        if (rounds <= 0) {
-            stopTimer();  // Stop the timer when rounds reach zero
-        }
-
-        if (globalScore === 100) {
-            stopTimer();
-        }
+        if (rounds <= 0 || globalScore === 100) stopTimer();
     }
 
-    // Function to stop both timers
     function stopTimer() {
+        endTime = Date.now();
+        let timeTaken = Math.floor((endTime - startTime) / 1000);
+        
+        // Stop timers
         clearInterval(timer);
         clearInterval(timer2);
-        console.log("Done!");
-        document.getElementById("timer").innerHTML = "Done";
-        showResetPanel();
-    }
 
-    // Function to pause the timer
+        console.log(startTime);
+        console.log(endTime);
+    
+        // Determine game result and update result message with a placeholder image
+        const resultMessage = document.getElementById("resultMessage");
+        const isGameOver = (rounds <= 0);
+
+        hideLineNumber();
+    
+        // Set a placeholder image depending on win/lose status
+        resultMessage.innerHTML = isGameOver 
+            ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">' 
+            : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
+    
+        // Update the score, time taken, and error elements
+        document.getElementById("timeTaken").textContent = timeTaken;
+        document.getElementById("globalScore").innerText = globalScore;
+        document.getElementById("globalUserError").innerText = globalUserError;
+    
+        // Show the end panel
+        document.getElementById("endPanel").style.display = "flex";
+    }
+    
+
     function pauseTimer() {
         isPaused = true;
         clearInterval(timer);
         clearInterval(timer2);
-        console.log("Timer paused.");
     }
 
-    // Function to resume the timer
     function resumeTimer() {
-        if (!isPaused) return;  // Only resume if it was paused
+        if (!isPaused) return;
 
         isPaused = false;
-        console.log("Timer resumed.");
 
-        // Resume the timer with remaining time
+        if (time <= 0) time = timeSec;  // Reset time if it had reached zero
+
         timer2 = setInterval(function () {
-            if (isPaused) return;  // If paused, skip the rest
+            if (isPaused) return;
 
-            // Prevent the timer from going negative
             if (time <= 0) {
-                time = 0; // Ensure it doesn't go below zero
-                clearInterval(timer2); // Stop the countdown timer
+                clearInterval(timer2);
                 document.getElementById("timer").innerHTML = "Time's up!";
-                return; // Exit the function to prevent further execution
+                return;
             }
 
             document.getElementById("timer").innerHTML = time;
             time--;
+
             if (time === 0) {
-                // Trigger monster move and damage after countdown
                 monsterMove(scene);
-                temporarilyCenterGameDiv()
+                temporarilyCenterGameDiv();
                 rounds--;
-                console.log(rounds);
-                console.log(currentPlayerHealth);
 
-                clearInterval(timer2);  // Stop the inner timer when the round ends
+                clearInterval(timer2);
 
-                // Check if AlertBox should be displayed based on the rounds value
                 if (rounds > 0) {
                     sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
-                        createAlertBox(result); // Show alert box only if rounds > 1
+                        createAlertBox(result);
                     });
                 }
             }
 
-            // Check for global score to finish
-            if (globalScore === 100) {
-                stopTimer();  // Call stopTimer to clear intervals
-            }
+            if (globalScore === 100) stopTimer();
         }, 1000);
 
         timer = setInterval(async function () {
@@ -634,10 +645,10 @@ function startIntervalTimer(timeSec) {
         }, (timeSec * 1000) + 2000);
     }
 
-    // Expose the pause and resume functions globally
     window.pauseTimer = pauseTimer;
     window.resumeTimer = resumeTimer;
 }
+
 
 function createAlertBox(message) {
     // Add custom styles to the head if they don't exist
@@ -801,6 +812,7 @@ function showResetPanel(){
     endPanel.style.display = "block";
     score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
 
+    globalTimeTaken = timeTaken;
     setTimeout(function(){
         submitScore(timeTaken, timeLeft);
     }, 5000);
@@ -823,6 +835,9 @@ function doneTaskStatus() {
     //document.getElementById('taskStatusForm').submit();
 }
 
+function tryAgain() {
+    location.reload(); // Refresh the page to try again
+}
 
 function reset(){
     window.location.href = '/';
@@ -882,6 +897,38 @@ function showLineNumber(){
     document.querySelector(".ace_gutter-cell").style.visibility = "visible";
     document.querySelector(".ace_gutter").style.visibility = "visible";
     document.querySelector(".ace_gutter-layer").style.visibility = "visible";
+}
+
+// Function to add the pulsating red effect
+function pulsateRed(element, duration = 500) {
+    const interval = 50; // Set interval for the pulsate effect (in milliseconds)
+    let isRed = false;
+    const pulsateInterval = setInterval(() => {
+        element.style.backgroundColor = isRed ? "white" : "red";
+        isRed = !isRed;
+    }, interval);
+
+    // Stop the pulsate effect after the specified duration
+    setTimeout(() => {
+        clearInterval(pulsateInterval);
+        element.style.backgroundColor = "white"; // Reset to original color
+    }, duration);
+}
+
+// Function to add shake effect
+function shake(element, duration = 500) {
+    const interval = 10; // Interval for shake effect (in milliseconds)
+    let position = 0;
+    const shakeInterval = setInterval(() => {
+        position = position === 0 ? -5 : 5;
+        element.style.transform = `translateX(${position}px)`;
+    }, interval);
+
+    // Stop the shake effect after the specified duration
+    setTimeout(() => {
+        clearInterval(shakeInterval);
+        element.style.transform = "translateX(0)"; // Reset to original position
+    }, duration);
 }
 
 
