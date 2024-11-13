@@ -1307,8 +1307,6 @@ video {
   width: var(--sidebar-width);
 }.w-\[18rem\] {
   width: 18rem;
-}.w-\[20px\] {
-  width: 20px;
 }.w-\[21rem\] {
   width: 21rem;
 }.w-\[23rem\] {
@@ -1317,6 +1315,8 @@ video {
   width: 25rem;
 }.w-\[27rem\] {
   width: 27rem;
+}.w-\[30px\] {
+  width: 30px;
 }.w-\[500px\] {
   width: 500px;
 }.w-\[calc\(100\%\+2rem\)\] {
@@ -1589,6 +1589,8 @@ video {
   justify-content: space-between;
 }.justify-around {
   justify-content: space-around;
+}.justify-evenly {
+  justify-content: space-evenly;
 }.justify-items-center {
   justify-items: center;
 }.gap-1 {
@@ -1852,9 +1854,6 @@ video {
 }.bg-blue-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(164 202 254 / var(--tw-bg-opacity));
-}.bg-blue-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(118 169 250 / var(--tw-bg-opacity));
 }.bg-blue-400\/30 {
   background-color: rgb(118 169 250 / 0.3);
 }.bg-blue-500 {
@@ -1920,6 +1919,9 @@ video {
 }.bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(253 232 232 / var(--tw-bg-opacity));
+}.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 82 82 / var(--tw-bg-opacity));
 }.bg-red-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(224 36 36 / var(--tw-bg-opacity));
@@ -1941,6 +1943,8 @@ video {
   background-color: rgb(253 246 178 / var(--tw-bg-opacity));
 }.bg-opacity-50 {
   --tw-bg-opacity: 0.5;
+}.bg-opacity-90 {
+  --tw-bg-opacity: 0.9;
 }.bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }.from-blue-400 {
@@ -1951,8 +1955,14 @@ video {
   --tw-gradient-from: #1E429F var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(30 66 159 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}.from-gray-800 {
+  --tw-gradient-from: #1F2937 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(31 41 55 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }.to-blue-600 {
   --tw-gradient-to: #1C64F2 var(--tw-gradient-to-position);
+}.to-gray-700 {
+  --tw-gradient-to: #374151 var(--tw-gradient-to-position);
 }.bg-cover {
   background-size: cover;
 }.bg-center {
