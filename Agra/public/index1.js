@@ -25,7 +25,7 @@ editor.insert(`public class myClass{
 
     }
 }`);
-
+let lastScrolledCheckmark = -1;
 editor.moveCursorTo(2, 8);
 scrollToCheckmark(0);
 
@@ -253,17 +253,21 @@ function whenPlayerAttack(){
         }
     }
 }
-
 function scrollToCheckmark(index) {
-    // Get the checkmark element by ID
-    var checkmarkElement = document.getElementById("instruction" + index);
+    // Only scroll if the current checkmark index has changed
+    if (index !== lastScrolledCheckmark) {
+        // Get the checkmark element by ID
+        var checkmarkElement = document.getElementById("instruction" + index);
 
-    // If the element exists, scroll it into view
-    if (checkmarkElement) {
-        checkmarkElement.scrollIntoView({
-            behavior: "smooth", // Smooth scroll
-            block: "center"     // Center the element in the viewport
-        });
+        // If the element exists, scroll it into view
+        if (checkmarkElement) {
+            checkmarkElement.scrollIntoView({
+                behavior: "smooth", // Smooth scroll
+                block: "center"     // Center the element in the viewport
+            });
+            // Update the last scrolled checkmark
+            lastScrolledCheckmark = index;
+        }
     }
 }
 
