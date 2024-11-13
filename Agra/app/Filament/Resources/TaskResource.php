@@ -65,7 +65,7 @@ class TaskResource extends Resource
                 Forms\Components\TextInput::make('TaskName')->label('Task Name'),
                 Forms\Components\TextInput::make('Description')->label('Task Description'),
                 Forms\Components\RichEditor::make('TaskInstruction')->label('Task Instruction'),
-                Forms\Components\TextInput::make('TaskMaxTime')->label('Task Interval Time (seconds)')->numeric(),
+                Forms\Components\TextInput::make('TaskMaxTime')->label('Task Round Interval if on Intermediate It is Countdown Timer (seconds)')->numeric(),
                 Forms\Components\Select::make('TaskDifficulty')
                     ->options([
                         "Beginner" => "Beginner",

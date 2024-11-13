@@ -89,23 +89,7 @@ checkButton.addEventListener(clickEvent, () => {
 
     checkCodeByLine(editorLines);
 
-    const isCorrect = currentAnswers.some(answer => userCode.includes(answer));
-    // Check if the user's code contains the correct answer
-    if (isCorrect) {
-        checkmarks[currentCheckmarkIndex].done = true;
-        currentCheckmarkIndex++;
 
-        if (currentCheckmarkIndex < checkmarks.length) {
-            displayInstruction(currentCheckmarkIndex);
-            whenPlayerAttack();
-        } else {
-            instructionText.textContent = "All Instructions Complete!";
-            checkButton.disabled = true;
-        }
-    } else {
-        pulsateRed(instructionDiv);
-        shake(instructionDiv);
-    }
 });
 
 // Append the instruction div to the editor's container
@@ -307,16 +291,28 @@ function checkCodeByLine(editorLines) {
     console.log("Line:" + wholelinetxt);
     console.log(checkmarks[currentCheckmark].answers)
 
+    var normalizedLine = normalizeLine(wholelinetxt); // Normalize the line
+
     // Check if the user's input matches any of the possible answers
     var isCorrect = checkmarks[currentCheckmark].answers.some(answer =>
-        wholelinetxt === answer.trim()
+        normalizedLine === answer.trim()
     );
 
     if (isCorrect) {
         console.log("Answer found in possible answers for current checkmark.");
         checkmarks[currentCheckmark].done = true;
         currentCheckmark++;
+        currentCheckmarkIndex++;
         correctAnswers++;
+
+        if (currentCheckmark < checkmarks.length) {
+            displayInstruction(currentCheckmarkIndex);
+            whenPlayerAttack();
+        } else {
+            instructionText.textContent = "All Instructions Complete!";
+            checkButton.disabled = true;
+        }
+
         editor.insert("\n");
         readonly_lines("code-editor", content, getCorrectLineNumbers(), false);
 
@@ -329,7 +325,13 @@ function checkCodeByLine(editorLines) {
     } else {
         errorDetected = true;
         userErrors++;
-        editor.find(wholelinetxt);
+        pulsateRed(instructionDiv);
+        shake(instructionDiv);
+        monsterMove(scene);
+        temporarilyCenterGameDiv();
+        sendPrompt(checkmarks[currentCheckmark].instruction, editor.getValue()).then(result => {
+            delay(100).then(() => createAlertBox(result));
+        });
     }
 
     console.log("User Error:" + userErrors);
@@ -339,6 +341,29 @@ function checkCodeByLine(editorLines) {
     globalCurrentCheckmark = currentCheckmark;
     globalCorrectAnswers = correctAnswers;
     globalUserError = userErrors;
+
+
+}
+
+function normalizeLine(line) {
+    // Step 1: Convert all tabs into spaces (assuming 4 spaces per tab).
+    line = line.replace(/\t/g, '    ');
+
+    // Step 2: Trim leading and trailing spaces.
+    line = line.trim();
+
+    // Step 3: Normalize spaces around equality operator.
+    // Ensure there's exactly one space on both sides of the '=' operator.
+    line = line.replace(/\s*=\s*/g, ' = ');
+
+    // Step 4: Normalize spaces around common operators (e.g., +, -, *, /).
+    // Ensure there's exactly one space on both sides of the operator.
+    line = line.replace(/\s*([\+\-\*\/\=\!\<\>\&\|])\s*/g, ' $1 ');
+
+    // Step 5: Collapse multiple spaces into one.
+    line = line.replace(/\s+/g, ' ');
+
+    return line;
 }
 
 
@@ -452,11 +477,15 @@ function getCorrectLineNumbers() {
     var correctLineNumbers = [];
     var codeLines = editor.getValue().split('\n');
 
+    // Normalize the code lines before checking them
+    var normalizedCodeLines = codeLines.map(line => normalizeLine(line));
+
     checkmarks.forEach(checkmark => {
         if (checkmark.done && checkmark.answers) {
-            // Iterate over all possible answers and find the first match in codeLines
+            // Iterate over all possible answers and find the first match in normalizedCodeLines
             for (let answer of checkmark.answers) {
-                var lineNumber = findLineNumber(answer.trim(), codeLines);
+                var normalizedAnswer = normalizeLine(answer.trim()); // Normalize the answer as well
+                var lineNumber = findLineNumber(normalizedAnswer, normalizedCodeLines);
                 if (lineNumber !== -1) {
                     correctLineNumbers.push(lineNumber + 1); // Adjust to 1-based index
                     break; // Stop after finding the first matching answer
@@ -464,16 +493,18 @@ function getCorrectLineNumbers() {
             }
         }
     });
+
     return correctLineNumbers;
 }
-// Function to find the line number of a given text in an array of lines
-function findLineNumber(text, lines) {
-    for (var i = 0; i < lines.length; i++) {
-        if (lines[i].includes(text)) {
-            return i;
+
+// Example of a function that finds the line number based on normalized content
+function findLineNumber(answer, lines) {
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i] === answer) {
+            return i; // Return the index of the matching line
         }
     }
-    return -1;
+    return -1; // Return -1 if no match is found
 }
 
 var tempCtr = 0;
@@ -809,7 +840,8 @@ function startGame(){
     document.getElementById("startPanel").style.zIndex = 10;
 
     showLineNumber();
-    startIntervalTimer(timerSeconds);
+    startCountdown();
+    //startIntervalTimer(timerSeconds);
 }
 
 
@@ -947,3 +979,27 @@ document.getElementById('startButton').addEventListener(clickEvent , () => {
     startGame();
 });
 
+function startCountdown() {
+    // Update the timer every second
+    const timerInterval = setInterval(function() {
+        // Calculate minutes and seconds
+        let minutes = Math.floor(timerSeconds / 60);
+        let seconds = timerSeconds % 60;
+
+        // Format time display
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+
+        // Display the timer
+        document.getElementById("timer").innerHTML = `${minutes}:${seconds}`;
+
+        // Decrement the time
+        timerSeconds--;
+
+        // If time reaches zero, stop the countdown
+        if (timerSeconds < 0) {
+            clearInterval(timerInterval);
+            document.getElementById("timer").innerHTML = "Time's up!";
+        }
+    }, 1000);
+}
