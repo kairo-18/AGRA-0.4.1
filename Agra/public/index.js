@@ -305,7 +305,7 @@ function checkCodeByLine(editorLines) {
         currentCheckmarkIndex++;
         correctAnswers++;
 
-        if (currentCheckmark < checkmarks.length) {
+        if (currentCheckmark <= checkmarks.length) {
             displayInstruction(currentCheckmarkIndex);
             whenPlayerAttack();
         } else {
@@ -621,7 +621,7 @@ function startIntervalTimer(timeSec) {
 
         // Determine game result and update result message with a placeholder image
         const resultMessage = document.getElementById("resultMessage");
-        const isGameOver = (rounds <= 0);
+        const isGameOver = (rounds <= 0);1
 
         hideLineNumber();
 
@@ -980,6 +980,7 @@ document.getElementById('startButton').addEventListener(clickEvent , () => {
 });
 
 function startCountdown() {
+    let isGameOver;
     // Update the timer every second
     const timerInterval = setInterval(function() {
         // Calculate minutes and seconds
@@ -995,11 +996,47 @@ function startCountdown() {
 
         // Decrement the time
         timerSeconds--;
+        if (globalScore === 100) {
+             isGameOver = false;
+            stopTimer();
+        }
 
-        // If time reaches zero, stop the countdown
-        if (timerSeconds < 0) {
+
+        function stopTimer(){
             clearInterval(timerInterval);
             document.getElementById("timer").innerHTML = "Time's up!";
+
+            endTime = Date.now();
+            let timeTaken = Math.floor((endTime - startTime) / 1000);
+
+
+            console.log(startTime);
+            console.log(endTime);
+
+            // Determine game result and update result message with a placeholder image
+            const resultMessage = document.getElementById("resultMessage");
+
+            hideLineNumber();
+
+            // Set a placeholder image depending on win/lose status
+            resultMessage.innerHTML = isGameOver
+                ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
+                : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
+
+            // Update the score, time taken, and error elements
+            document.getElementById("timeTaken").textContent = timeTaken;
+            document.getElementById("globalScore").innerText = globalScore;
+            document.getElementById("globalUserError").innerText = globalUserError;
+
+            // Show the end panel
+            delay(3000).then(() => {
+                document.getElementById("endPanel").style.display = "flex";
+            })
+        }
+        // If time reaches zero, stop the countdown
+        if (timerSeconds < 0) {
+            isGameOver = true;
+            stopTimer();
         }
     }, 1000);
 }
