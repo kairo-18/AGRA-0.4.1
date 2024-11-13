@@ -12,11 +12,16 @@ channel.subscribed(() => {
     const notificationItem = document.createElement('div');
     notificationItem.className = 'px-4 py-2 text-gray-700'; // Add your desired styles
 
-    if(username === username1){
-        notificationItem.innerText = `Agra: You ${message}`;
+    if(message.includes("Reminder")){
+        notificationItem.innerText = `Agra:  ${message}`;
     }else{
-        notificationItem.innerText = `Agra: One of Your classmate ${message}`;
+        if(username === username1){
+            notificationItem.innerText = `Agra: You ${message}`;
+        }else{
+            notificationItem.innerText = `Agra: One of Your classmate ${message}`;
+        }
     }
+
 
 
     // Append the notification item to the notification list
