@@ -73,7 +73,7 @@
                     <div id="accordion-arrow-icon" data-accordion="open">
                     <span class="mb-2 text-xl font-bold text-blue-900 dark:text-gray-400">{{$task->TaskName}}</span>
                     <p class="mb-2 text-gray-400 font-medium dark:text-gray-400">{{$task->Description}}</p>
-                    
+
                     <h2 id="accordion-arrow-icon-heading-2">
                         <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right bg-gray-200 rounded-xl text-gray-600 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-400 dark:hover:bg-blue-800 gap-3" data-accordion-target="#accordion-arrow-icon-body-2" aria-expanded="true" aria-controls="accordion-arrow-icon-body-2">
                         <span>Instruction: </span>
@@ -84,6 +84,7 @@
                     </h2>
                     <div id="accordion-arrow-icon-body-2" class="hidden" aria-labelledby="accordion-arrow-icon-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
+                            <p class="mb-2 text-gray-500 dark:text-gray-400"><span class="font-bold">Difficulty:</span> {!!$task->TaskDifficulty !!}</p>
                         <p class="mb-2 text-gray-500 dark:text-gray-400">{!!$task->TaskInstruction !!}</p>
                         </div>
                     </div>
@@ -197,7 +198,7 @@
                             $deadlineWord = $deadline->isToday() ? 'Today' :
                                             ($deadline->isTomorrow() ? 'Tomorrow' :
                                             ($deadline->isFuture() && $deadline->diffInDays($now) <= 30 ? 'Upcoming' : 'Past Due'));
-                            
+
                             // Set text and background color based on deadline type
                             if ($deadline->isToday()) {
                                 $deadlineClass = 'text-green-500 bg-green-100';
@@ -228,7 +229,7 @@
                                             {{$task->lesson->LessonName}}
                                         </h5>
                                         <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">
-                                            <strong>Deadline:</strong> 
+                                            <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold">{{ $deadline->format('g:i A') }}</span>
                                             <span class="{{ $deadlineClass }} font-bold">{{ $deadlineWord }}</span>
                                         </time>
