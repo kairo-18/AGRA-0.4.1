@@ -81,7 +81,7 @@ checkButton.addEventListener(clickEvent, () => {
     editor.navigateLineEnd();
 
     // Proceed with the rest of the check answer logic
-    const currentAnswer = checkmarks[currentCheckmarkIndex].answer.trim();
+    const currentAnswers = checkmarks[currentCheckmarkIndex].answers.map(answer => answer.trim());
     const userCode = editor.getValue().trim();
     var editorValue = editor.getValue();
     var editorLines = editorValue.split("\n");
@@ -89,8 +89,9 @@ checkButton.addEventListener(clickEvent, () => {
 
     checkCodeByLine(editorLines);
 
+    const isCorrect = currentAnswers.some(answer => userCode.includes(answer));
     // Check if the user's code contains the correct answer
-    if (userCode.includes(currentAnswer)) {
+    if (isCorrect) {
         checkmarks[currentCheckmarkIndex].done = true;
         currentCheckmarkIndex++;
 
@@ -304,12 +305,17 @@ function checkCodeByLine(editorLines) {
     content.innerHTML = editor.getValue();
 
     console.log("Line:" + wholelinetxt);
+    console.log(checkmarks[currentCheckmark].answers)
 
-    if (wholelinetxt === checkmarks[currentCheckmark].answer.trim()) {
-        console.log("Answer:" + checkmarks[currentCheckmark].answer.trim());
+    // Check if the user's input matches any of the possible answers
+    var isCorrect = checkmarks[currentCheckmark].answers.some(answer =>
+        wholelinetxt === answer.trim()
+    );
+
+    if (isCorrect) {
+        console.log("Answer found in possible answers for current checkmark.");
         checkmarks[currentCheckmark].done = true;
         currentCheckmark++;
-        // checkCheckmarks();
         correctAnswers++;
         editor.insert("\n");
         readonly_lines("code-editor", content, getCorrectLineNumbers(), false);
@@ -334,6 +340,7 @@ function checkCodeByLine(editorLines) {
     globalCorrectAnswers = correctAnswers;
     globalUserError = userErrors;
 }
+
 
 function refresheditor(id, content, readonly, fromAdminFlag) {
     set_readonly(editor, readonly, fromAdminFlag);
@@ -444,17 +451,21 @@ function set_readonly(editor,readonly_ranges, fromAdminFlag) {
 function getCorrectLineNumbers() {
     var correctLineNumbers = [];
     var codeLines = editor.getValue().split('\n');
+
     checkmarks.forEach(checkmark => {
-        if (checkmark.done && checkmark.answer) {
-            var lineNumber = findLineNumber(checkmark.answer, codeLines);
-            if (lineNumber !== -1) {
-                correctLineNumbers.push(lineNumber + 1); // Adjusting line number to start from 1-based index
+        if (checkmark.done && checkmark.answers) {
+            // Iterate over all possible answers and find the first match in codeLines
+            for (let answer of checkmark.answers) {
+                var lineNumber = findLineNumber(answer.trim(), codeLines);
+                if (lineNumber !== -1) {
+                    correctLineNumbers.push(lineNumber + 1); // Adjust to 1-based index
+                    break; // Stop after finding the first matching answer
+                }
             }
         }
     });
     return correctLineNumbers;
 }
-
 // Function to find the line number of a given text in an array of lines
 function findLineNumber(text, lines) {
     for (var i = 0; i < lines.length; i++) {
@@ -569,34 +580,34 @@ function startIntervalTimer(timeSec) {
     function stopTimer() {
         endTime = Date.now();
         let timeTaken = Math.floor((endTime - startTime) / 1000);
-        
+
         // Stop timers
         clearInterval(timer);
         clearInterval(timer2);
 
         console.log(startTime);
         console.log(endTime);
-    
+
         // Determine game result and update result message with a placeholder image
         const resultMessage = document.getElementById("resultMessage");
         const isGameOver = (rounds <= 0);
 
         hideLineNumber();
-    
+
         // Set a placeholder image depending on win/lose status
-        resultMessage.innerHTML = isGameOver 
-            ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">' 
+        resultMessage.innerHTML = isGameOver
+            ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
             : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
-    
+
         // Update the score, time taken, and error elements
         document.getElementById("timeTaken").textContent = timeTaken;
         document.getElementById("globalScore").innerText = globalScore;
         document.getElementById("globalUserError").innerText = globalUserError;
-    
+
         // Show the end panel
         document.getElementById("endPanel").style.display = "flex";
     }
-    
+
 
     function pauseTimer() {
         isPaused = true;

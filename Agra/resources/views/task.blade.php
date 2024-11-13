@@ -123,6 +123,7 @@
 
 <div id="instructionDiv">
     <p id="instructionText"></p>
+    <p class="mb-5">Note: Do the instruction in a single line of code only.</p>
     <button id="checkButton">Check Answer</button>
 </div>
 
@@ -151,24 +152,23 @@
 
     @foreach($instructions as $instruction)
         <?php
-        // Split the answer into lines by newline character
-        $lines = explode("\n", $instruction->answer);
+        // Split the answer by comma to get multiple answers
+        $answerVariants = explode("\n", $instruction->answer);
 
-        // Calculate points per line (assuming points are equally divided)
-        $pointsPerLine = $instruction->points / count($lines);
+        // Calculate points per instruction (assuming points are equally divided)
+        $pointsPerLine = $instruction->points;
         ?>
 
-    @foreach ($lines as $line)
     checkmarks.push({
         id: counter,
-        instruction: `{!! $instruction->instruction !!}`,
-        answer: `{!! $line !!}`,
-        points: {{ $pointsPerLine }}, // No need for number_format here
+        instruction: {!! json_encode($instruction->instruction) !!}, // JSON-encoded instruction
+        answers: {!! json_encode($answerVariants) !!}, // JSON-encoded array of answers
+        points: {{ $pointsPerLine }},
         done: false
     });
     counter++; // Increment counter after each checkmark object
     @endforeach
-    @endforeach
+
 
     console.log(checkmarks)
 
