@@ -27,6 +27,63 @@
         .fade-out {
             opacity: 0;
         }
+
+        .background-wrapper {
+            top: 0;
+            left: 0;
+            z-index: 0; /* Layer behind the content */
+            width: 100%; /* Adjust to fit the container size */
+            height: 100vh; /* Full viewport height */
+            overflow: hidden; /* Hide overflow if the image doesn’t fit exactly */
+            position: relative;
+            background-size: cover; /* Ensure the background image covers the entire container */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent image repetition */
+        }
+
+        .bg-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+        }
+
+        /* Make the images fade in and out in sequence */
+        .bg-slide img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Ensure images cover the entire container */
+            height: 100%;
+            object-fit: contain; /* Ensures the image covers the screen without distortion */
+            opacity: 0; /* Initially set to invisible for all images */
+            animation: fadeInOut 12s infinite; /* Apply fadeInOut animation with 12s cycle */
+        }
+
+        /* Delay the animation for each image to create a sequential fade-in and fade-out effect */
+        .bg-slide img:nth-child(1) {
+            animation-delay: 0s; /* First image appears immediately */
+        }
+
+        .bg-slide img:nth-child(2) {
+            animation-delay: 4s; /* Second image fades in after 4 seconds */
+        }
+
+        .bg-slide img:nth-child(3) {
+            animation-delay: 8s; /* Third image fades in after 8 seconds */
+        }
+
+        /* Keyframes for the fade-in and fade-out effect */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0; /* Start and end with image invisible */
+            }
+            25%, 75% {
+                opacity: 1; /* Fade in and remain visible */
+            }
+        }
     </style>
 </head>
 <body>
@@ -84,10 +141,22 @@
         </div>
 </div>
 
-<div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
-        <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-            <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
-            <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2">Start</button>
+    <div id="startPanel" class="w-full h-full fixed inset-0 bg-white overflow-hidden">
+        <div class="background-wrapper">
+            <div class="bg-slide">
+                <img src="/bg-Intermediate4.png" alt="Background 1">
+                <img src="/bg-Intermediate5.png" alt="Background 2">
+                <img src="/bg-Intermediate6.png" alt="Background 3">
+            </div>
+        </div>
+        <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
+            <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
+                <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
+                <h2 id="startText" class="text-center mb-2 text-blue-900">Little glad is lost around the forest and needs to escape, hoever, he is not safe as a ghostly monster roams around. Help little glad to get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
+            </div>
+            <div class="flex justify-end items-end h-full w-full">
+                <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
+            </div>
         </div>
     </div>
 

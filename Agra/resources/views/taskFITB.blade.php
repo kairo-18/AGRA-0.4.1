@@ -11,9 +11,43 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
     <title>AGRA</title>
+    
     <style>
         .coding-area{
             height: 60%;
+        }
+
+        .background-wrapper {
+            top: 0;
+            left: 0;
+            z-index: 0; /* Layer behind the content */
+            width: 100%; /* Adjust to fit the container size */
+            height: 100vh; /* Set height, e.g., full viewport height */
+            overflow: hidden; /* Hides any overflow if the image doesn’t fit exactly */
+            position: relative;
+        }
+
+        .bg-slide {
+            position: absolute;
+            width: 200%; /* Two images, each 100%, so total width is 200% */
+            height: 100%;
+            display: flex;
+            animation: slide 60s infinite; /* Slower animation speed */
+            top: 0;
+            left: 0;
+        }
+
+        .bg-slide img {
+            width: 50%; /* Each image takes up 50% of the container */
+            height: 100%;
+            object-fit: cover; /* Cover the area without distortion */
+        }
+
+        /* Keyframes for sliding effect */
+        @keyframes slide {
+            0% { transform: translateX(0); } /* Start from the first image */
+            50% { transform: translateX(-50%); } /* Slide to the second image */
+            100% { transform: translateX(0); } /* Loop back to the first image */
         }
     </style>
 </head>
@@ -94,9 +128,20 @@
 
 
 <div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
-    <div class="startPaneldiv2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-800 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-        <h2 id="startText" class="text-center mb-2">Press start when you are ready.</h2>
-        <button id="startButton" class="mt-4 mb-4 rounded-md border border-white bg-green-500 text-white text-lg px-4 py-2">Start</button>
+    <div class="background-wrapper">
+        <div class="bg-slide">
+            <img src="/bg-FITTB1.png" alt="Background 1">
+            <img src="/bg-FITTB2.png" alt="Background 2">
+        </div>
+    </div>
+    <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
+        <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
+            <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
+            <h2 id="startText" class="text-center mb-2 text-blue-900">Little glad is lost around the forest and needs to escape, hoever, he is not safe as a ghostly monster roams around. Help little glad to get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
+        </div>
+        <div class="flex justify-end items-end h-full w-full">
+            <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
+        </div>
     </div>
 </div>
 

@@ -22,6 +22,38 @@
         clip-path: inset(0 100% 0 0); /* Start with the border clipped to the left */
         box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red; /* Glowing effect */
     }
+    .background-wrapper {
+            top: 0;
+            left: 0;
+            z-index: 0; /* Layer behind the content */
+            width: 100%; /* Adjust to fit the container size */
+            height: 100vh; /* Set height, e.g., full viewport height */
+            overflow: hidden; /* Hides any overflow if the image doesn’t fit exactly */
+            position: relative;
+        }
+
+        .bg-slide {
+            position: absolute;
+            width: 200%; /* Two images, each 100%, so total width is 200% */
+            height: 100%;
+            display: flex;
+            animation: slide 15s infinite; /* Slower animation speed */
+            top: 0;
+            left: 0;
+        }
+
+        .bg-slide img {
+            width: 50%; /* Each image takes up 50% of the container */
+            height: 100%;
+            object-fit: cover; /* Cover the area without distortion */
+        }
+
+        /* Keyframes for sliding effect */
+        @keyframes slide {
+            0% { transform: translateX(0); } /* Start from the first image */
+            50% { transform: translateX(-50%); } /* Slide to the second image */
+            100% { transform: translateX(0); } /* Loop back to the first image */
+        }
 </style>
     <title>AGRA</title>
 </head>
@@ -171,32 +203,24 @@
 
 
 <!-- Main modal -->
-<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-gray-200 rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Initial Instructions
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-full md:inset-0 h-[calc(100%-1rem)] max-h-full inset-0 backdrop-blur-md">
+    <div class="background-wrapper">
+        <div class="bg-slide">
+            <img src="/bg-output7.png" alt="Background 1">
+            <img src="/bg-output8.png" alt="Background 2">
+        </div>
+    </div>
+    
+    
+    <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
+        <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
+            <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Initial Instructions</h1>
+            <h2 id="startText" class="text-center mb-2 text-blue-900">{!! $task->TaskInstruction!!} </h2>
+        </div>
+        <!-- Modal footer -->
+        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
             </div>
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <div class="text-xl leading-relaxed text-black dark:text-gray-400">
-                    {!! $task->TaskInstruction!!}
-                </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
-               </div>
         </div>
     </div>
 </div>

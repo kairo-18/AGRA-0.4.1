@@ -113,9 +113,9 @@
     </style>
 </head>
 <body>
-    <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto shadow">
+    <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto   shadow">
         <div class="lbl-title flex justify-end">
-            <h3 class="text-2xl font-semibold text-gray-900">Calendar</h3>
+            <h3 class="text-xl font-semibold text-gray-900">Calendar</h3>
 {{--            <a href="/calendar" class="text-blue-600">view</a>--}}
         </div>
         <div class="calendar">
@@ -129,15 +129,15 @@
                 </div>
             </div>
             <div class="week-header text-blue-800">
-                <div class="week-cell">Sun</div>
-                <div class="week-cell">Mon</div>
-                <div class="week-cell">Tue</div>
-                <div class="week-cell">Wed</div>
-                <div class="week-cell">Thu</div>
-                <div class="week-cell">Fri</div>
-                <div class="week-cell">Sat</div>
+                <div class="week-cell text-xs">Sun</div>
+                <div class="week-cell text-xs">Mon</div>
+                <div class="week-cell text-xs">Tue</div>
+                <div class="week-cell text-xs">Wed</div>
+                <div class="week-cell text-xs">Thu</div>
+                <div class="week-cell text-xs">Fri</div>
+                <div class="week-cell text-xs">Sat</div>
             </div>
-            <div class="calendar-body text-blue-800 pb-5" id="calendarBody"></div>
+            <div class="calendar-body text-blue-800 pb-3" id="calendarBody"></div>
         </div>
     </div>
 

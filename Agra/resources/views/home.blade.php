@@ -57,13 +57,13 @@
     <div class="innerDiv xl:flex bg-transparent h-full w-full rounded-xl overflow-hidden">
         <div class="left-panel flex flex-col bg-white h-full xl:w-4/5 w-full p-10 gap-y-10">
             <div class ="lbl-course bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Welcome {{$user->name}}!</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-3xl font-bold text-blue-800">Welcome {{$user->name}}!</h1>
+                <h3 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
                 <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-lg md:h-[35rem]">
+                <div class="relative h-48 overflow-hidden rounded-lg md:h-96">
                     <!-- Item 1 -->
                     <div class="hidden duration-[1500ms] ease-in-out" data-carousel-item>
                         <img src="AGRA BANNER 1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
@@ -115,21 +115,21 @@
 
             <div class="course">
                 <div class="lbl-title flex justify-end border-b-2 border-gray-300 mb-2">
-                    <h1 class = "flex  mb-3 text-2xl font-semibold text-blue-800 dark:text-white">Courses: </h1>
+                    <h1 class = "flex  mb-3 text-xl font-semibold text-blue-800 dark:text-white">Courses: </h1>
                     <a href="/courses" class="text-blue-600">view</a>
                 </div>
                 <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
                 @foreach($courses as $course)
-                    <a href="/courses/{{$course->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[15rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-1/5">
-                            <div class="w-full h-48 p-3 flex justify-between rounded-xl bg-cover bg-center bg-image shadow-md">
+                            <div class="w-full h-40 p-3 flex justify-between rounded-xl bg-cover bg-center bg-image shadow-md">
                                 <h2 class="h-7 bg-blue-200 rounded-xl font-bold text-sm text-blue-800 p-1 w-fit mb-2">Courses ⦿</h2>
                                 <span class="h-7 hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3 ">{{$course->category->name}}</span>
                             </div>
                             <div class="w-full p-3 bg-white rounded-xl">
                                 
-                                <h1 class="font-bold text-lg text-blue-800">{{$course->CourseName}}</h1>
-                                <p class="font-normal text-base text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
+                                <h1 class="font-bold text-base text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-sm text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
                         </div>
                     </a>
@@ -149,9 +149,9 @@
             @endif
             </div>
             <!--------------Start Agenda-------------->
-            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow mr-7">
+            <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[28rem] w-full rounded-lg overflow-auto shadow mr-7">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+                <h1 class="flex  mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
 
                 @php
                     // Ensure tasks are unique before processing
@@ -216,26 +216,26 @@
                     </span>
 
                             <div class="flex shadow-xl rounded-md lesson-card">
-                                <div class="{{ $deadlineClass }} min-h-[50px] w-2 rounded-sm"></div>
+                                <div class="{{ $deadlineClass }} min-h-[30px] w-2 rounded-sm"></div>
                                 <div class="flex justify-between gap-10 w-full">
                                     <div class="p-2">
-                                        <h3 class="flex items-center text-lg font-bold text-blue-700 dark:text-white">
+                                        <h3 class="flex items-center text-sm font-bold text-blue-700 dark:text-white">
                                             {{$task->TaskName}}
                                             @if ($isDone)
-                                                <span class="ml-2 text-sm text-green-600 font-semibold">(Done)</span> <!-- Done indicator -->
+                                                <span class="ml-2 text-xs text-green-600 font-semibold">(Done)</span> <!-- Done indicator -->
                                             @endif
                                         </h3>
-                                        <h5 class="flex items-center mb-1 text-md font-bold text-gray-500 dark:text-white">
+                                        <h5 class="flex items-center mb-1 text-sm font-bold text-gray-500 dark:text-white">
                                             {{ $task->lesson->LessonName}}
                                         </h5>
-                                        <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">
+                                        <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong>
-                                            <span class="text-gray-500 font-bold text-sm">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold text-sm">{{ $deadlineWord }}</span>
+                                            <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
+                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
                                     </div>
                                     <div class="p-3 pt-8">
-                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
+                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
                                            onclick="showTransitionOverlay(event, '/tasks/{{$task->id}}')">
                                             Go
                                             <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
