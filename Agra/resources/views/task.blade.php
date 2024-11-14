@@ -84,6 +84,17 @@
                 opacity: 1; /* Fade in and remain visible */
             }
         }
+
+        .vignette-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.7) 70%);
+            pointer-events: none; /* allows interaction with elements under the overlay */
+            z-index: 1000; /* make sure it’s on top */
+        }
     </style>
 </head>
 <body>
@@ -214,9 +225,10 @@
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.0/dist/phaser.js"></script>
 <script type="text/javascript">
 
+
     var checkmarks = [];
     let counter = 0; // Initialize a counter for incrementing id
-    let template = `{{$task->TaskCodeTemplate}}`;
+    let template = `{!! $task->TaskCodeTemplate !!}`;
     let language = "{{$task->lesson->LessonCategory}}";
 
     @foreach($instructions as $instruction)
