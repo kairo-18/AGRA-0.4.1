@@ -65,8 +65,8 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Learn to {{$lesson->LessonName}}</h1>
-                <h1 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-3xl font-bold text-blue-800">Learn to {{$lesson->LessonName}}</h1>
+                <h1 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
             <!--2 div Page Tabs -->
@@ -74,19 +74,19 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
-                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold" >Courses</a>
+                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold" >Courses</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraCourses/{{$course->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Lessons</a>
+                            <a href="/agraCourses/{{$course->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Lessons</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Modules</a>
+                            <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-xs font-semibold" aria-current="page">Modules</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraTasks/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Tasks</a>
+                            <a href="/agraTasks/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Tasks</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">References</a>
+                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">References</a>
                         </li>
                     </ul>
                 </div>
@@ -110,9 +110,9 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
-                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-base text-blue-600 mt-1">View grades</a>
+                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-xs text-blue-600 mt-1">View grades</a>
                 </h1>
 
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">

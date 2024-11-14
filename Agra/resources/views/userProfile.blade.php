@@ -85,16 +85,11 @@
 
                         <!-- Edit Profile Button -->
                         <div class="button mt-10 flex justify-center md:justify-start">
-                            <a href="/profile" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 mr-5">Edit Profile</a>
+                            <a href="/profile" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center me-2 mb-5 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 mr-5">Edit Profile</a>
                         </div>
                     </div>
 
-                    <!-- Bio Section -->
-                    <div class="bio ml-10 mt-10 mb-10">
-                        <h1 class="text-2xl font-normal text-blue-800 mr-5">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. At praesentium doloribus earum suscipit inventore obcaecati itaque voluptate consectetur excepturi totam atque cumque blanditiis veritatis, corrupti repellendus. Tempora ex quae placeat?
-                        </h1>
-                    </div>
+                    
                 </div>
           </div>
             <!-- Enrolled Courses Section -->
@@ -105,12 +100,12 @@
                 
                 <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
                 @foreach($courses as $course)
-                    <a href="/courses/{{$course->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-full">
                             <div class="w-full h-full p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <h2 class="font-bold text-xl text-white mb-10">Courses</h2>
-                                <h1 class="font-bold text-4xl text-white">{{$course->CourseName}}</h1>
-                                <h3 class="font-medium text-base text-gray-200 line-clamp">{{$course->CourseDescription}}</h3>
+                                <h2 class="font-bold text-xs text-white mb-10">Courses</h2>
+                                <h1 class="font-bold text-lg text-white">{{$course->CourseName}}</h1>
+                                <h3 class="font-medium text-xs text-gray-200 line-clamp">{{$course->CourseDescription}}</h3>
                             </div>
                         </div>
                     </a>

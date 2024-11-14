@@ -16,8 +16,8 @@
 <x-navbar>
     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
         <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white">{{$user->name}}</span>
-            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
+            <span class="block text-xs text-gray-900 dark:text-white">{{$user->name}}</span>
+            <span class="block text-xs  text-gray-500 truncate dark:text-gray-400">{{$user->name}}@example.com</span>
         </div>
 
         <ul class="py-2" aria-labelledby="user-menu-button">
@@ -44,8 +44,8 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Hello {{$user->name}}!</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h3>
+                <h1 class="text-3xl font-bold text-blue-800">Hello, {{$user->name}}!</h1>
+                <h3 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h3>
             </div>
 
             <!--2 div Page Tabs -->
@@ -53,16 +53,16 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                     <li class="me-2">
-                            <a href="/courses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold" >Courses</a>
+                            <a href="/courses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold" >Courses</a>
                         </li>
                         <li class="me-2">
-                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed">Lessons</a>
+                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-xs font-semibold cursor-not-allowed">Lessons</a>
                         </li>
                         <li class="me-2">
-                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed">Modules</a>
+                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-xs font-semibold cursor-not-allowed">Modules</a>
                         </li>
                         <li class="me-2">
-                            <a class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Tasks</a>
+                            <a class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-xs font-semibold" aria-current="page">Tasks</a>
                         </li>
                     </ul>
                 </div>
@@ -71,8 +71,8 @@
             <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
                 <div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <div id="accordion-arrow-icon" data-accordion="open">
-                    <span class="mb-2 text-xl font-bold text-blue-900 dark:text-gray-400">{{$task->TaskName}}</span>
-                    <p class="mb-2 text-gray-400 font-medium dark:text-gray-400">{{$task->Description}}</p>
+                    <span class="mb-2 text-md font-bold text-blue-900 dark:text-gray-400">{{$task->TaskName}}</span>
+                    <p class="mb-2 text-gray-400 text-sm font-medium dark:text-gray-400">{{$task->Description}}</p>
 
                     <h2 id="accordion-arrow-icon-heading-2">
                         <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right bg-gray-200 rounded-xl text-gray-600 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-400 dark:hover:bg-blue-800 gap-3" data-accordion-target="#accordion-arrow-icon-body-2" aria-expanded="true" aria-controls="accordion-arrow-icon-body-2">
@@ -84,8 +84,8 @@
                     </h2>
                     <div id="accordion-arrow-icon-body-2" class="hidden" aria-labelledby="accordion-arrow-icon-heading-2">
                         <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-                            <p class="mb-2 text-gray-500 dark:text-gray-400"><span class="font-bold">Difficulty:</span> {!!$task->TaskDifficulty !!}</p>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">{!!$task->TaskInstruction !!}</p>
+                            <p class="mb-2 text-gray-500 dark:text-gray-400 text-sm"><span class="font-bold">Difficulty:</span> {!!$task->TaskDifficulty !!}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 text-sm">{!!$task->TaskInstruction !!}</p>
                         </div>
                     </div>
                     <h2 id="accordion-arrow-icon-heading-3">
@@ -98,8 +98,8 @@
                     </h2>
                     <div id="accordion-arrow-icon-body-3" class="hidden" aria-labelledby="accordion-arrow-icon-heading-3">
                         <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400"><strong>Date Given:</strong> {{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</p>
-                        <p class="mb-2 text-gray-500 dark:text-gray-400"><strong>Deadline:</strong> {{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 text-sm"><strong>Date Given:</strong> {{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 text-sm"><strong>Deadline:</strong> {{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</p>
                         </ul>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         </button>
                     </h2>
                     <div id="accordion-arrow-icon-body-4" class="hidden" aria-labelledby="accordion-arrow-icon-heading-3">
-                        <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                        <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700 text-sm">
                         @php
                             $latestScore = null;
                         @endphp
@@ -146,7 +146,7 @@
                     </div>
                         <div class="flex justify-end pt-10">
                         @if (array_key_exists($task->TaskDifficulty, $taskRoutes))
-                            <a href="/tasks/{{ $taskRoutes[$task->TaskDifficulty] }}/{{ $task->id }}" class="inline-flex items-center px-3 py-2 text-2xl font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <a href="/tasks/{{ $taskRoutes[$task->TaskDifficulty] }}/{{ $task->id }}" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Play
                                 <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -169,7 +169,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[48rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda
+                <h1 class="flex  mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda
                 </h1>
                 @php
                     // Ensure tasks are unique before processing
@@ -222,20 +222,20 @@
                                 <div class="{{ $deadlineClass }} min-h-[50px] w-2 rounded-sm"></div>
                                 <div class="flex justify-between gap-10 w-full">
                                     <div class="p-2">
-                                        <h3 class="flex items-center text-xl font-bold text-blue-700 dark:text-white">
+                                        <h3 class="flex items-center text-xs font-bold text-blue-700 dark:text-white">
                                             {{$task->TaskName}}
                                         </h3>
-                                        <h5 class="flex items-center mb-1 text-lg font-bold text-gray-500 dark:text-white">
+                                        <h5 class="flex items-center mb-1 text-xs font-bold text-gray-500 dark:text-white">
                                             {{$task->lesson->LessonName}}
                                         </h5>
-                                        <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">
+                                        <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong>
-                                            <span class="text-gray-500 font-bold">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold">{{ $deadlineWord }}</span>
+                                            <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
+                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
                                     </div>
                                     <div class="p-3 pt-8">
-                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
+                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
                                         onclick="showTransitionOverlay(event, '/tasks/{{$task->id}}')">
                                             Go
                                             <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

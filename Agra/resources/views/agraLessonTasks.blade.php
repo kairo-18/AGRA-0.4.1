@@ -45,8 +45,8 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Welcome to {{$course->CourseName}} {{$course->id}}</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-3xl font-bold text-blue-800">Welcome to {{$course->CourseName}} {{$course->id}}</h1>
+                <h3 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
             <!--2 div Page Tabs -->
@@ -54,37 +54,37 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
-                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold" >Courses</a>
+                            <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold" >Courses</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraCourses/{{$course->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Lessons</a>
+                            <a href="/agraCourses/{{$course->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Lessons</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Modules</a>
+                            <a href="/agraLessons/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Modules</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraTasks/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Tasks</a>
+                            <a href="/agraTasks/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-xs font-semibold" aria-current="page">Tasks</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">References</a>
+                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">References</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+            <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-20">
 
                     @foreach($tasks->sortBy('TaskName') as $task)
-                        <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <a href="/agraLessons/{{$course->id}}/{{$task->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
 
                             <div class="h-1/5">
-                                <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                                <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
                                     <!-- Image is set as a background image -->
                                 </div>
                                 <div class="w-full p-3 bg-white rounded-xl">
-                                    <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">Tasks ⦿</h2>
-                                    <h1 class="font-bold text-lg text-blue-800">{{$task->TaskName}}</h1>
-                                    <p class="font-normal text-base text-blue-800 line-clamp">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
+                                    <h2 class="bg-blue-600 rounded-xl font-bold text-xs text-white p-1 w-fit mb-2">Tasks ⦿</h2>
+                                    <h1 class="font-bold text-xs text-blue-800">{{$task->TaskName}}</h1>
+                                    <p class="font-normal text-xs text-blue-800 line-clamp">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</p>
                                 </div>
                             </div>
                         </a>
@@ -101,9 +101,9 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
-                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-base text-blue-600 mt-1">View grades</a>
+                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-xs text-blue-600 mt-1">View grades</a>
                 </h1>
 
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">

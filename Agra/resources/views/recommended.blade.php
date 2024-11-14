@@ -72,18 +72,18 @@
     <div class="innerDiv xl:flex flex-col bg-transparent min-h-screen w-full rounded-xl overflow-hidden">
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5 recommended-panel">
-    <h1 class="font-bold text-2xl text-blue-800">Recommended</h1>
+    <h1 class="font-bold text-xl text-blue-800">Recommended</h1>
     <div class="flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
         <div class="flex flex-row justify-start gap-5 p-5 bg-gray-100 rounded-xl" id="lessonsContainer">
             @foreach($lessons as $lesson)
-            <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-full focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+            <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                 <div class="h-1/5">
-                    <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                        <h1 class="font-bold text-xl text-white">{{$lesson->LessonName}}</h1>
+                    <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                        <h1 class="font-bold text-xs text-white">{{$lesson->LessonName}}</h1>
                     </div>
                     <div class="w-full p-3 bg-white rounded-xl">
-                        <h1 class="font-bold text-lg text-blue-800">{{$lesson->LessonName}}</h1>
-                        <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                        <h1 class="font-bold text-xs text-blue-800">{{$lesson->LessonName}}</h1>
+                        <h3 class="font-normal text-xs text-blue-800">AGRA LESSON</h3>
                     </div>
                     <div class="w-full p-2 flex flex-wrap bg-white line-clamp rounded-xl">
                         @foreach($lesson->categories as $category)
@@ -102,18 +102,18 @@
 
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5 recommended-panel">
-            <h1 class="font-bold text-2xl text-blue-800">You might like</h1>
+            <h1 class="font-bold text-xl text-blue-800">You might like</h1>
             <div class="flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
                 <div class="flex flex-row justify-start gap-5 p-5 bg-gray-100 rounded-xl" id="lessonsContainer">
                     @foreach($relatedLessons as $lesson)
-                        <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[27rem] h-full focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                             <div class="h-1/5">
                                 <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md" style="background-image: url('/image-course.png');">
-                                    <h1 class="font-bold text-xl text-white">{{$lesson->LessonName}}</h1>
+                                    <h1 class="font-bold text-xs text-white">{{$lesson->LessonName}}</h1>
                                 </div>
                                 <div class="w-full p-3 bg-white rounded-xl">
-                                    <h1 class="font-bold text-lg text-blue-800">{{$lesson->LessonName}}</h1>
-                                    <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
+                                    <h1 class="font-bold text-xs text-blue-800">{{$lesson->LessonName}}</h1>
+                                    <h3 class="font-normal text-xs text-blue-800">AGRA LESSON</h3>
                                 </div>
                                 <div class="w-full p-2 flex flex-wrap bg-white line-clamp rounded-xl">
                                     @foreach($lesson->categories as $category)

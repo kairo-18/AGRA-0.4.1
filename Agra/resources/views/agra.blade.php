@@ -241,14 +241,14 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-full pl-10 pr-10 pb-10">
+<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-full pl-5 pr-5 pb-10">
     <!--Inner div-->
     <div class="innerDiv flex-col xl:flex xl:flex-row bg-transparent h-full w-full rounded-xl overflow-hidden">
         <div class="left-panel flex flex-col  bg-gray-900 h-100vh  p-10 gap-y-10 xl:pb-0 pb-30">
 
             <section class="bg-transparent dark:bg-gray-200">
                 <div class="py-8 px-4 mx-auto h-full max-w-screen-2xl text-center lg:py-16">
-                    <h1 class="mb-4 text-5xl font-extrabold tracking-tight leading-none text-gray-200 md:text-6xl sm:text-6xl lg:text-7xl dark:text-white">Learn Programming where it meets Gaming</h1>
+                    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-200 md:text-6xl sm:text-6xl lg:text-6xl dark:text-white">Learn Programming where it meets Gaming</h1>
                     <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Here at AGRA we focus on learning where programming can be fun.</p>
                     <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
                         <a href="/agraCourses" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">

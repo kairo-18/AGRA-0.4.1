@@ -45,33 +45,33 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Hello {{$user->name}}, Here are your grades!</h1>
-                <h1 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-3xl font-bold text-blue-800">Hello {{$user->name}}, Here are your grades!</h1>
+                <h1 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
-            <div class="panel-content p-4 overflow-auto">
+            <div class="panel-content p-2 overflow-auto">
                 <table class="panel-table min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Activities</th>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Start</th>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Due</th>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                        <th class="px-6 py-3 text-left text-2xl font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Activities</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Start</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Due</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Score</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider">Grade</th>
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($tasks as $task)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap hover:bg-gray-600">
-                                <div class="text-xl font-medium text-gray-900 "><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></div>
+                                <div class="text-xs font-medium text-gray-900 "><a href="/tasks/{{$task->id}}">{{$task->TaskName}}</a></div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-xl text-gray-900">{{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</div>
+                                <div class="text-xs text-gray-900">{{ Carbon\Carbon::parse($task->DateGiven)->format('d F, Y g:i A') }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-xl text-gray-900">{{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</div>
+                                <div class="text-xs text-gray-900">{{ Carbon\Carbon::parse($task->Deadline)->format('d F, Y g:i A') }}</div>
                             </td>
                                 <?php
                                 $taskStatus = 'Pending';  // Initialize with default status
@@ -84,7 +84,7 @@
                                 }
                                 ?>
                             <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-2 inline-flex text-xl leading-5 font-semibold rounded-full {{ $taskStatus == 'Done' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $taskStatus == 'Done' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                         {{ $taskStatus }}
                     </span>
                             </td>
@@ -104,14 +104,14 @@
                                 @endforeach
 
                                 @if ($latestScore)
-                                    <td class="px-6 py-4 text-xl whitespace-nowrap">{{ $latestScore->score }} / {{ $latestScore->MaxScore }}</td>
-                                    <td class="px-6 py-4 text-xl whitespace-nowrap">{{ $latestScore->Percentage }}%</td>
+                                    <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $latestScore->score }} / {{ $latestScore->MaxScore }}</td>
+                                    <td class="px-6 py-4 text-xs whitespace-nowrap">{{ $latestScore->Percentage }}%</td>
                                 @else
-                                    <td class="px-6 py-4 text-xl whitespace-nowrap">N/A</td>
+                                    <td class="px-6 py-4 text-xs whitespace-nowrap">N/A</td>
                                 @endif
                             @else
-                                <td class="px-6 py-4 text-xl whitespace-nowrap">N/A</td>
-                                <td class="px-6 py-4 text-xl whitespace-nowrap">N/A</td>
+                                <td class="px-6 py-4 text-xs whitespace-nowrap">N/A</td>
+                                <td class="px-6 py-4 text-xs whitespace-nowrap">N/A</td>
                             @endif
                         </tr>
                     @endforeach
@@ -128,7 +128,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+                <h1 class="flex  mb-3 text-sxl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
 
                 
                 @php
@@ -183,20 +183,20 @@
                                 <div class="{{ $deadlineClass }} min-h-[50px] w-2 rounded-sm"></div>
                                 <div class="flex justify-between gap-10 w-full">
                                     <div class="p-2">
-                                        <h3 class="flex items-center text-xl font-bold text-blue-700 dark:text-white">
+                                        <h3 class="flex items-center text-xs font-bold text-blue-700 dark:text-white">
                                             {{$task->TaskName}}
                                         </h3>
-                                        <h5 class="flex items-center mb-1 text-lg font-bold text-gray-500 dark:text-white">
+                                        <h5 class="flex items-center mb-1 text-xs font-bold text-gray-500 dark:text-white">
                                             {{$task->lesson->LessonName}}
                                         </h5>
-                                        <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-500">
+                                        <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong> 
-                                            <span class="text-gray-500 font-bold">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold">{{ $deadlineWord }}</span>
+                                            <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
+                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
                                     </div>
                                     <div class="p-3 pt-8">
-                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
+                                        <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
                                         onclick="showTransitionOverlay(event, '/tasks/{{$task->id}}')">
                                             Go
                                             <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

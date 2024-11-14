@@ -137,7 +137,7 @@
                 <div class="week-cell text-xs">Fri</div>
                 <div class="week-cell text-xs">Sat</div>
             </div>
-            <div class="calendar-body text-blue-800 pb-3" id="calendarBody"></div>
+            <div class="calendar-body text-blue-800 text-xs pb-3" id="calendarBody"></div>
         </div>
     </div>
 

@@ -45,22 +45,22 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">References</h1>
-                <h3 class="text-1xl text-blue-600">Books used as basis for Agra Courses</h1>
+                <h1 class="text-3xl font-bold text-blue-800">References</h1>
+                <h3 class="text-xl text-blue-600">Books used as basis for Agra Courses</h1>
             </div>
 
             <!--2 div Page Tabs -->
             <div class="nav-section flex content-center bg-transparent h-16 w-full pl-2">
-                <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full flex justify-start">
-                    <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">Back to Courses</a>
+                <div class="text-xs font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full flex justify-start">
+                    <a href="/agraCourses" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Back to Courses</a>
                 </div>
             </div>
 
             <!--3 div Courses Content-->
-            <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
+            <div class="learM-section flex flex-col bg-gray-200 h-screen w-full rounded-lg overflow-auto items-center p-5 shadow-inner gap-y-4">
                 <!-- JAVA Section -->
                 <div class="course-section w-full">
-                    <h2 class="text-3xl font-bold text-blue-800 mb-4">JAVA:</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4">References: </h2>
                     @php
                     $references = [
                         (object) [
@@ -128,16 +128,16 @@
                         ],
                     ];
                     @endphp
-                    <div class="flex flex-row flex-wrap justify-center items-start bg-gray-200 gap-x-5 gap-y-10">
+                    <div class="flex flex-row flex-wrap justify-start items-start bg-gray-200 gap-x-3 gap-y-20">
                         @foreach($references as $reference)
-                            <a href="/lessons/{{ $reference->courseId }}/{{ $reference->id }}" class="yt-vid w-[23rem] h-[20rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                            <a href="/lessons/{{ $reference->courseId }}/{{ $reference->id }}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                                 <div class="h-1/5">
-                                    <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md" style="background-image: url('{{ $reference->image }}');">
+                                    <div class="w-full h-32 p-3 rounded-xl bg-cover bg-start bg-image shadow-md" style="background-image: url('{{ $reference->image }}');">
                                     </div>
                                     <div class="w-full p-3 bg-white rounded-xl">
-                                        <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">References ⦿</h2>
-                                        <h1 class="font-bold text-lg text-blue-800">{{ $reference->LessonName }}</h1>
-                                        <p class="font-normal text-base text-blue-800 line-clamp">{{ $reference->LessonDescription }}</p>
+                                        <h2 class="bg-blue-600 rounded-xl font-bold text-xs text-white p-1 w-fit mb-2">References ⦿</h2>
+                                        <h1 class="font-bold text-xs text-blue-800">{{ $reference->LessonName }}</h1>
+                                        <p class="font-normal text-xs text-blue-800 line-clamp">{{ $reference->LessonDescription }}</p>
                                     </div>
                                 </div>
                             </a>
@@ -157,7 +157,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex mb-3 text-2xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
                 </h1>
 
@@ -172,9 +172,9 @@
                             </svg>
                         </span>Type
 
-                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
-                            <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</time>
-                            <a href="/agraTasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
+                            <h3 class="flex items-center mb-1 text-xs font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
+                            <time class="block mb-2 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</time>
+                            <a href="/agraTasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
                                 Go
                                 <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
                                     <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>

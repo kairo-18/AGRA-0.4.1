@@ -127,7 +127,7 @@
 
 
 
-<div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
+<div id="startPanel" class="w-full h-full fixed inset-0 bg-white overflow-hidden">
     <div class="background-wrapper">
         <div class="bg-slide">
             <img src="/bg-FITTB1.png" alt="Background 1">
@@ -137,7 +137,7 @@
     <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
         <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
             <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
-            <h2 id="startText" class="text-center mb-2 text-blue-900">Little glad is lost around the forest and needs to escape, hoever, he is not safe as a ghostly monster roams around. Help little glad to get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
+            <h2 id="startText" class="text-center mb-2 text-blue-900">Marga, our little red hero is lost in the forest and needs to escape, however, he is not safe as a ghostly monster roams around. Help Marga get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
         </div>
         <div class="flex justify-end items-end h-full w-full">
             <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>

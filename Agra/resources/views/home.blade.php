@@ -52,7 +52,7 @@
 
 
 <!--=====================================Start outerDiv/MainDiv-=====================================-->
-<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto pl-10 pr-10 pb-10">
+<div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600 min-h-auto pl-5 pr-5 pb-10">
     <!--Inner div-->
     <div class="innerDiv xl:flex bg-transparent h-full w-full rounded-xl overflow-hidden">
         <div class="left-panel flex flex-col bg-white h-full xl:w-4/5 w-full p-10 gap-y-10">
@@ -120,11 +120,11 @@
                 </div>
                 <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
                 @foreach($courses as $course)
-                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[15rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-1/5">
                             <div class="w-full h-40 p-3 flex justify-between rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <h2 class="h-7 bg-blue-200 rounded-xl font-bold text-sm text-blue-800 p-1 w-fit mb-2">Courses ⦿</h2>
-                                <span class="h-7 hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-base font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3 ">{{$course->category->name}}</span>
+                                <h2 class="h-7 bg-blue-200 rounded-xl font-bold text-xs text-blue-800 p-1 w-fit">Courses ⦿</h2>
+                                <span class="h-5 hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 rounded dark:bg-blue-900 dark:text-blue-300 ">{{$course->category->name}}</span>
                             </div>
                             <div class="w-full p-3 bg-white rounded-xl">
                                 

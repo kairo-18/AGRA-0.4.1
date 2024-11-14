@@ -65,8 +65,8 @@
 
             <!--1 div-->
             <div class ="lbl-course p-5 bg-transparent rounded-md">
-                <h1 class="text-4xl font-bold text-blue-800">Hello {{$user->name}}!</h1>
-                <h3 class="text-1xl text-blue-600">Time to learn back to square one but with fun.</h1>
+                <h1 class="text-3xl font-bold text-blue-800">Hello {{$user->name}}!</h1>
+                <h3 class="text-xl text-blue-600">Time to learn back to square one but with fun.</h1>
             </div>
 
             <!--2 div Page Tabs -->
@@ -74,30 +74,30 @@
                 <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 w-full">
                     <ul class="flex flex-wrap -mb-px">
                         <li class="me-2">
-                            <a href="/agraCourses" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-lg font-semibold" aria-current="page">Courses</a>
+                            <a href="/agraCourses" class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 text-xs font-semibold" aria-current="page">Courses</a>
                         </li>
                         <li class="me-2">
-                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-lg font-semibold cursor-not-allowed ">Lessons</a>
+                            <a class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-xs font-semibold cursor-not-allowed ">Lessons</a>
                         </li>
                         <li class="me-2">
-                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-lg font-semibold">References</a>
+                            <a href="/agraCourses/References" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">References</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-wrap bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-10 gap-x-5">
+            <div class = "learM-section flex flex-wrap gap-y-20 bg-gray-200 h-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-5">
                 @foreach($courses->sortBy('CourseName') as $course)
 
-                    <a href="/agraCourses/{{$course->id}}" class="yt-vid w-[23rem] h-[25rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                    <a href="/agraCourses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-1/5">
-                            <div class="w-full h-48 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                            <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
                                 <!-- Image is set as a background image -->
                             </div>
                             <div class="w-full p-3 bg-white rounded-xl">
-                                <h2 class="bg-blue-600 rounded-xl font-bold text-sm text-white p-1 w-fit mb-2">AGRA ⦿</h2>
-                                <h1 class="font-bold text-lg text-blue-800">{{$course->CourseName}}</h1>
-                                <p class="font-normal text-base text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
+                                <h2 class="bg-blue-600 rounded-xs font-bold text-xs text-white p-1 w-fit mb-2">AGRA ⦿</h2>
+                                <h1 class="font-bold text-xs text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-xs text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
                         </div>
                     </a>

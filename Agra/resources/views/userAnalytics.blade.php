@@ -37,31 +37,31 @@
     <!--Inner div-->
     <div class="innerDiv xl:flex bg-white h-full w-full rounded-xl overflow-hidden p-5 xl:p-20">
 
-        <div class="left-panel flex flex-col bg-gray-100 h-full w-full p-5 xl:p-20 gap-y-10 rounded-xl shadow-xl">
+        <div class="left-panel flex flex-col bg-gray-100 h-full w-full p-5 xl:p-20 gap-y-5 rounded-xl shadow-xl">
 
-            <div class="profile h-auto xl:flex flex-row items-center md:w-full bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+            <div class="profile h-auto xl:flex flex-row items-center md:w-full bg-white rounded-xl shadwow-2xl pl-10 pr-10 pt-10">
 
                 <div class="title pb-9">
-                    <h1 class="text-4xl font-bold text-blue-800">Analytics </h1>
+                    <h1 class="text-xl font-bold text-blue-800">Analytics </h1>
                 </div>
             </div>
 
-            <div class="flex gap-5">
-                <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+            <div class="flex flex-col lg:flex-row gap-5">
+                <div class="profile h-auto xl:flex flex-row justify-center items-center lg:w-2/4 bg-white rounded-xl shadwow-2xl pl-10 pr-10 pt-10">
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Accuracy: <br>{{ number_format($overallAccuracy, 2) }} %</h1>
+                        <h1 class="text-xl font-bold text-blue-800">Overall Accuracy: <br>{{ number_format($overallAccuracy, 2) }} %</h1>
                     </div>
                 </div>
 
-                <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+                <div class="profile h-auto xl:flex flex-row justify-center items-center lg:w-2/4 bg-white rounded-xl shadwow-2xl pl-10 pr-10 pt-10">
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Speed: <br>{{ number_format($overallSpeed, 2) }} %</h1>
+                        <h1 class="text-xl font-bold text-blue-800">Overall Speed: <br>{{ number_format($overallSpeed, 2) }} %</h1>
                     </div>
                 </div>
 
-                <div class="profile h-auto xl:flex flex-row items-center md:w-2/4 bg-white rounded-xl shadwow-xl pl-10 pr-10 pt-10">
+                <div class="profile h-auto xl:flex flex-row justify-center items-center lg:w-2/4 bg-white rounded-xl shadwow-2xl pl-10 pr-10 pt-10">
                     <div class="title pb-9">
-                        <h1 class="text-3xl font-bold text-blue-800">Overall Performance: <br>{{ number_format($overallPerformance, 2) }} %</h1>
+                        <h1 class="text-xl font-bold text-blue-800">Overall Performance: <br>{{ number_format($overallPerformance, 2) }} %</h1>
                     </div>
                 </div>
 
