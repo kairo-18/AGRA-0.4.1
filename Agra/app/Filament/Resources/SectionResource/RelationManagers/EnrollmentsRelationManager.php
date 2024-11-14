@@ -19,7 +19,9 @@ class EnrollmentsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\Select::make('course_id')
-                    ->relationship('course', 'CourseName')
+                    ->relationship('course', 'CourseName', function (Builder $query) {
+                        $query->where('author', '!=', 'AGRA');
+                    })
                     ->required(),
             ]);
     }
