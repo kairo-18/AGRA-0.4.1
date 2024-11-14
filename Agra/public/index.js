@@ -550,6 +550,7 @@ async function sendPrompt(instruction, userCode) {
         const response = await axios.post('/prompt', {
             instruction: instruction,
             userCode: userCode,
+            answerKey: JSON.stringify(checkmarks[currentCheckmark].answers), // Convert array to JSON string
             progLanguage: language,
         });
         return response.data.result;
