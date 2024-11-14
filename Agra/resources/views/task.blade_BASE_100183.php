@@ -11,7 +11,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/ace-builds/src-noconflict/ext-language_tools.js"></script>
-    <link rel="stylesheet" href="{{ asset('css/introjs.min.css') }}">
     <title>AGRA</title>
     <style>
         .coding-area{
@@ -131,9 +130,9 @@
             <div class="stu-progress">
             <!--Information: Score, time, prog-bar-->
                 <div class="info-bar">
-                    <div class="score" data-title="Score" data-intro="This is your current score on this task. Each correct answer will grant you corresponding points.">Score <span id="score">0</span></div>
-                    <div class="timer" data-title="Timer" data-intro="Track the time! You can check the allotted time here. When you run out of time, the game will end.">Timer <span id="timer">{{$task->TaskMaxTime}}</span></div>
-                    <div class="pb" data-title="Progress Bar" data-intro="You can track your progress here. Every correct answer will make the progress bar advance.">
+                    <div class="score">Score <span id="score">0</span></div>
+                    <div class="timer">Timer <span id="timer">{{$task->TaskMaxTime}}</span></div>
+                    <div class="pb">
                         <div class="progress-bar bg-gray-300 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
                             <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
@@ -143,13 +142,13 @@
             <!-- Compiler -->
             <div class="coding-area relative h-full w-full">
                 <!-- Ace Editor Div -->
-                <div id="code-editor" class="w-full h-full border border-gray-300 text-lg" data-title="Agra Code Editor" data-intro="This is the platform where you will execute your coding skills. Practice clean coding, observe putting proper spaces, capitalization, and punctuations."></div>
+                <div id="code-editor" class="w-full h-full border border-gray-300 text-lg"></div>
             </div>
             <!--idk-->
             <div id="code" style="display: none;"></div>
         </div>
         <div class = "RightDiv flex flex-col bg-gray-300 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
-            <div class="mini-game" id="minigame" data-title="Intermediate Game Panel" data-intro="This is the game panel. In this scenario, Marga is in the intermediate challenge where a correct answer will trigger her attack, otherwise, running out of time or typing an incorrect answer will cause the hostiles to retaliate. The count of monsters you will encounter will depend upon the number of instructions you need to accomplish. Watch out for your healthbar, running out of health will result into losing."></div>
+            <div class="mini-game" id="minigame"></div>
         </div>
 </div>
 
@@ -163,8 +162,8 @@
         </div>
         <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
             <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
-                <h1 id="startText" class="text-start text-xl text-blue-600 mb-2"><strong>Press start when you are ready.</strong> </h1>
-                <h2 id="startText" class="text-center mb-2 text-blue-900">The best defense is offense. Marga stumbles upon a dungeon and the way back is blocked. Navigate the dungeon by completing this activity and help Marga defeat the hostile mercenaries on her way out. Getting a correct answer will trigger Marga's attack. On the other hand, running out of time will give the hostiles their turn to charge towards Marga. Good luck!.</h2>
+                <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
+                <h2 id="startText" class="text-center mb-2 text-blue-900">Little glad is lost around the forest and needs to escape, hoever, he is not safe as a ghostly monster roams around. Help little glad to get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
             </div>
             <div class="flex justify-end items-end h-full w-full">
                 <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
@@ -205,7 +204,7 @@
 <div id="instructionDiv">
     <p id="instructionText"></p>
     <p class="mb-5">Note: Do the instruction in a single line of code only.</p>
-    <button id="checkButton" data-title="Check your code!" data-intro="Click this button to validate your answer. Be careful as a wrong answer will result in the monster attacking you and your error count increasing.">Check Answer</button>
+    <button id="checkButton">Check Answer</button>
 </div>
 
 
@@ -259,13 +258,11 @@
 
 </script>
 
-    <script src="{{ asset('js/intro.min.js') }}"></script>
 <script src="/game.js"></script>
 <script src="/index.js"></script>
     <script>
         const sectionId = "{{$user->section->id}}";
         const username = "{{Auth::user()->name}}";
-
     </script>
 
 </body>

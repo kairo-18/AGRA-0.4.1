@@ -479,15 +479,15 @@ function failedAtAiming(){
 
     if(currentMonsterHealth > 0 && isAiming){
         loseMusic.play();
-        disableTyping(editor, window.timerSeconds);
         currentMonsterHealth = 100;
         updateMonsterHealth();
+        introJs().exit();
     }else{
         winMusic.play();
-        alert('You Succeeded. Tips will appear in 3 seconds.');
         currentPlayerHealth = currentPlayerHealth + 20;
         people.create(550 + (people.children.size * 50), 420, 'people').setVelocityX(100).play('crowdRun');
         updatePlayerHealthBar();
+        introJs().exit();
         sendPrompt(instruction, editor.getValue()).then(result => {
             delay(1000).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
         });

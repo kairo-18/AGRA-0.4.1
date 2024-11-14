@@ -1209,12 +1209,8 @@ video {
   height: 13rem;
 }.h-\[15rem\] {
   height: 15rem;
-}.h-\[20rem\] {
-  height: 20rem;
 }.h-\[250px\] {
   height: 250px;
-}.h-\[25rem\] {
-  height: 25rem;
 }.h-\[270px\] {
   height: 270px;
 }.h-\[28rem\] {
@@ -1223,8 +1219,6 @@ video {
   height: 30rem;
 }.h-\[48rem\] {
   height: 48rem;
-}.h-\[50rem\] {
-  height: 50rem;
 }.h-\[75px\] {
   height: 75px;
 }.h-\[calc\(100\%-1rem\)\] {
@@ -1328,14 +1322,8 @@ video {
   width: 18rem;
 }.w-\[21rem\] {
   width: 21rem;
-}.w-\[23rem\] {
-  width: 23rem;
 }.w-\[25rem\] {
   width: 25rem;
-}.w-\[27rem\] {
-  width: 27rem;
-}.w-\[30px\] {
-  width: 30px;
 }.w-\[500px\] {
   width: 500px;
 }.w-\[calc\(100\%\+2rem\)\] {
@@ -2209,9 +2197,6 @@ video {
 }.text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
-}.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
 }.text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -2550,9 +2535,6 @@ video {
 }.hover\:bg-blue-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(195 221 253 / var(--tw-bg-opacity));
-}.hover\:bg-blue-300:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(164 202 254 / var(--tw-bg-opacity));
 }.hover\:bg-blue-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(118 169 250 / var(--tw-bg-opacity));
@@ -3579,6 +3561,8 @@ video {
     height: 24rem;
   }
 
+<<<<<<< Updated upstream
+=======
   .md\:h-auto {
     height: auto;
   }
@@ -3591,6 +3575,7 @@ video {
     width: 50%;
   }
 
+>>>>>>> Stashed changes
   .md\:w-2\/6 {
     width: 33.333333%;
   }
@@ -3859,11 +3844,6 @@ video {
 
   .lg\:text-6xl {
     font-size: 3.75rem;
-    line-height: 1;
-  }
-
-  .lg\:text-7xl {
-    font-size: 4.5rem;
     line-height: 1;
   }
 

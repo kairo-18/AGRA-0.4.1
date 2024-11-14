@@ -30,6 +30,7 @@
     "dependencies": {
         "apexcharts": "^3.49.1",
         "cors": "^2.8.5",
+        "intro.js": "^7.2.0",
         "laravel-mix": "^6.0.49",
         "node-fetch": "^2.7.0",
         "pusher": "^5.2.0"

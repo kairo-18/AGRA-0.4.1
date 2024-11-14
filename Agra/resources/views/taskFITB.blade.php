@@ -10,8 +10,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('css/introjs.min.css') }}">
     <title>AGRA</title>
-    
+
     <style>
         .coding-area{
             height: 60%;
@@ -82,10 +83,10 @@
             <!--Information: Score, time, prog-bar-->
             <div class="stu-progress">
                 <div class="info-bar">
-                    <div class="score"> Score<span id="score">0</span> </div>
-                    <div class="timer"> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
+                    <div class="score" data-title="Score" data-intro="This is your current score on this task. Each correct answer will grant you corresponding points."> Score<span id="score">0</span> </div>
+                    <div class="timer" data-title="Timer" data-intro="Track the time! You can check the allotted time for each item here. When you run out of time, certain game consequences will happen."> Timer<span id="timer">{{$task->TaskMaxTime}}</span> </div>
 
-                    <div class="pb">
+                    <div class="pb" data-title="Progress Bar" data-intro="You can track your progress here. Every correct answer will make the progress bar advance.">
                         <div class="progress-bar bg-gray-200 rounded-full dark:bg-gray-700 h-10 w-40 md:w-40 xl:w-80 mt-1.5">
                             <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                         </div>
@@ -94,31 +95,31 @@
             </div>
 
             <!--Compiler-->
-            <div class="instrucContainer">
+            <div class="instrucContainer" data-title="Instructions" data-intro="You can see the specific instructions you need to accomplish here. Practice clean coding. Don't forget spaces such as int number [space]=[space]25;">
                 <div class="instrucName text-2xl"></div>
                 <div class="instructions bg-blue-800" id="instructions"></div>
             </div>
 
             <div class="coding-area" id="coding-area" style="height: 30%">
-                <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <div class="userInput" id="userInput" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;" data-title="Answer Tab" data-intro="This is the panel where you type your answer.">
                     <input type="text" name="userAnswer" placeholder="Type your answer here" id="userAnswer"
                            style="width: 50%; height: 50%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem;">
                     <button id="submit" onclick="submitAnswer();"
-                            style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;">
+                            style="width: 30%; height: 50%; padding: 10px; border-radius: 8px; background-color: #4CAF50; color: white; font-size: 1rem; border: none; cursor: pointer;" data-title="Submit Button" data-intro="Click this to submit and verify your answer. When the progress bar advances, your answer is correct, otherwise, the screen would shake to indicate an incorrect answer.">
                         Submit Answer
                     </button>
                 </div>
             </div>
 
-            <div class="coding-area" id="coding-area">
+            <div class="coding-area" id="coding-area" data-title="Agra Code Editor" data-intro="This is the platform where you will execute your coding skills. Practice clean coding, observe putting proper spaces, capitalization, and punctuations.">
                 <div class="code-editor" id="code-editor"></div>
                 <div class="code" id="code" style="display: none"></div>
             </div>
 
         </div>
 
-        <div class="RightDiv flex flex-col bg-gray-900 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8">
-            <div class="mini-game" id="minigame"></div>
+        <div class="RightDiv flex flex-col bg-gray-900 rounded-r-lg h-screen xl:w-3/5 w-full p-5 gap-8" >
+            <div class="mini-game" id="minigame" data-title="Beginner Game Panel" data-intro="In this beginner challenge, a correct answer will trigger your character to advance, on the other hand, when you run out of time for a certain instruction, it will trigger the monster's attack. Running out of health will end the game"></div>
         </div>
 
     </div>
@@ -127,7 +128,7 @@
 
 
 
-<div id="startPanel" class="w-full h-full fixed inset-0 bg-white overflow-hidden">
+<div id="startPanel" class="w-full h-full fixed inset-0 backdrop-blur-md">
     <div class="background-wrapper">
         <div class="bg-slide">
             <img src="/bg-FITTB1.png" alt="Background 1">
@@ -136,7 +137,7 @@
     </div>
     <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
         <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
-            <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
+            <h1 id="startText" class="text-start text-xl text-blue-600 mb-2"> <strong>Press start when you are ready.</strong> </h1>
             <h2 id="startText" class="text-center mb-2 text-blue-900">Marga, our little red hero is lost in the forest and needs to escape, however, he is not safe as a ghostly monster roams around. Help Marga get out of the forest by completing this activity. Keep in mind that you have to be quick, else, the monster might attack.</h2>
         </div>
         <div class="flex justify-end items-end h-full w-full">
@@ -193,6 +194,7 @@
     let maxMonsterHealth = (20 * checkmarks.length);
     let timerSeconds = {{$task->TaskMaxTime}};
 </script>
+<script src="{{ asset('js/intro.min.js') }}"></script>
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/FITBgame.js"></script>
 <script src="/FITB.js"></script>

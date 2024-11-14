@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/tasks.css">
     <link rel="stylesheet" href="/tasks2.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="{{ asset('css/introjs.min.css') }}">
     <style>
         .timer-border{
             position: absolute;
@@ -92,20 +92,20 @@
         <div class="top-panel flex flex-col  bg-white h-5/6 w-full p-3">
             <div class="stu-progress">
                 <div class="info-bar">
-                    <div class="score"> Score<span id="score">0</span> </div>
-                    <div class="timer"> Timer<span id="timer">10</span> </div>
+                    <div class="score" data-title="Score" data-intro="This is your score for this task."> Score<span id="score">0</span> </div>
+                    <div class="timer" data-title="Timer" data-intro="Track the time! You can check the allotted time for the task here."> Timer<span id="timer">10</span> </div>
 
-                    <div class="pb">
+                    <div class="pb" data-title="Progress Bar" data-intro="You can track your progress here. Every correct answer will make the progress bar advance.">
                         Progress
                         <div class="progress-bar">
                             <div class="progress-barc"></div>
                         </div>
                     </div>
-                    <button type="button" class="p-5 bg-green-500 rounded" id="runButton">RUN</button>
+                    <button type="button" class="p-5 bg-green-500 rounded" id="runButton" data-title="Run Button" data-intro="Click this to execute the code">RUN</button>
 
 
                     <!-- Modal toggle -->
-                    <button id="instructionsButton" data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button">
+                    <button id="instructionsButton" data-modal-target="default-modal1" data-modal-toggle="default-modal1" class="p-5 bg-green-500 rounded mr-5" type="button" data-title="Instructions" data-intro="Click this to show instructions.">
                         Instructions
                     </button>
 
@@ -151,21 +151,23 @@
 
 
         <div class="left-panel flex flex-col  bg-white h-3/6 xl:w-3/5 p-5">
-            <div class="coding-area h-96 mb-4" id="coding-area">
+            <div class="coding-area h-96 mb-4" id="coding-area" data-title="Agra Code Editor" data-intro="This is the platform where you will execute your coding skills. Practice clean coding, observe putting proper spaces, capitalization, and punctuations.">
                 <div class="code-editor" id="code-editor"></div>
                 <div class="code" id="code" style="display: none"></div>
             </div>
 
             <div class="instrucContainer overflow-scroll max-h-72">
-                <div class="output h-[270px] " id="output">
+                <div class="output h-[270px] " id="output" data-title="Output Panel" data-intro="You can see your code's output here, plus test case verifications!">
 
                 </div>
             </div>
 
         </div>
 
-        <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5">
-            <div class="mini-game" id="minigame"></div>
+        <div class="right-panel flex flex-col  bg-white h-5/6 xl:w-2/5 p-5" data-title="Advanced Game Panel!" data-intro="Getting all the test cases right will cause the dark mage to vanish right away! Amazing, right? However, everytime you run out of time, the mage will attack one civilian and you will lose health points, losing all civilians and running out of health points will cause the game to end. But, we are here to help and we know that it is not that easy! Every time the clock runs out, you will be given an option to get a hint, if you need help, click yes and a mini game will be initialized, in the minigame, a moving crosshair will spawn, click the red button in the middle to fire, hit the mage and a hint will pop up! Otherwise, if you feel confident enough, simply decline the offer.">
+            <div class="mini-game" id="minigame">
+            </div>
+
         </div>
 
 
@@ -209,8 +211,8 @@
             <img src="/bg-output8.png" alt="Background 2">
         </div>
     </div>
-    
-    
+
+
     <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
         <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
             <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Initial Instructions</h1>
@@ -219,14 +221,15 @@
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
             <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
-            </div>
         </div>
     </div>
+</div>
 </div>
 
 <div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
 
 </div>
+
 
 <div id="resetPanel" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -259,7 +262,9 @@
 </div>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.0/dist/phaser.js"></script>
+<script src="{{ asset('js/intro.min.js') }}"></script>
 <script type="text/javascript">
     let testcasesTemp = @json($testcases);
     let maxMonsterHealth = 20 * testcasesTemp.length;
@@ -308,8 +313,18 @@
 
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
-        startIntervalTimer(timerSeconds);
-        startTime = Date.now();
+
+
+        const intro = introJs();
+        intro.start();
+        intro.oncomplete(function() {
+            startTime = Date.now();
+            startIntervalTimer(timerSeconds);
+        });
+        intro.onexit(function() {
+            startTime = Date.now();
+            startIntervalTimer(timerSeconds);
+        });
     }
 
     function showModal(){
@@ -634,6 +649,19 @@ public class MyClass
             showAimingMechanic();
             createBorderTimer();
             document.body.removeChild(helpPrompt); // Remove the prompt
+
+            const intro2 = introJs();
+            intro2.setOptions({
+                tooltipPosition : 'top',
+                steps: [
+                    {
+                        element: '#minigame',
+                        intro: 'Welcome to your example2.com dashboard, where...',
+                        position: 'top'
+                    }
+                ]
+            });
+            intro2.start();
         });
         buttonContainer.appendChild(yesButton);
 

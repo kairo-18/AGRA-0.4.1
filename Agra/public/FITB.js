@@ -561,10 +561,20 @@ startButton.addEventListener(clickEvent, () => {
 });
 
 function startGame(){
-    startTime = Date.now();
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
-    startIntervalTimer(timerSeconds);
+
+    const intro = introJs();
+    intro.start();
+    intro.oncomplete(function() {
+        startTime = Date.now();
+        startIntervalTimer(timerSeconds);
+    });
+
+    intro.onexit(function() {
+        startTime = Date.now();
+        startIntervalTimer(timerSeconds);
+    });
 }
 
 

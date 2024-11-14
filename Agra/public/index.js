@@ -14,6 +14,8 @@ checkmarks.forEach(checkmark => {
     maxScore += checkmark.points;
 });
 
+formatTimerToMins();
+
 var clickEvent = (function() {
     if ('ontouchstart' in document.documentElement === true)
         return 'touchstart';
@@ -836,15 +838,32 @@ function displayOutput(output) {
 var startButton = document.getElementById("startButton");
 
 function startGame(){
-    startTime = Date.now();
+
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
     document.getElementById("startPanel").style.zIndex = 10;
 
-    showLineNumber();
-    startCountdown();
+// Initialize intro.js and handle the completion event
+    const intro = introJs();
+    intro.oncomplete(function() {
+        startTime = Date.now();
+
+        showLineNumber();
+        startCountdown();
+    });
+
+    intro.onexit(function() {
+        startTime = Date.now();
+
+        showLineNumber();
+        startCountdown();
+    });
+
+    // Start the intro.js tour
+    intro.start();
     //startIntervalTimer(timerSeconds);
 }
+
 
 
 function showResetPanel(){
@@ -989,6 +1008,18 @@ document.getElementById('startButton').addEventListener(clickEvent , () => {
     startGame();
 });
 
+function formatTimerToMins(){
+    let minutes = Math.floor(timerSeconds / 60);
+    let seconds = timerSeconds % 60;
+
+    // Format time display
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+
+    // Display the timer
+    document.getElementById("timer").innerHTML = `${minutes}:${seconds}`;
+
+}
 function startCountdown() {
     let isGameOver;
     // Update the timer every second

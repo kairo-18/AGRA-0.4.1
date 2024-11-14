@@ -163,8 +163,13 @@
         </div>
         <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
             <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
+<<<<<<< Updated upstream
+                <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Press start when you are ready.</h1>
+                <h2 id="startText" class="text-center mb-2 text-blue-900">The best defense is offense. Marga stumbles upon a dungeon and the way back is blocked. Navigate the dungeon by completing this activity and help Marga defeat the hostile mercenaries on her way out. Getting a correct answer will trigger Marga's attack. On the other hand, running out of time will give the hostiles their turn to charge towards Marga. Good luck!</h2>
+=======
                 <h1 id="startText" class="text-start text-xl text-blue-600 mb-2"><strong>Press start when you are ready.</strong> </h1>
                 <h2 id="startText" class="text-center mb-2 text-blue-900">The best defense is offense. Marga stumbles upon a dungeon and the way back is blocked. Navigate the dungeon by completing this activity and help Marga defeat the hostile mercenaries on her way out. Getting a correct answer will trigger Marga's attack. On the other hand, running out of time will give the hostiles their turn to charge towards Marga. Good luck!.</h2>
+>>>>>>> Stashed changes
             </div>
             <div class="flex justify-end items-end h-full w-full">
                 <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
