@@ -513,6 +513,7 @@ function whenPlayerAttack(){
     if(tempCtr < checkmarks.length){
         if(checkmarks[tempCtr].done){
             playerMove(scene);
+            temporarilyCenterGameDiv();
             delay(400).then(() => monster.play(`${monsterKey}Attack`, true));
             tempCtr++;
         }
@@ -900,25 +901,33 @@ function showHitOverlay() {
 function temporarilyCenterGameDiv() {
     disableCheckButton();
 
+    // Create the vignette overlay and add it to the body
+    const vignetteOverlay = document.createElement('div');
+    vignetteOverlay.classList.add('vignette-overlay');
+    document.body.appendChild(vignetteOverlay);
+
+    // Center the game div
     var viewportWidth = window.innerWidth;
     var viewportHeight = window.innerHeight;
     var gameWidth = game.offsetWidth;
     var gameHeight = game.offsetHeight;
 
     if (viewportWidth < 1000) {
-        var translateX = (viewportWidth);
-        var translateY = (viewportHeight);
+        var translateX = viewportWidth;
+        var translateY = viewportHeight;
         game.style.transform = `translate(0px, -${translateY}px)`;
     } else {
         var translateX = (viewportWidth - gameWidth) / 2;
         game.style.transform = `translate(-${translateX}px, 0px)`;
     }
 
+    // Remove the vignette effect after centering
     setTimeout(function() {
         game.style.transform = 'translate(0, 0)';
+        vignetteOverlay.remove(); // Remove the vignette overlay
+        enableCheckButton();
     }, 2000);
 }
-
 function disableCheckButton() {
     const checkButton = document.getElementById("checkButton");
     checkButton.disabled = true; // Disable the button
