@@ -1,6 +1,7 @@
 var progressIncrement;
 let totalScore = 0;
 let maxScore = 0;
+let rounds = checkmarks.length;
 let userErrors = 0;
 let globalUserError = 0;
 let globalCorrectAnswers;
@@ -12,7 +13,6 @@ let endTime; // Time when the user completes the task
 checkmarks.forEach(checkmark => {
     maxScore += checkmark.points;
 });
-
 
 populateCheckmarks();
 calculateMaxMonsterHealth(checkmarks.length);
@@ -43,6 +43,7 @@ editor.setReadOnly(true);
 var content = document.getElementById("code");
 content.innerHTML = editor.getValue();
 
+hideLineNumber();
 
 function populateCheckmarks() {
     checkmarks.forEach(checkmark => {
@@ -496,7 +497,6 @@ function startIntervalTimer(timeSec) {
         }
     }, 1000);
 
-    let rounds = checkmarks.length;
     const timer = setInterval(function () {
 
         let time = timeSec;
@@ -561,6 +561,7 @@ startButton.addEventListener(clickEvent, () => {
 });
 
 function startGame(){
+    showLineNumber();
     startButton.style.display = "none";
     document.getElementById("startPanel").style.display = "none";
 
@@ -579,14 +580,34 @@ function startGame(){
 
 
 function showResetPanel(){
-    endTime = Date.now(); // Set the end time when the game ends
-    let timeTaken = Math.floor((endTime - startTime) / 1000); // Calculate the time taken in seconds
+    endTime = Date.now();
+    let timeTaken = Math.floor((endTime - startTime) / 1000);
     let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
-    var endPanel = document.getElementById("endPanel");
-    var score2 = document.getElementById("score2");
-    endPanel.style.display = "block";
-    score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
+    console.log(timeTaken);
+    console.log(timeLeft);
+
+    console.log(startTime);
+    console.log(endTime);
+
+    // Determine game result and update result message with a placeholder image
+    const resultMessage = document.getElementById("resultMessage");
+    const isGameOver = (rounds <= 0);1
+
+    hideLineNumber();
+
+    // Set a placeholder image depending on win/lose status
+    resultMessage.innerHTML = isGameOver
+        ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
+        : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
+
+    // Update the score, time taken, and error elements
+    document.getElementById("timeTaken2").innerText = timeTaken;
+    document.getElementById("globalScore").innerText = globalScore;
+    document.getElementById("globalUserError").innerText = globalUserError;
+
+    // Show the end panel
+    document.getElementById("endPanel").style.display = "flex";
 
     setTimeout(function(){
         submitScore(timeTaken, timeLeft);
@@ -692,5 +713,27 @@ document.addEventListener('keydown', function(event) {
         submitAnswer();
     }
 });
+
+function hideLineNumber(){
+    document.querySelector(".ace_gutter-cell").style.visibility = "hidden";
+    document.querySelector(".ace_gutter").style.visibility = "hidden";
+    document.querySelector(".ace_gutter-layer").style.visibility = "hidden";
+}
+
+function showLineNumber(){
+    document.querySelector(".ace_gutter-cell").style.visibility = "visible";
+    document.querySelector(".ace_gutter").style.visibility = "visible";
+    document.querySelector(".ace_gutter-layer").style.visibility = "visible";
+}
+
+function tryAgain() {
+    submitScore(timeTaken, timeLeft);
+    location.reload(); // Refresh the page to try again
+}
+
+function reset(){
+    submitScore(timeTaken, timeLeft);
+    window.location.href = '/';
+}
 
 

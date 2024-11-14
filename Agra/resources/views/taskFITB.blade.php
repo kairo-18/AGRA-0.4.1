@@ -147,9 +147,20 @@
 </div>
 
 
-<div class="endPanel" id="endPanel">
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+<div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white p-8 rounded-lg flex justify-between items-center transform">
+    <div class="left-section w-3/4 h-full flex justify-center items-center text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-l-lg shadow-md">
+        <span id="resultMessage">You Win / You Lose</span>
+    </div>
+    <div class="right-section w-1/4 h-full flex flex-col justify-evenly items-center text-lg p-6 bg-gray-800 rounded-r-lg shadow-md">
+        <div class="text-center my-auto">
+            <p>Time Taken: <span id="timeTaken2"></span></p>
+            <p>Score: <span id="globalScore"></span>%</p>
+            <p>Errors: <span id="globalUserError"></span></p>
+        </div>
+        <div class="text-center my-auto">
+            <button onclick="tryAgain()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md mb-4">Try Again</button>
+            <button onclick="reset()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">Back to Task</button>
+        </div>
     </div>
 </div>
 
