@@ -95,7 +95,15 @@
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-[100rem] w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4 mb-10">
                 <iframe frameborder="0" class="w-full h-full rounded-xl" src="{{asset("storage/" . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
-
+                    <div class="flex gap-10">
+                        <button onclick="toggleLayout()" class="mt-4 p-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
+                            Expand Module
+                        </button>
+                        <!-- Fullscreen Button -->
+                        <button id="fullscreenButton" onclick="toggleFullscreen()" class="mt-4 p-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
+                            Go Fullscreen
+                        </button>
+                    </div>
             </div>
             <!--3 div Courses Content-->
             
@@ -110,7 +118,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[30rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
                     <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-xs text-blue-600 mt-1">View grades</a>
                 </h1>
@@ -126,9 +134,9 @@
                             </svg>
                         </span>Type
 
-                            <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
-                            <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</time>
-                            <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
+                            <h3 class="flex items-center mb-1 text-xs font-semibold text-gray-900 dark:text-white">{{$task->TaskName}}</h3>
+                            <time class="block mb-2 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">{{ $task->DateGiven->format('m-d-Y') }} - {{ $task->Deadline->format('m-d-Y') }}</time>
+                            <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 gap-5">
                                 Go
                                 <svg class="w-5 h-3.5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" >
                                     <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
@@ -217,7 +225,7 @@
                                             </div>
                                             <div class="h-1/5 flex ml-5">
                                                 <div class="w-2/5">
-                                                    <h1 class="font-bold text-xl text-blue-800">Youtube Video #{{ $index }}</h1>
+                                                    <h1 class="font-bold text-xl text-blue-800">Web Article #{{ $index }}</h1>
                                                     <h3 class="font-normal text-base text-blue-800">AGRA LESSON</h3>
                                                 </div>
                                                 <div class="w-3/5 p-3 flex flex-row-reverse flex-wrap line-clamp-2 xl:overflow-visible xl:whitespace-normal">
@@ -242,7 +250,7 @@
                     <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2 bg-gray-400 p-2 rounded-full">
                         <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                         <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                        
                     </div>
                     <!-- Slider controls -->
                     <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -268,7 +276,58 @@
     </div>
 </div>
 <!--=====================================End outerDiv/MainDiv-=====================================-->
+<script>
+function toggleLayout() {
+    const innerDiv = document.querySelector('.innerDiv');
+    const rightPanel = document.querySelector('.right-panel');
+    const leftPanel = document.querySelector('.left-panel');
 
+    // Toggle flex direction of innerDiv
+    innerDiv.classList.toggle('xl:flex');
+    innerDiv.classList.toggle('flex-col');
+
+    // Toggle width of right-panel
+    rightPanel.classList.toggle('w-full');
+    rightPanel.classList.toggle('xl:w-2/5');
+
+    // Toggle height of left-panel
+    leftPanel.classList.toggle('h-full');
+    leftPanel.classList.toggle('h-screen');
+}
+</script>
+<script>
+function toggleFullscreen() {
+    const iframe = document.getElementById('lessonIframe');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+
+    if (!document.fullscreenElement) {
+        // Request fullscreen on iframe
+        iframe.requestFullscreen().catch((err) => {
+            alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        // Exit fullscreen
+        document.exitFullscreen();
+    }
+}
+
+// Update button text based on fullscreen state
+document.addEventListener('fullscreenchange', () => {
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    if (document.fullscreenElement) {
+        fullscreenButton.textContent = 'Exit Fullscreen';
+    } else {
+        fullscreenButton.textContent = 'Go Fullscreen';
+    }
+});
+
+// Exit fullscreen when the Escape key is pressed
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+});
+</script>
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
