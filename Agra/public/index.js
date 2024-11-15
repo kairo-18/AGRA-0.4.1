@@ -354,20 +354,20 @@ function normalizeLine(line) {
     // Step 2: Trim leading and trailing spaces.
     line = line.trim();
 
-    // Step 3: Normalize spaces around the equality operator.
+    // Step 3: Normalize spaces around equality operator.
+    // Ensure there's exactly one space on both sides of the '=' operator.
     line = line.replace(/\s*=\s*/g, ' = ');
 
     // Step 4: Normalize spaces around common operators (e.g., +, -, *, /).
+    // Ensure there's exactly one space on both sides of the operator.
     line = line.replace(/\s*([\+\-\*\/\=\!\<\>\&\|])\s*/g, ' $1 ');
 
     // Step 5: Collapse multiple spaces into one.
     line = line.replace(/\s+/g, ' ');
 
-    // Step 6: Remove spaces around parentheses in control structures (if, else, for).
-    line = line.replace(/\b(if|else|for|while)\s*\(/g, '$1 (');
-
     return line;
 }
+
 
 function refresheditor(id, content, readonly, fromAdminFlag) {
     set_readonly(editor, readonly, fromAdminFlag);
