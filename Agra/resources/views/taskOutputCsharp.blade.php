@@ -196,9 +196,30 @@
 </form>
 
 
-<div class="endPanel" id="endPanel">
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-lg border shadow dark:bg-blue-700 text-white flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-32">
-        <h2 id="endText">Your score is: <span id="score2"></span></h2>
+<div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white rounded-lg flex justify-between items-center transform">
+    <div class="background-wrapper">
+        <div class="h-full flex justify-center items-center text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 rounded-l-lg shadow-md">
+                <span id="resultMessage" class="bg-cover bg-center" ></span>
+        </div>
+    </div>
+    <div class ="pr-8">
+        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-8 rounded-lg shadow-lg">
+            <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
+            <div class="text-center text-sm text-blue-800 mb-4 ">
+                <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
+                <p>Lesson: {{$task->lesson->LessonName}}</p>
+                <p>Task: {{$task->TaskName}}</p>
+            </div>
+            <div class="text-center text-base text-blue-800 my-4">
+                <p><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
+                <p><strong>Score</strong><br><span id="globalScore">%</span></p>
+                <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
+            </div>
+            <div class="flex gap-4 mt-4 px-5">
+                <button onclick="tryAgain()" id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Play Again</button>
+                <button onclick="reset()" id="backToTasks" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Back to tasks</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -313,17 +334,20 @@
 
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
-
+        let isComplete = false;
 
         const intro = introJs();
         intro.start();
         intro.oncomplete(function() {
             startTime = Date.now();
+            isComplete = true;
             startIntervalTimer(timerSeconds);
         });
         intro.onexit(function() {
-            startTime = Date.now();
-            startIntervalTimer(timerSeconds);
+            if(!isComplete){
+                startTime = Date.now();
+                startIntervalTimer(timerSeconds);
+            }
         });
     }
 
@@ -364,19 +388,48 @@
         }
     });
 
-    function showResetPanel(){
-        endTime = Date.now(); // Set the end time when the game ends
-        let timeTaken = Math.floor((endTime - startTime) / 1000); // Calculate the time taken in seconds
+    function showResetPanel(remainingTime) {
+        console.log("Panel Displayed");
+
+        endTime = Date.now();
+        let timeTaken = Math.floor((endTime - startTime) / 1000);
         let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
-        var endPanel = document.getElementById("endPanel");
-        var score2 = document.getElementById("score2");
-        endPanel.style.display = "block";
-        score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
+        const endPanel = document.getElementById('endPanel');
+        const endMessage = document.getElementById('endMessage');
+
+        // Determine game result and update result message with a placeholder image
+        const resultMessage = document.getElementById("resultMessage");
+        const isGameOver = (remainingTime <= 0);1
+
+        hideLineNumber();
+
+        // Set a placeholder image depending on win/lose status
+        resultMessage.innerHTML = isGameOver
+            ? '<img src="/shipGameAssets/SHIPLose.png" alt="Game Over">'
+            : '<img src="/shipGameAssets/SHIPWin.png" alt="You Win">';
+
+        if (isGameOver) {
+            endMessage.textContent = "YOU LOSE!";
+        } else {
+            endMessage.textContent = "YOU WIN!";
+        }
+
+        endPanel.style.backgroundSize = 'cover';
+        endPanel.style.backgroundPosition = 'center';
+        endPanel.style.color = 'white'; // For contrast against the image
+
+        // Update the score, time taken, and error elements
+        document.getElementById("timeTaken2").innerText = timeTaken;
+        document.getElementById("globalScore").innerText = globalScore;
+        document.getElementById("globalUserError").innerText = globalUserError;
+
+        // Show the end panel
+        document.getElementById("endPanel").style.display = "flex";
 
         setTimeout(function(){
             submitScore(timeTaken, timeLeft);
-        }, 2000);
+        }, 10000);
     }
 
     function submitScore(timeTaken, timeLeft){
@@ -407,6 +460,18 @@
         output += `));`;
     }
     console.log(output);
+
+    function hideLineNumber(){
+        document.querySelector(".ace_gutter-cell").style.visibility = "hidden";
+        document.querySelector(".ace_gutter").style.visibility = "hidden";
+        document.querySelector(".ace_gutter-layer").style.visibility = "hidden";
+    }   
+
+    function showLineNumber(){
+        document.querySelector(".ace_gutter-cell").style.visibility = "visible";
+        document.querySelector(".ace_gutter").style.visibility = "visible";
+        document.querySelector(".ace_gutter-layer").style.visibility = "visible";
+    }
 
 
 
@@ -544,7 +609,7 @@ public class MyClass
                     if (globalScore === 100) {
                         stopAllTimers();
                         document.getElementById("timer").innerHTML = "Done";
-                        showResetPanel();
+                        showResetPanel(remainingTime)
                     }
                 }
             }, 1000);
@@ -563,13 +628,13 @@ public class MyClass
                     stopAllTimers();
                     console.log("Done!");
                     document.getElementById("timer").innerHTML = "Done";
-                    showResetPanel();
+                    showResetPanel(remainingTime)
                 }
 
                 if (globalScore === 100) {
                     stopAllTimers();
                     document.getElementById("timer").innerHTML = "Done";
-                    showResetPanel();
+                    showResetPanel(remainingTime)
                 }
             }, (timeSec * 1000) + 1000);
         }
@@ -596,7 +661,7 @@ public class MyClass
                 stopAllTimers();
                 console.log("Done!");
                 document.getElementById("timer").innerHTML = "Done";
-                showResetPanel();
+                showResetPanel(remainingTime)
             }
 
             // If paused at 0, reset to original interval time
