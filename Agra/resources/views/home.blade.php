@@ -115,10 +115,10 @@
 
             <div class="course">
                 <div class="lbl-title flex justify-end border-b-2 border-gray-300 mb-2">
-                    <h1 class = "flex  mb-3 text-xl font-semibold text-blue-800 dark:text-white">Courses: </h1>
+                    <h1 class = "flex  mb-3 text-xl font-semibold text-blue-800 dark:text-white">Courses </h1>
                     <a href="/courses" class="text-blue-600">view</a>
                 </div>
-                <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
+                <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse gap-y-10">
                 @foreach($courses as $course)
                     <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                         <div class="h-1/5">
@@ -151,7 +151,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[28rem] w-full rounded-lg overflow-auto shadow mr-7">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+                <h1 class="flex  mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
 
                 @php
                     // Ensure tasks are unique before processing
@@ -262,8 +262,8 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        'bg-course1.png', 'bg-course2.png', 'bg-course3.png',
-        'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
+        'bg-STICourse1.png', 'bg-STICourse2.png', 'bg-STICourse3.png',
+        'bg-STICourse4.png', 'bg-STICourse5.png', 'bg-STICourse6.png', 'bg-STICourse7.png'
     ];
 
     // Shuffle the array to randomize the images

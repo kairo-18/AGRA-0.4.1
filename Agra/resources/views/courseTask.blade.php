@@ -117,8 +117,8 @@
 
                     <a href="/tasks/{{$task->id}}" class="yt-vid w-[18rem] h-[13rem] mt-2 focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-lg rounded-xl lesson-card">
                         <div class="h-1/5">
-                            <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-gradient shadow-md flex justify-between">
-                                <h1 class="font-bold text-xs text-white">Task</h1>
+                            <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md flex justify-between">
+                                <h1 class="font-bold text-xs text-blue-900">Task</h1>
                                 <div class="badge mb-2 ml-2">
                                     <span class="hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 mb-3">
                                         {{$course->category->name}}
@@ -145,7 +145,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[48rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-lg font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex  mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
                 <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-base text-blue-600 mt-1">View grades</a>
                 </h1>
@@ -246,18 +246,13 @@
 <!--=====================================End outerDiv/MainDiv-=====================================-->
 
 <script>
-    // Array of color gradients
-    const gradients = [
-        'linear-gradient(to right, #00f, #1e3a8a)', // Blue to Dark Blue
-        'linear-gradient(to right, #7b2cbf, #c77dff)', // Violet to Pink
-        'linear-gradient(to right, #ff9a9e, #fad0c4)', // Light Pink to White
-        'linear-gradient(to right, #d9a7c7, #fffcdc)', // Light Purple to White
-        'linear-gradient(to right, #8e2de2, #4a00e0)', // Purple to Dark Blue
-        'linear-gradient(to right, #43cea2, #185a9d)', // Blue-Green to Blue
-        'linear-gradient(to right, #00c6ff, #0072ff)', // Light Blue to Dark Blue
+    // Array of background images
+    const backgroundImages = [
+        '/bg-STItask1.png', '/bg-STItask2.png', '/bg-STItask3.png',
+        '/bg-STItask4.png', '/bg-STItask5.png', '/bg-STItask6.png', '/bg-STItask7.png'
     ];
 
-    // Shuffle the array to randomize the gradients
+    // Shuffle the array to randomize the images
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -265,27 +260,27 @@
         }
     }
 
-    // Shuffle gradients
-    shuffleArray(gradients);
+    // Shuffle images
+    shuffleArray(backgroundImages);
 
     // Get all lesson cards
-    const lessonCards = document.querySelectorAll('.lesson-card .bg-gradient');
+    const lessonCards = document.querySelectorAll('.lesson-card .bg-image');
 
-    // Keep track of the last used gradient
-    let lastUsedGradient = null;
+    // Keep track of the last used image
+    let lastUsedImage = null;
 
     lessonCards.forEach((card, index) => {
-        // Ensure no two consecutive lessons get the same gradient
-        let currentGradient = gradients[index % gradients.length];
-        if (currentGradient === lastUsedGradient) {
-            currentGradient = gradients[(index + 1) % gradients.length];
+        // Ensure no two consecutive lessons get the same image
+        let currentImage = backgroundImages[index % backgroundImages.length];
+        if (currentImage === lastUsedImage) {
+            currentImage = backgroundImages[(index + 1) % backgroundImages.length];
         }
 
-        // Set the background gradient
-        card.style.background = currentGradient;
+        // Set the background image
+        card.style.backgroundImage = `url(${currentImage})`;
 
-        // Update the last used gradient
-        lastUsedGradient = currentGradient;
+        // Update the last used image
+        lastUsedImage = currentImage;
     });
 </script>
 

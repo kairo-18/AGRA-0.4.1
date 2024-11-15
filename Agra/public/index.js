@@ -8,6 +8,10 @@ let globalCorrectAnswers;
 let maxTime = checkmarks.length * timerSeconds; // Total maximum time allowed
 let startTime; // Time when the user starts the task
 let endTime; // Time when the user completes the task
+let rounds = checkmarks.length;
+let isPaused = false;  // Flag to track if the timer is paused
+let timer, timer2;  // Declare timers to allow access in pause/resume
+let isPanelShown = false;
 var isAttackInProgress = false;
 var game = document.getElementById('minigame');
 checkmarks.forEach(checkmark => {
@@ -564,10 +568,7 @@ async function sendPrompt(instruction, userCode) {
 
 
 function startIntervalTimer(timeSec) {
-    let rounds = checkmarks.length;
     let time = timeSec;
-    let isPaused = false;  // Flag to track if the timer is paused
-    let timer, timer2;  // Declare timers to allow access in pause/resume
 
     // Start the timer cycle immediately
     runTimerCycle();
@@ -605,42 +606,14 @@ function startIntervalTimer(timeSec) {
                     });
                 }
             }
-
-            if (globalScore === 100) stopTimer();
+            if (globalScore === 100) showResetPanel();
         }, 1000);
-
-        if (rounds <= 0 || globalScore === 100) stopTimer();
     }
 
     function stopTimer() {
-        endTime = Date.now();
-        let timeTaken = Math.floor((endTime - startTime) / 1000);
-
         // Stop timers
         clearInterval(timer);
         clearInterval(timer2);
-
-        console.log(startTime);
-        console.log(endTime);
-
-        // Determine game result and update result message with a placeholder image
-        const resultMessage = document.getElementById("resultMessage");
-        const isGameOver = (rounds <= 0);1
-
-        hideLineNumber();
-
-        // Set a placeholder image depending on win/lose status
-        resultMessage.innerHTML = isGameOver
-            ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
-            : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
-
-        // Update the score, time taken, and error elements
-        document.getElementById("timeTaken").textContent = timeTaken;
-        document.getElementById("globalScore").innerText = globalScore;
-        document.getElementById("globalUserError").innerText = globalUserError;
-
-        // Show the end panel
-        document.getElementById("endPanel").style.display = "flex";
     }
 
 
@@ -683,7 +656,7 @@ function startIntervalTimer(timeSec) {
                 }
             }
 
-            if (globalScore === 100) stopTimer();
+            if (globalScore === 100) showResetPanel();
         }, 1000);
 
         timer = setInterval(async function () {
@@ -866,20 +839,57 @@ function startGame(){
 
 
 
-function showResetPanel(){
-    endTime = Date.now(); // Set the end time when the game ends
-    let timeTaken = Math.floor((endTime - startTime) / 1000); // Calculate the time taken in seconds
+function showResetPanel() {
+    if (isPanelShown) return;  // Prevent multiple calls
+
+    // Set the flag to true to indicate the panel is now shown
+    isPanelShown = true;
+
+    // The rest of your showResetPanel logic
+    endTime = Date.now();
+    console.log("Panel Displayed");
+
+    // Determine game result and update result message with a placeholder image
+    const resultMessage = document.getElementById("resultMessage");
+    const isGameOver = (globalScore === 100);
+
+    clearInterval(timer);
+    clearInterval(timer2);
+
+    let timeTaken = Math.floor((endTime - startTime) / 1000);
     let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
-    var endPanel = document.getElementById("endPanel");
-    var score2 = document.getElementById("score2");
-    endPanel.style.display = "block";
-    score2.innerHTML = globalScore + "% </br> " + "Errors: " + globalUserError;
+    const endPanel = document.getElementById('endPanel');
+    const endMessage = document.getElementById('endMessage');
 
-    globalTimeTaken = timeTaken;
-    setTimeout(function(){
+    hideLineNumber();
+
+    // Set a placeholder image depending on win/lose status
+    resultMessage.innerHTML = isGameOver
+        ? '<img src="/IntermediateGameAssets/INTERMEDIATEWin.png" alt="You Win">'
+        : '<img src="/IntermediateGameAssets/INTERMEDIATELose.png" alt="Game Over">';
+
+    if (isGameOver) {
+        endMessage.textContent = "YOU WIN!";
+    } else {
+        endMessage.textContent = "YOU LOSE!";
+    }
+
+    endPanel.style.backgroundSize = 'cover';
+    endPanel.style.backgroundPosition = 'center';
+    endPanel.style.color = 'white'; // For contrast against the image
+
+    // Update the score, time taken, and error elements
+    document.getElementById("timeTaken2").innerText = timeTaken;
+    document.getElementById("globalScore").innerText = globalScore;
+    document.getElementById("globalUserError").innerText = globalUserError;
+
+    // Show the end panel
+    document.getElementById("endPanel").style.display = "flex";
+
+    setTimeout(function() {
         submitScore(timeTaken, timeLeft);
-    }, 5000);
+    }, 10000);
 }
 
 
@@ -1042,45 +1052,20 @@ function startCountdown() {
         }
         if (globalScore === 100) {
              isGameOver = false;
-            stopTimer();
+            showResetPanel();
+            Panel();
         }
 
-
-        function stopTimer(){
+        function stopTimer() {
+            // Stop timers
             clearInterval(timerInterval);
-            document.getElementById("timer").innerHTML = "Time's up!";
-
-            endTime = Date.now();
-            let timeTaken = Math.floor((endTime - startTime) / 1000);
-
-
-            console.log(startTime);
-            console.log(endTime);
-
-            // Determine game result and update result message with a placeholder image
-            const resultMessage = document.getElementById("resultMessage");
-
-            hideLineNumber();
-
-            // Set a placeholder image depending on win/lose status
-            resultMessage.innerHTML = isGameOver
-                ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
-                : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
-
-            // Update the score, time taken, and error elements
-            document.getElementById("timeTaken").textContent = timeTaken;
-            document.getElementById("globalScore").innerText = globalScore;
-            document.getElementById("globalUserError").innerText = globalUserError;
-
-            // Show the end panel
-            delay(3000).then(() => {
-                document.getElementById("endPanel").style.display = "flex";
-            })
         }
+    
+
         // If time reaches zero, stop the countdown
         if (timerSeconds < 0) {
             isGameOver = true;
-            stopTimer();
+            showResetPanel();
         }
     }, 1000);
 }

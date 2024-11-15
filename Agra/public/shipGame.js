@@ -35,6 +35,8 @@ var explosions = ['explosion1', 'explosion2', 'explosion3']
 var crosshair, shootButton, isShooting = false, shouldRegen = true;
 var isAiming = false;
 var bgmMusic, shootMusic, explosionMusic, hitMusic, winMusic, loseMusic;
+var shotsFired = 0;
+var shootCooldown = false;
 
 function preload() {
     this.load.atlas('necromancer', '/necromancer.png', '/necromancer.json');
@@ -136,6 +138,7 @@ function create() {
         monster.setVelocityX(0);
         monster.play('hurt');
         bullet.destroy();
+        console.log("hit!");
         hitMusic.play();
         monster.on('animationcomplete', function (animation) {
             monster.play('run');
@@ -325,25 +328,48 @@ function createCrosshair() {
         }
     })();
 
-// On shoot button click or touch, stop the crosshair and fire at its position
-    shootButton.on(pointerEvent, function () {
-        if (!isShooting) {
-            isShooting = true;
-            scene.tweens.killTweensOf(crosshair); // Stop crosshair movement
-            fireBulletAtCrosshair();
+    // On shoot button click or touch, stop the crosshair and fire at its position
+    shootButton.on('pointerdown', function () {
+        if (shotsFired < 5 && !shootCooldown) {
+            shootButton.play('shootButton');
+            fireBulletAtCrosshair(); // Fire the bullet
+            shotsFired++; // Increment the shots fired count
+            shootCooldown = true; // Start cooldown
+    
+            // Set a timeout for the 0.5-second cooldown
+            setTimeout(() => {
+                shootCooldown = false;
+            }, 500); // 500 milliseconds cooldown
+    
+            shootMusic.play();
+    
+            // Disable the button if 5 shots have been fired
+            if (shotsFired >= 5) {
+                shootButton.disableInteractive();
+                console.log("Shoot button disabled after 5 shots.");
+            }
+        } else if (shotsFired >= 5) {
+            console.log("No more shots available.");
         }
     });
+    
 }
 
 
 
 function fireBulletAtCrosshair() {
-    let shots = 0;
-    const maxShots = 5;
+    let bullet = bullets.get(player.x, player.y);
 
-    var bullet = bullets.get(player.x, player.y);
+    // Check if a bullet is available
+    if (!bullet) {
+        console.log("No bullet available in the pool");
+        return;
+    }
+
     bullet.setActive(true);
     bullet.setVisible(true);
+    bullet.body.collideWorldBounds = true;
+    bullet.body.onWorldBounds = true;
 
     // Calculate angle to fire at the crosshair's current position
     var angle = Phaser.Math.Angle.Between(bullet.x, bullet.y, crosshair.x, crosshair.y);
@@ -360,18 +386,13 @@ function fireBulletAtCrosshair() {
     scene.physics.world.on('worldbounds', function(body) {
         if (body.gameObject === bullet) {
             bullet.destroy();
+            console.log("Bullet destroyed");
         }
     });
 
-    // Detect if the bullet hits the monster
     isShooting = false;
-    scene.physics.add.overlap(bullet, monster, function() {
-        console.log("hit");
-        bullet.destroy();
-        isShooting = false; // Reset shooting status
-        resetCrosshair(); // Reset crosshair movement
-    });
 }
+
 
 // Function to reset crosshair position and movement
 function resetCrosshair() {
@@ -481,13 +502,14 @@ function failedAtAiming(){
         loseMusic.play();
         currentMonsterHealth = 100;
         updateMonsterHealth();
-        introJs().exit();
+        editor.setReadOnly(false);
+        resumeTimer();
     }else{
         winMusic.play();
+        alert('You Succeeded. Tips will appear in 3 seconds.');
         currentPlayerHealth = currentPlayerHealth + 20;
         people.create(550 + (people.children.size * 50), 420, 'people').setVelocityX(100).play('crowdRun');
         updatePlayerHealthBar();
-        introJs().exit();
         sendPrompt(instruction, editor.getValue()).then(result => {
             delay(1000).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
         });
@@ -702,41 +724,55 @@ function triggerRandomAttack() {
 }
 
 
-function setupAimingMechanic(scene) {
-    // Create crosshair in the center of the screen
-    crosshair = scene.add.image(500, 200, 'crosshair').setDepth(5).setVisible(false).setScale(3);
+var shotsFired = 0;
+var shootCooldown = false;
+var maxShots = 5;
 
-    // Tween to move the crosshair left and right
+function setupAimingMechanic(scene) {
+    // Crosshair setup
+    crosshair = scene.add.image(500, 200, 'crosshair').setDepth(5).setVisible(false).setScale(3);
     scene.tweens.add({
         targets: crosshair,
-        x: { from: 200, to: 800 }, // Adjust the movement range as needed
+        x: { from: 200, to: 800 },
         duration: 1000,
         yoyo: true,
         repeat: -1,
         ease: 'Sine.easeInOut'
     });
 
-    // Create the shoot button
+    // Shoot button setup
     shootButton = scene.add.sprite(525, 550, 'shootButton').setInteractive().setDepth(5).setVisible(false).setScale(4);
 
-    var pointerEvent = (function() {
-        if ('ontouchstart' in document.documentElement === true) {
-            return 'pointerdown'; // For touch devices, use pointerdown (or 'touchstart' if necessary)
-        } else {
-            return 'pointerdown'; // For non-touch devices, still use pointerdown
-        }
-    })();
+    shootButton.on('pointerdown', handleShoot);
+}
 
-// On shoot button click or touch, stop the crosshair and fire at its position
-    shootButton.on(pointerEvent, function () {
+// Function to handle shooting with cooldown and shot limit
+function handleShoot() {
+    if (shotsFired >= maxShots) {
+        console.log("No more shots available.");
+        return;
+    }
+
+    if (!shootCooldown) {
+        shootCooldown = true;
+        shotsFired++;
         shootButton.play('shootButton');
-        if (!isShooting) {
-            isShooting = true;
-            fireBulletAtCrosshair();
-            shootMusic.play();
-        }
-    });    // Add event listener for the button click
+        fireBulletAtCrosshair(); // Fire the bullet
+        shootMusic.play();
 
+        // Reset cooldown after 0.5 seconds
+        setTimeout(() => {
+            shootCooldown = false;
+        }, 250);
+
+        // Disable shoot button if max shots are reached
+        if (shotsFired >= maxShots) {
+            shootButton.disableInteractive();
+            console.log("Shoot button disabled after 5 shots.");
+        }
+    } else {
+        console.log("Cooldown active, wait before next shot.");
+    }
 }
 
 // Function to show the crosshair and button
@@ -746,12 +782,21 @@ function showAimingMechanic() {
     crosshair.setVisible(true);
     shootButton.setVisible(true);
     isAiming = true;
+
+    // Reset shot count, cooldown, and enable the button
+    shotsFired = 0;
+    shootCooldown = false;
+    shootButton.setInteractive(); // Re-enable button interactivity
 }
+
+
+
 
 // Function to hide the crosshair and button
 function hideAimingMechanic() {
     crosshair.setVisible(false);
     shootButton.setVisible(false);
+    shootButton.disableInteractive();
     shouldRegen = false;
 
     isAiming = false;
@@ -763,6 +808,7 @@ function hideAimingMechanic() {
 // Modified overlap function to hide the crosshair and button on bullet hit
 function hitTarget(monster, bullet) {
     bullet.destroy(); // Destroy the bullet
+    console.log("Bullet destroyed Hit Target");
     reduceMonsterHealth(20); // Reduce the monster's health
 
     // Hide the crosshair and button

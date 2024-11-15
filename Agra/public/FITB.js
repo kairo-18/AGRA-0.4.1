@@ -578,17 +578,15 @@ function startGame(){
     });
 }
 
+function showResetPanel() {
+    console.log("Panel Displayed");
 
-function showResetPanel(){
     endTime = Date.now();
     let timeTaken = Math.floor((endTime - startTime) / 1000);
     let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
-    console.log(timeTaken);
-    console.log(timeLeft);
-
-    console.log(startTime);
-    console.log(endTime);
+    const endPanel = document.getElementById('endPanel');
+    const endMessage = document.getElementById('endMessage');
 
     // Determine game result and update result message with a placeholder image
     const resultMessage = document.getElementById("resultMessage");
@@ -598,8 +596,18 @@ function showResetPanel(){
 
     // Set a placeholder image depending on win/lose status
     resultMessage.innerHTML = isGameOver
-        ? '<img src="path/to/game-over-placeholder.png" alt="Game Over">'
-        : '<img src="path/to/you-win-placeholder.png" alt="You Win">';
+        ? '<img src="/FITBAssets/FITBLose.png" alt="Game Over">'
+        : '<img src="/FITBAssets/FITBWin.png" alt="You Win">';
+
+    if (isGameOver) {
+        endMessage.textContent = "YOU LOSE!";
+    } else {
+        endMessage.textContent = "YOU WIN!";
+    }
+
+    endPanel.style.backgroundSize = 'cover';
+    endPanel.style.backgroundPosition = 'center';
+    endPanel.style.color = 'white'; // For contrast against the image
 
     // Update the score, time taken, and error elements
     document.getElementById("timeTaken2").innerText = timeTaken;
@@ -611,10 +619,8 @@ function showResetPanel(){
 
     setTimeout(function(){
         submitScore(timeTaken, timeLeft);
-    }, 2000);
+    }, 10000);
 }
-
-
 
 function submitScore(timeTaken, timeLeft){
     document.getElementById('TotalScore').value = totalScore;
@@ -630,11 +636,6 @@ function submitScore(timeTaken, timeLeft){
 function doneTaskStatus() {
     document.getElementById('TaskStatus').value = 'Done';
     //document.getElementById('taskStatusForm').submit();
-}
-
-
-function reset(){
-    window.location.href = '/';
 }
 
 function blankCalc(word){

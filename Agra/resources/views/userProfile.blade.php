@@ -97,15 +97,17 @@
                 <div class="title pb-9">
                     <h1 class="text-2xl font-bold text-blue-800">Enrolled Courses:</h1>
                 </div>
-
-                <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
+                
+                <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse gap-y-10 ">
                 @foreach($courses as $course)
                     <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
-                        <div class="h-full">
-                            <div class="w-full h-full p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <h2 class="font-bold text-xs text-white mb-10">Courses</h2>
-                                <h1 class="font-bold text-lg text-white">{{$course->CourseName}}</h1>
-                                <h3 class="font-medium text-xs text-gray-200 line-clamp">{{$course->CourseDescription}}</h3>
+                        <div class="h-1/5">
+                            <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                            </div>
+                            <div class="w-full p-3 bg-white rounded-xl">
+                                <h2 class="bg-blue-600 rounded-xl font-bold text-xs text-white p-1 w-fit mb-2">Courses ⦿</h2>
+                                <h1 class="font-bold text-md text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-sm text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
                         </div>
                     </a>
@@ -130,8 +132,8 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        'bg-course1.png', 'bg-course2.png', 'bg-course3.png',
-        'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
+        'bg-STICourse1.png', 'bg-STICourse2.png', 'bg-STICourse3.png',
+        'bg-STICourse4.png', 'bg-STICourse5.png', 'bg-STICourse6.png', 'bg-STICourse7.png'
     ];
 
     // Shuffle the array to randomize the images

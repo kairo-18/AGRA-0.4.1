@@ -174,29 +174,32 @@
 
     <div id="hit-overlay" class="hit-overlay"></div>
 
-<div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white p-8 rounded-lg flex justify-between items-center transform">
-    <div class="left-section w-3/4 h-full flex justify-center items-center text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 p-8 rounded-l-lg shadow-md">
-        <span id="resultMessage">You Win / You Lose</span>
-    </div>
-    <div class="right-section w-1/4 h-full flex flex-col justify-evenly items-center text-lg p-6 bg-gray-800 rounded-r-lg shadow-md">
-        <div class="text-center my-auto">
-            <p>Time Taken: <span id="timeTaken"></span></p>
-            <p>Score: <span id="globalScore"></span>%</p>
-            <p>Errors: <span id="globalUserError"></span></p>
+<div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white rounded-lg flex justify-between items-center transform">
+    <div class="background-wrapper">
+        <div class="h-full flex justify-center items-center text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 rounded-l-lg shadow-md">
+                <span id="resultMessage" class="bg-cover bg-center" ></span>
         </div>
-        <div class="text-center my-auto">
-            <button onclick="tryAgain()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md mb-4">Try Again</button>
-            <button onclick="reset()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">Back to Task</button>
+    </div>
+    <div class ="pr-8">
+        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-8 rounded-lg shadow-lg">
+            <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
+            <div class="text-center text-sm text-blue-800 mb-4 ">
+                <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
+                <p>Lesson: {{$task->lesson->LessonName}}</p>
+                <p>Task: {{$task->TaskName}}</p>
+            </div>
+            <div class="text-center text-base text-blue-800 my-4">
+                <p><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
+                <p><strong>Score</strong><br><span id="globalScore">%</span></p>
+                <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
+            </div>
+            <div class="flex gap-4 mt-4 px-5">
+                <button onclick="tryAgain()" id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Play Again</button>
+                <button onclick="reset()" id="backToTasks" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Back to tasks</button>
+            </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 
 <div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
 
