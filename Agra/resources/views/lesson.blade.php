@@ -99,6 +99,7 @@
                             </div>
                         </div>
                     </a>
+                    
                 @endforeach
             </div>
         </div>
@@ -111,7 +112,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[48rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">
+                <h1 class="flex mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
                 </h1>
 
@@ -231,8 +232,8 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        '/bg-lesson1.png', '/bg-lesson2.png', '/bg-lesson3.png',
-        '/bg-lesson4.png', '/bg-lesson5.png', '/bg-lesson6.png', '/bg-lesson7.png'
+        '/bg-STIless1.png', '/bg-STIless2.png', '/bg-STIless3.png',
+        '/bg-STIless4.png', '/bg-STIless5.png', '/bg-STIless6.png', '/bg-STIless7.png'
     ];
 
     // Shuffle the array to randomize the images

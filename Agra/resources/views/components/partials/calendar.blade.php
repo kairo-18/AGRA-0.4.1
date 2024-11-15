@@ -115,7 +115,7 @@
 <body>
     <div class="calendar-panel pl-5 pr-5 pb-5 pt-2 bg-white h-full w-full rounded-lg overflow-auto   shadow">
         <div class="lbl-title flex justify-end">
-            <h3 class="text-xl font-semibold text-gray-900">Calendar</h3>
+            <h3 class="text-xl font-semibold text-blue-900">Calendar</h3>
 {{--            <a href="/calendar" class="text-blue-600">view</a>--}}
         </div>
         <div class="calendar">

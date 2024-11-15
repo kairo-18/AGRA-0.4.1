@@ -77,19 +77,21 @@
                 </div>
             </div>
             <!--3 div Courses Content-->
-            <div class = "learM-section flex flex-row flex-wrap justify-center items-start bg-gray-200  h-full xl:w-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-5">
+            <div class = "learM-section flex flex-row flex-wrap justify-center items-start bg-gray-200  h-full xl:w-full w-full rounded-lg overflow-auto p-5 shadow-inner gap-y-10 gap-x-5">
                 @foreach($courses->sortBy('CourseName') as $course)
-                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[15rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
-                        <div class="h-full">
-                            <div class ="w-full h-full p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
-                                <h2 class="font-bold text-xl text-white mb-10">Courses</h2>
-                                <h1 class="font-bold text-4xl text-white">{{$course->CourseName}}</h1>
-                                <h3 class="font-medium text-base text-gray-200 line-clamp">{{$course->CourseDescription}}</h3>
+                    <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                        <div class="h-1/5">
+                            <div class="w-full h-32 p-3 rounded-xl bg-cover bg-center bg-image shadow-md">
+                            </div>
+                            <div class="w-full p-3 bg-white rounded-xl">
+                                <h2 class="bg-blue-600 rounded-xl font-bold text-xs text-white p-1 w-fit mb-2">Courses ⦿</h2>
+                                <h1 class="font-bold text-md text-blue-800">{{$course->CourseName}}</h1>
+                                <p class="font-normal text-sm text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
                         </div>
                     </a>
-
                 @endforeach
+                
             </div>
 
         </div>
@@ -102,7 +104,7 @@
             <!--------------Start Agenda-------------->
             <div class="agenda flex flex-col pl-7 pr-7 pb-7 pt-2 bg-white h-[48rem] w-full rounded-lg overflow-auto shadow">
                 <!----Start lbl and border line---->
-                <h1 class="flex  mb-3 text-xl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
+                <h1 class="flex  mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
 
 
                 @php
@@ -227,8 +229,8 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        'bg-course1.png', 'bg-course2.png', 'bg-course3.png',
-        'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
+        'bg-STICourse1.png', 'bg-STICourse2.png', 'bg-STICourse3.png',
+        'bg-STICourse4.png', 'bg-STICourse5.png', 'bg-STICourse6.png', 'bg-STICourse7.png'
     ];
 
     // Shuffle the array to randomize the images
