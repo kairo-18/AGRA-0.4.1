@@ -106,7 +106,7 @@
                     </div>
             </div>
             <!--3 div Courses Content-->
-            
+
         </div>
         <!-------------------------End leftPanel----------------------->
 
@@ -332,7 +332,7 @@ document.addEventListener('keydown', (event) => {
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 
 </body>
 </html>

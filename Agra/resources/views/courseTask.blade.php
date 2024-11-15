@@ -91,7 +91,7 @@
                         }
                     });
                 };
-            @endphp  
+            @endphp
 
             <div class="flex flex-row flex-wrap justify-start gap-3 pl-9 pt-5 bg-gray-200 rounded-xl" id="lessonsContainer">
                 @foreach($getSortedTasks($distinctTasks) as $task)
@@ -178,7 +178,7 @@
                             $deadlineWord = $deadline->isToday() ? 'Today' :
                                             ($deadline->isTomorrow() ? 'Tomorrow' :
                                             ($deadline->isFuture() && $deadline->diffInDays($now) <= 30 ? 'Upcoming' : 'Past Due'));
-                            
+
                             // Set text and background color based on deadline type
                             if ($deadline->isToday()) {
                                 $deadlineClass = 'text-green-500 bg-green-100';
@@ -209,7 +209,7 @@
                                             {{$lesson->LessonName}}
                                         </h5>
                                         <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
-                                            <strong>Deadline:</strong> 
+                                            <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
                                             <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
@@ -289,6 +289,11 @@
     });
 </script>
 
+<script>
+    const sectionId = "{{$user->section->id}}";
+    const username = "{{Auth::user()->name}}";
+</script>
+<script src="/agraNotification.js"></script>
 
 </body>
 </html>

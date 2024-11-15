@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
           </div>
             <!-- Enrolled Courses Section -->
@@ -97,7 +97,7 @@
                 <div class="title pb-9">
                     <h1 class="text-2xl font-bold text-blue-800">Enrolled Courses:</h1>
                 </div>
-                
+
                 <div class="flex flex-wrap justify-end gap-5 bg-gray-200 shadow-inner rounded-xl p-10 flex-row-reverse flex-wrap">
                 @foreach($courses as $course)
                     <a href="/courses/{{$course->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
@@ -130,7 +130,7 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        'bg-course1.png', 'bg-course2.png', 'bg-course3.png', 
+        'bg-course1.png', 'bg-course2.png', 'bg-course3.png',
         'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
     ];
 
@@ -343,10 +343,10 @@ const chart = new ApexCharts(document.getElementById("tooltip-chart"), options2)
 chart.render();
 }
 
-</script>
+</script>78
 <script>
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 </html>

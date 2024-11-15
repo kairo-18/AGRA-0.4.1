@@ -47,7 +47,7 @@
 <div class="outerDiv flex flex-wrap flex-row bg-gradient-to-r from-blue-800 to-blue-600  h-full xl:h-[87.5vh] pl-10 pr-10 pb-10 max-h-screen xl:overflow-hidden overflow-y-auto">
     <!-- Inner div -->
     <div class="innerDiv xl:flex bg-white h-full w-full rounded-xl overflow-hidden p-0 xl:p-5">
-        
+
         <div class="left-panel flex flex-col xl:flex-row bg-gray-200 h-full w-full rounded-xl shadow-xl">
             <section class="dark:bg-gray-900 w-full h-auto">
                 <div class="py-2 px-2 sm:py-4 sm:px-3 mx-auto max-w-screen-md lg:py-6">
@@ -108,7 +108,7 @@
                 </div>
             </section>
         </div>
-            
+
             <!-- Right content panel with background image -->
     <div class="profile h-full flex flex-row justify-center items-center w-full xl:w-1/2 bg-white rounded-xl shadow-xl p-5">
         <div class="h-96 w-96 p-1 flex justify-center items-center">
@@ -120,5 +120,7 @@
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
+
 </body>
+</html>

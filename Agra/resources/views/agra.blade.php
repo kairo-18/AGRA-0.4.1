@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <script src="{{asset('js/app.js')}}"></script>
     <style>
-        
+
         .container{
             height: 40vh;
             width: 50vh;
             position: relative;
-            
+
             transform: translate(-50%, -50%);
             perspective: 1000px;
             display: flex;
@@ -24,7 +24,7 @@
             height: 250px;
             width: 250px;
             position: static;
-            
+
             transform-style: preserve-3d;
             animation: animate 10s infinite;
         }
@@ -54,14 +54,14 @@
             background-size: cover; /* Cover the entire div */
             background-repeat: no-repeat; /* Prevent repeat */
             background-position: center;
-            
+
             box-sizing: border-box;
             position: absolute;
             transition: all 1s;
         }
         #front{
             transform: translateZ(125px);
-            
+
         }
         #back{
             transform: translateZ(-125px);
@@ -278,7 +278,7 @@
                     <div class="card" id="bottom"></div>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 </div>
 
@@ -315,7 +315,7 @@
                                     </svg>
                                 </a>
                             </div>
-                            
+
                             <div class="bg-gray-50 shadow-2xl dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
                                 <a href="/agraCourses" class="bg-purple-100 text-purple-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-purple-400 mb-2">
                                     <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -335,12 +335,12 @@
 </div>
 
 
-    
+
 
 
     <script>
         const box = document.getElementById('toggleBox');
-        
+
         box.addEventListener('click', () => {
             box.classList.toggle('active');
         });
@@ -350,7 +350,7 @@
         const sectionId = "{{$user->section->id}}";
         const username = "{{Auth::user()->name}}";
     </script>
-    <script src="agraNotification.js"></script>
+    <script src="/agraNotification.js"></script>
 
 </body>
 </html>

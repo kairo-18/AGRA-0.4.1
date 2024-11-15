@@ -161,7 +161,7 @@
 <script>
     // Array of background images
     const backgroundImages = [
-        '/bg-agraL1.png', '/bg-agraL2.png', '/bg-agraL3.png', 
+        '/bg-agraL1.png', '/bg-agraL2.png', '/bg-agraL3.png',
         '/bg-agraL4.png', '/bg-agraL5.png', '/bg-agraL6.png', '/bg-agraL7.png'
     ];
 
@@ -200,7 +200,7 @@
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 
 </body>
 </html>

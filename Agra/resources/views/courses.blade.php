@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </a>
-                
+
                 @endforeach
             </div>
 
@@ -222,7 +222,7 @@
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 
 <script>
     // Array of background images

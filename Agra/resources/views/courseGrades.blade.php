@@ -130,7 +130,7 @@
                 <!----Start lbl and border line---->
                 <h1 class="flex  mb-3 text-sxl font-semibold text-gray-900 dark:text-white border-b-2 border-gray-300 pb-2">Agenda </h1>
 
-                
+
                 @php
                     // Ensure tasks are unique before processing
                     $uniqueTasks = $tasks->unique('id'); // Assuming 'id' is the unique identifier
@@ -159,7 +159,7 @@
                             $deadlineWord = $deadline->isToday() ? 'Today' :
                                             ($deadline->isTomorrow() ? 'Tomorrow' :
                                             ($deadline->isFuture() && $deadline->diffInDays($now) <= 30 ? 'Upcoming' : 'Past Due'));
-                            
+
                             // Set text and background color based on deadline type
                             if ($deadline->isToday()) {
                                 $deadlineClass = 'text-green-500 bg-green-100';
@@ -190,7 +190,7 @@
                                             {{$task->lesson->LessonName}}
                                         </h5>
                                         <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
-                                            <strong>Deadline:</strong> 
+                                            <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
                                             <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
@@ -230,7 +230,7 @@
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 
 </body>
 </html>

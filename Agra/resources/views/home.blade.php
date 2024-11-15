@@ -127,7 +127,7 @@
                                 <span class="h-5 hover:bg-blue-800 hover:text-white bg-blue-200 text-blue-800 text-xs font-medium px-2.5 rounded dark:bg-blue-900 dark:text-blue-300 ">{{$course->category->name}}</span>
                             </div>
                             <div class="w-full p-3 bg-white rounded-xl">
-                                
+
                                 <h1 class="font-bold text-base text-blue-800">{{$course->CourseName}}</h1>
                                 <p class="font-normal text-sm text-blue-800 line-clamp">{{$course->CourseDescription}}</p>
                             </div>
@@ -135,7 +135,7 @@
                     </a>
                 @endforeach
 
-                    
+
                 </div>
             </div>
 
@@ -258,11 +258,11 @@
     const sectionId = "{{$user->section->id}}";
     const username = "{{Auth::user()->name}}";
 </script>
-<script src="agraNotification.js"></script>
+<script src="/agraNotification.js"></script>
 <script>
     // Array of background images
     const backgroundImages = [
-        'bg-course1.png', 'bg-course2.png', 'bg-course3.png', 
+        'bg-course1.png', 'bg-course2.png', 'bg-course3.png',
         'bg-course4.png', 'bg-course5.png', 'bg-course6.png', 'bg-course7.png'
     ];
 
