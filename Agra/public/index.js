@@ -1037,6 +1037,9 @@ function startCountdown() {
 
         // Decrement the time
         timerSeconds--;
+        if(currentPlayerHealth <= 0){
+            showResetPanel();
+        }
         if (globalScore === 100) {
              isGameOver = false;
             stopTimer();
