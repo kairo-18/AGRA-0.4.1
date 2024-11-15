@@ -363,12 +363,11 @@ function normalizeLine(line) {
     // Step 5: Collapse multiple spaces into one.
     line = line.replace(/\s+/g, ' ');
 
-    // Step 6: Ensure exactly one space between control structures and opening parentheses.
-    line = line.replace(/\b(if|else|for|while)\s*\(\s*/g, '$1 (');
+    // Step 6: Remove spaces around parentheses in control structures (if, else, for).
+    line = line.replace(/\b(if|else|for|while)\s*\(/g, '$1 (');
 
     return line;
 }
-
 
 function refresheditor(id, content, readonly, fromAdminFlag) {
     set_readonly(editor, readonly, fromAdminFlag);
