@@ -859,6 +859,10 @@ function showResetPanel() {
     let timeTaken = Math.floor((endTime - startTime) / 1000);
     let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
+    setTimeout(function() {
+        submitScore(timeTaken, timeLeft);
+    }, 1000);
+
     const endPanel = document.getElementById('endPanel');
     const endMessage = document.getElementById('endMessage');
 
@@ -887,9 +891,7 @@ function showResetPanel() {
     // Show the end panel
     document.getElementById("endPanel").style.display = "flex";
 
-    setTimeout(function() {
-        submitScore(timeTaken, timeLeft);
-    }, 1000);
+
 }
 
 
@@ -1053,7 +1055,6 @@ function startCountdown() {
         if (globalScore === 100) {
              isGameOver = false;
             showResetPanel();
-            Panel();
         }
 
         function stopTimer() {
