@@ -67,7 +67,7 @@ class ScoreController extends Controller
 
 
 
-
+        sleep(5);
         return redirect('/courses');
     }
 

@@ -889,7 +889,7 @@ function showResetPanel() {
 
     setTimeout(function() {
         submitScore(timeTaken, timeLeft);
-    }, 10000);
+    }, 1000);
 }
 
 
@@ -1060,7 +1060,7 @@ function startCountdown() {
             // Stop timers
             clearInterval(timerInterval);
         }
-    
+
 
         // If time reaches zero, stop the countdown
         if (timerSeconds < 0) {

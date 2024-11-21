@@ -617,9 +617,12 @@ function showResetPanel() {
     // Show the end panel
     document.getElementById("endPanel").style.display = "flex";
 
-    setTimeout(function(){
+
+
+    setTimeout(function() {
         submitScore(timeTaken, timeLeft);
-    }, 10000);
+    }, 1000);
+
 }
 
 function submitScore(timeTaken, timeLeft){
