@@ -925,7 +925,6 @@ Route::get('/userAnalytics', function () {
             return $a['performance'] <=> $b['performance'];
         });
 
-        dd($badperformancelessons);
 
         // Extract sorted lesson IDs
         $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
@@ -951,7 +950,7 @@ Route::get('/userAnalytics', function () {
 
         }
 
-
+        dd($badPerformanceLessonCategories);
 
         return view('userAnalytics', [
             'user' => $user,
