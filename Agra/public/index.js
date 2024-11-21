@@ -859,9 +859,8 @@ function showResetPanel() {
     let timeTaken = Math.floor((endTime - startTime) / 1000);
     let timeLeft = Math.max(maxTime - timeTaken, 0); // Calculate the time left
 
-    setTimeout(function() {
-        submitScore(timeTaken, timeLeft);
-    }, 1000);
+
+    submitScore(timeTaken, timeLeft);
 
     const endPanel = document.getElementById('endPanel');
     const endMessage = document.getElementById('endMessage');
