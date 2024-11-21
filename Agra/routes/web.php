@@ -925,13 +925,13 @@ Route::get('/userAnalytics', function () {
             return $a['performance'] <=> $b['performance'];
         });
 
+        dd($badperformancelessons);
+
         // Extract sorted lesson IDs
         $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
 
         $agraCourses = getAgraCourses($user);
         $agraLessons = collect();
-        $recommendedLessons = collect();
-        $relatedLessons = collect();
         $badPerformanceLessonCategories = [];
 
         // Iterate over each course in agraCourses
@@ -951,7 +951,6 @@ Route::get('/userAnalytics', function () {
 
         }
 
-        dd($badperformancelessonIds);
 
 
         return view('userAnalytics', [
