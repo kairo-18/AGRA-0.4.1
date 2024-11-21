@@ -9,6 +9,7 @@ use App\Models\Section;
 use App\Models\Lesson;
 use App\Models\Task;
 use App\Models\TaskScore;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -1386,6 +1387,218 @@ Route::get('/aboutUs', function (){
 //     ]);
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/studentAnalytics/{student}{', function (User $student) {
+    try {
+        $user = $student;
+        $taskData = fetchUserData($user);
+
+        $taskJavaAccuracy = [];
+        $taskCsharpAccuracy = [];
+        $taskJavaCodingSpeed = [];
+        $taskCsharpCodingSpeed = [];
+        $taskJavaScore = [];
+        $taskCsharpScore = [];
+
+        $totalJavaTasks = isset($taskData['Java']['categories']) ? count($taskData['Java']['categories']) : 0;
+        $totalCSharpTasks = isset($taskData['C#']['categories']) ? count($taskData['C#']['categories']) : 0;
+        $totalTasks = $totalJavaTasks + $totalCSharpTasks;
+        $overallAccuracy = 0;
+        $overallSpeed = 0;
+        $overallScore = 0;
+        $overallPerformance = 0;
+
+        // Iterate through Java tasks
+        if (isset($taskData['Java'])) {
+            foreach ($taskData['Java']['score'] as $index => $score) {
+                $accuracy = calculateAccuracy(
+                    $score,
+                    $taskData['Java']['maxScore'][$index],
+                    $taskData['Java']['errors'][$index]
+                );
+                $score = calculateScore($taskData['Java']['score'][$index], $taskData['Java']['maxScore'][$index]);
+                $taskJavaAccuracy[] = $accuracy;
+                $taskJavaScore[] = $score;
+                $overallScore += $score;
+                $overallAccuracy += $accuracy;
+            }
+
+            foreach ($taskData['Java']['timeLeft'] as $index => $timeLeft) {
+                $speed = calculateCodingSpeed($timeLeft, $taskData['Java']['timeTaken'][$index]);
+                $taskJavaCodingSpeed[] = $speed;
+                $overallSpeed += $speed;
+            }
+        }
+
+        // Iterate through C# tasks
+        if (isset($taskData['C#'])) {
+            foreach ($taskData['C#']['score'] as $index => $score) {
+                $accuracy = calculateAccuracy(
+                    $score,
+                    $taskData['C#']['maxScore'][$index],
+                    $taskData['C#']['errors'][$index]
+                );
+                $score = calculateScore($taskData['C#']['score'][$index], $taskData['C#']['maxScore'][$index]);
+                $taskCsharpAccuracy[] = $accuracy;
+                $taskCsharpScore[] = $score;
+                $overallAccuracy += $accuracy;
+                $overallScore += $score;
+            }
+
+            foreach ($taskData['C#']['timeLeft'] as $index => $timeLeft) {
+                $speed = calculateCodingSpeed($timeLeft, $taskData['C#']['timeTaken'][$index]);
+                $taskCsharpCodingSpeed[] = $speed;
+                $overallSpeed += $speed;
+            }
+        }
+
+        // Calculate overall accuracy and speed
+        if ($totalTasks > 0) {
+            $overallAccuracy = $overallAccuracy / $totalTasks;
+            $overallSpeed = $overallSpeed / $totalTasks;
+            $overallScore = $overallScore / $totalTasks;
+            $overallPerformance = ($overallScore + $overallSpeed + $overallAccuracy) / 3;
+        }
+
+        $lessonJavaPerformance = [];
+        $lessonCsharpPerformance = [];
+        $tempLessonId = 0;
+
+        // Iterate over the task data to group tasks by lessons
+        foreach ($taskData as $category => $tasks) {
+            // Iterate over each task in the current category
+            foreach ($tasks['categories'] as $index => $categoryName) {
+                // Extract the lesson ID from the task category name
+                $lessonId = explode(' ', $categoryName)[1]; // Assuming the category name is like 'Task 123'
+                $taskId = Task::find($lessonId);
+                if (!$taskId) continue; // Skip if taskId is not found
+                $lessonId = $taskId->lesson->id;
+                $tempLessonId = $lessonId;
+                $lessonName = Lesson::find($lessonId)->LessonName;
+
+                // Check if the lesson ID exists as a key in the corresponding lesson performance array
+                if (!isset($lessonPerformance[$lessonName])) {
+                    // If the lesson ID doesn't exist, initialize its data structure in the appropriate array
+                    if ($category === 'Java') {
+                        $lessonPerformance[$lessonName] = [
+                            'accuracy' => [],
+                            'speed' => [],
+                            'score' => [],
+                        ];
+                    } elseif ($category === 'C#') {
+                        $lessonPerformance[$lessonName] = [
+                            'accuracy' => [],
+                            'speed' => [],
+                            'score' => [],
+                        ];
+                    }
+                }
+
+                // Calculate accuracy and speed for the current task
+                $accuracy = calculateAccuracy(
+                    $tasks['score'][$index],
+                    $tasks['maxScore'][$index],
+                    $tasks['errors'][$index]
+                );
+                $speed = calculateCodingSpeed(
+                    $tasks['timeLeft'][$index],
+                    $tasks['timeTaken'][$index]
+                );
+                $score = calculateScore(
+                    $tasks['score'][$index],
+                    $tasks['maxScore'][$index]
+                );
+
+                // Add accuracy and speed for the current task to the appropriate lesson performance array
+                if ($category === 'Java') {
+                    $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
+                    $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
+                    $lessonJavaPerformance[$lessonName]['score'][] = $score;
+                    $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                } elseif ($category === 'C#') {
+                    $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
+                    $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
+                    $lessonCsharpPerformance[$lessonName]['score'][] = $score;
+                    $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                }
+            }
+        }
+
+        // Calculate overall performance for each lesson
+        foreach ($lessonJavaPerformance as $lessonName => &$performance) {
+            $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
+            $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $tempOverallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['speed']) : 0;
+
+            $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallScore) / 3;
+            $performance['overall_performance'] = $overallPerformance;
+        }
+
+        foreach ($lessonCsharpPerformance as $lessonName => &$performance) {
+            $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
+            $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $tempOverallscore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
+
+            $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallscore) / 3;
+            $performance['overall_performance'] = $overallPerformance;
+        }
+
+        $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
+        return view('userAnalytics', [
+            'user' => $user,
+            'taskData' => $taskData,
+            'lessonPerformance' => $lessonPerformance,
+            'taskJavaAccuracy' => $taskJavaAccuracy,
+            'taskJavaSpeed' => $taskJavaCodingSpeed,
+            'taskCsharpAccuracy' => $taskCsharpAccuracy,
+            'taskCsharpSpeed' => $taskCsharpCodingSpeed,
+            'taskJavaScore' => $taskJavaScore,
+            'taskCsharpScore' => $taskCsharpScore,
+            'overallSpeed' => $overallSpeed,
+            'overallAccuracy' => $overallAccuracy,
+            'overallScore' => $overallScore,
+            'overallPerformance' => $overallPerformance,
+        ]);
+    } catch (Exception $e) {
+        // Log the exception message for debugging purposes
+        Log::error('Error occurred in user analytics: ' . $e->getMessage());
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Initialize the collections and other variables if not already set
+        $taskData = $taskData ?? collect();
+        $lessonPerformance = $lessonPerformance ?? collect();
+        $taskJavaAccuracy = $taskJavaAccuracy ?? [];
+        $taskJavaCodingSpeed = $taskJavaCodingSpeed ?? [];
+        $taskCsharpAccuracy = $taskCsharpAccuracy ?? [];
+        $taskCsharpCodingSpeed = $taskCsharpCodingSpeed ?? [];
+        $taskJavaScore = $taskJavaScore ?? [];
+        $taskCsharpScore = $taskCsharpScore ?? [];
+        $overallSpeed = $overallSpeed ?? 0;
+        $overallAccuracy = $overallAccuracy ?? 0;
+        $overallScore = $overallScore ?? 0;
+        $overallPerformance = $overallPerformance ?? 0;
+
+        // Return the view with the user data and analytics
+        return view('userAnalytics', [
+            'user' => $user,
+            'taskData' => $taskData,
+            'lessonPerformance' => $lessonPerformance,
+            'taskJavaAccuracy' => $taskJavaAccuracy,
+            'taskJavaSpeed' => $taskJavaCodingSpeed,
+            'taskCsharpAccuracy' => $taskCsharpAccuracy,
+            'taskCsharpSpeed' => $taskCsharpCodingSpeed,
+            'taskJavaScore' => $taskJavaScore,
+            'taskCsharpScore' => $taskCsharpScore,
+            'overallSpeed' => $overallSpeed,
+            'overallAccuracy' => $overallAccuracy,
+            'overallScore' => $overallScore,
+            'overallPerformance' => $overallPerformance,
+        ]);
+    }
+})->middleware(['auth', 'verified'])->name('studentAnalytics');
 
 
 Route::post('/execute-code', [\App\Http\Controllers\RunCode::class, 'executeCode']);

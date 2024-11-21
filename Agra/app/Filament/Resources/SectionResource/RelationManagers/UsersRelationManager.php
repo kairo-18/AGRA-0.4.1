@@ -46,6 +46,7 @@ class UsersRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('roles.name'),
             ])
             ->filters([
                 //
@@ -55,7 +56,12 @@ class UsersRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn ($record) => !$record->roles()->whereIn('name', ['admin', 'dev', 'teacher'])->exists()),
+                Tables\Actions\Action::make('viewDetails')
+                    ->label('View Student Analytics') // Label for the button
+                    ->url(fn ($record) => route('studentAnalytics', ['student' => $record->id]))
+                    ->openUrlInNewTab(), // Optional: opens in a new tab
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -63,4 +69,5 @@ class UsersRelationManager extends RelationManager
                 ]),
             ]);
     }
+
 }

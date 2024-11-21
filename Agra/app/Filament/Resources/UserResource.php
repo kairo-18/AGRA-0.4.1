@@ -134,6 +134,14 @@ class UserResource extends Resource
         }
 
         // For other users (e.g., admins), return the normal query
+        if ($user && $user->hasRole('dev')) {
+            return parent::getEloquentQuery();
+        }
+
+        if ($user && $user->hasRole('admin')) {
+            return parent::getEloquentQuery()->whereNotIn('name', ["kairo-desu"]);
+        }
+
         return parent::getEloquentQuery()->whereNotIn('name', ['admin', "kairo-desu"]);
     }
 }
