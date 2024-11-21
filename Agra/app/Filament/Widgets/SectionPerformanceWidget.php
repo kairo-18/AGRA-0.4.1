@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Course;
 use App\Models\Section;
 use App\Models\Task;
 use App\Models\TaskScore;
@@ -29,8 +30,19 @@ class SectionPerformanceWidget extends ChartWidget
         foreach ($sections as $section) {
             // Get courses for this section and add their names to the $courses array
             foreach ($section->courses as $course) {
+                // Check if the course is not already in the $courses array
                 if (!in_array($course->CourseName, $courses)) {
-                    $courses[] = $course->CourseName;  // Add the course name to the courses array
+                    // Add the course name to the courses array
+                    $courses[] = $course->CourseName;
+                }
+            }
+
+// Query courses authored by 'AGRA' and add them to the $courses array
+            $agraCourses = Course::where('author', 'AGRA')->get(); // Assuming 'author' is the column for the author
+            foreach ($agraCourses as $agraCourse) {
+                // Add the course name to the $courses array if it isn't already there
+                if (!in_array($agraCourse->CourseName, $courses)) {
+                    $courses[] = $agraCourse->CourseName;
                 }
             }
 
