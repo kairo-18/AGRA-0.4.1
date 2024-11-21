@@ -216,8 +216,7 @@
                 <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
             </div>
             <div class="flex gap-4 mt-4 px-5">
-                <button onclick="tryAgain()" id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Play Again</button>
-                <button onclick="reset()" id="backToTasks" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Back to tasks</button>
+                <span id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Please wait while we record your score!</span>
             </div>
         </div>
     </div>
