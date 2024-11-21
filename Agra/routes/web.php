@@ -951,7 +951,7 @@ Route::get('/userAnalytics', function () {
 
         }
 
-        dd($badPerformanceLessonCategories);
+        dd($badperformancelessonIds);
 
 
         return view('userAnalytics', [
