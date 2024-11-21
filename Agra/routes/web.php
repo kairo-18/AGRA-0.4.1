@@ -913,7 +913,7 @@ Route::get('/userAnalytics', function () {
             $performance['overall_performance'] = $overallPerformance;
 
             // Check if overall performance is below 45
-            if ($overallPerformance < 80) {
+            if ($overallPerformance < 90) {
                 $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
             }
         }
