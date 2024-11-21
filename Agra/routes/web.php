@@ -828,16 +828,16 @@ Route::get('/userAnalytics', function () {
                 $lessonName = Lesson::find($lessonId)->LessonName;
 
                 // Check if the lesson ID exists as a key in the corresponding lesson performance array
-                if (!isset($lessonPerformance[$lessonName])) {
+                if (!isset($lessonPerformance[$lessonId])) {
                     // If the lesson ID doesn't exist, initialize its data structure in the appropriate array
                     if ($category === 'Java') {
-                        $lessonPerformance[$lessonName] = [
+                        $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
                         ];
                     } elseif ($category === 'C#') {
-                        $lessonPerformance[$lessonName] = [
+                        $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
@@ -862,17 +862,17 @@ Route::get('/userAnalytics', function () {
 
                 // Add accuracy and speed for the current task to the appropriate lesson performance array
                 if ($category === 'Java') {
-                    $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
-                    $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
-                    $lessonJavaPerformance[$lessonName]['score'][] = $score;
-                    $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonJavaPerformance[$lessonId]['accuracy'][] = $accuracy;
+                    $lessonJavaPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonJavaPerformance[$lessonId]['score'][] = $score;
+                    $lessonJavaPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonJavaPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 } elseif ($category === 'C#') {
-                    $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
-                    $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
-                    $lessonCsharpPerformance[$lessonName]['score'][] = $score;
-                    $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
+                    $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonCsharpPerformance[$lessonId]['score'][] = $score;
+                    $lessonCsharpPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonCsharpPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 }
             }
         }
