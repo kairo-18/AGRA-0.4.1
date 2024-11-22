@@ -88,9 +88,14 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('TaskName')
+                    ->label('Task Name')
+                    ->extraAttributes(['class' => 'text-center text-blue-500 font-semibold'])
+                    ->sortable()
+                    ->size(12)// If you want to allow sorting
+                    ->searchable(), // If you want to allow searching
                 Tables\Columns\TextColumn::make('lesson.course.CourseName')->label('Course')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('lesson.LessonName')->label('Lesson')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('TaskName')->label('Task Name'),
                 Tables\Columns\TextColumn::make('Description')->label('Description'),
                 Tables\Columns\TextColumn::make('TaskMaxTime')->label('Interval of rounds'),
                 Tables\Columns\TextColumn::make('TaskDifficulty')->label('Difficulty'),

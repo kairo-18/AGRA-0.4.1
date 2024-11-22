@@ -33,6 +33,9 @@ class LessonResource extends Resource
         return $form
             ->schema([
                  //
+                Forms\Components\Select::make('Course')
+                    ->relationship('course', 'CourseName')
+                    ->required(),
                 Forms\Components\TextInput::make('LessonName')->required(),
                 Forms\Components\TextInput::make('LessonDescription')->required()->minLength(10)->maxLength(255),
                 Forms\Components\Section::make("Category")
