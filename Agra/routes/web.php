@@ -1214,7 +1214,7 @@ Route::get('/recommendation', function () {
         $agraLessons = collect();
         $recommendedLessons = collect();
         $relatedLessons = collect();
-
+        $badPerformanceLessonCategories = [];
         // Iterate over each course in agraCourses
         foreach ($agraCourses as $course) {
             // Merge lessons from the current course into agraLessons collection
@@ -1226,7 +1226,6 @@ Route::get('/recommendation', function () {
             // Find the lesson by ID
             $lesson = Lesson::find($lessonId);
             if (!$lesson) continue; // Skip if lesson is not found
-            $badPerformanceLessonCategories = [];
             foreach ($lesson->categories as $category) {
                 $badPerformanceLessonCategories[] = $category->name;
             }
@@ -1254,6 +1253,7 @@ Route::get('/recommendation', function () {
         }
 
 
+        dd($badPerformanceLessonCategories);
 
         $recommendedLessons = $recommendedLessons->unique();
         return view('recommended', [
