@@ -962,15 +962,16 @@ Route::get('/userAnalytics', function () {
             $performance['overall_performance'] = $overallPerformance;
 
             // For "B" tier and below, fetch tips from Gemini
-            if ($overallPerformance < 85) {
+            if ($overallPerformance > 85){
+                $performance['geminiTips'] = "";
+            }
+            else if ($overallPerformance < 85) {
                 $lesson = Lesson::find($lessonName); // Fetch the lesson object
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
                 $geminiPrompt = "Provide tips to improve coding performance for a student in the C# category. The lesson covers these topics: $categoryList. Focus on actionable advice related to the categories and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
                 $result = $client->geminiPro()->generateContent($geminiPrompt);
                 $performance['geminiTips'] = $result->text();
-            }else{
-                $performance['geminiTips'] = "";
             }
         }
 
