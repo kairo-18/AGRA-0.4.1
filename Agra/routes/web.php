@@ -1270,6 +1270,7 @@ Route::get('/recommendation', function () {
             }
         }
 
+        dd($badPerformanceLessonCategories);
 
 
         $recommendedLessons = $recommendedLessons->unique();
