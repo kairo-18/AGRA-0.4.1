@@ -130,7 +130,7 @@
                     @endphp
                     <div class="flex flex-row flex-wrap justify-start items-start bg-gray-200 gap-x-3 gap-y-20">
                         @foreach($references as $reference)
-                            <a href="/lessons/{{ $reference->courseId }}/{{ $reference->id }}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
+                            <a class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
                                 <div class="h-1/5">
                                     <div class="w-full h-32 p-3 rounded-xl bg-cover bg-start bg-image shadow-md" style="background-image: url('{{ $reference->image }}');">
                                     </div>

@@ -3230,12 +3230,20 @@ video {
     display: none;
   }
 
+  .sm\:h-6 {
+    height: 1.5rem;
+  }
+
   .sm\:w-\[calc\(100\%\+3rem\)\] {
     width: calc(100% + 3rem);
   }
 
   .sm\:w-full {
     width: 100%;
+  }
+
+  .sm\:w-6 {
+    width: 1.5rem;
   }
 
   .sm\:max-w-2xl {
@@ -3556,6 +3564,10 @@ video {
     height: 24rem;
   }
 
+  .md\:h-7 {
+    height: 1.75rem;
+  }
+
   .md\:w-2\/6 {
     width: 33.333333%;
   }
@@ -3570,6 +3582,10 @@ video {
 
   .md\:w-full {
     width: 100%;
+  }
+
+  .md\:w-7 {
+    width: 1.75rem;
   }
 
   .md\:columns-\[--cols-md\] {

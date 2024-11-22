@@ -79,8 +79,8 @@
                                 </svg>
                                 Game
                             </a>
-                            <h2 class="text-gray-900 dark:text-white text-lg font-extrabold mb-2">Master Java and C# with Gamified Challenges!</h2>
-                            <p class="text-xs font-normal text-gray-500 dark:text-gray-400 mb-3">Our gamified learning platform revolutionizes coding education by integrating analytics scoring, rankings, and time challenges to enhance your Java and C# skills.</p>
+                            <h2 class="text-gray-900 dark:text-white text-lg font-extrabold mb-2">Mission</h2>
+                            <p class="text-xs font-normal text-gray-500 dark:text-gray-400 mb-3">To enhance programming education through a gamified platform that simplifies evaluation and empowers learning with analytics.</p>
                             <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-base inline-flex items-center">Read more
                                 <svg class="w-3 h-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -96,8 +96,8 @@
                                 </svg>
                                 Code
                             </a>
-                            <h2 class="text-gray-900 dark:text-white text-lg font-extrabold mb-2">Connecting Students and Instructors Through Code.</h2>
-                            <p class="text-xs font-normal text-gray-500 dark:text-gray-400 mb-3">Our unified learning platform bridges the gap between students and instructors by providing a curriculum-based system for creating, completing, and tracking programming tasks with analytics and personal recommendations.</p>
+                            <h2 class="text-gray-900 dark:text-white text-lg font-extrabold mb-2">Vision</h2>
+                            <p class="text-xs font-normal text-gray-500 dark:text-gray-400 mb-3">To be the premier tool for interactive and data-driven programming education.</p>
                             <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline font-medium text-base inline-flex items-center">Read more
                                 <svg class="w-3 h-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>

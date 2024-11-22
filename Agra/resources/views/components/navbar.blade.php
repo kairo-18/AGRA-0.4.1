@@ -47,10 +47,10 @@
                     <a href="/agra" class="flex items-center p-2 mb-5 mt-5 bg-white text-blue-800 hover:text-white rounded-lg dark:text-white hover:bg-blue-600 dark:hover:bg-gray-700 group">
                         <!-- Default image (will be shown initially) -->
                         <img src="/AGRA-logo-bg1.png" class="w-7 h-7 default-logo group-hover:hidden" alt="AGRA Logo 1" />
-                        
+
                         <!-- Hover image (will be shown when hovered) -->
                         <img src="/AGRA-logo-bg.png" class="w-7 h-7 hover-logo hidden group-hover:block" alt="AGRA Logo 2" />
-                        
+
                         <span class="ms-3 text-md">AGRA Curriculum</span>
                     </a>
                 </li>
@@ -127,10 +127,18 @@
 
         <!---------------Start User Profile btn img---------------->
         <div class ="btn-profile flex flex-row gap-10 justify-end w-1/3">
-            <!-- Notifications Button -->
-            <div class="relative ml-4">
-                <button id="notification-button" class="flex items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
-                    <img src="/notif-icon.svg" alt="Notification Icon" class="w-6 h-6" />
+            <a href="https://docs.google.com/document/d/1mietVZ-oFvCbb9TvRNgUjXbD_sgP2tq6iUIzNN1Bc90/edit?tab=t.0" class="flex justify-center items-center p-2 text-gray-500 hover:opacity-50 rounded-md hidden sm:flex">
+                <svg class="w-7 h-7 text-white dark:text-white sm:w-6 sm:h-6 md:w-7 md:h-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z" clip-rule="evenodd"/>
+                </svg>
+            </a>
+
+            <!-- Notification Button with responsiveness -->
+            <div class="relative hidden sm:flex">
+                <button id="notification-button" class="flex justify-center items-center p-2 text-gray-500 hover:opacity-50 rounded-md">
+                    <svg class="w-7 h-7 text-white dark:text-white sm:w-6 sm:h-6 md:w-7 md:h-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
+                    </svg>
                 </button>
 
                 <!-- Notifications Dropdown -->
