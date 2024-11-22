@@ -371,8 +371,7 @@
 
                 // Add overall performance
                 const textInterpretation = document.createElement('p');
-                textInterpretation.textContent = `From Agra: ${lessonData[key].textInterpretation}. ${lessonData[key].geminiTips}`;
-                textInterpretation.style.fontWeight = 'bold';
+                textInterpretation.innerHTML = `<strong>From Agra:</strong> You are at Tier ${lessonData[key].textInterpretation} ${lessonData[key].geminiTips}`;
                 lessonDiv.appendChild(textInterpretation);
 
                 // Create a new div for each chart

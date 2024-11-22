@@ -908,9 +908,11 @@ Route::get('/userAnalytics', function () {
                     $performance['textInterpretation'] = "S. Hooray! Your coding performance for "
                         . Lesson::find($lessonName)->LessonName
                         . " is excellent, what a wizard, keep up the good work!";
+                    $performance['geminiTips'] = "Good Job!";
                     break;
                 case $overallPerformance >= 90:
                     $performance['textInterpretation'] = "A. Keep up the good work! Your coding performance for Java is excellent!";
+                    $performance['geminiTips'] = "Good Job!";
                     break;
                 case $overallPerformance >= 85:
                     $performance['textInterpretation'] = "B. Good effort! Try to refine your accuracy or speed for better results.";
