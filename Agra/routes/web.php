@@ -929,6 +929,7 @@ Route::get('/userAnalytics', function () {
         // Extract sorted lesson IDs
         $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
 
+        dd($badperformancelessonIds);
         $agraCourses = getAgraCourses($user);
         $agraLessons = collect();
         $badPerformanceLessonCategories = [];
