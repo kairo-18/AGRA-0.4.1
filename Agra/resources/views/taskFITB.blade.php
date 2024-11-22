@@ -169,8 +169,8 @@
                 <span id="resultMessage" class="bg-cover bg-center" ></span>
         </div>
     </div>
-    <div class ="pr-8">
-        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-8 rounded-lg shadow-lg">
+    <div class ="pr-0">
+        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-10 rounded-lg shadow-lg">
             <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
             <div class="text-center text-sm text-blue-800 mb-4 ">
                 <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
@@ -182,7 +182,7 @@
                 <p><strong>Score</strong><br><span id="globalScore">%</span></p>
                 <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
             </div>
-            <div class="flex gap-4 mt-4 px-5">
+            <div class="flex justify-center gap-4 mt-4 px-5">
                 <span id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Please wait while we record your score!</span>
             </div>
         </div>

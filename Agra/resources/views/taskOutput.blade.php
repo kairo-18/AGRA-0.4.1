@@ -312,7 +312,7 @@
         else
             return 'click';
     })();
-
+    const intro2 = introJs();
 
     function hideModal(){
         document.getElementById('default-modal').style = 'display:none;';
@@ -354,6 +354,7 @@
             borderDiv.remove();
             failedAtAiming();
             hideAimingMechanic();
+            intro2.exit();
         }, (timeRemaining  * 1000) + 500);
     }
 
@@ -730,7 +731,7 @@
             showAimingMechanic();
             createBorderTimer();
             document.body.removeChild(helpPrompt); // Remove the prompt
-            const intro2 = introJs();
+
             intro2.setOptions({
                 tooltipPosition : 'top',
                 steps: [

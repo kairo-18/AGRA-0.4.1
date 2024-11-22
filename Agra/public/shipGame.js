@@ -335,14 +335,14 @@ function createCrosshair() {
             fireBulletAtCrosshair(); // Fire the bullet
             shotsFired++; // Increment the shots fired count
             shootCooldown = true; // Start cooldown
-    
+
             // Set a timeout for the 0.5-second cooldown
             setTimeout(() => {
                 shootCooldown = false;
             }, 500); // 500 milliseconds cooldown
-    
+
             shootMusic.play();
-    
+
             // Disable the button if 5 shots have been fired
             if (shotsFired >= 5) {
                 shootButton.disableInteractive();
@@ -352,7 +352,7 @@ function createCrosshair() {
             console.log("No more shots available.");
         }
     });
-    
+
 }
 
 
@@ -511,7 +511,7 @@ function failedAtAiming(){
         people.create(550 + (people.children.size * 50), 420, 'people').setVelocityX(100).play('crowdRun');
         updatePlayerHealthBar();
         sendPrompt(instruction, editor.getValue()).then(result => {
-            delay(1000).then( () => {createAlertBox(result)}); // Show alert box only if rounds > 1
+            delay(1000).then( () => {intro2.exit(); createAlertBox(result)}); // Show alert box only if rounds > 1
         });
     }
 }

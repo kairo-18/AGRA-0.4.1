@@ -313,6 +313,8 @@
             return 'click';
     })();
 
+    const intro2 = introJs();
+
     function createBorderTimer(){
         const borderDiv = document.createElement('div');
         borderDiv.className = 'timer-border';
@@ -328,6 +330,7 @@
             borderDiv.remove();
             failedAtAiming();
             hideAimingMechanic();
+            intro2.exit();
         }, (timeRemaining  * 1000) + 500);
     }
 
@@ -715,13 +718,12 @@ public class MyClass
             createBorderTimer();
             document.body.removeChild(helpPrompt); // Remove the prompt
 
-            const intro2 = introJs();
             intro2.setOptions({
                 tooltipPosition : 'top',
                 steps: [
                     {
                         element: '#minigame',
-                        intro: 'Welcome to your example2.com dashboard, where...',
+                        intro: "Press the red button in the ship to shoot! You only have 5 bullets each round. Use them wisely! Draining the enemy's HP will provide you a tip after the minigame.",
                         position: 'top'
                     }
                 ]
