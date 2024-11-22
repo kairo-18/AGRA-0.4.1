@@ -120,7 +120,6 @@
                 <!----Start lbl and border line---->
                 <h1 class="flex mb-3 text-xl font-semibold text-blue-900 dark:text-white border-b-2 border-gray-300 pb-2">
                     Agenda
-                    <a href="{{ url(request()->path() . '/grades') }}" class="ml-auto text-xs text-blue-600 mt-1">View grades</a>
                 </h1>
 
                 <ol class="relative border-s border-gray-200 dark:border-gray-700">
@@ -250,7 +249,7 @@
                     <div class="absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse bottom-5 left-1/2 bg-gray-400 p-2 rounded-full">
                         <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                         <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                        
+
                     </div>
                     <!-- Slider controls -->
                     <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
