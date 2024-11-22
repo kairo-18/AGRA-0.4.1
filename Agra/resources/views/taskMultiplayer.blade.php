@@ -190,7 +190,7 @@
         channel.listen('.chat', function(data) {
             if(data.username !== "{{$user->name}}"){
 
-                if(data.message === "Ready"){
+                if(data.message === "Ready" && data.username.toLowerCase() === enemy.toLowerCase()){
                     document.getElementById('startButton').disabled = false;
                     document.getElementById('startButton').textContent = "Start";
 
