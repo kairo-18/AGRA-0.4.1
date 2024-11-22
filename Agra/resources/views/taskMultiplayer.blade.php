@@ -68,9 +68,6 @@
                                         <div class="progress-barc bg-blue-900 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full h-10 w-0"></div>
                                     </div>
                                 </div>
-                                <div class="butan p-3">
-                                    <button type="button" onclick="runClick();" class="text-white hover:text-white border border-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm pt-2 pl-5 pr-5 pb-2 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">RUN</button>
-                                </div>
                             </div>
                         </div>
                         <!--Instruction-->
