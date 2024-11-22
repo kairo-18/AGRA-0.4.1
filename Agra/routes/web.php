@@ -66,19 +66,20 @@ Route::get('/', function () {
     $courses = $user->section->courses;
     $courses = $courses->merge($userCourses);
 
-    // Retrieve task IDs that the current user has marked as "Done"
-    $userDoneTaskIds = $user->tasks()->whereHas('taskStatus', function ($query) {
-        $query->where('status', 'Done');
-    })->pluck('task_id')->toArray();
-
-
-    // Filter tasks to get only those that are done by the user
-
-
-    // Retrieve all tasks except those that are marked as "Done" for the current user
-    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     $tasks = getAllTasksSti($user);
+
+    $hiddenLessons = LessonSection::where('section_id', $user->section->id)
+        ->pluck('lesson_id')
+        ->toArray();
+
+    $tasks = $tasks->filter(function ($task) use ($hiddenLessons) {
+        return !in_array($task->lesson_id, $hiddenLessons);
+    })->values(); // Reindex to avoid gaps in keys
+
+
+
+
     $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     $notifications = $user->agraNotifications;
 
@@ -211,6 +212,16 @@ Route::get('/courses', function () {
 //    $tasks = Task::whereNotIn('id', $userDoneTaskIds)->get();
 
     $tasks = getAllTasksSti($user);
+
+    $hiddenLessons = LessonSection::where('section_id', $user->section->id)
+        ->pluck('lesson_id')
+        ->toArray();
+
+    $tasks = $tasks->filter(function ($task) use ($hiddenLessons) {
+        return !in_array($task->lesson_id, $hiddenLessons);
+    })->values(); // Reindex to avoid gaps in keys
+
+
     $doneTasks = \App\Models\TaskStatus::where('user_id', $user->id)->get();
     return view('courses', [
         'courses'=> $courses,
