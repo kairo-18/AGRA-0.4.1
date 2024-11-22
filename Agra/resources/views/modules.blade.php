@@ -66,12 +66,12 @@
                             <a href="/task/{{$course->id}}/{{$lesson->id}}" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-blue-500 dark:hover:text-gray-300 text-xs font-semibold">Tasks</a>
                         </li>
                     </ul>
-                    
+
                 </div>
             </div>
             <!--3 div Courses Content-->
             <div class = "learM-section flex flex-col bg-gray-200 h-full w-full rounded-lg overflow-auto items-center p-10 shadow-inner gap-y-4">
-                
+
                 <iframe id="lessonIframe" frameborder="0" class="w-full h-full rounded-xl shadow-2xl" src="{{asset('storage/' . $lesson->LessonFile)}}" allowfullscreen allow="autoplay"></iframe>
                     <div class="flex gap-10">
                         <button onclick="toggleLayout()" class="mt-4 p-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">
@@ -175,8 +175,7 @@
                                         <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
-                                        </time>
+                                            </time>
                                     </div>
                                     <div class="p-3 pt-8">
                                         <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"

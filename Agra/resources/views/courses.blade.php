@@ -91,7 +91,7 @@
                         </div>
                     </a>
                 @endforeach
-                
+
             </div>
 
         </div>
@@ -186,7 +186,6 @@
                                         <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                                         </time>
                                     </div>
                                     <div class="p-3 pt-8">

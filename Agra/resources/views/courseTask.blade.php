@@ -128,7 +128,6 @@
                             <div class="w-full p-3 bg-white rounded-xl">
                                 <h1 class="font-bold text-xs text-blue-800">{{$task->TaskName}}</h1>
                                 <span class="text-gray-500 font-bold text-xs">Deadline: {{ $deadline->format('g:i A') }}</span>
-                                <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
                             </div>
                         </div>
                     </a>
@@ -211,8 +210,7 @@
                                         <time class="block mb-2 text-xs font-normal leading-none text-gray-500 dark:text-gray-500">
                                             <strong>Deadline:</strong>
                                             <span class="text-gray-500 font-bold text-xs">{{ $deadline->format('g:i A') }}</span>
-                                            <span class="{{ $deadlineClass }} font-bold text-xs">{{ $deadlineWord }}</span>
-                                        </time>
+                                            </time>
                                     </div>
                                     <div class="p-3 pt-8">
                                         <a href="/tasks/{{$task->id}}" class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-blue-600 border border-blue-600 rounded-lg hover:bg-blue-900 transform transition-transform duration-200 ease-in-out hover:scale-105 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-100 dark:focus:ring-blue-900 gap-5"
