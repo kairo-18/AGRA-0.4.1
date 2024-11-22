@@ -961,6 +961,7 @@ Route::get('/userAnalytics', function () {
                     break;
                 case $overallPerformance >= 85:
                     $performance['textInterpretation'] = "B. Solid work! Review your techniques to achieve greater consistency.";
+                    $performance['geminiTips'] = "Keep up the good work!";
                     break;
                 case $overallPerformance >= 80:
                     $performance['textInterpretation'] = "C. Decent effort. Focus on refining your speed and accuracy.";
@@ -975,7 +976,7 @@ Route::get('/userAnalytics', function () {
 
             $performance['overall_performance'] = $overallPerformance;
 
-            if ($overallPerformance <= 85) {
+            if ($overallPerformance <= 90) {
                 $lesson = Lesson::find($lessonName); // Fetch the lesson object
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
@@ -989,6 +990,7 @@ Route::get('/userAnalytics', function () {
 
 
         $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
+
         return view('userAnalytics', [
             'user' => $user,
             'taskData' => $taskData,
