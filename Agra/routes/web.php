@@ -867,12 +867,16 @@ Route::get('/userAnalytics', function () {
                     $lessonJavaPerformance[$lessonId]['score'][] = $score;
                     $lessonJavaPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
                     $lessonJavaPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+
+                    $lessonJavaPerformance[$lessonId]['lessonName'] = Lesson::find($tempLessonId)->LessonName;
                 } elseif ($category === 'C#') {
                     $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
                     $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
                     $lessonCsharpPerformance[$lessonId]['score'][] = $score;
                     $lessonCsharpPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
                     $lessonCsharpPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+
+                    $lessonCsharpPerformance[$lessonId]['lessonName'] = Lesson::find($tempLessonId)->LessonName;
                 }
             }
         }

@@ -204,11 +204,11 @@
 
 </div>
 
-<div id="instructionDiv">
-    <p id="instructionText"></p>
-    <p class="mb-5">Note: Do the instruction in a single line of code only.</p>
-    <button id="checkButton" data-title="Check your code!" data-intro="Click this button to validate your answer. Be careful as a wrong answer will result in the monster attacking you and your error count increasing.">Check Answer</button>
-</div>
+    <div id="instructionDiv">
+        <p id="instructionText"></p>
+        <p class="mb-5">Note: Do the instruction in a single line of code only.</p>
+        <button id="checkButton" data-title="Check your code!" data-intro="Click this button to validate your answer. Be careful as a wrong answer will result in the monster attacking you and your error count increasing.">Check Answer</button>
+    </div>
 
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">

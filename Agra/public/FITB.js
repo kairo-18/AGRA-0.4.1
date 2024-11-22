@@ -28,15 +28,15 @@ editor.setShowPrintMargin(false);
 editor.setAutoScrollEditorIntoView(true);
 editor.resize();
 editor.setOptions({
-    fontSize: "20px"
+    fontSize: "20px",
 });
 
 editor.insert(template);
+
 editor.getSession().selection.on('changeSelection', function (e)
 {
     editor.getSession().selection.clearSelection();
 });
-editor.container.style.pointerEvents="none"
 
 editor.setReadOnly(true);
 

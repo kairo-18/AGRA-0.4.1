@@ -39,6 +39,11 @@ var langTools = ace.require("/ace-builds/src-noconflict/ext-language_tools.js");
 var editor = ace.edit("code-editor");
 editor.setTheme("ace/theme/one_dark");
 
+editor.setOptions({
+    maxLines: Infinity,
+    minLines: 22,
+});
+
 //Test 2
 // Create instruction container for dynamically displaying instructions
 // Get the existing instruction container and elements by their IDs
@@ -111,6 +116,19 @@ editor.selection.on('changeCursor', () => {
     displayInstruction(currentCheckmarkIndex);  // Reposition instruction div
 });
 
+
+function adjustEditorHeight() {
+    const lineHeight = editor.renderer.lineHeight; // Height of a single line in pixels
+    const lineCount = editor.session.getLength(); // Total number of lines
+
+    // Calculate and apply the new height
+    const newHeight = Math.max(lineCount * lineHeight, 150); // Minimum height of 150px
+    editor.container.style.height = `${newHeight}px`;
+
+    // Notify the editor of the size change
+    editor.resize();
+}
+
 // Function to display the instruction div below the captured last typed line
 function displayInstruction(index) {
     if (index < checkmarks.length) {
@@ -119,14 +137,19 @@ function displayInstruction(index) {
         instructionDiv.style.display = "block"; // Show the instruction div
         instructionDiv.style.minWidth = "500px";
 
-        // Get screen position for the next line after the last typed line
+        // Get the screen position for the specified line
         const lineScreenPosition = editor.renderer.textToScreenCoordinates(lastTypedLine + 1, 0);
-        const editorScrollTop = editor.session.getScrollTop();
 
-        // Position the instruction div based on the captured line position
-        const lineHeight = editor.renderer.lineHeight - 100;
-        instructionDiv.style.top = `${lineScreenPosition.pageY - editorScrollTop + lineHeight}px`;
-        instructionDiv.style.left = `60px`;
+        // Calculate `top` position relative to the editor
+        const editorRect = editor.container.getBoundingClientRect();
+        const lineHeight = editor.renderer.lineHeight;
+
+        // Calculate the position of the instruction
+        const instructionTop = lineScreenPosition.pageY - editorRect.top + (lineHeight + 100);
+
+        // Position the instruction div
+        instructionDiv.style.top = `${instructionTop}px`;
+        instructionDiv.style.left = `60px`; // Fixed left position
     } else {
         instructionDiv.style.display = "none"; // Hide when all instructions are complete
     }
@@ -167,6 +190,8 @@ editor.setOptions({
 });
 
 editor.insert(template);
+
+editor.insert("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
 var content = document.getElementById("code");
 content.innerHTML = editor.getValue();
@@ -866,7 +891,7 @@ function showResetPanel() {
     setTimeout(function() {
         submitScore(timeTaken, timeLeft);
     }, 1000);
-    
+
     const endPanel = document.getElementById('endPanel');
     const endMessage = document.getElementById('endMessage');
 
