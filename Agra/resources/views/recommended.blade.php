@@ -73,7 +73,21 @@
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5 recommended-panel">
     <h1 class="font-bold text-xl text-blue-800">Recommended</h1>
-    <div class="flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
+
+            @if(!empty($badLessonCategories))
+                <p class="text-sm text-gray-800">
+                    Based on your performance, you might want to focus on improving the following topics:
+                    <strong>{{ implode(', ', array_slice($badLessonCategories, 0, -1)) }}{{ count($badLessonCategories) > 1 ? ' and ' : '' }}{{ end($badLessonCategories) }}.</strong>
+                </p>
+            @else
+                <p class="text-sm text-gray-800">
+                    Great job! You don’t have any specific topics to improve at the moment.
+                </p>
+            @endif
+
+
+            <div class="flex flex-col flex-wrap justify-start bg-gray-100 h-full pt-10 pl-10 pr-10 pb-14 gap-5 overflow-x-auto overflow-y-hidden scrollbar-thin rounded-xl shadow-inner">
+
         <div class="flex flex-row justify-start gap-5 p-5 bg-gray-100 rounded-xl" id="lessonsContainer">
             @foreach($lessons as $lesson)
             <a href="/agraLessons/{{$lesson->course->id}}/{{$lesson->id}}" class="yt-vid w-[18rem] h-[13rem] focus:outline-none transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 bg-white shadow-md rounded-xl lesson-card">
@@ -98,8 +112,6 @@
         </div>
     </div>
 </div>
-
-
 
         <div class="Recommed-panel flex flex-col justify-start bg-white h-full xl:w-full w-full p-10 gap-5 recommended-panel">
             <h1 class="font-bold text-xl text-blue-800">You might like</h1>

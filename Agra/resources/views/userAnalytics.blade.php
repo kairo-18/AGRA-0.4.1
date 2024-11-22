@@ -369,6 +369,12 @@
                 performanceParagraph.style.fontWeight = 'bold';
                 lessonDiv.appendChild(performanceParagraph);
 
+                // Add overall performance
+                const textInterpretation = document.createElement('p');
+                textInterpretation.textContent = `From Agra: ${lessonData[key].textInterpretation}. ${lessonData[key].geminiTips}`;
+                textInterpretation.style.fontWeight = 'bold';
+                lessonDiv.appendChild(textInterpretation);
+
                 // Create a new div for each chart
                 const chartDiv = document.createElement('div');
                 chartDiv.id = `java-lesson-performance-chart-${index}`;

@@ -831,13 +831,13 @@ Route::get('/userAnalytics', function () {
                 if (!isset($lessonPerformance[$lessonName])) {
                     // If the lesson ID doesn't exist, initialize its data structure in the appropriate array
                     if ($category === 'Java') {
-                        $lessonPerformance[$lessonName] = [
+                        $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
                         ];
                     } elseif ($category === 'C#') {
-                        $lessonPerformance[$lessonName] = [
+                        $lessonPerformance[$lessonId] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
@@ -862,42 +862,122 @@ Route::get('/userAnalytics', function () {
 
                 // Add accuracy and speed for the current task to the appropriate lesson performance array
                 if ($category === 'Java') {
-                    $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
-                    $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
-                    $lessonJavaPerformance[$lessonName]['score'][] = $score;
-                    $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonJavaPerformance[$lessonId]['accuracy'][] = $accuracy;
+                    $lessonJavaPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonJavaPerformance[$lessonId]['score'][] = $score;
+                    $lessonJavaPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonJavaPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 } elseif ($category === 'C#') {
-                    $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
-                    $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
-                    $lessonCsharpPerformance[$lessonName]['score'][] = $score;
-                    $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
+                    $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
+                    $lessonCsharpPerformance[$lessonId]['score'][] = $score;
+                    $lessonCsharpPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonCsharpPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 }
             }
         }
 
-        // Calculate overall performance for each lesson
+        $yourApiKey = getenv('GEMINI_API_KEY');
+        $client = Gemini::client($yourApiKey);
+
+        $yourApiKey = getenv('GEMINI_API_KEY');
+        $client = Gemini::client($yourApiKey);
+
         foreach ($lessonJavaPerformance as $lessonName => &$performance) {
             $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
-            $tempOverallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['speed']) : 0;
+            $tempOverallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
             $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallScore) / 3;
+
+            // Determine the text interpretation based on overall performance
+            switch (true) {
+                case $overallPerformance >= 95:
+                    $performance['textInterpretation'] = "S. Hooray! Your coding performance for "
+                        . Lesson::find($lessonName)->LessonName
+                        . " is excellent, what a wizard, keep up the good work!";
+                    break;
+                case $overallPerformance >= 90:
+                    $performance['textInterpretation'] = "A. Keep up the good work! Your coding performance for Java is excellent!";
+                    break;
+                case $overallPerformance >= 85:
+                    $performance['textInterpretation'] = "B. Good effort! Try to refine your accuracy or speed for better results.";
+                    break;
+                case $overallPerformance >= 80:
+                    $performance['textInterpretation'] = "C. Decent performance. Consider reviewing your approach to improve results.";
+                    break;
+                case $overallPerformance >= 75:
+                    $performance['textInterpretation'] = "D. You’re making progress, but there's room for improvement.";
+                    break;
+                default:
+                    $performance['textInterpretation'] = "F. Focus on addressing your weak areas to achieve better results.";
+                    break;
+            }
+
             $performance['overall_performance'] = $overallPerformance;
+
+            // For "B" tier and below, fetch tips from Gemini
+            if ($overallPerformance < 85) {
+                $lesson = Lesson::find($lessonName); // Fetch the lesson object
+                $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
+                $categoryList = implode(", ", $categories); // Convert to a comma-separated string
+
+                $geminiPrompt = "Provide tips to improve coding performance for a student in the Java category. The lesson covers these topics: $categoryList. Focus on actionable advice related to the categories and all the content you return should be in one to two sentences only. do not add any special characters or bullets and asterisks just a plain sentence with proper punctuations.";
+                $result = $client->geminiPro()->generateContent($geminiPrompt);
+                $performance['geminiTips'] = $result->text();
+            }
         }
 
         foreach ($lessonCsharpPerformance as $lessonName => &$performance) {
             $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
-            $tempOverallscore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
+            $tempOverallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
 
-            $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallscore) / 3;
+            $overallPerformance = ($tempOverallAccuracy + $tempOverallSpeed + $tempOverallScore) / 3;
+
+            // Determine the text interpretation based on overall performance
+            switch (true) {
+                case $overallPerformance >= 95:
+                    $performance['textInterpretation'] = "S. Fantastic work on "
+                        . Lesson::find($lessonName)->LessonName
+                        . "! Your C# coding skills are phenomenal.";
+                    break;
+                case $overallPerformance >= 90:
+                    $performance['textInterpretation'] = "A. Great job! Your C# coding performance is excellent!";
+                    break;
+                case $overallPerformance >= 85:
+                    $performance['textInterpretation'] = "B. Solid work! Review your techniques to achieve greater consistency.";
+                    break;
+                case $overallPerformance >= 80:
+                    $performance['textInterpretation'] = "C. Decent effort. Focus on refining your speed and accuracy.";
+                    break;
+                case $overallPerformance >= 75:
+                    $performance['textInterpretation'] = "D. There’s room for improvement. Keep practicing!";
+                    break;
+                default:
+                    $performance['textInterpretation'] = "F. Don’t get discouraged. Practice regularly to improve your skills.";
+                    break;
+            }
+
             $performance['overall_performance'] = $overallPerformance;
+
+            // For "B" tier and below, fetch tips from Gemini
+            if ($overallPerformance < 85) {
+                $lesson = Lesson::find($lessonName); // Fetch the lesson object
+                $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
+                $categoryList = implode(", ", $categories); // Convert to a comma-separated string
+                $geminiPrompt = "Provide tips to improve coding performance for a student in the C# category. The lesson covers these topics: $categoryList. Focus on actionable advice related to the categories and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
+                $result = $client->geminiPro()->generateContent($geminiPrompt);
+                $performance['geminiTips'] = $result->text();
+            }else{
+                $performance['geminiTips'] = "";
+            }
         }
 
-        $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
 
+
+
+        $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
         return view('userAnalytics', [
             'user' => $user,
             'taskData' => $taskData,
@@ -1270,7 +1350,7 @@ Route::get('/recommendation', function () {
             }
         }
 
-        dd($badPerformanceLessonCategories);
+        $badPerformanceLessonCategories = array_unique($badPerformanceLessonCategories);
 
 
         $recommendedLessons = $recommendedLessons->unique();
@@ -1278,6 +1358,7 @@ Route::get('/recommendation', function () {
             'user' => $user,
             'lessons' => $recommendedLessons,
             'relatedLessons' => $relatedLessons,
+            'badLessonCategories' => $badPerformanceLessonCategories,
         ]);
     } catch (Exception $e) {
         error_log('An error occurred: ' . $e->getMessage());
