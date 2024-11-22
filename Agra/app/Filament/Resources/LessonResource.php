@@ -33,7 +33,7 @@ class LessonResource extends Resource
         return $form
             ->schema([
                  //
-                Forms\Components\Select::make('Course')
+                Forms\Components\Select::make('course_id')
                     ->relationship('course', 'CourseName')
                     ->required(),
                 Forms\Components\TextInput::make('LessonName')->required(),
