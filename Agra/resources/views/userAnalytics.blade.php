@@ -369,9 +369,16 @@
                 performanceParagraph.style.fontWeight = 'bold';
                 lessonDiv.appendChild(performanceParagraph);
 
-                // Add overall performance
                 const textInterpretation = document.createElement('p');
-                textInterpretation.textContent = `From Agra: ${lessonData[key].textInterpretation}. ${lessonData[key].geminiTips}`;
+
+// Build the content dynamically based on whether geminiTips exists
+                let content = `From Agra: ${lessonData[key].textInterpretation}`;
+                if (lessonData[key].geminiTips !== undefined && lessonData[key].geminiTips !== null && lessonData[key].geminiTips.trim() !== "") {
+                    content += `. ${lessonData[key].geminiTips}`;
+                }
+
+// Set the content and style
+                textInterpretation.textContent = content;
                 textInterpretation.style.fontWeight = 'bold';
                 lessonDiv.appendChild(textInterpretation);
 
