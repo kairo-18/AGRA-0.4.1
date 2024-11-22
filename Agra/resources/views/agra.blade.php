@@ -11,7 +11,7 @@
 
         .container{
             height: 40vh;
-            width: 50vh;
+            width: 45   vh;
             position: relative;
 
             transform: translate(-50%, -50%);
@@ -106,6 +106,17 @@
         .active #bottom {
             top: 180px;
         }
+        
+        @media (max-width: 3000px) {
+            .container {
+                height: 23vh;
+                width: 43vh;
+                display: flex;
+                justify-content: center;
+                align-items: end;
+            }
+        }
+        
         @media (max-width: 1280px) {
             .container {
                 height: 100vh;

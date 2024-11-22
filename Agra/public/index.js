@@ -670,6 +670,10 @@ function startIntervalTimer(timeSec) {
 
 
 function createAlertBox(message) {
+    if (document.querySelector('.card') !== null) {
+        // If an alert box already exists, don't create another one
+        return;
+    }
     // Add custom styles to the head if they don't exist
     if (!document.getElementById('customAlertStyles')) {
         const style = document.createElement('style');
