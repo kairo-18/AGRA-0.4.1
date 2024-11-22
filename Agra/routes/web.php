@@ -980,7 +980,7 @@ Route::get('/userAnalytics', function () {
                 $lesson = Lesson::find($lessonName); // Fetch the lesson object
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
-                $geminiPrompt = "Provide tips to improve coding performance for a student. The lesson covers these topics: $categoryList. provide advice that help them to improve at the categories given and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
+                $geminiPrompt = "Provide tips to improve coding performance for a student. The lesson covers these topics: $categoryList. provide technical programming advice that help them to improve at the categories given and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
                 $result = $client->geminiPro()->generateContent($geminiPrompt);
                 $performance['geminiTips'] = $result->text();
             }
