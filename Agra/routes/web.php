@@ -828,16 +828,16 @@ Route::get('/userAnalytics', function () {
                 $lessonName = Lesson::find($lessonId)->LessonName;
 
                 // Check if the lesson ID exists as a key in the corresponding lesson performance array
-                if (!isset($lessonPerformance[$lessonId])) {
+                if (!isset($lessonPerformance[$lessonName])) {
                     // If the lesson ID doesn't exist, initialize its data structure in the appropriate array
                     if ($category === 'Java') {
-                        $lessonPerformance[$lessonId] = [
+                        $lessonPerformance[$lessonName] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
                         ];
                     } elseif ($category === 'C#') {
-                        $lessonPerformance[$lessonId] = [
+                        $lessonPerformance[$lessonName] = [
                             'accuracy' => [],
                             'speed' => [],
                             'score' => [],
@@ -862,17 +862,17 @@ Route::get('/userAnalytics', function () {
 
                 // Add accuracy and speed for the current task to the appropriate lesson performance array
                 if ($category === 'Java') {
-                    $lessonJavaPerformance[$lessonId]['accuracy'][] = $accuracy;
-                    $lessonJavaPerformance[$lessonId]['speed'][] = $speed;
-                    $lessonJavaPerformance[$lessonId]['score'][] = $score;
-                    $lessonJavaPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonJavaPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonJavaPerformance[$lessonName]['accuracy'][] = $accuracy;
+                    $lessonJavaPerformance[$lessonName]['speed'][] = $speed;
+                    $lessonJavaPerformance[$lessonName]['score'][] = $score;
+                    $lessonJavaPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonJavaPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 } elseif ($category === 'C#') {
-                    $lessonCsharpPerformance[$lessonId]['accuracy'][] = $accuracy;
-                    $lessonCsharpPerformance[$lessonId]['speed'][] = $speed;
-                    $lessonCsharpPerformance[$lessonId]['score'][] = $score;
-                    $lessonCsharpPerformance[$lessonId]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
-                    $lessonCsharpPerformance[$lessonId]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
+                    $lessonCsharpPerformance[$lessonName]['accuracy'][] = $accuracy;
+                    $lessonCsharpPerformance[$lessonName]['speed'][] = $speed;
+                    $lessonCsharpPerformance[$lessonName]['score'][] = $score;
+                    $lessonCsharpPerformance[$lessonName]['course_name'] = Lesson::find($tempLessonId)->course->CourseName;
+                    $lessonCsharpPerformance[$lessonName]['course_category_name'] = Lesson::find($tempLessonId)->course->category->name;
                 }
             }
         }
@@ -897,61 +897,6 @@ Route::get('/userAnalytics', function () {
         }
 
         $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
-
-        $badperformancelessons = []; // Initialize array to store lesson IDs with bad performance
-
-        // Calculate overall performance for each lesson
-        foreach ($lessonPerformance as $lessonId => &$performance) {
-            // Calculate overall accuracy and speed for the lesson
-            $overallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
-            $overallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
-            $overallScore = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
-
-            // Perform your formula to compute overall user performance for the lesson
-            $overallPerformance = ($overallAccuracy + $overallSpeed + $overallScore) / 3;
-            // Store the overall user performance for the lesson
-            $performance['overall_performance'] = $overallPerformance;
-
-            // Check if overall performance is below 45
-            if ($overallPerformance < 90) {
-                $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
-            }
-        }
-
-
-
-        // Sort badperformancelessons by overall performance in ascending order
-        usort($badperformancelessons, function ($a, $b) {
-            return $a['performance'] <=> $b['performance'];
-        });
-
-
-        // Extract sorted lesson IDs
-        $badperformancelessonIds = array_column($badperformancelessons, 'lesson_id');
-
-        dd($badperformancelessonIds);
-        $agraCourses = getAgraCourses($user);
-        $agraLessons = collect();
-        $badPerformanceLessonCategories = [];
-
-        // Iterate over each course in agraCourses
-        foreach ($agraCourses as $course) {
-            // Merge lessons from the current course into agraLessons collection
-            $agraLessons = $agraLessons->merge($course->lessons);
-        }
-
-        // Iterate over each bad performance lesson
-        foreach ($badperformancelessonIds as $lessonId) {
-            // Find the lesson by ID
-            $lesson = Lesson::find($lessonId);
-            if (!$lesson) continue; // Skip if lesson is not found
-            foreach ($lesson->categories as $category) {
-                $badPerformanceLessonCategories[] = $category->name;
-            }
-
-        }
-
-        dd($badPerformanceLessonCategories);
 
         return view('userAnalytics', [
             'user' => $user,
