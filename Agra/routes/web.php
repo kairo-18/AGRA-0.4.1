@@ -1221,6 +1221,7 @@ Route::get('/recommendation', function () {
             $agraLessons = $agraLessons->merge($course->lessons);
         }
 
+        dd($badperformancelessonIds);
         // Iterate over each bad performance lesson
         foreach ($badperformancelessonIds as $lessonId) {
             // Find the lesson by ID
@@ -1253,7 +1254,6 @@ Route::get('/recommendation', function () {
         }
 
 
-        dd($badPerformanceLessonCategories);
 
         $recommendedLessons = $recommendedLessons->unique();
         return view('recommended', [
