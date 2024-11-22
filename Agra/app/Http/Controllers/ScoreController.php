@@ -66,7 +66,7 @@ class ScoreController extends Controller
         $taskScore->save();
 
 
-
+        sleep(3);
         return redirect('/courses');
     }
 
