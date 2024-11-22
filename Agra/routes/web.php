@@ -1177,8 +1177,8 @@ Route::get('/recommendation', function () {
         }
 
         $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
+        $lessonPerformanceWithAgra = $lessonPerformance;
         $lessonPerformance = removeAgraLessons($lessonPerformance, $user);
-
 
         $badperformancelessons = []; // Initialize array to store lesson IDs with bad performance
 
@@ -1197,6 +1197,24 @@ Route::get('/recommendation', function () {
             // Check if overall performance is below 45
             if ($overallPerformance < 90) {
                 $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance]; // Push lesson ID and performance to badperformancelessons array
+            }
+        }
+
+        // Calculate overall performance for each lesson
+        foreach ($lessonPerformanceWithAgra as $lessonId => &$performance) {
+            // Calculate overall accuracy and speed for the lesson
+            $overallAccuracy1 = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
+            $overallSpeed1 = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
+            $overallScore1 = count($performance['score']) > 0 ? array_sum($performance['score']) / count($performance['score']) : 0;
+
+            // Perform your formula to compute overall user performance for the lesson
+            $overallPerformance1 = ($overallAccuracy + $overallSpeed + $overallScore) / 3;
+            // Store the overall user performance for the lesson
+            $performance['overall_performance'] = $overallPerformance1;
+
+            // Check if overall performance is below 45
+            if ($overallPerformance < 90) {
+                $badperformancelessons[] = ['lesson_id' => $lessonId, 'performance' => $overallPerformance1]; // Push lesson ID and performance to badperformancelessons array
             }
         }
 
@@ -1221,7 +1239,6 @@ Route::get('/recommendation', function () {
             $agraLessons = $agraLessons->merge($course->lessons);
         }
 
-        dd($badperformancelessonIds);
         // Iterate over each bad performance lesson
         foreach ($badperformancelessonIds as $lessonId) {
             // Find the lesson by ID
