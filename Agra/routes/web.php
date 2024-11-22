@@ -953,9 +953,11 @@ Route::get('/userAnalytics', function () {
                     $performance['textInterpretation'] = "S. Fantastic work on "
                         . Lesson::find($lessonName)->LessonName
                         . "! Your C# coding skills are phenomenal.";
+                    $performance['geminiTips'] = "Keep up the good work!";
                     break;
                 case $overallPerformance >= 90:
                     $performance['textInterpretation'] = "A. Great job! Your C# coding performance is excellent!";
+                    $performance['geminiTips'] = "Keep up the good work!";
                     break;
                 case $overallPerformance >= 85:
                     $performance['textInterpretation'] = "B. Solid work! Review your techniques to achieve greater consistency.";
@@ -973,11 +975,7 @@ Route::get('/userAnalytics', function () {
 
             $performance['overall_performance'] = $overallPerformance;
 
-            // For "B" tier and below, fetch tips from Gemini
-            if ($overallPerformance >= 85){
-                $performance['geminiTips'] = "Keep up the good work!";
-            }
-            else if ($overallPerformance < 85) {
+            if ($overallPerformance <= 85) {
                 $lesson = Lesson::find($lessonName); // Fetch the lesson object
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
