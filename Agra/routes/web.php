@@ -912,10 +912,11 @@ Route::get('/userAnalytics', function () {
                     break;
                 case $overallPerformance >= 90:
                     $performance['textInterpretation'] = "A. Keep up the good work! Your coding performance for Java is excellent!";
-                    $performance['geminiTips'] = "Good Job!";
+                    $performance['geminiTips'] = "Study more and you'll get S tier!";
                     break;
                 case $overallPerformance >= 85:
                     $performance['textInterpretation'] = "B. Good effort! Try to refine your accuracy or speed for better results.";
+                    $performance['geminiTips'] = "Keep improving you are getting there!";
                     break;
                 case $overallPerformance >= 80:
                     $performance['textInterpretation'] = "C. Decent performance. Consider reviewing your approach to improve results.";
