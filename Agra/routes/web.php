@@ -895,9 +895,6 @@ Route::get('/userAnalytics', function () {
         $yourApiKey = getenv('GEMINI_API_KEY');
         $client = Gemini::client($yourApiKey);
 
-        $yourApiKey = getenv('GEMINI_API_KEY');
-        $client = Gemini::client($yourApiKey);
-
         foreach ($lessonJavaPerformance as $lessonName => &$performance) {
             $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
             $tempOverallSpeed = count($performance['speed']) > 0 ? array_sum($performance['speed']) / count($performance['speed']) : 0;
@@ -977,8 +974,8 @@ Route::get('/userAnalytics', function () {
             $performance['overall_performance'] = $overallPerformance;
 
             // For "B" tier and below, fetch tips from Gemini
-            if ($overallPerformance > 85){
-                $performance['geminiTips'] = "";
+            if ($overallPerformance >= 85){
+                $performance['geminiTips'] = "Keep up the good work!";
             }
             else if ($overallPerformance < 85) {
                 $lesson = Lesson::find($lessonName); // Fetch the lesson object

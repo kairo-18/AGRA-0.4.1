@@ -19,7 +19,7 @@ class InstructionGeneratorPage extends Page implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
+    protected static bool $shouldRegisterNavigation = false;
     protected static string $view = 'filament.pages.instruction-generator-page';
 
     protected static ?string $title = "Instruction Creation Java";
