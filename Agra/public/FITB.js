@@ -625,6 +625,95 @@ function showResetPanel() {
 
 }
 
+function displayObjectiveWithAnimation(objective) {
+    // Create a container for the notification if it doesn't exist
+    let notificationContainer = document.getElementById("notification-container");
+    if (!notificationContainer) {
+        notificationContainer = document.createElement("div");
+        notificationContainer.id = "notification-container";
+        notificationContainer.style.position = "fixed";
+        notificationContainer.style.top = "100px";
+        notificationContainer.style.right = "45%";
+        notificationContainer.style.zIndex = "9999";
+        notificationContainer.style.pointerEvents = "none";
+        document.body.appendChild(notificationContainer);
+    }
+
+    // Create the notification element
+    const notification = document.createElement("div");
+    notification.classList.add("notification");
+
+    // Add content to the notification
+    notification.innerHTML = `
+        <div style="display: flex; align-items: center;">
+            <div class="checkmark-animation" style="margin-right: 10px;">✔️</div>
+            <div>${objective}</div>
+        </div>
+    `;
+
+    // Apply styles for the notification
+    notification.style.backgroundColor = "#E8F5E9"; // Light green background
+    notification.style.color = "#2E7D32"; // Dark green text
+    notification.style.padding = "10px 20px";
+    notification.style.marginBottom = "10px";
+    notification.style.border = "2px solid #4CAF50"; // Green border
+    notification.style.borderRadius = "8px";
+    notification.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+    notification.style.fontFamily = "Arial, sans-serif";
+    notification.style.fontSize = "14px";
+    notification.style.animation = "fade-in-out 3s ease forwards";
+
+    // Append to the container
+    notificationContainer.appendChild(notification);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = `
+    @keyframes fade-in-out {
+        0% {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        10% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        90% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+    }
+
+    .checkmark-animation {
+        font-size: 20px;
+        color: #4CAF50; /* Green color for the checkmark */
+        animation: scale-checkmark 0.5s ease;
+    }
+
+    @keyframes scale-checkmark {
+        0% {
+            transform: scale(0);
+        }
+        50% {
+            transform: scale(1.5);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+`;
+document.head.appendChild(styleSheet);
+
 function submitScore(timeTaken, timeLeft){
     document.getElementById('TotalScore').value = totalScore;
     document.getElementById('MaxScore').value = maxScore;
@@ -683,6 +772,7 @@ function submitAnswer(){
             editor.replace(checkmarks[currentCheckmark].answer);
             editor.setReadOnly(true);
             checkmarks[currentCheckmark].done = true;
+            displayObjectiveWithAnimation(checkmarks[currentCheckmark].objective);
             currentCheckmark++;
             checkCheckmarks();
             document.getElementById('userAnswer').value = "";

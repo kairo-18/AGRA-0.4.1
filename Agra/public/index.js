@@ -386,8 +386,8 @@ function displayObjectiveWithAnimation(objective) {
         notificationContainer = document.createElement("div");
         notificationContainer.id = "notification-container";
         notificationContainer.style.position = "fixed";
-        notificationContainer.style.top = "300px";
-        notificationContainer.style.right = "10px";
+        notificationContainer.style.top = "100px";
+        notificationContainer.style.right = "45%";
         notificationContainer.style.zIndex = "9999";
         notificationContainer.style.pointerEvents = "none";
         document.body.appendChild(notificationContainer);

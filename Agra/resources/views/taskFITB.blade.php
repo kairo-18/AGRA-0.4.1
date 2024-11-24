@@ -221,12 +221,13 @@
             instruction: "{{$instruction->instruction}}",
             answer: "{{$instruction->answer}}",
             points: {{$instruction->points}},
+            objective: "{{$instruction->objective}}",
             done: false
         },
         @endforeach
     ];
 
-
+    console.log(checkmarks);
 
     let maxMonsterHealth = (20 * checkmarks.length);
     let timerSeconds = {{$task->TaskMaxTime}};
