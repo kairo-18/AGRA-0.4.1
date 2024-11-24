@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 class SectionPerformanceWidget extends ChartWidget
 {
     protected static ?string $heading = 'Chart';
+    protected static ?int $sort = 1;
 
     protected function getData(): array
     {
