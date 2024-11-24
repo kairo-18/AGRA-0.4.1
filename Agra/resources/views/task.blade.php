@@ -209,7 +209,7 @@
         <p class="mb-5">Note: Do the instruction in a single line of code only.</p>
         <button id="checkButton" data-title="Check your code!" data-intro="Click this button to validate your answer. Be careful as a wrong answer will result in the monster attacking you and your error count increasing.">Check Answer</button>
     </div>
-
+    <div id="instructions-container"></div>
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
     <input type="hidden" id="userid" value="{{$user->id}}" name="userid">
@@ -248,6 +248,7 @@
         instruction: {!! json_encode($instruction->instruction) !!}, // JSON-encoded instruction
         answers: {!! json_encode($answerVariants) !!}, // JSON-encoded array of answers
         points: {{ $pointsPerLine }},
+        objective: "{{$instruction->objective}}",
         done: false
     });
     counter++; // Increment counter after each checkmark object

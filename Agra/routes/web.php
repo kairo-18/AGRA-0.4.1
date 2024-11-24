@@ -566,13 +566,43 @@ Route::get('agraTasks/{task:id}' , function(Task $task) {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('tasks/fight/{task:id}' , function(Task $task) {
+Route::get('tasks/fight/{task:id}', function (Task $task) {
     $instructions = $task->instructions;
     $user = Auth::user();
 
+    // Collect all answers into a single prompt
+    $batchedAnswers = $instructions->map(function ($instruction) {
+        $answerVariants = explode("\n", $instruction->answer);
+        return [
+            'instruction' => $instruction->instruction,
+            'answers' => $answerVariants,
+        ];
+    });
+
+    // Generate a single prompt for Gemini
+    $yourApiKey = getenv('GEMINI_API_KEY');
+    $client = Gemini::client($yourApiKey);
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. For example: Instruction: Declare a variable called number that has an integer value of 10 Objective: Declaring a Variable. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
+        . "'Objective: [objective]'.\n\n";
+
+    foreach ($batchedAnswers as $item) {
+        $prompt .= "Instruction: " . $item['instruction'] . "\n";
+        $prompt .= "Answers: " . json_encode($item['answers']) . "\n\n";
+    }
+
+    // Send the batched prompt to Gemini
+    $response = $client->geminiPro()->generateContent($prompt);
+
+    // Parse the response and map objectives back to instructions
+    $objectives = explode("\n", $response->text()); // Adjust based on response format
+    $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($objectives) {
+        $instruction->objective = $objectives[$index] ?? 'Objective not generated';
+        return $instruction;
+    });
+
     return view('task', [
         'task' => $task,
-        'instructions' => $instructions,
+        'instructions' => $instructionsWithObjectives,
         'user' => $user,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
