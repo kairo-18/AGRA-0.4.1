@@ -582,7 +582,7 @@ Route::get('tasks/fight/{task:id}', function (Task $task) {
     // Generate a single prompt for Gemini
     $yourApiKey = getenv('GEMINI_API_KEY');
     $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. For example: Instruction: Declare a variable called number that has an integer value of 10 Objective: Declaring a Variable. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
         . "'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
@@ -690,7 +690,7 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
         array_push($answers, $instruction->answer);
     }
     $template = generateTemplateWithBlanks($task->TaskCodeTemplate, $answers);
-    
+
 
     // Collect all answers into a single prompt
     $batchedAnswers = $instructions->map(function ($instruction) {
@@ -704,7 +704,7 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     // Generate a single prompt for Gemini
     $yourApiKey = getenv('GEMINI_API_KEY');
     $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. For example: Instruction: Declare a variable called number that has an integer value of 10 Objective: Declaring a Variable. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
         . "'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
