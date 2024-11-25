@@ -1009,22 +1009,61 @@ function showResetPanel() {
     document.getElementById("globalScore").innerText = globalScore;
     document.getElementById("globalUserError").innerText = globalUserError;
 
-    // Show the end panel
-    document.getElementById("endPanel").style.display = "flex";
 
 
+    // Populate the objectives list dynamically
+    const objectivesList = document.getElementById("objectivesList");
+    objectivesList.innerHTML = '';  // Clear previous objectives
+
+    checkmarks.forEach(checkmark => {
+        const listItem = document.createElement("li");
+
+        // Create checkmark or "X" based on 'done' status
+        const icon = checkmark.done
+            ? '<span class="text-green-500">✔</span>'
+            : '<span class="text-red-500">✘</span>';
+
+        listItem.innerHTML = `${icon} ${checkmark.objective}`;
+        objectivesList.appendChild(listItem);
+    });
+
+
+    delay(3000).then( () => {
+        document.getElementById("endPanel").style.display = "flex";
+    });
 }
 
 
-function submitScore(timeTaken, timeLeft){
-    document.getElementById('TotalScore').value = totalScore;
-    document.getElementById('MaxScore').value = maxScore;
-    document.getElementById('Percentage').value = globalScore;
-    document.getElementById('TaskStatus').value = 'Done';
-    document.getElementById('errors').value = userErrors;
-    document.getElementById('timeTaken').value = timeTaken;
-    document.getElementById('timeLeft').value = timeLeft;
-    document.getElementById("scoreForm").submit();
+
+
+function submitScore(timeTaken, timeLeft) {
+    // Prepare the query parameters to send via axios
+    const scoreData = {
+        userid: document.getElementById('userid').value,
+        taskid: document.getElementById('taskid').value,
+        sectionid: document.getElementById('sectionid').value,
+        score: totalScore, // Assuming 'totalScore' is the calculated score
+        MaxScore: maxScore, // Assuming 'maxScore' is the maximum score
+        Percentage: globalScore, // Assuming 'globalScore' is the percentage
+        TaskStatus: 'Done', // Task status, adjust if needed
+        errors: userErrors, // Assuming 'userErrors' is the number of errors
+        timeTaken: timeTaken, // Time taken for the task
+        timeLeft: timeLeft, // Time remaining for the task
+    };
+
+    // Construct the query string
+    const queryString = new URLSearchParams(scoreData).toString();
+
+    // Send data using axios GET request with query string
+    axios.get("/score?" + queryString)
+        .then(response => {
+            // Handle success (you can display a success message or redirect)
+            console.log("Score submitted successfully:", response.data);
+        })
+        .catch(error => {
+            // Handle error (you can display an error message)
+            console.error("Error submitting score:", error);
+        });
 }
 
 function doneTaskStatus() {

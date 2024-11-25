@@ -144,6 +144,31 @@
             <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
         </div>
     </div>
+
+    <!-- Overall Objective Section -->
+    <div id="overallObjective" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="bg-white rounded-lg shadow-lg border p-6 max-w-2xl w-11/12 text-center pointer-events-auto">
+            <h1 class="text-2xl font-bold text-blue-700 mb-4">Overall Objective</h1>
+            @if ($instructions->isNotEmpty())
+                <ol class="list-inside text-lg text-gray-800 w-3/4 mx-auto">
+                    @foreach ($instructions as $index => $instruction)
+                        @if (!empty($instruction->objective))
+                            <li class="list-disc">{{  $instruction->objective }}</li>
+                        @endif
+                    @endforeach
+                </ol>
+            @else
+                <p class="text-lg text-gray-800">
+                    <strong>Learn: </strong>No objectives generated yet.
+                </p>
+            @endif
+        </div>
+    </div>
+
+
+
+
+
 </div>
 
 <!-- <div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white p-8 rounded-lg flex justify-between items-center transform">
@@ -170,7 +195,7 @@
         </div>
     </div>
     <div class ="pr-0">
-        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-10 rounded-lg shadow-lg">
+        <div class="flex flex-col bg-white h-2/4 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-10 rounded-lg shadow-lg">
             <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
             <div class="text-center text-sm text-blue-800 mb-4 ">
                 <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
@@ -181,9 +206,12 @@
                 <p><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
                 <p><strong>Score</strong><br><span id="globalScore">%</span></p>
                 <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
+                <ul id="objectivesList" class="text-blue-800 text-lg my-4 mx-auto">
+                    <!-- Objectives will be populated here -->
+                </ul>
             </div>
             <div class="flex justify-center gap-4 mt-4 px-5">
-                <span id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Please wait while we record your score!</span>
+                <button id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900" onclick="window.history.back();">Go back</button>
             </div>
         </div>
     </div>
@@ -193,8 +221,8 @@
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
     <input type="hidden" id="userid" value="{{$user->id}}" name="userid">
-    <input type="hidden" value="{{$task->id}}" name="taskid">
-    <input type="hidden" value="{{$user->section->id}}" name="sectionid">
+    <input type="hidden" id="taskid" value="{{$task->id}}" name="taskid">
+    <input type="hidden" id="sectionid" value="{{$user->section->id}}" name="sectionid">
     <input type="hidden" id="TotalScore" value="" name="score">
     <input type="hidden" id="MaxScore" value="" name="MaxScore">
     <input type="hidden" id="Percentage" value="" name="Percentage">

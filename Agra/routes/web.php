@@ -582,7 +582,7 @@ Route::get('tasks/fight/{task:id}', function (Task $task) {
     // Generate a single prompt for Gemini
     $yourApiKey = getenv('GEMINI_API_KEY');
     $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. The number of objective must also be the number of instructions. Prevent the objectives you will generate to be the identical, you can use different technical terms and sentence construction in order to make it not identical.Limit the objective to one line that relate to a programming concept. Just generate the programming concept/topic. Provide results in the STRICTLY in the format provided(just the objective not the Instruction, the instruction is just for context): "
         . "'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
@@ -592,7 +592,6 @@ Route::get('tasks/fight/{task:id}', function (Task $task) {
 
     // Send the batched prompt to Gemini
     $response = $client->geminiPro()->generateContent($prompt);
-
     // Parse the response and map objectives back to instructions
     $objectives = explode("\n", $response->text()); // Adjust based on response format
     $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($objectives) {
@@ -600,10 +599,19 @@ Route::get('tasks/fight/{task:id}', function (Task $task) {
         return $instruction;
     });
 
+    // Generate overall objective by removing duplicates and combining unique objectives
+    $uniqueObjectives = array_unique($objectives); // Remove duplicates
+    // Remove the "Objective:" prefix from each item in the array
+    $uniqueObjectives = array_map(function ($objective) {
+        return preg_replace('/^Objective:\s*/', '', $objective);
+    }, $uniqueObjectives);
+    $overallObjective = implode(", ", $uniqueObjectives); // Combine into a string
+
     return view('task', [
         'task' => $task,
         'instructions' => $instructionsWithObjectives,
         'user' => $user,
+        'overallObjective' => $overallObjective
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -691,7 +699,6 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     }
     $template = generateTemplateWithBlanks($task->TaskCodeTemplate, $answers);
 
-
     // Collect all answers into a single prompt
     $batchedAnswers = $instructions->map(function ($instruction) {
         $answerVariants = explode("\n", $instruction->answer);
@@ -704,7 +711,7 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
     // Generate a single prompt for Gemini
     $yourApiKey = getenv('GEMINI_API_KEY');
     $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. You are not limited to the example, but just observe how it is made. Limit the objective to 3 words that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. Limit the objective to one line that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
         . "'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
@@ -722,13 +729,23 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
         return $instruction;
     });
 
+    // Generate overall objective by removing duplicates and combining unique objectives
+    $uniqueObjectives = array_unique($objectives); // Remove duplicates
+    // Remove the "Objective:" prefix from each item in the array
+    $uniqueObjectives = array_map(function ($objective) {
+        return preg_replace('/^Objective:\s*/', '', $objective);
+    }, $uniqueObjectives);
+    $overallObjective = implode(", ", $uniqueObjectives); // Combine into a string
+
     return view('taskFITB', [
         'task' => $task,
         'instructions' => $instructions,
         'user' => $user,
-        'template' => $template
+        'template' => $template,
+        'overallObjective' => $overallObjective, // Pass the overall objective to the view
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/multiplayer', function () {
     $user = Auth::user();
