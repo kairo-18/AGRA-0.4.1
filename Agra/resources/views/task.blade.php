@@ -161,22 +161,20 @@
                 <img src="/bg-Intermediate6.png" alt="Background 3">
             </div>
         </div>
-        <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
-            <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
+        <div class="startPaneldiv2 absolute left-0 top-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
+            <div class="flex flex-col justify-center items-center opacity-40 bg-gray-300 h-full w-full rounded-lg border shadow p-5">
                 <h1 id="startText" class="text-start text-xl text-blue-600 mb-2"><strong>Press start when you are ready.</strong> </h1>
                 <h2 id="startText" class="text-center mb-2 text-blue-900">The best defense is offense. Marga stumbles upon a dungeon and the way back is blocked. Navigate the dungeon by completing this activity and help Marga defeat the hostile mercenaries on her way out. Getting a correct answer will trigger Marga's attack. On the other hand, running out of time will give the hostiles their turn to charge towards Marga. Good luck!.</h2>
             </div>
-            <div class="flex justify-end items-end h-full w-full">
-                <button id="startButton" class="mt-4 mb-4 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2">Start</button>
-            </div>
+            
         </div>
 
         <!-- Overall Objective Section -->
-        <div id="overallObjective" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div id="overallObjective" class="absolute inset-x-0 bottom-0 flex opacity-70 items-center justify-center pointer-events-none">
             <div class="bg-white rounded-lg shadow-lg border p-6 max-w-2xl w-11/12 text-center pointer-events-auto">
-                <h1 class="text-2xl font-bold text-blue-700 mb-4">Overall Objective</h1>
+                <h1 class="text-xl font-bold text-blue-700 mb-4">Overall Objective</h1>
                 @if ($instructions->isNotEmpty())
-                    <ol class="list-inside text-lg text-gray-800 w-3/4 mx-auto">
+                    <ol class="list-inside text-md flex flex-col justify-start items-center text-gray-800 w-3/4 mx-auto">
                         @foreach ($instructions as $index => $instruction)
                             @if (!empty($instruction->objective))
                                 <li class="list-disc">{{  $instruction->objective }}</li>
@@ -188,6 +186,9 @@
                         <strong>Learn: </strong>No objectives generated yet.
                     </p>
                 @endif
+                <div class="flex justify-center items-end h-full w-full">
+                    <button id="startButton" class="mt-4 mb-4 opacity-100 rounded-md border shadow-xl bg-green-500 text-white text-lg px-4 py-2 w-full">Start</button>
+                </div>
             </div>
         </div>
 
@@ -202,18 +203,21 @@
         </div>
     </div>
     <div class ="pr-0">
-        <div class="flex flex-col bg-white h-2/4 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-10 rounded-lg shadow-lg">
+        <div class="flex flex-col bg-white h-[50vh] w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-10 rounded-lg shadow-lg">
             <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
             <div class="text-center text-sm text-blue-800 mb-4 ">
                 <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
                 <p>Lesson: {{$task->lesson->LessonName}}</p>
                 <p>Task: {{$task->TaskName}}</p>
             </div>
-            <div class="text-center text-base text-blue-800 my-4">
-                <p><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
-                <p><strong>Score</strong><br><span id="globalScore">%</span></p>
-                <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
-                <ul id="objectivesList" class="text-blue-800 text-lg my-4 mx-auto">
+            <div class="text-center text-baseflex justify-center gap-10 text-xs text-blue-800 my-4">
+                <p class="flex justify-center flex-col items-center"><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
+                <p class="flex justify-center flex-col items-center"><strong>Score</strong><br><span id="globalScore">%</span></p>
+                <p class="flex justify-center flex-col items-center"><strong>Errors</strong><br><span id="globalUserError"></span></p>
+                
+            </div>
+            <div class="obj flex justify-center">
+                <ul id="objectivesList" class="text-blue-800 bg-gray-300 rounded-lg text-sm p-5 my-2 gap-3">
                     <!-- Objectives will be populated here -->
                 </ul>
             </div>
