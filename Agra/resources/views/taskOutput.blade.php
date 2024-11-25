@@ -200,28 +200,44 @@
 <div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white rounded-lg flex justify-between items-center transform">
     <div class="background-wrapper">
         <div class="h-full flex justify-center items-center text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 rounded-l-lg shadow-md">
-                <span id="resultMessage" class="bg-cover bg-center" ></span>
+            <span id="resultMessage" class="bg-cover bg-center"></span>
         </div>
     </div>
-    <div class ="pr-8">
-        <div class="flex flex-col bg-white h-1/2 w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-8 rounded-lg shadow-lg">
+    <div class="pr-0">
+        <div class="flex flex-col bg-white h-[50vh] w-[40rem] justify-center absolute right-0 inset-y-0 my-auto mr-8 rounded-lg shadow-lg">
+            <!-- Section for Course, Lesson, Task -->
             <h2 id="endMessage" class="text-center text-2xl font-bold text-white bg-blue-800 mb-4"></h2>
-            <div class="text-center text-sm text-blue-800 mb-4 ">
+            <div class="text-center text-sm text-blue-800 mb-4">
                 <p><strong>Course: {{$task->lesson->course->CourseName}}</strong></p>
                 <p>Lesson: {{$task->lesson->LessonName}}</p>
                 <p>Task: {{$task->TaskName}}</p>
             </div>
-            <div class="text-center text-base text-blue-800 my-4">
-                <p><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
-                <p><strong>Score</strong><br><span id="globalScore">%</span></p>
-                <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
+            <!-- Section for Time, Score, Errors -->
+            <div class="flex justify-center gap-10 text-xs text-blue-800 my-4">
+                <p class="flex justify-center flex-col items-center"><strong>Time Elapsed</strong><br><span id="timeTaken2"></span></p>
+                <p class="flex justify-center flex-col items-center"><strong>Score</strong><br><span id="globalScore">%</span></p>
+                <p class="flex justify-center flex-col items-center"><strong>Errors</strong><br><span id="globalUserError"></span></p>
             </div>
-            <div class="flex gap-4 mt-4 px-5">
+
+            <!-- Overall Objective Section -->
+            
+            <div class="obj flex justify-center flex-col item-center">
+                
+                <div class="flex items-center justify-center mt-4 space-x-4 bg-gray-300 rounded-lg">
+                    <span class="text-2xl text-red-600">&#10008;</span>
+                    <p class="text-sm font-bold text-blue-700 mb-4">@json($objective)</p>
+                     <!-- Checkmark for success -->
+                </div>
+            </div>
+
+            <!-- Button Section -->
+            <div class="flex justify-center gap-4 mt-4 px-5">
                 <button id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900" onclick="window.history.back();">Go back</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!-- Main modal -->
@@ -234,23 +250,25 @@
     </div>
 
 
-    <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
+    <div class="startPaneldiv2 absolute left-0 top-0 opacity-40 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
         <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
             <h1 id="startText" class="text-start text-xl text-blue-600 mb-2"><strong> Press start when you are ready.</strong></h1>
             <h2 id="startText" class="text-center mb-2 text-blue-900">After getting out of the dungeon and successfully defeating enemies. Marga encountered a dark mage which seems to be the origin of the dark energy all along. Subsequently, she saw an abandoned battle ship and maneuvered it. Use this ship to defeat the mage. For glory.</h2>
         </div>
         <!-- Modal footer -->
-        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
-            </div>
-        </div>
+    </div>  
 
     <!-- Overall Objective Section -->
-    <div id="overallObjective" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div id="overallObjective" class="absolute inset-x-0 bottom-0 opacity-70 flex items-center justify-center pointer-events-none">
         <div class="bg-white rounded-lg shadow-lg border p-6 max-w-2xl w-11/12 text-center pointer-events-auto">
             <h1 class="text-2xl font-bold text-blue-700 mb-4">Overall Objective</h1>
             <p>{{$objective}}</p>
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800  focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">Start</button>
+            </div>
         </div>
+        </div>
+        
     </div>
     </div>
 
@@ -842,35 +860,7 @@
     });
 
     function addObjectiveToResetPanel(taskDone) {
-        // Create the main div element for the overallObjective section
-        const overallObjective = document.createElement('div');
-        overallObjective.id = 'overallObjective';
-        overallObjective.className = 'absolute inset-0 flex items-center justify-center pointer-events-none';
-
-        // Create the inner container div
-        const innerContainer = document.createElement('div');
-        innerContainer.className = 'bg-white rounded-lg shadow-lg border p-6 max-w-xl w-11/12 text-center pointer-events-auto';
-
-        // Create the title element
-        const title = document.createElement('h1');
-        title.className = 'text-2xl font-bold text-blue-700 mb-4';
-        title.textContent = 'Overall Objective';
-
-        // Create the paragraph for the objective
-        const objectiveParagraph = document.createElement('p');
-        objectiveParagraph.textContent = @json($objective); // Escapes the value for safe use in JavaScript
-        objectiveParagraph.className = 'text-l font-bold text-blue-700 mb-4';
-
-        // Create the icon element based on taskDone
-        const icon = document.createElement('span');
-        icon.className = `text-3xl ${taskDone ? 'text-green-600' : 'text-red-600'}`;
-        icon.innerHTML = taskDone ? '&#10004;' : '&#10008;'; // Checkmark or X icon
-
-        // Wrap the objective and icon in a container
-        const objectiveContainer = document.createElement('div');
-        objectiveContainer.className = 'flex items-center justify-center mt-4 space-x-4';
-        objectiveContainer.appendChild(objectiveParagraph);
-        objectiveContainer.appendChild(icon);
+        
 
         // Append title and objective container to the inner container
         innerContainer.appendChild(title);
