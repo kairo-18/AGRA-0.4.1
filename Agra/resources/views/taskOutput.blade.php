@@ -183,8 +183,8 @@
 
 <form method="GET" id="scoreForm" action="{{ route('score.store') }}">
     <input type="hidden" id="userid" value="{{$user->id}}" name="userid">
-    <input type="hidden" value="{{$task->id}}" name="taskid">
-    <input type="hidden" value="{{$user->section->id}}" name="sectionid">
+    <input type="hidden" id="taskid" value="{{$task->id}}" name="taskid">
+    <input type="hidden" id="sectionid" value="{{$user->section->id}}" name="sectionid">
     <input type="hidden" id="TotalScore" value="" name="score">
     <input type="hidden" id="MaxScore" value="" name="MaxScore">
     <input type="hidden" id="Percentage" value="" name="Percentage">
@@ -194,6 +194,7 @@
     <input type="hidden" id="timeLeft" value="" name="timeLeft">
     {{csrf_field()}}
 </form>
+
 
 
 <div id="endPanel" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 text-white rounded-lg flex justify-between items-center transform">
@@ -216,7 +217,7 @@
                 <p><strong>Errors</strong><br><span id="globalUserError"></span></p>
             </div>
             <div class="flex gap-4 mt-4 px-5">
-                <span id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900">Please wait while we record your score!</span>
+                <button id="playAgain" class="bg-blue-800 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-900" onclick="window.history.back();">Go back</button>
             </div>
         </div>
     </div>
@@ -243,7 +244,18 @@
             <button id="startButton" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Start</button>
             </div>
         </div>
+
+    <!-- Overall Objective Section -->
+    <div id="overallObjective" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="bg-white rounded-lg shadow-lg border p-6 max-w-2xl w-11/12 text-center pointer-events-auto">
+            <h1 class="text-2xl font-bold text-blue-700 mb-4">Overall Objective</h1>
+            <p>{{$objective}}</p>
+        </div>
     </div>
+    </div>
+
+
+
 </div>
 
 <div id="alertContainer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-1/4 space-y-2">
@@ -441,24 +453,47 @@
         document.getElementById("globalScore").innerText = globalScore;
         document.getElementById("globalUserError").innerText = globalUserError;
 
-        // Show the end panel
-        document.getElementById("endPanel").style.display = "flex";
 
+        // Show the end panel
         setTimeout(function() {
             submitScore(timeTaken, timeLeft);
         }, 1000);
 
+
+        setTimeout(function() {
+            document.getElementById("endPanel").style.display = "flex";
+        }, 3000);
+
     }
 
-    function submitScore(timeTaken, timeLeft){
-        document.getElementById('TotalScore').value = totalScore;
-        document.getElementById('MaxScore').value = maxScore;
-        document.getElementById('Percentage').value = globalScore;
-        document.getElementById('TaskStatus').value = 'Done';
-        document.getElementById('errors').value = globalUserError;
-        document.getElementById('timeTaken').value = timeTaken;
-        document.getElementById('timeLeft').value = timeLeft;
-        document.getElementById("scoreForm").submit();
+    function submitScore(timeTaken, timeLeft) {
+        // Prepare the query parameters to send via axios
+        const scoreData = {
+            userid: document.getElementById('userid').value,
+            taskid: document.getElementById('taskid').value,
+            sectionid: document.getElementById('sectionid').value,
+            score: totalScore, // Assuming 'totalScore' is the calculated score
+            MaxScore: maxScore, // Assuming 'maxScore' is the maximum score
+            Percentage: globalScore, // Assuming 'globalScore' is the percentage
+            TaskStatus: 'Done', // Task status, adjust if needed
+            errors: globalUserError, // Assuming 'userErrors' is the number of errors
+            timeTaken: timeTaken, // Time taken for the task
+            timeLeft: timeLeft, // Time remaining for the task
+        };
+
+        // Construct the query string
+        const queryString = new URLSearchParams(scoreData).toString();
+
+        // Send data using axios GET request with query string
+        axios.get("/score?" + queryString)
+            .then(response => {
+                // Handle success (you can display a success message or redirect)
+                console.log("Score submitted successfully:", response.data);
+            })
+            .catch(error => {
+                // Handle error (you can display an error message)
+                console.error("Error submitting score:", error);
+            });
     }
 
     function tryAgain() {
@@ -605,6 +640,7 @@
 
         if(globalScore === 100){
             showResetPanel(remainingTime);
+            addObjectiveToResetPanel(true);
         }
     }
 
@@ -627,6 +663,7 @@
                         stopAllTimers();
                         document.getElementById("timer").innerHTML = "Done";
                         showResetPanel(remainingTime);
+                        addObjectiveToResetPanel(true);
                     }
                 }
             }, 1000);
@@ -646,12 +683,14 @@
                     console.log("Done!");
                     document.getElementById("timer").innerHTML = "Done";
                     showResetPanel(remainingTime);
+                    addObjectiveToResetPanel(false);
                 }
 
                 if (globalScore === 100) {
                     stopAllTimers();
                     document.getElementById("timer").innerHTML = "Done";
                     showResetPanel(remainingTime);
+                    addObjectiveToResetPanel(true);
                 }
             }, (timeSec * 1000) + 1000);
         }
@@ -679,6 +718,7 @@
                 console.log("Done!");
                 document.getElementById("timer").innerHTML = "Done";
                 showResetPanel(remainingTime);
+                addObjectiveToResetPanel(false);
             }
 
             // If paused at 0, reset to original interval time
@@ -800,6 +840,53 @@
         runCode();
         pauseTimer();
     });
+
+    function addObjectiveToResetPanel(taskDone) {
+        // Create the main div element for the overallObjective section
+        const overallObjective = document.createElement('div');
+        overallObjective.id = 'overallObjective';
+        overallObjective.className = 'absolute inset-0 flex items-center justify-center pointer-events-none';
+
+        // Create the inner container div
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'bg-white rounded-lg shadow-lg border p-6 max-w-xl w-11/12 text-center pointer-events-auto';
+
+        // Create the title element
+        const title = document.createElement('h1');
+        title.className = 'text-2xl font-bold text-blue-700 mb-4';
+        title.textContent = 'Overall Objective';
+
+        // Create the paragraph for the objective
+        const objectiveParagraph = document.createElement('p');
+        objectiveParagraph.textContent = @json($objective); // Escapes the value for safe use in JavaScript
+        objectiveParagraph.className = 'text-l font-bold text-blue-700 mb-4';
+
+        // Create the icon element based on taskDone
+        const icon = document.createElement('span');
+        icon.className = `text-3xl ${taskDone ? 'text-green-600' : 'text-red-600'}`;
+        icon.innerHTML = taskDone ? '&#10004;' : '&#10008;'; // Checkmark or X icon
+
+        // Wrap the objective and icon in a container
+        const objectiveContainer = document.createElement('div');
+        objectiveContainer.className = 'flex items-center justify-center mt-4 space-x-4';
+        objectiveContainer.appendChild(objectiveParagraph);
+        objectiveContainer.appendChild(icon);
+
+        // Append title and objective container to the inner container
+        innerContainer.appendChild(title);
+        innerContainer.appendChild(objectiveContainer);
+
+        // Append the inner container to the overallObjective div
+        overallObjective.appendChild(innerContainer);
+
+        // Append the overallObjective div to the target container
+        const targetContainer = document.getElementById('endPanel'); // Replace with your target container's ID
+        if (targetContainer) {
+            targetContainer.appendChild(overallObjective);
+        } else {
+            console.error('Target container not found in the DOM.');
+        }
+    }
 
 
 

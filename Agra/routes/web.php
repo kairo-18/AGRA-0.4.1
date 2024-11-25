@@ -659,6 +659,18 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
 
     $user = Auth::user();
 
+    // Generate a single prompt for Gemini
+    $yourApiKey = getenv('GEMINI_API_KEY');
+    $client = Gemini::client($yourApiKey);
+    $prompt = "Generate concise learning objectives for the following instructions. Generate it in one paragraph with proper punctuations and refrain from using extra special characters like *: " . $task->TaskInstruction;
+
+
+    // Send the batched prompt to Gemini
+    $response = $client->geminiPro()->generateContent($prompt);
+
+// Remove all special characters, including asterisks
+    $cleanedResponse = preg_replace('/[^a-zA-Z0-9\s]/', '', $response->text());
+
     if($task->lesson->course->category->name == 'Java'){
 
     return view('taskOutput', [
@@ -667,6 +679,7 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
         'user' => $user,
         'template' => $template,
         'methodName' => $task->output[0]->methodName,
+        'objective' => $cleanedResponse,
     ]);
     }else if($task->lesson->course->category->name == 'C#'){
         return view('taskOutputCsharp', [
@@ -675,6 +688,7 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
             'user' => $user,
             'template' => $template,
             'methodName' => $task->output[0]->methodName,
+            'objective' => $cleanedResponse,
         ]);
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
