@@ -1178,6 +1178,7 @@ function shake(element, duration = 500) {
 
 document.getElementById('startButton').addEventListener(clickEvent , () => {
     startGame();
+    narrationMusic.stop();
 });
 
 function formatTimerToMins(){

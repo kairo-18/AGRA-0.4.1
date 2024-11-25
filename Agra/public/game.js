@@ -79,6 +79,8 @@ function preload() {
     ]);
     this.load.audio('swing', [
         '/IntermediateGameAssets/swing.wav'
+    ]);this.load.audio('narration', [
+        '/IntermediateGameAssets/INTERMEDIATENarration.mp3'
     ]);
 }
 
@@ -87,13 +89,17 @@ function create() {
 
     this.sound.pauseOnBlur = true;
 
-    const music = this.sound.add('bgm', { loop: true, volume: 0.5 });
+    const music = this.sound.add('bgm', { loop: true, volume: 0.25 });
     walkMusic = this.sound.add('walk', { volume: 2, rate: 2 });
     walkMusic.setSeek(2);
     hitMusic = this.sound.add('hit', { volume: 2 });
     killMusic = this.sound.add('kill', { volume: 2 });
     swingMusic = this.sound.add('swing', { volume: 2 });
+    narrationMusic = this.sound.add('narration', { volume: 2 });
+
+
     music.play();
+    narrationMusic.play();
 
     //Add Background
     const map = this.make.tilemap({ key: 'background' });

@@ -236,7 +236,7 @@
     <div class="startPaneldiv2 absolute bottom-0 right-0 transform -translate-x-0 -translate-y-0 flex flex-col items-center justify-center p-4 w-3/4 max-w-md h-max m-5">
         <div class="flex flex-col justify-center items-center bg-gray-300 h-full w-full rounded-lg border shadow p-5">
             <h1 id="startText" class="text-start text-xl text-blue-600 mb-2">Initial Instructions</h1>
-            <h2 id="startText" class="text-center mb-2 text-blue-900">{!! $task->TaskInstruction!!} </h2>
+            <h2 id="startText" class="text-center mb-2 text-blue-900">After getting out of the dungeon and successfully defeating enemies. Marga encountered a dark mage which seems to be the origin of the dark energy all along. Subsequently, she saw an abandoned battle ship and maneuvered it. Use this ship to defeat the mage. For glory.</h2>
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -814,6 +814,7 @@ public class MyClass
 
     document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
+        narrationMusic.stop();
     });
 
     document.getElementById('runButton').addEventListener(clickEvent , () => {

@@ -558,6 +558,7 @@ var clickEvent = (function() {
 })();
 startButton.addEventListener(clickEvent, () => {
     startGame();
+    narrationMusic.stop();
 });
 
 function startGame(){

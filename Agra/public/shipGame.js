@@ -75,6 +75,7 @@ function preload() {
     this.load.audio('win', '/shipGameAssets/OUTPUTWin.wav');
     this.load.audio('lose', '/shipGameAssets/OUTPUTLose.wav');
     this.load.audio('hit', '/shipGameAssets/OUTPUTHurt.wav');
+    this.load.audio('narration', '/shipGameAssets/OUTPUTNarration.mp3');
 }
 
 function create() {
@@ -86,9 +87,10 @@ function create() {
     winMusic = scene.sound.add('win', {volume: 0.5});
     loseMusic = scene.sound.add('lose', {volume: 0.5});
     hitMusic = scene.sound.add('hit', {volume: 0.5});
+    narrationMusic = scene.sound.add('narration', {volume: 2});
 
     bgmMusic.play();
-
+    narrationMusic.play();  
     //Add Background
     this.add.image(0, 0, 'background').setOrigin(0).setScale(1.7, 1.5).setOrigin(0)
 

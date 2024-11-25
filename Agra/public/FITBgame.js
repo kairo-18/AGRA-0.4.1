@@ -99,6 +99,9 @@ function preload() {
     this.load.audio('run', [
         '/FITBAssets2/FITBrun.wav'
     ]);
+    this.load.audio('narration', [
+        '/FITBAssets2/FITBNarration.mp3'
+    ]);
 }
 
 function create() {
@@ -107,12 +110,15 @@ function create() {
 
     this.sound.pauseOnBlur = true;
 
-    music = scene.sound.add('bgm', {volume: 0.5, loop: true });
+    music = scene.sound.add('bgm', {volume: 0.25, loop: true });
     hitMusic = scene.sound.add('hit', {volume: 0.5});
     roarMusic = scene.sound.add('roar', {volume: 0.5, seek: 0.1})
     hurtMusic = scene.sound.add('hurt', {volume: 0.5});;
     runMusic = scene.sound.add('run', {volume: 1.5});;
+    narrationMusic = scene.sound.add('narration', {volume: 2});;
+
     music.play();
+    narrationMusic.play();
 
 
     // Example calculation for maxPlayerHealth based on monsterNumber

@@ -852,6 +852,7 @@
 
     document.getElementById('startButton').addEventListener(clickEvent , () => {
         hideModal();
+        narrationMusic.stop();
     });
 
     document.getElementById('runButton').addEventListener(clickEvent , () => {
