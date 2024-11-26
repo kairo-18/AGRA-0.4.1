@@ -521,7 +521,6 @@
         fontSize: "20px"
     });
 
-    editor.insert(`{{$template}}`);
 
     editor.moveCursorTo(2, 8);
 

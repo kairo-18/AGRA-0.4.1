@@ -220,9 +220,9 @@
             </div>
 
             <!-- Overall Objective Section -->
-            
+
             <div class="obj flex justify-center flex-col item-center">
-                
+
                 <div class="flex items-center justify-center mt-4 space-x-4 bg-gray-300 rounded-lg">
                     <span class="text-2xl text-red-600">&#10008;</span>
                     <p class="text-sm font-bold text-blue-700 mb-4">@json($objective)</p>
@@ -256,7 +256,7 @@
             <h2 id="startText" class="text-center mb-2 text-blue-900">After getting out of the dungeon and successfully defeating enemies. Marga encountered a dark mage which seems to be the origin of the dark energy all along. Subsequently, she saw an abandoned battle ship and maneuvered it. Use this ship to defeat the mage. For glory.</h2>
         </div>
         <!-- Modal footer -->
-    </div>  
+    </div>
 
     <!-- Overall Objective Section -->
     <div id="overallObjective" class="absolute inset-x-0 bottom-0 opacity-70 flex items-center justify-center pointer-events-none">
@@ -268,7 +268,7 @@
             </div>
         </div>
         </div>
-        
+
     </div>
     </div>
 
@@ -555,7 +555,6 @@
         fontSize: "20px"
     });
 
-    editor.insert(`{{$template}}`);
 
     editor.moveCursorTo(2, 8);
 
@@ -861,7 +860,7 @@
     });
 
     function addObjectiveToResetPanel(taskDone) {
-        
+
 
         // Append title and objective container to the inner container
         innerContainer.appendChild(title);
