@@ -2029,9 +2029,59 @@ Route::get('/studentAnalytics/{student}{', function (User $student) {
 
         $lessonPerformance = $lessonJavaPerformance + $lessonCsharpPerformance;
 
+// Initialize an empty array to store dataset for each section
+        $datasets = [];
+        $colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(75, 192, 192, 0.5)'];  // Colors for different sections
+        $borderColors = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'];  // Border colors for different sections
+        // Extract the overall performance data for each category in the section
+        $userPerformance = [];
+
+        $i = 0;
+        $categories = []; // Initialize an empty array to store category names
+
+        // Iterate through each section to fetch performance data for its users
+        // Fetch task data grouped by categories for this section
+        $taskDataOfUser = fetchUserDataByLessonCategory($user);
+
+        // Collect all unique category names across all sections
+        foreach ($taskDataOfUser as $categoryName => $data) {
+            if (!in_array($categoryName, $categories)) {
+                $categories[] = $categoryName;
+            }
+        }
+
+        foreach ($categories as $categoryName) {
+            // Default performance to 0 if no data is available for the category
+            $performance1 = 0;
+
+            if (isset($taskDataOfUser[$categoryName])) {
+                // Calculate the performance for the category
+                $performanceData = calculateOverallPerformanceByCategory($taskDataOfUser[$categoryName]);
+
+                if (is_array($performanceData) && isset($performanceData['overallPerformance'])) {
+                    $performance1 = $performanceData['overallPerformance'];
+                }
+            }
+
+            // Store the overall performance for the category
+            $userPerformance[] = $performance1;
+        }
+
+        // Create dataset for this section
+        $datasets[] = [
+            'label' => $user->name,  // Section name as the label for the chart
+            'data' => $userPerformance,  // Data for each category's overall performance
+            'backgroundColor' => $colors[$i % count($colors)],  // Color for the section
+            'borderColor' => $borderColors[$i % count($borderColors)],  // Border color for the section
+            'borderWidth' => 1,
+        ];
+
+        $i++;  // Increment color index for the next section
         return view('userAnalytics', [
             'user' => $user,
             'taskData' => $taskData,
+            'userPerformance' => $userPerformance,
+            'categories' => $categories,
             'lessonPerformance' => $lessonPerformance,
             'taskJavaAccuracy' => $taskJavaAccuracy,
             'taskJavaSpeed' => $taskJavaCodingSpeed,
