@@ -184,6 +184,22 @@
                     </div>
                 </div>
 
+                <div class="csharp-score w-full xl:w-4/4 p-10">
+                    <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                        <div class="flex justify-between mb-5">
+                            <div>
+                                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">User Overall Performance By Category</h5>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400"></p>
+                            </div>
+                            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                                Attempt based
+
+                            </div>
+                        </div>
+                        <div id="overall-user-category-chart"></div>
+                    </div>
+                </div>
+
                 <div class="java-coding-speed w-full xl:w-4/4 p-10">
                     <div class="max-w-full w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
                         <div class="flex justify-between mb-5">
@@ -210,6 +226,8 @@
 <script>
     var taskData = @json($taskData); //this is the data of all the tasks: errors, timeTaken, timeLeft, maxScore, score
     let lessonData = @json($lessonPerformance);
+    let userPerformanceByCategory = @json($userPerformance);
+    let lessonCategories = @json($categories);
 
 
 
@@ -340,6 +358,26 @@
         };
         var chart8 = new ApexCharts(document.querySelector("#csharp-score-chart"), options8);
         chart8.render();
+
+        // Java Coding Accuracy Chart
+        var optionOverallPerformanceByCategory = {
+            series: [{
+                name: 'User Performance By Topic',
+                data: formatDataToInteger(userPerformanceByCategory)
+            }],
+            chart: {
+                height: 350,
+                type: 'bar'
+            },
+            title: {
+                text: 'User Performance By Topic'
+            },
+            xaxis: {
+                categories: lessonCategories
+            },
+        };
+        var userPerformanceByCategoryChart = new ApexCharts(document.querySelector("#overall-user-category-chart"), optionOverallPerformanceByCategory);
+        userPerformanceByCategoryChart.render();
 
         console.log(lessonData);
 
