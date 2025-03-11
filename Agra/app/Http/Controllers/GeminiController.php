@@ -13,11 +13,9 @@ class GeminiController extends Controller
         $client = Gemini::client($yourApiKey);
 
         if($request->type === "output"){
-            $result = $client->geminiPro()->generateContent('Provide any relevant information that can help to improve or correct the code, however, do not include the answer to your response and limit your response for up to 2 sentences only. Refer to this instruction: ' . $request->instruction . ' \n and refer to this code : ' . $request->userCode . 'for reference, this code is written in this language: ' . $request->progLanguage . 'and this is an output-based task so no need to point out the lack of body of code since we provide that in our backend, limit your response to tips on solving the logical problem of the task');
-
+            $result = "Tips is suddenly not working. Keep on coding you can do it even without tips!";
         }else{
-            $result = $client->geminiPro()->generateContent('Provide any relevant information that can help to improve or correct the code, however, do not include the answer to your response and limit your response for up to 2 sentences only. Refer to this instruction: ' . $request->instruction . ' \n and refer to this code : ' . $request->userCode . 'for reference, this code is written in this language: ' . $request->progLanguage . " and this is the answer key: " . $request->answerKey);
-
+            $result = "Tips is suddenly not working. Keep on coding you can do it even without tips!";
         }
 
         return response()->json(["result" => $result->text()]);

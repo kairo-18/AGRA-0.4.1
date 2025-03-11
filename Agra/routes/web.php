@@ -659,16 +659,11 @@ Route::get('tasks/output/{task:id}', function(Task $task) {
     $user = Auth::user();
 
     // Generate a single prompt for Gemini
-    $yourApiKey = getenv('GEMINI_API_KEY');
-    $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions. Generate it in one paragraph with proper punctuations and refrain from using extra special characters like *: " . $task->TaskInstruction;
 
 
-    // Send the batched prompt to Gemini
-    $response = $client->geminiPro()->generateContent($prompt);
 
-// Remove all special characters, including asterisks
-    $cleanedResponse = preg_replace('/[^a-zA-Z0-9\s]/', '', $response->text());
+    // Remove all special characters, including asterisks
+    $cleanedResponse = "This task focuses on strengthening problem-solving abilities, logical thinking, and programming efficiency. It encourages understanding of core programming paradigms, structured coding principles, and best practices to enhance code readability, maintainability, and performance.";
 
     if($task->lesson->course->category->name == 'Java'){
 
@@ -721,34 +716,31 @@ Route::get('tasks/fitb/{task:id}' , function(Task $task) {
         ];
     });
 
-    // Generate a single prompt for Gemini
-    $yourApiKey = getenv('GEMINI_API_KEY');
-    $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. Limit the objective to one line that relate to a programming concept. Refrain from generating a specific response like a data type, Just generate the programming concept/topic.Provide results in the format(just the objective not the Instruction, the instruction is just for context): "
-        . "'Objective: [objective]'.\n\n";
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. The number of objectives must match the number of instructions. Prevent the objectives from being identical by using different technical terms and sentence structures. Limit each objective to one line and ensure it relates to a programming concept. Provide results STRICTLY in the format: 'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
         $prompt .= "Instruction: " . $item['instruction'] . "\n";
         $prompt .= "Answers: " . json_encode($item['answers']) . "\n\n";
     }
 
-    // Send the batched prompt to Gemini
-    $response = $client->geminiPro()->generateContent($prompt);
+    // Hardcoded fallback objectives
+    $generalObjectives = [
+        "Develop problem-solving skills in programming.",
+        "Understand key programming paradigms and concepts.",
+        "Enhance logical and computational thinking abilities.",
+        "Improve proficiency in coding syntax and best practices.",
+        "Apply structured and object-oriented programming principles."
+    ];
 
-    // Parse the response and map objectives back to instructions
-    $objectives = explode("\n", $response->text()); // Adjust based on response format
-    $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($objectives) {
-        $instruction->objective = $objectives[$index] ?? 'Objective not generated';
+    // Assign general objectives
+    $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($generalObjectives) {
+        $instruction->objective = $generalObjectives[$index % count($generalObjectives)]; // Rotate through objectives
         return $instruction;
     });
 
-    // Generate overall objective by removing duplicates and combining unique objectives
-    $uniqueObjectives = array_unique($objectives); // Remove duplicates
-    // Remove the "Objective:" prefix from each item in the array
-    $uniqueObjectives = array_map(function ($objective) {
-        return preg_replace('/^Objective:\s*/', '', $objective);
-    }, $uniqueObjectives);
-    $overallObjective = implode(", ", $uniqueObjectives); // Combine into a string
+    // Generate overall objective by removing duplicates
+    $uniqueObjectives = array_unique(array_column($instructionsWithObjectives->toArray(), 'objective'));
+    $overallObjective = implode(", ", $uniqueObjectives);
 
     return view('taskFITB', [
         'task' => $task,
@@ -1123,7 +1115,6 @@ Route::get('/userAnalytics', function () {
         }
 
         $yourApiKey = getenv('GEMINI_API_KEY');
-        $client = Gemini::client($yourApiKey);
 
         foreach ($lessonJavaPerformance as $lessonName => &$performance) {
             $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
@@ -1168,8 +1159,7 @@ Route::get('/userAnalytics', function () {
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
 
                 $geminiPrompt = "Provide tips to improve coding performance for a student in the Java category. The lesson covers these topics: $categoryList. Focus on actionable advice related to the categories and all the content you return should be in one to two sentences only. do not add any special characters or bullets and asterisks just a plain sentence with proper punctuations.";
-                $result = $client->geminiPro()->generateContent($geminiPrompt);
-                $performance['geminiTips'] = $result->text();
+                $performance['geminiTips'] = "Keep on going!";
             }
         }
 
@@ -1214,8 +1204,7 @@ Route::get('/userAnalytics', function () {
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
                 $geminiPrompt = "Provide tips to improve coding performance for a student. The lesson covers these topics: $categoryList. provide technical programming advice that help them to improve at the categories given and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
-                $result = $client->geminiPro()->generateContent($geminiPrompt);
-                $performance['geminiTips'] = $result->text();
+                $performance['geminiTips'] = "You can do it! Keep on going.";
             }
         }
 
@@ -1927,7 +1916,6 @@ Route::get('/studentAnalytics/{student}{', function (User $student) {
         }
 
         $yourApiKey = getenv('GEMINI_API_KEY');
-        $client = Gemini::client($yourApiKey);
 
         foreach ($lessonJavaPerformance as $lessonName => &$performance) {
             $tempOverallAccuracy = count($performance['accuracy']) > 0 ? array_sum($performance['accuracy']) / count($performance['accuracy']) : 0;
@@ -1972,8 +1960,7 @@ Route::get('/studentAnalytics/{student}{', function (User $student) {
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
 
                 $geminiPrompt = "Provide tips to improve coding performance for a student in the Java category. The lesson covers these topics: $categoryList. Focus on actionable advice related to the categories and all the content you return should be in one to two sentences only. do not add any special characters or bullets and asterisks just a plain sentence with proper punctuations.";
-                $result = $client->geminiPro()->generateContent($geminiPrompt);
-                $performance['geminiTips'] = $result->text();
+                $performance['geminiTips'] = "Keep on coding and you'll improve";
             }
         }
 
@@ -2018,8 +2005,7 @@ Route::get('/studentAnalytics/{student}{', function (User $student) {
                 $categories = $lesson->categories->pluck('name')->toArray(); // Get the category names as an array
                 $categoryList = implode(", ", $categories); // Convert to a comma-separated string
                 $geminiPrompt = "Provide tips to improve coding performance for a student. The lesson covers these topics: $categoryList. provide technical programming advice that help them to improve at the categories given and and all the content you return should be in one to two sentences only. do not add any special characters or bullets ar asterisks just a plain sentence with proper punctuations.";
-                $result = $client->geminiPro()->generateContent($geminiPrompt);
-                $performance['geminiTips'] = $result->text();
+                $performance['geminiTips'] = 'Keep on coding and you will improve';
             }
         }
 
