@@ -580,32 +580,31 @@ Route::get('tasks/fight/{task:id}', function (Task $task) {
     });
 
     // Generate a single prompt for Gemini
-    $yourApiKey = getenv('GEMINI_API_KEY');
-    $client = Gemini::client($yourApiKey);
-    $prompt = "Generate concise learning objectives for the following instructions and their answers. The number of objective must also be the number of instructions. Prevent the objectives you will generate to be the identical, you can use different technical terms and sentence construction in order to make it not identical.Limit the objective to one line that relate to a programming concept. Just generate the programming concept/topic. Provide results in the STRICTLY in the format provided(just the objective not the Instruction, the instruction is just for context): "
-        . "'Objective: [objective]'.\n\n";
+    $prompt = "Generate concise learning objectives for the following instructions and their answers. The number of objectives must match the number of instructions. Prevent the objectives from being identical by using different technical terms and sentence structures. Limit each objective to one line and ensure it relates to a programming concept. Provide results STRICTLY in the format: 'Objective: [objective]'.\n\n";
 
     foreach ($batchedAnswers as $item) {
         $prompt .= "Instruction: " . $item['instruction'] . "\n";
         $prompt .= "Answers: " . json_encode($item['answers']) . "\n\n";
     }
 
-    // Send the batched prompt to Gemini
-    $response = $client->geminiPro()->generateContent($prompt);
-    // Parse the response and map objectives back to instructions
-    $objectives = explode("\n", $response->text()); // Adjust based on response format
-    $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($objectives) {
-        $instruction->objective = $objectives[$index] ?? 'Objective not generated';
+    // Hardcoded fallback objectives
+    $generalObjectives = [
+        "Develop problem-solving skills in programming.",
+        "Understand key programming paradigms and concepts.",
+        "Enhance logical and computational thinking abilities.",
+        "Improve proficiency in coding syntax and best practices.",
+        "Apply structured and object-oriented programming principles."
+    ];
+
+    // Assign general objectives
+    $instructionsWithObjectives = $instructions->map(function ($instruction, $index) use ($generalObjectives) {
+        $instruction->objective = $generalObjectives[$index % count($generalObjectives)]; // Rotate through objectives
         return $instruction;
     });
 
-    // Generate overall objective by removing duplicates and combining unique objectives
-    $uniqueObjectives = array_unique($objectives); // Remove duplicates
-    // Remove the "Objective:" prefix from each item in the array
-    $uniqueObjectives = array_map(function ($objective) {
-        return preg_replace('/^Objective:\s*/', '', $objective);
-    }, $uniqueObjectives);
-    $overallObjective = implode(", ", $uniqueObjectives); // Combine into a string
+    // Generate overall objective by removing duplicates
+    $uniqueObjectives = array_unique(array_column($instructionsWithObjectives->toArray(), 'objective'));
+    $overallObjective = implode(", ", $uniqueObjectives);
 
     return view('task', [
         'task' => $task,
